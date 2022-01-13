@@ -21,7 +21,18 @@
 
 # START of SCRIPT  --------------------------------------------------------
 
-# library loading function which ask for confirmation before installing library
+#' loadLib
+#'
+#' library loading function which ask for confirmation before installing library
+#'
+#' @param libname Name of the package you want to check for install and load
+#'
+#' @return library name if loaded else false
+#' @export
+#'
+#' @examples
+#' loadLib("utils")
+#' 
 loadLib <- function(libname) {
   if (!require(libname, character.only = TRUE)) {
     cat("Required lib ",libname," is required but not installed")
