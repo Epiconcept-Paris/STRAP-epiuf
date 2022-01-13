@@ -22,6 +22,17 @@
 # START of SCRIPT  --------------------------------------------------------
 
 
+#' compareDataSet
+#' 
+#' Compare two dataset for difference in terms of structure
+#'
+#' @param dfmod A model dataset (one record at least)
+#' @param dftest A dataset to test against the model
+#'
+#' @return a list of difference 
+#' @export
+#'
+#' 
 compareDataSet <-  function(dfmod, dftest) {
   
   cmod <- ncol(dfmod)
