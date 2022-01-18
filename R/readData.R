@@ -33,7 +33,7 @@
 #'
 #' @return The dataset read from file
 #' @export
-#' @importFrom foreign read.dta read.epiinfo
+#' @importFrom foreign read.epiinfo, haven read_dta
 #'
 #' @examples
 #' readData("flucases.csv")
@@ -74,14 +74,15 @@ readData <- function(filename = "", factorise = FALSE, lowercase= FALSE, label =
       }
     } else  if (ext == "dta") {
       # foreign packages is required
-      r <- requireNamespace("foreign", quietly = TRUE)
+      r <- requireNamespace("haven", quietly = TRUE)
       if (!r) {
-        message("Package foreign required")
+        message("Package haven required")
       }
-      df <- foreign::read.dta(filename)
+  # Prior to Stata 14, files did not declare a text encoding,haven assumes the encoding is windows-1252,
+  # Stata Mac and Linux  use a different default encoding, "latin1". 
     } else if (ext == "rec") {
       # foreign packages is required
-      r <- requireNamespace("foreign", quietly = TRUE)
+      r <- requireNamespace("foreign", quietly = TRUE)     
       if (!r) {
         message("Package foreign required")
       }
