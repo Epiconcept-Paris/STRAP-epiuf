@@ -152,7 +152,7 @@ sourceFile <- function(pathname, filename )  {
 pathToFile <- function(pathname, filename) {
   r <-  getPath(pathname) 
   if (is.null(r)) {
-    catret("Path not defined : ",pathname)
+    cat("Path not defined : ",pathname,"\n")
   } 
   else {
     r <- file.path(r,filename)  

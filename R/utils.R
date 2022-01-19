@@ -22,23 +22,34 @@
 # START of SCRIPT  --------------------------------------------------------
 
 
-#' expandMacro
+#' camel
+#' To transform snake_case into CamelCase 
+#' 
+#' @param x a string or a srinf list or a vector of strings 
 #'
-#' @param x A string containing a macro 
-#'
-#' @return  The string with macro processed and repalced by value
-#' @export
-#' @importFrom R.utils gstring
+#' @return a CamelCase value or list 
+#' @export  
 #'
 #' @examples
-#' varMacro <- "few word"
-#' expandMacro("text with ${varMacro} inside")
+#' test <- "snake_case"
+#' camel(test)
 #' 
-expandMacro <- function(x) {
-  R.utils::gstring(x) 
+camel <- function(x){         
+  capit <- function(x) paste0(toupper(substring(x, 1, 1)), substring(x, 2, nchar(x)))
+  sapply(strsplit(x, "_"), function(x) paste(capit(x), collapse=""))
 }
 
 
+#' catret
+#'    cat ret is a wrapper for cat(...,"newline")
+#' @param ... list of values to concatenate for console output
+#'
+#' @return  nothing
+#' @export
+#'
+#' @examples
+#' catret("test")
+#' 
 catret  <- function(...) {
   cat(...,"\n")
 }

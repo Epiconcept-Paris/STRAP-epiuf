@@ -1,0 +1,94 @@
+---
+title: "EpiFunction exemples"
+author: "epi-gde"
+date: "1/12/2022"
+output:
+  html_document: default
+  pdf_document: default
+editor_options:
+  chunk_output_type: console
+---
+
+```{r , setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Epifunction : verifySpelling 
+
+This document show examples of epiFunction use
+```{r, config, echo = FALSE, include=FALSE}
+
+source("config.R", local = knitr::knit_global())
+
+getPath("SOURCES")
+FileName <- pathToFile("SOURCES","testbrand.csv")
+df <- readData(FileName)
+
+```
+
+We use a brand name list to compare incorrectly spelled values
+
+```{r, verifySpelling , echo = TRUE}
+
+BrandName <- c("Pfizer","Moderna","Comirnaty","AstraZeneca","Spikevax",
+                     "Jansen","Comirnaty (Pfizer/BioNTech)","vaxzevria",
+                     "Johnson & Johnson","Pfizer/BioNTech Comirnaty")
+
+verifySpelling("Maderna", BrandName)
+
+```
+
+We can use verifySpelling with sapply to add a new column containing guessed correct value in the dataset 
+```{r, addColumn , echo = TRUE}
+
+df$correctBrand <- sapply(df$covvaccbrand_firstdose,verifySpelling,BrandName,ErrPerc=0.4)
+head(df,10)
+```
+We can also use a named list of brand name to regroup value like a recode 
+(But that recode accept similar values instead of equal values)
+
+```{r, verify and recode , echo = TRUE}
+
+BrandList <- c("Pfizer"="Pfizer",
+               "Pfizer"="Pfizer/BioNTech Comirnaty",
+               "Pfizer"="Comirnaty (Pfizer/BioNTech)",
+               "Pfizer"="Comirnaty",
+               "Moderna"="Moderna",
+               "Moderna"="Spikevax",
+               "AstraZeneca"="AstraZeneca",
+               "AstraZeneca"="Vaxzevria",
+               "Janssen"="Janssen",
+               "Johnson & Johnson"="Johnson & Johnson"
+               )
+
+
+df$recodedBrand <- sapply(df$covvaccbrand_firstdose,verifySpelling,BrandList,ErrPerc=0.4)
+head(df,10)
+
+
+```
+
+All values which are not matching are NA so we can check them 
+
+```{r, checkError , echo = TRUE}
+
+dfError <- df[is.na(df$correctBrand),]
+kable(dfError,row.names = FALSE) 
+epifield::freq(dfError$recodedBrand,missing=TRUE)
+
+```
+
+
+
+Result saved to :
+```{r, saveresult , echo = FALSE}
+
+pathToFile("OUTPUTS","Brand Error.csv")
+write.csv(dfError,file=pathToFile("OUTPUTS","Brand Error.csv"))
+
+```
+
+
+
+
+

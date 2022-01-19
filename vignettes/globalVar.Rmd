@@ -1,0 +1,135 @@
+---
+title: "EpiFunction exemples, globalvar"
+author: "epi-gde"
+date: "2022/01/19"
+output:
+  pdf_document: default
+  html_document: default
+editor_options:
+  chunk_output_type: console
+---
+
+```{r , setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Epifunction : how to manage global variables 
+
+Global variables are often used in STATA.  
+  
+    DELAY = 14  // Minimum delay between 2 doses in days   
+    DATA = "c:\dev\data"   
+    
+Some variables are local  
+
+    local COUNTRY = "PT"  
+  
+These global variables are then used in code and in macros  
+  
+    if (vaccdate1 - vaccdate2) < DELAY  {
+    
+    }     
+  
+    use ${DATA}recoded_`COUNTRY', clear  
+
+
+How to manage this in R ?  
+One solution is to use global (using  <<- to force the variable in the global environment)
+
+```{r, global, echo = TRUE, include=TRUE}
+DELAY <<- 14
+
+DATA <<- "c:/dev/data" 
+# local variables are not managed the same way and variables created from source() are still global
+
+COUNTRY = "PT"  
+
+```
+
+These variables will appear in RStudio Environment panel.  
+To distinguish them from other variables we use CAPITAL_LETTERS  
+  
+To simulate the macro from Stata we can use the paste0() function which concatenate string values
+
+```{r, globaluse, echo = TRUE, include=TRUE}
+vaccdate1 = as.Date("2022/01/19")
+vaccdate2 = as.Date("2022/01/25")
+
+if ( (vaccdate1 - vaccdate2) < DELAY ) {  # dosomething
+  
+  }     
+ 
+# we use ---  paste0() ----  to construct the resulting string  
+
+FileName <-  paste0(DATA,"recoded_",COUNTRY,".csv") 
+cat(FileName)
+
+```
+
+But then all these variables appear in the Environment panel,   
+
+A way to hide them could be to start name with a .
+
+
+```{r, global2, echo = TRUE, include=TRUE}
+.DELAY <<- 14
+
+.DATA <<- "c:/dev/data" 
+# local variables are not managed the same way and variables created from source() are still global
+
+.COUNTRY = "PT"  
+
+```
+
+Then how to retrieve them among all the variables ... 
+The problem is that R use that method store some internal values and outside this RMardown  
+You list also R predifined random number and some system values...
+
+```{r, globaluse2, echo = TRUE, include=TRUE}
+
+ls(all.names=TRUE)
+ls(all.names=TRUE,pattern="^\\.")
+sapply(ls(all.names=TRUE,pattern="^\\."), function(x) get(x))
+
+```
+
+A more structured way could be tu use an project environment (penv  , global, ge ?) to store all global variables
+
+
+```{r, global3, echo = TRUE, include=TRUE}
+penv <- new.env(parent = emptyenv())
+
+penv$delay <- 14
+
+penv$data <- "c:/dev/data" 
+# local variables are not managed the same way and variables created from source() are still global
+
+penv$country = "PT"  
+
+```
+
+
+
+```{r, globaluse3, echo = TRUE, include=TRUE}
+vaccdate1 = as.Date("2022/01/19")
+vaccdate2 = as.Date("2022/01/25")
+
+if ( (vaccdate1 - vaccdate2) < penv$delay ) {  # dosomething
+  
+  }     
+ 
+# we use ---  paste0() ----  to construct the resulting string  
+
+FileName <-  paste0(penv$data,"recoded_",penv$country,".csv") 
+cat(FileName)
+
+```
+
+The advantage is that all global variables are saved in the same place and apart from other variables  
+and you can explore them in RStudion anvironment panel or list them with 
+
+```{r globaluse3a, echo = TRUE, include=TRUE }
+   ls( penv)
+   sapply(ls(penv), function(x) get(x,penv))
+```
+
