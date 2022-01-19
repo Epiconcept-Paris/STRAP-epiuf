@@ -8,7 +8,7 @@ To transform snake_case into CamelCase}
 camel(x)
 }
 \arguments{
-\item{x}{a string or a srinf list or a vector of strings}
+\item{x}{a string or a sring list or a vector of strings}
 }
 \value{
 a CamelCase value or list
