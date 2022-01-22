@@ -225,7 +225,7 @@ clear <- function(what, noask = FALSE) {
   }
 }
 
-#' Title
+#' isVar fonction WIP do not use
 #'    exists look only in GlobalEnv and parent, is.var will search from current and parent until global but not in base
 #' @param what An object name to find
 #'
@@ -250,7 +250,8 @@ isVar <- function(what="") {
            } ,
            "function" = {
              what <- ""
-           }
+           },
+           what <- as.character(substitute(what))
     )
     if (length(what) > 1) {
       what <- as.character(substitute(what))

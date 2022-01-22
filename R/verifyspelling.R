@@ -38,7 +38,13 @@
 #' verifySpelling("Janury",c("Juanuary", "Janvier" ))
 #' 
 verifySpelling <- function(ToTest,CorrectList,ErrPerc=0.25 ) {
-  WordIndex <-
+    MyWord <-  function(x,value) {
+      ToGrep <- paste0("\\<",x,"\\>")
+      grep(ToGrep,value,ignore.case=TRUE)
+    }
+      
+      
+    WordIndex <-
     agrep(ToTest,
           CorrectList,
           max.distance = ErrPerc,
@@ -61,6 +67,10 @@ verifySpelling <- function(ToTest,CorrectList,ErrPerc=0.25 ) {
     }
     # }
   }
+  if (length(WordIndex)==0) {
+    WordIndex <- which(lapply(names(CorrectList),MyWord,value=ToTest) == 1)
+    if (length(WordIndex) > 1) WordIndex <- WordIndex[1]
+  }  
   if (length(WordIndex)==0) {WordIndex <- 0}
   # Wordindex is integer(0) empty if not found
   if (WordIndex==0 ) {

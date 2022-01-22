@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{isVar}
 \alias{isVar}
-\title{Title
+\title{isVar fonction WIP do not use
 exists look only in GlobalEnv and parent, is.var will search from current and parent until global but not in base}
 \usage{
 isVar(what = "")
@@ -14,7 +14,7 @@ isVar(what = "")
 TRUE if found
 }
 \description{
-Title
+isVar fonction WIP do not use
 exists look only in GlobalEnv and parent, is.var will search from current and parent until global but not in base
 }
 \examples{
