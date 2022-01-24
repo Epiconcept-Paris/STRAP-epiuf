@@ -20,7 +20,8 @@
 # 
 
 # START of SCRIPT  --------------------------------------------------------
-
+global <<- list()
+global$epiuf <- TRUE
 
 # epifield envirronement used to manage epifield options
 epiutils_env <- new.env(parent = emptyenv())
