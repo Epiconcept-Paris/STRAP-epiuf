@@ -45,6 +45,10 @@ expandVar <- function(df,multivar,valueslist) {
     ValToGrep <- paste0("\\<",ValToSearch,"\\>")
     
     NameVar <- paste0(multivarname,"_",valueslist[[iNum]])
+<<<<<<< HEAD
+=======
+    # df[[NameVar]] <- "N"
+>>>>>>> 5843063237a8ccda8d5b3a7764bdc7d33e095ae0
     
     NewCol <- lapply(multivar ,MyFun,valtosearch=ValToGrep  )
     df[[NameVar]] <- NewCol
