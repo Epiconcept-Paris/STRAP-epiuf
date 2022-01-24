@@ -42,18 +42,12 @@ expandVar <- function(df,multivar,valueslist) {
   for (iNum in 1:iMax) {
     
     ValToSearch <-  names(valueslist)[iNum]
-    
     ValToGrep <- paste0("\\<",ValToSearch,"\\>")
     
-    NameVar  <- paste0("df$",multivarname,"_", valueslist[[iNum]])  
-    # we create the variable  using name from list  
-    macro <- paste0(NameVar,"<-",'"N"') 
-    eval(parse(text=macro))
-    # now we give the variable a value
+    NameVar <- paste0(multivarname,"_",valueslist[[iNum]])
     
     NewCol <- lapply(multivar ,MyFun,valtosearch=ValToGrep  )
-    macro <- paste0(NameVar," <- ","NewCol")
-    eval(parse(text=macro))
+    df[[NameVar]] <- NewCol
     
   }
   return(df)
