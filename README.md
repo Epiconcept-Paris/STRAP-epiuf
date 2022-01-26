@@ -8,3 +8,4 @@ Once installed, you can use the library() function to load the package
 library(epiuf)
 
 **library(epiuf)** should replace the line  <  **source("epifunctions.R")**  >
+

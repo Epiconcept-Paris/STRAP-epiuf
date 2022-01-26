@@ -39,5 +39,6 @@ vignettes/*.pdf
 .Renviron
 inst/doc
 
-# Personal files
-/personal/*
+# vignettes files
+/doc/
+/Meta/
