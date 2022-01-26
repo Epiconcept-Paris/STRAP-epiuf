@@ -6,6 +6,9 @@
 \usage{
 listEpiOption(pattern = "*")
 }
+\arguments{
+\item{pattern}{A pattern for options to be listed}
+}
 \value{
 List of options defined with setEpiOption
 }

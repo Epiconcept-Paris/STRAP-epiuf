@@ -74,6 +74,8 @@ getEpiOption <- function(EpiOption) {
 
 #' listEpiOption
 #'
+#' @param pattern A pattern for options to be listed
+#'
 #' @return List of options defined with setEpiOption
 #' @export
 #'
