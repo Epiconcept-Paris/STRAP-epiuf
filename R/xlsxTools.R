@@ -5,8 +5,26 @@
 # rows_edit <- getRows(sheet_edit)
 # cells <- getCells(rows_edit)
 
-.report <- NULL
-.reportFilename <- NULL
+
+
+# epixlsx envirronement used to manage global values
+epixlsx_env <- new.env(parent = emptyenv())
+
+epixlsx_env$report <- NULL
+epixlsx_env$reportFilename <- NULL
+
+
+#' Title
+#'
+#' @return The current workbook in memory
+#' @export
+#'
+#' @examples
+#' getWorkbook()
+#' 
+getWorkbook <- function() {
+  return(  epixlsx_env$report )
+}
 
 #' fillCells
 #'
@@ -65,8 +83,8 @@ openSheet <- function(sheetname,wb=NULL)  {
   if (! is.null(wb)) {
     report <- wb
   } else { 
-    report <- .report
-    if (is.null(.report)) {
+    report <- epixlsx_env$report
+    if (is.null(epixlsx_env$report)) {
        cat("Excel file must be loaded before opening a sheet")
     } 
   }
@@ -89,9 +107,10 @@ openSheet <- function(sheetname,wb=NULL)  {
 #' cat("to be done")
 #' 
 openXlsx <- function(filename="") {
-  .report <- xlsx::loadWorkbook(file = filename)
-  .reportFilename <- filename
-  .report
+  epixlsx_env$report <- xlsx::loadWorkbook(file = filename)
+  epixlsx_env$reportFilename <- filename
+  cat(filename, "workbook loaded in memory")
+  invisible(epixlsx_env$report)
 }
 
 
@@ -114,15 +133,16 @@ saveXlsx <- function(wb=NULL,filename="")  {
      report <- wb
   } 
   else { 
-    report <- .report
+    report <- epixlsx_env$report
   }
   if (is.null(report)) {
        cat("No Excel file loaded")
   }
   else {
     if (filename=="") {
-      filename <- .reportFilename
+      filename <- epixlsx_env$reportFilename
     }
     xlsx::saveWorkbook(report, filename)
+    cat("Workbook saved as :",filename)
   }
 }
