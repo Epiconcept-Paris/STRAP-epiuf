@@ -43,7 +43,7 @@ expandVar <- function(df,multivar,valueslist) {
     
     ValToSearch <-  names(valueslist)[iNum]
     ValToGrep <- paste0("\\<",ValToSearch,"\\>")
-    NewCol <- lapply(multivar ,MyFun,valtosearch=ValToGrep  )
+    NewCol <- vapply(multivar ,MyFun,valtosearch=ValToGrep,FUN.VALUE=" " )
     
     NameVar <- paste0(multivarname,"_",valueslist[[iNum]])
     df[[NameVar]] <- NewCol
