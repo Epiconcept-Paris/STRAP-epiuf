@@ -87,7 +87,7 @@ setPath <-  function(pathname,path) {
 #' 
 getPath <-  function(pathname) {
   pathname <- paste0("PATH_",pathname)
-  invisible(getEpiOption(pathname))
+  getEpiOption(pathname)
 }
 
 

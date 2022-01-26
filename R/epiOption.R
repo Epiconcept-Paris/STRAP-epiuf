@@ -82,8 +82,10 @@ getEpiOption <- function(EpiOption) {
 #'  listEpiOption()
 #'
 
-listEpiOption <- function() {
-  ls(envir = epiutils_env)
+listEpiOption <- function(pattern="*") {
+  pattern <- glob2rx(pattern)
+  OptionList <- ls(envir = epiutils_env,all.names=TRUE,pattern=pattern)
+  sapply(OptionList, function(x) getEpiOption(x))
 }
 
 

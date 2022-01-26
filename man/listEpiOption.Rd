@@ -4,7 +4,7 @@
 \alias{listEpiOption}
 \title{listEpiOption}
 \usage{
-listEpiOption()
+listEpiOption(pattern = "*")
 }
 \value{
 List of options defined with setEpiOption
