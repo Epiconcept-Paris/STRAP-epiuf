@@ -4,7 +4,8 @@
 }
 
 .onLoad <- function(libname, pkgname) {
-  ver <- packageVersion("epiuf")
-  datver <- as.character(packageDate("epiuf"))
-  catret("Package epiuf Version",as.character(ver[[1]]),"(",datver,") loaded")
+  ver <- utils::packageVersion("epiuf")
+  datver <- as.character(utils::packageDate("epiuf"))
+  # packageStartupMeassage generate a NOTE where it should not...
+  # packageStartupMessage("Package epiuf Version",as.character(ver[[1]]),"(",datver,") loaded")
 }
