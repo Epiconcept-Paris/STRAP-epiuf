@@ -5,5 +5,6 @@
 
 .onLoad <- function(libname, pkgname) {
   ver <- packageVersion("epiuf")
-  catret("Package epiuf Version",as.character(ver[[1]]), "loaded")
+  datver <- as.character(packageDate("epiuf"))
+  catret("Package epiuf Version",as.character(ver[[1]]),"(",datver,") loaded")
 }

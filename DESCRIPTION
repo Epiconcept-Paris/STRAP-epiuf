@@ -1,6 +1,7 @@
 Package: epiuf
 Title: Epiconcept Team Utility Functions for STRAP Project
-Version: 0.0.1.9000
+Version: 0.0.1.91
+Date: 2022-01-27
 Authors@R: 
     person("Gilles", "DESVE", , "gdesve@gmail.com", role = c("aut", "cre"))
 Maintainer: The package maintainer <gdesve@gmail.com>
