@@ -54,7 +54,10 @@ fillCells <- function(cells,line,col, ...) {
   listval <- eval(substitute(alist(...)))
   for (i in 1:length(listval)) {
     cell<- paste0(line,".",col)
-    value <- ifelse(is.finite(eval(listval[[i]])),eval(listval[[i]]),"")
+    value <- eval(listval[[i]])
+    if (is.numeric(value)) {
+        value <- ifelse(is.finite(value),value,"")
+    }
     xlsx::setCellValue(cells[[cell]],value  ) 
     col <- col +1 
   }
