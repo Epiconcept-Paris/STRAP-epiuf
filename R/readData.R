@@ -35,6 +35,7 @@
 #' @export
 #' @importFrom foreign read.epiinfo
 #' @importFrom haven read_dta
+#' @importFrom readxl read_excel
 #'
 #' @examples
 #' readData("flucases.csv")
@@ -93,6 +94,13 @@ readData <- function(filename = "", factorise = FALSE, lowercase= FALSE, label =
       # load return name and load content into selected env
       df <- load(filename)
       df <- get(df)
+    } else if (ext == "xls" | ext == "xlsx") {
+      # foreign packages is required
+      r <- requireNamespace("readxl", quietly = TRUE)
+      if (!r) {
+        message("Package readxl required")
+      }
+      df <- read_excel(filename)
     } else {
       cat("Extension '", ext, "'not found")
     }
