@@ -59,20 +59,20 @@ readData <- function(filename = "", factorise = FALSE, lowercase= FALSE, label =
     if (ext == "csv") {
       # look at the content
       # count and identify separator
-      test <- readLines(filename , n = 2)
-      comma1 <- charCount(",", test[1])
-      semicol1 <- charCount(";", test[1])
+      testline <- readLines(filename , n = 2)
+      comma1 <- charCount(",", testline[1])
+      semicol1 <- charCount(";", testline[1])
       if (comma1 > 0) {
-        df <- utils::read.csv(filename,as.is = !factorise,...)
+        dfloaded <- utils::read.csv(filename,as.is = !factorise,...)
       } else if (semicol1  > 0) {
-        df <- utils::read.csv2(filename,as.is = !factorise,...)
+        dfloaded <- utils::read.csv2(filename,as.is = !factorise,...)
       } else {
         red("Separator not identified in :")
         normal("\n")
         catret(test[[1]])
         catret(test[[2]])
         cat("read.csv used, verify result")
-        df <- utils::read.csv(filename,as.is = !factorise,...)
+        dfloaded <- utils::read.csv(filename,as.is = !factorise,...)
       }
     } else  if (ext == "dta") {
       # foreign packages is required
@@ -82,42 +82,42 @@ readData <- function(filename = "", factorise = FALSE, lowercase= FALSE, label =
       }
   # Prior to Stata 14, files did not declare a text encoding,haven assumes the encoding is windows-1252,
   # Stata Mac and Linux  use a different default encoding, "latin1". 
-      df <- haven::read_dta(filename)    # encoding = "latin1"
+      dfloaded <- haven::read_dta(filename)    # encoding = "latin1"
     } else if (ext == "rec") {
       # foreign packages is required
       r <- requireNamespace("foreign", quietly = TRUE)     
       if (!r) {
         message("Package foreign required")
       }
-      df <- foreign::read.epiinfo(filename)
+      dfloaded <- foreign::read.epiinfo(filename)
     } else if (ext == "rda" | ext == "rdata" ) {
       # load return name and load content into selected env
-      df <- load(filename)
-      df <- get(df)
+      dfloaded <- load(filename)
+      dfloaded <- get(dfloaded)
     } else if (ext == "xls" | ext == "xlsx") {
       # foreign packages is required
       r <- requireNamespace("readxl", quietly = TRUE)
       if (!r) {
         message("Package readxl required")
       }
-      df <- read_excel(filename)
+      dfloaded <- read_excel(filename)
     } else {
       cat("Extension '", ext, "'not found")
     }
     if (!missing(label)) {
-      attr(df, "label") <- label
+      attr(dfloaded, "label") <- label
     }
-    if (is.data.frame(df)) {
-      fileatt <- dim(df)
+    if (is.data.frame(dfloaded)) {
+      fileatt <- dim(dfloaded)
       if (lowercase) {
-        names(df)<-tolower(names(df))
+        names(dfloaded)<-tolower(names(dfloaded))
       }
       cat("File ", filename, " loaded. \n")
       cat(fileatt[1],
           "Observations of ",
           fileatt[2],
           " variables. Use str(name) for details")
-      invisible(df)
+      invisible(dfloaded)
     }
   } else {
     # file doens't exists ??
