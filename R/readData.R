@@ -69,8 +69,8 @@ readData <- function(filename = "", factorise = FALSE, lowercase= FALSE, label =
       } else {
         red("Separator not identified in :")
         normal("\n")
-        catret(test[[1]])
-        catret(test[[2]])
+        catret(testline[[1]])
+        catret(testline[[2]])
         cat("read.csv used, verify result")
         dfloaded <- utils::read.csv(filename,as.is = !factorise,...)
       }
