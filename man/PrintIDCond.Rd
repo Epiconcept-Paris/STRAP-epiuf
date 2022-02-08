@@ -24,6 +24,6 @@ PrintIDCond
 \examples{
 data <- data.frame(Id = 1:4 , 
                     Vaccs = c("pfizer"," ", "pfizer", "moderna"))
-PrintIDCond(df,"Vaccs=='pfizer'",20,"Id")
+PrintIDCond(data,50,Vaccs=="pfizer","Id")
                      
 }

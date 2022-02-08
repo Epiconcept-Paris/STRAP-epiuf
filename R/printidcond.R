@@ -41,7 +41,7 @@
 #' @examples
 #' data <- data.frame(Id = 1:4 , 
 #'                     Vaccs = c("pfizer"," ", "pfizer", "moderna"))
-#' PrintIDCond(df,50,Vaccs=='pfizer',"Id")
+#' PrintIDCond(data,50,Vaccs=="pfizer","Id")
 #'                      
 PrintIDCond <- function(data, threshold, cond, column="IdData"){
   cond <- substitute(cond)

@@ -111,27 +111,71 @@ ask <- function(message,answers) {
   }
 }
 
+#' ok
+#' Confirmation dialog box
+#' 
+#' @return logical 
+#' @export
+#'
+#' 
 ok <- function() {
   ask("Do you confirm?", c("Yes", "Y", "y") )
 }
 
+
+#' bold
+#'
+#' @param ... values to be outputted in bold
+#'
+#' @return nothing
+#' @export
+#'
+#' @examples
+#' bold("text in bold")
 bold <- function(...) {
-  cat("\033[1m",...,sep="")
+  cat("\033[1m",...,"\033[0m",sep="")
 }
 
+#' italic
+#'
+#' @param ... values to be outputted in italic
+#'
+#' @return nothing
+#' @export
+#'
+#' @examples
+#' italic("text in italic")
 italic <- function(...) {
-  cat("\033[3m",...,sep="")
+  cat("\033[3m",...,"\033[0m",sep="")
 }
 
+#' red
+#'
+#' @param ... values to be outputted in red
+#'
+#' @return nothing
+#' @export
+#'
+#' @examples
+#' red("text in red")
 red <- function(...) {
-  cat("\033[31m",...,sep="")
-}
-
-normal <- function(...) {
-  cat("\033[0m",...,sep="")
+  cat("\033[31m",...,"\033[0m",sep="")
 }
 
 
+#' blue
+#'
+#' @param ... values to be outputted in blue
+#'
+#' @return nothing
+#' @export
+#'
+#' @examples
+#' blue("text in blue")
+blue <- function(...) {
+  cat("\033[34m",...,"\033[0m",sep="")
+}
+                                                                    
 
 addSep <- function(li,c) {
   sep <- function(x)  paste(x, c)
@@ -179,7 +223,7 @@ clear <- function(what, noask = FALSE) {
   if ( sum(grep("\\$",swhat) ) > 0 ) {
     cat("To clear a data.frame variable like ")
     italic(swhat)
-    normal("  Use dropvar function")
+    cat("  Use dropvar function")
     continue <- FALSE
   }
   # if expr is a variable wich contain char, we can use content of expr ?
@@ -210,20 +254,47 @@ clear <- function(what, noask = FALSE) {
       lid <- addSep(li,"- ")
       cat(l, " object(s) to remove :")
       italic(as.character(lid))
-      normal("\n")
+      catret("")
       if ( ( l == 1 & li[1]==swhat ) ||  noask || ok() ) {
         rm(list = li, envir = .GlobalEnv)
       }
     } else {
       cat("No such objets :'")
       italic(swhat)
-      normal("'. Use keywords:")
+      cat("'. Use keywords: ")
       bold("vars, functions, all")
-      normal(" or a pattern (see help)")
+      cat(" or a pattern (see help)")
     }
     result <- gc()  # garbage collector
   }
 }
+
+
+#' listVar
+#'
+#' @param dataset A dataset to explore
+#' @param pattern Pattern representing varname
+#' @param regex  Should the pattern be used as regex expression or use classical "joker" ? and * 
+#'
+#' @return head of the dataset for the selected variables  
+#' @export
+#'
+#' @examples
+#' data <- data.frame(Id = 1:4 ,  
+#'                    vaccage = c(34,45, 50,22 ),
+#'                    symp = c("Y","Y","N","N"),
+#'                    vaccboost=c("N","Y","N","Y"))
+#'listVar(data,"symp")
+#'listVar(data,"vac*")                    
+#'                    
+#' 
+listVar <- function(dataset,pattern,regex=FALSE) {
+  if (!regex){pattern <- glob2rx(pattern)}
+  utils::head(dataset[,grepl(pattern,names(dataset))])  
+}
+
+
+
 
 #' isVar fonction WIP do not use
 #'    exists look only in GlobalEnv and parent, is.var will search from current and parent until global but not in base

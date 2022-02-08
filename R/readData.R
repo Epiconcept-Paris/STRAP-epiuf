@@ -68,7 +68,7 @@ readData <- function(filename = "", factorise = FALSE, lowercase= FALSE, label =
         dfloaded <- utils::read.csv2(filename,as.is = !factorise,...)
       } else {
         red("Separator not identified in :")
-        normal("\n")
+        catret("")
         catret(testline[[1]])
         catret(testline[[2]])
         cat("read.csv used, verify result")
@@ -102,7 +102,7 @@ readData <- function(filename = "", factorise = FALSE, lowercase= FALSE, label =
       }
       dfloaded <- read_excel(filename)
     } else {
-      cat("Extension '", ext, "'not found")
+      catret("Extension '", ext, "'not found")
     }
     if (!missing(label)) {
       attr(dfloaded, "label") <- label
@@ -113,7 +113,7 @@ readData <- function(filename = "", factorise = FALSE, lowercase= FALSE, label =
         names(dfloaded)<-tolower(names(dfloaded))
       }
       cat("File ", filename, " loaded. \n")
-      cat(fileatt[1],
+      catret(fileatt[1],
           "Observations of ",
           fileatt[2],
           " variables. Use str(name) for details")
@@ -122,7 +122,7 @@ readData <- function(filename = "", factorise = FALSE, lowercase= FALSE, label =
   } else {
     # file doens't exists ??
     cat("File \"", filename, "\" doesn't exist.\n", sep = "")
-    cat("Verify your working directory. Current is", getwd())
+    catret("Verify your working directory. Current is", getwd())
     
   }
 }

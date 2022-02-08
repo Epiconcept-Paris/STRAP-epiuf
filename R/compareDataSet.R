@@ -33,6 +33,7 @@
 #' @export
 #'
 #' 
+
 compareDataSet <-  function(dfmod, dftest) {
   
   cmod <- ncol(dfmod)
@@ -44,12 +45,14 @@ compareDataSet <-  function(dfmod, dftest) {
   
   
   difnew <- as.data.frame(setdiff(coltest, colmod))
-  cat("New columns in tested :",unlist(difnew),"\n")
-  
+  bold(nrow(difnew)," New columns in tested :")
+  catret(unlist(difnew))
+  catret()
   difmiss <- as.data.frame(setdiff(colmod,coltest))
   
-  cat("Missing columns in tested :",unlist(difmiss),"\n")
-  
+  bold(nrow(difmiss)," Missing columns in tested :")
+  catret(unlist(difmiss))
+  catret()
   
   tmod <- sapply(dfmod, typeof )
   ttest <- sapply(dftest, typeof)
@@ -59,7 +62,7 @@ compareDataSet <-  function(dfmod, dftest) {
   tcomp <- tcomp[is.na(tcomp$tmod)|is.na(tcomp$ttest)|(tcomp$tmod != tcomp$ttest),]
   colnames(tcomp) <- c("Variable","Modele","Tested")
   typedif <- nrow(tcomp)
-  cat(typedif , " Variable with different type\n\n")
+  bold(typedif , " Variable with different type\n")
   tcomp
 }
 
