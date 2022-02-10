@@ -39,13 +39,16 @@
 #' @export 
 #'
 #' @examples
-#' data <- data.frame(Id = 1:4 , 
+#' df <- data.frame(Id = 1:4 ,
 #'                     Vaccs = c("pfizer"," ", "pfizer", "moderna"))
-#' PrintIDCond(data,50,Vaccs=="pfizer","Id")
-#'                      
+#' PrintIDCond(df,50,Vaccs=="pfizer","Id")
+
 PrintIDCond <- function(data, threshold, cond, column="IdData"){
   cond <- substitute(cond)
   if (!typeof(cond)=="language") {cond <- parse(text=cond)}
+  if  (!column %in% names(data) ){
+    column <- names(data)[1]
+  }
   Records <- subset(data,eval(cond),column)
   
   NbCond <- nrow(Records)
@@ -58,6 +61,28 @@ PrintIDCond <- function(data, threshold, cond, column="IdData"){
     listID<- "none"
   }
   cat(paste0("+ IDs: ", listID))
+}
+
+#' Simple count of records satisfying  a conditional expression
+#'
+#' @param data The dataset where records should be counted 
+#' @param cond A logical expression 
+#'
+#' @return A number of records
+#' @export
+#'
+#' @examples
+#' 
+#' df <- data.frame(Id = 1:4 ,
+#'                     Vaccs = c("pfizer"," ", "pfizer", "moderna"))
+#' nb <- countIf(df,Vaccs=='pfizer')
+#' 
+countIf <- function(data,cond) {
+  cond <- substitute(cond)
+  if (!typeof(cond)=="language") {cond <- parse(text=cond)}
+  records <- subset(data,eval(cond))
+  r <- nrow(records)
+  return(r)
 }
 
 

@@ -22,8 +22,7 @@ nothing but print using cat
 PrintIDCond
 }
 \examples{
-data <- data.frame(Id = 1:4 , 
+df <- data.frame(Id = 1:4 ,
                     Vaccs = c("pfizer"," ", "pfizer", "moderna"))
-PrintIDCond(data,50,Vaccs=="pfizer","Id")
-                     
+PrintIDCond(df,50,Vaccs=="pfizer","Id")
 }

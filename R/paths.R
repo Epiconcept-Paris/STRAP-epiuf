@@ -23,6 +23,34 @@
 
 
 
+#' listFiles
+#'
+#' @param path  Path to search for files  "." mean current directory
+#' @param pattern Pattern of files to be listed 
+#'
+#' @return  Character list of found files 
+#' @export
+#'
+#' @examples
+#' listFiles(".", "*.doc")
+#' 
+listFiles  <- function(path =".", pattern="*") {
+  list.files(path,pattern = glob2rx(pattern),ignore.case = TRUE )
+}
+
+
+#' fileExt
+#'      Retrieve the file extension  
+#'
+#' @param text A filename 
+#'
+#' @return The file extension as character
+#' @export
+#'
+#' @examples
+#' 
+#' myext <- fileExt("mydoc.pdf")
+#' 
 fileExt <- function(text) {
   x <- strsplit(text, "\\.")
   i <- length(x[[1]])
@@ -32,6 +60,7 @@ fileExt <- function(text) {
   }
   ext
 }
+
 
 fileName <- function(text) {
   name <- basename(text)
