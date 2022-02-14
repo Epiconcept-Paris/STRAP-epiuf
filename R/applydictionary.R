@@ -38,11 +38,25 @@ dicSourceName <- "source_name"
 #'
 
 applyDictionary <- function(dic, cur, verbose=TRUE, keepextra = FALSE) {
-  NewNames <- unlist(dic[!is.na(dic[,dicGenericName]),dicGenericName])
-  OldNames <- unlist(dic[ ! (dic[,dicSourceName]=="" ) ,dicSourceName])
-  OldNames <- OldNames[! is.na(OldNames)]
+
+  getColValues <- function(dataset, colname) {
+    result <- unlist(dataset[ ! (dataset[,colname]=="" ) ,colname])
+    result <- result[! is.na(result)]
+  }
   
+  # Name of columns in dictionary, just here for easier change. Should be a parameters ?  
+  dicGenericName <- "generic_name"
+  dicSourceName <- "source_name"
+  
+  # we make a character vector of generic names from dico
+  NewNames <- getColValues(dic,dicGenericName)  
+  
+  # we make a character vector of sources names from dico
+  OldNames <- getColValues(dic,dicSourceName)
+  
+  # we make a character vector of sources names from sources
   CurNames <- unlist(names(cur))
+  
   # variables defined in source_name but missing in the imported dataset comparer to dico (dico not up to date)
   VarMiss <- setdiff(OldNames,CurNames)
   
