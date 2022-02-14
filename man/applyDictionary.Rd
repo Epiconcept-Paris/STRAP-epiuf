@@ -4,19 +4,19 @@
 \alias{applyDictionary}
 \title{applyDictionary}
 \usage{
-applyDictionary(dic, cur, verbose = TRUE, keepextra = FALSE)
+applyDictionary(dictionary, datasource, verbose = TRUE, keepextra = FALSE)
 }
 \arguments{
-\item{dic}{A dictionary (passed as dataframe)}
+\item{dictionary}{A dictionary (passed as dataframe)}
 
-\item{cur}{A dataset to transform to generic}
+\item{datasource}{A dataset to transform to generic}
 
 \item{verbose}{Should we have feedback}
 
 \item{keepextra}{if TRUE, extra variables are keept in generic dataset (no longer generic then...)}
 }
 \value{
-A data set
+A generic data set
 }
 \description{
 applyDictionary

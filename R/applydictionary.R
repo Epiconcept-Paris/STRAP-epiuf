@@ -23,21 +23,18 @@
 
 
 
-dicGenericName <- "generic_name"
-dicSourceName <- "source_name"
-
 #' applyDictionary
 #'
-#' @param dic A dictionary (passed as dataframe)
-#' @param cur  A dataset to transform to generic
+#' @param dictionary A dictionary (passed as dataframe)
+#' @param datasource  A dataset to transform to generic
 #' @param verbose Should we have feedback 
 #' @param keepextra if TRUE, extra variables are keept in generic dataset (no longer generic then...)
 #'
-#' @return A data set 
+#' @return A generic data set 
 #' @export
 #'
 
-applyDictionary <- function(dic, cur, verbose=TRUE, keepextra = FALSE) {
+applyDictionary <- function(dictionary, datasource, verbose=TRUE, keepextra = FALSE) {
 
   getColValues <- function(dataset, colname) {
     result <- unlist(dataset[ ! (dataset[,colname]=="" ) ,colname])
@@ -48,19 +45,19 @@ applyDictionary <- function(dic, cur, verbose=TRUE, keepextra = FALSE) {
   dicGenericName <- "generic_name"
   dicSourceName <- "source_name"
   
-  # we make a character vector of generic names from dico
-  NewNames <- getColValues(dic,dicGenericName)  
+  # we make a character vector of generic names from dictionary
+  NewNames <- getColValues(dictionary,dicGenericName)  
   
-  # we make a character vector of sources names from dico
-  OldNames <- getColValues(dic,dicSourceName)
+  # we make a character vector of sources names from dictionary
+  OldNames <- getColValues(dictionary,dicSourceName)
   
   # we make a character vector of sources names from sources
-  CurNames <- unlist(names(cur))
+  CurNames <- unlist(names(datasource))
   
-  # variables defined in source_name but missing in the imported dataset comparer to dico (dico not up to date)
+  # variables defined in source_name but missing in the imported dataset comparer to dictionary (dictionary not up to date)
   VarMiss <- setdiff(OldNames,CurNames)
   
-  # Extra variables in source that are not defined in dico source_name
+  # Extra variables in source that are not defined in dictionary source_name
   VarExtra  <- setdiff(CurNames,OldNames)
   
   if (verbose) {
@@ -68,24 +65,26 @@ applyDictionary <- function(dic, cur, verbose=TRUE, keepextra = FALSE) {
     catret()
     catret(sort(VarMiss),sep="  \n")
   }  
+  
+  # the generic dataset is created from datasource taking in account the extra vriable 
   if  (length(VarExtra) >0 ) {
     if (! keepextra ) {
       # we remove the extra column except if exists in generic 
       epiuf::bold("Extra vars in imported (dropped if not exists in generic) : ",length(VarExtra))
       catret()
       catret(sort(VarExtra),sep="  \n")
-      gen <- cur[, -which( (names(cur) %in% VarExtra) & !(names(cur)%in%NewNames)  )]
+      gen <- datasource[, -which( (names(datasource) %in% VarExtra) & !(names(datasource)%in%NewNames)  )]
     } else {
       epiuf::bold("Extra vars in imported keept in generic  : ",length(VarExtra))
       catret()
       catret(sort(VarExtra),sep="  \n")
-      gen <- cur  
+      gen <- datasource  
     }
-  } else { gen <- cur } 
+  } else { gen <- datasource } 
   
   # we merge only the matching
   CurNames <- as.data.frame(CurNames)
-  MatchNames <-  merge(dic,CurNames, by.x=dicSourceName, by.y="CurNames")
+  MatchNames <-  merge(dictionary,CurNames, by.x=dicSourceName, by.y="CurNames")
   todrop <- MatchNames[is.na(MatchNames[dicGenericName]),dicSourceName]
   if (verbose) {
     epiuf::bold("Vars not in generic and dropped  : ", length(todrop))
@@ -93,6 +92,7 @@ applyDictionary <- function(dic, cur, verbose=TRUE, keepextra = FALSE) {
     catret(sort(todrop),sep="  \n")
   } 
   
+  # remove from the generic dataset the variables to be dropped because not defined in dictionnary
   gen <- gen[, -which( (names(gen) %in% todrop) )]
   
   
@@ -121,7 +121,7 @@ applyDictionary <- function(dic, cur, verbose=TRUE, keepextra = FALSE) {
   CurNames <- names(gen)
   VarMiss <- setdiff(NewNames,CurNames)
   for (i in 1:length(VarMiss) ) {
-    typevar <-  dic[dic[[dicGenericName]]==VarMiss[i],"type"]
+    typevar <-  dictionary[dictionary[[dicGenericName]]==VarMiss[i],"type"]
     typevar <- typevar[! is.na(typevar)]
     valuevar <- switch (typevar,
                         "numeric" = 0,
