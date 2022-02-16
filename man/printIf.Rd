@@ -10,7 +10,7 @@ cond = specify variables and outcome to search for eg "Pregnant==1 & Sex==1" or 
 text = the specified condition to check for
 PrintIDCond( df,hosp_id2>=38266 & hosp_id2 < 38500,"hosp_id2",threshold = 50)}
 \usage{
-printIf(data, cond, text = "", threshold, column = "id")
+printIf(data, cond, text = "", threshold = NULL, column = "id")
 }
 \arguments{
 \item{data}{A dataframe to look for cond}

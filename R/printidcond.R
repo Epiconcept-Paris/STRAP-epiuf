@@ -50,7 +50,7 @@
 #'                     Vaccs = c("pfizer"," ", "pfizer", "moderna"))
 #' printIf(df,Vaccs=="pfizer",threshold=30 , text="Pfizer vaccin", column="Id")
 
-printIf<- function(data,  cond, text="", threshold , column="id"){
+printIf<- function(data,  cond, text="", threshold=NULL , column="id"){
   
   cond <- substitute(cond)
   if (!typeof(cond)=="language") {cond <- parse(text=cond)}
@@ -61,7 +61,7 @@ printIf<- function(data,  cond, text="", threshold , column="id"){
   if (text == "") {
     text <- as.character(cond)
   }
-  
+  if (is.null(threshold)) {threshold <- 50 }
   Records <- subset(data,eval(cond),column)
   
   TextToPrint <- c()
