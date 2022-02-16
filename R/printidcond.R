@@ -50,13 +50,16 @@
 #'                     Vaccs = c("pfizer"," ", "pfizer", "moderna"))
 #' PrintIDCond(df,Vaccs=="pfizer",threshol=30 ,"Id")
 
-PrintIDCond <- function(data,  cond, text, threshold , column="id"){
+PrintIDCond <- function(data,  cond, text="", threshold , column="id"){
   
   cond <- substitute(cond)
   if (!typeof(cond)=="language") {cond <- parse(text=cond)}
   
   if  (!column %in% names(data) ){
     column <- names(data)[1]
+  }
+  if (text == "") {
+    text <- as.character(cond)
   }
   
   Records <- subset(data,eval(cond),column)
