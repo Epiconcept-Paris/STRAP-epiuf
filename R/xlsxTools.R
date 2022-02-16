@@ -51,6 +51,12 @@ getWorkbook <- function() {
 #' 
 #' 
 fillCells <- function(cells,line,col, ...) {
+  
+  if (is.character(col)){
+    asciival <- charToRaw(col)
+    asciival <- asciival-64
+    col <- sum(asciival)
+  }
   listval <- eval(substitute(alist(...)))
   for (i in 1:length(listval)) {
     cell<- paste0(line,".",col)
