@@ -133,7 +133,11 @@ ok <- function() {
 #' @examples
 #' bold("text in bold")
 bold <- function(...) {
-  cat("\033[1m",...,"\033[0m",sep="")
+  if (is.null(knitr::opts_knit$get('rmarkdown.pandoc.to'))) {
+    cat("\033[1m",...,"\033[0m",sep="")
+  } else {
+    cat("**",...,"**",sep="")
+  }      
 }
 
 #' italic
@@ -146,7 +150,12 @@ bold <- function(...) {
 #' @examples
 #' italic("text in italic")
 italic <- function(...) {
-  cat("\033[3m",...,"\033[0m",sep="")
+  if (is.null(knitr::opts_knit$get('rmarkdown.pandoc.to'))) {
+    cat("\033[3m",...,"\033[0m",sep="")
+  } else {
+    cat(...)
+  }      
+  
 }
 
 #' red
@@ -159,7 +168,12 @@ italic <- function(...) {
 #' @examples
 #' red("text in red")
 red <- function(...) {
-  cat("\033[31m",...,"\033[0m",sep="")
+  if (is.null(knitr::opts_knit$get('rmarkdown.pandoc.to'))) {
+    cat("\033[31m",...,"\033[0m",sep="")
+  } else {
+    cat(...)
+  }      
+
 }
 
 
@@ -173,7 +187,12 @@ red <- function(...) {
 #' @examples
 #' blue("text in blue")
 blue <- function(...) {
-  cat("\033[34m",...,"\033[0m",sep="")
+  if (is.null(knitr::opts_knit$get('rmarkdown.pandoc.to'))) {
+    cat("\033[34m",...,"\033[0m",sep="")
+  } else {
+    cat(...)
+  }      
+  
 }
                                                                     
 
