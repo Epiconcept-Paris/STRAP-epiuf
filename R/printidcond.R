@@ -54,6 +54,7 @@ PrintIDCond <- function(data,  cond, text, threshold , column="id"){
   
   cond <- substitute(cond)
   if (!typeof(cond)=="language") {cond <- parse(text=cond)}
+  
   if  (!column %in% names(data) ){
     column <- names(data)[1]
   }
