@@ -28,7 +28,7 @@
 ## PrintIDCond( df,50,hosp_id2>=38266 & hosp_id2 < 38500,"hosp_id2")
 
 
-#' PrintIDCond
+#' printIf
 #' prints the list of IDs meeting the specified condition 
 #' data dataset to look in 
 #' threshold = cutoff number for ID reporting, as number
@@ -48,9 +48,9 @@
 #' @examples
 #' df <- data.frame(Id = 1:4 ,
 #'                     Vaccs = c("pfizer"," ", "pfizer", "moderna"))
-#' PrintIDCond(df,Vaccs=="pfizer",threshol=30 ,"Id")
+#' printIf(df,Vaccs=="pfizer",threshold=30 , text="Pfizer vaccin", column="Id")
 
-PrintIDCond <- function(data,  cond, text="", threshold , column="id"){
+printIf<- function(data,  cond, text="", threshold , column="id"){
   
   cond <- substitute(cond)
   if (!typeof(cond)=="language") {cond <- parse(text=cond)}
