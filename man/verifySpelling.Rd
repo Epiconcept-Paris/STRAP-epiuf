@@ -21,6 +21,6 @@ Title
 }
 \examples{
 
-verifySpelling("Janury",c("Juanuary", "Janvier" ))
+verifySpelling("Janury",c("January", "Janvier" ))
 
 }

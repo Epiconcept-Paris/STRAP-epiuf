@@ -23,11 +23,15 @@
 
 
 
-#' Title
+#' getDelayIf
+#' 
+#' return the delay between two date with condition
+#' if condition are validated then the delay in days from date one to date two is returned 
+#' else NA is returned  
 #'
-#' @param data 
-#' @param date1 
-#' @param date2 
+#' @param data The dataset containing the values
+#' @param date1 The first date 
+#' @param date2 The second date
 #' @param ... one or more logical condition to validate. If one of the condition is not TRUE, 
 #'            NA is returned instead of the calculated delay 
 #'
@@ -74,13 +78,6 @@ getDelayIf <- function(data, date1, date2, ...) {
   
   return(result)
 }
-
-
-# Tester code: ----
- df$test <- getDelayIf(df,CovvaccdateFirstdose, CovvaccdateSeconddose, 
-                     CovvaccanyFirstdose==1, CovvaccanySeconddose==1)
-
- viewIf(df,CovvaccanyFirstdose,CovvaccdateFirstdose,test,nline = 15, cond=!is.na(CovvaccdateFirstdose))
 
 # END of SCRIPT  --------------------------------------------------------
 

@@ -4,16 +4,19 @@
 \alias{fillCells}
 \title{fillCells}
 \usage{
-fillCells(cells, line, col, ...)
+fillCells(onesheet, line, col, ..., names = FALSE)
 }
 \arguments{
-\item{cells}{A cells object from xlsx package}
+\item{onesheet}{A sheet object from xlsx package}
 
 \item{line}{The line where to paste value}
 
 \item{col}{The col where to paste value}
 
-\item{...}{List of N values to paste in col "col" to col+N}
+\item{...}{List of N values to paste in col "col" to col+N
+if contain a data.frame, the dataframe is pasted at the position}
+
+\item{names}{if TRUE names of the dataframe are inserted with the table content}
 }
 \value{
 nothing
@@ -32,6 +35,7 @@ fillCells(cells,1,1, "Total :",100  )
 num <-  40
 denum <- 80
 fillCells(cells,1,1, num,num/denum  )
+mat <- data.frame(Id = 1:3 , Vaccs = c("1", "3", "6"))
 
 
 }

@@ -67,7 +67,7 @@ viewIf <- function(data,...,cond=NULL,nline=10) {
     res <- data[with(data,eval(cond)),]
     res <- as.data.frame(res[nline:l,c])
   }
-  View(res)
+  utils::View(res)
   invisible(res)
 }
 

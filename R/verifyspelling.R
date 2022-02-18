@@ -35,7 +35,7 @@
 #'
 #' @examples
 #' 
-#' verifySpelling("Janury",c("Juanuary", "Janvier" ))
+#' verifySpelling("Janury",c("January", "Janvier" ))
 #' 
 verifySpelling <- function(ToTest,CorrectList,ErrPerc=0.25 ) {
     MyWord <-  function(x,value) {

@@ -28,14 +28,16 @@ getWorkbook <- function() {
 
 #' fillCells
 #'
-#' @param cells A cells object from xlsx package
+#' @param onesheet A sheet object from xlsx package
 #' @param line  The line where to paste value 
 #' @param col   The col where to paste value
 #' @param ...   List of N values to paste in col "col" to col+N 
+#'              if contain a data.frame, the dataframe is pasted at the position 
+#' @param names if TRUE names of the dataframe are inserted with the table content              
 #'
 #' @return  nothing
 #' @export
-#' @importFrom xlsx setCellValue
+#' @importFrom xlsx getRows getCells addDataFrame CellBlock CB.setRowData
 #'
 #' @examples
 #' wb <- xlsx::createWorkbook()
@@ -48,10 +50,13 @@ getWorkbook <- function() {
 #' num <-  40
 #' denum <- 80
 #' fillCells(cells,1,1, num,num/denum  )
+#' mat <- data.frame(Id = 1:3 , Vaccs = c("1", "3", "6"))
+
 #' 
 #' 
-fillCells <- function(cells,line,col, ...) {
-  
+fillCells <- function(onesheet,line,col, ..., names=FALSE) {
+  rows_edit <- xlsx::getRows(onesheet)
+  cells <- xlsx::getCells(rows_edit)
   if (is.character(col)){
     asciival <- charToRaw(col)
     asciival <- asciival-64
@@ -59,13 +64,40 @@ fillCells <- function(cells,line,col, ...) {
   }
   listval <- eval(substitute(alist(...)))
   for (i in 1:length(listval)) {
-    cell<- paste0(line,".",col)
     value <- eval(listval[[i]])
-    if (is.numeric(value)) {
+    # is value a table ? 
+    if (is.data.frame(value)){
+      
+      xlsx::addDataFrame(value,onesheet,
+                         col.names=names,row.names=names,
+                         startRow = line,startColumn = col,
+                         showNA = TRUE)
+      # curline <- line
+      # curcol <- col
+      # for (icol in 1:ncol(mat) ) {
+      #    for (irow in 1:nrow(mat)) {
+      #       ivalue <- value[irow,icol]
+      #       cell<- paste0(curline,".",curcol)
+      #       if (is.numeric(ivalue)) {
+      #         ivalue <- ifelse(is.finite(ivalue),ivalue,"")
+      #       } 
+      #       xlsx::setCellValue(cells[[cell]],ivalue  )
+      #       curline <- curline +1
+      #    }
+      #   curline <- line
+      #   curcol <- curcol +1
+      # } 
+      #  
+    } else {
+      cell<- paste0(line,".",col)
+      if (is.numeric(value)) {
         value <- ifelse(is.finite(value),value,"")
-    }
-    xlsx::setCellValue(cells[[cell]],value  ) 
-    col <- col +1 
+      } 
+      # xlsx::setCellValue(cells[[cell]],value  ) 
+      CB <- xlsx::CellBlock(onesheet,line,col,1,1)
+      xlsx::CB.setRowData(CB,value,1,0)
+      col <- col +1
+    }  
   }
 }
 
@@ -97,10 +129,12 @@ openSheet <- function(sheetname,wb=NULL)  {
        cat("Excel file must be loaded before opening a sheet")
     } 
   }
-  sheets <- getSheets(report)
+  sheets <- xlsx::getSheets(report)
   sheet_edit <- sheets[[sheetname]]
-  rows_edit <- getRows(sheet_edit)
-  cells <- getCells(rows_edit)
+  epixlsx_env$sheet <- sheet_edit
+  sheet_edit
+  # rows_edit <- xlsx::getRows(sheet_edit)
+  # cells <- xlsx::getCells(rows_edit)
 }
 
 
@@ -152,6 +186,7 @@ saveXlsx <- function(wb=NULL,filename="")  {
       filename <- epixlsx_env$reportFilename
     }
     xlsx::saveWorkbook(report, filename)
+    epixlsx_env$report <- NULL
     cat("Workbook saved as :",filename)
   }
 }
