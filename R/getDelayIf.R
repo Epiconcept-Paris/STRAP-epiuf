@@ -40,11 +40,11 @@
 #'
 #' @examples
 #' \dontrun{
-#'    delay(data ,date1,date2, date2 > date1 + 14)
+#'    getDelayIf(data ,date1,date2, date2 > date1 + 14)
 #' }
 #' 
 getDelayIf <- function(data, date1, date2, ...) {
-
+  
   # first we catch the ... parameters
   listcond <- as.list(match.call())
   # we remove the first one which is the function name
@@ -52,16 +52,35 @@ getDelayIf <- function(data, date1, date2, ...) {
   # and we remove all named parameters from the list
   namedarg <- pmatch(c("data","date1","date2"),names(listcond), nomatch = 0)
   if (length(namedarg) > 0 ) {listcond[namedarg] <- NULL }
-
+  
   # We verify that parameters are language and if it is "test" then we parse as language
   for (i in 1:length(listcond)) {
     if (!typeof(listcond[i])=="language") {listcond[i] <- parse(text=listcond[i])}
   }
   
-  # we get the named parameters as "language" with substitute
-  date1 <- as.character(substitute(date1))
-  date2 <- as.character(substitute(date2))
-
+  # we get the named parameters as "parsed language"
+  s_op <- deparse(substitute(date1))
+  # if date1 is a variable which contain char, we use content of date1
+  tryCatch(
+    if (is.character(date1)) {
+      s_op <- date1
+    }
+    , error = function(c) { }
+  )
+  date1 <- s_op
+  
+  # we get the named parameters as "parsed language"
+  s_op <- deparse(substitute(date2))
+  # if date1 is a variable which contain char, we use content of date1
+  tryCatch(
+    if (is.character(date2)) {
+      s_op <- date2
+    }
+    , error = function(c) { }
+  )
+  date2 <- s_op
+  
+  
   # we add a delay variable to the dataset (should we ?) 
   data$temp__delay <- as.numeric(data[, date2] - data[, date1])
   
