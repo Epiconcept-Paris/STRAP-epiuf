@@ -1,6 +1,7 @@
 ---
 title: "epiuf_package"
 output: rmarkdown::html_vignette
+
 vignette: >
   %\VignetteIndexEntry{epiuf_package}
   %\VignetteEngine{knitr::rmarkdown}
@@ -21,4 +22,5 @@ library(epiuf)
 ```
 
       Essai
-[printIf function](printIf.html)
+
+-   [printIf](printIf.html)  print message and list of records if condition is verified
