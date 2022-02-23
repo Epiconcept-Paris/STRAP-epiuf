@@ -54,8 +54,20 @@ catret  <- function(...) {
   cat(...,"\n")
 }
 
-# count number of specific char into a text using reg expr
+#' charCount
+#' count number of specific char into a text using reg expr
+#' 
+#' @param pattern "The character or pattern to searh
+#' @param stosearch The string to search in 
+#'
+#' @return number of match
+#' @export
+#'
+#' @examples
+#' nb <- charCount("/", "test/essai/try")
+#' 
 charCount <- function(pattern, stosearch) {
+  # pattern <- glob2rx(pattern)
   lengths(regmatches(stosearch, gregexpr(pattern, stosearch)))
   # length(attr(gregexpr(pattern,stosearch)[[1]],
   #            "match.length")[attr(gregexpr(pattern,stosearch)[[1]], "match.length")>0])

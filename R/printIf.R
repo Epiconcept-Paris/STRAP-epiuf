@@ -88,7 +88,7 @@ printIf<- function(data,  cond, text="", threshold=NULL , column="id"){
   }
   
   if (length(TextToPrint) != 0){return(TextToPrint)}
-  
+
 }
 
 #' Simple count of records satisfying  a conditional expression
@@ -108,7 +108,11 @@ printIf<- function(data,  cond, text="", threshold=NULL , column="id"){
 countIf <- function(data,cond) {
   cond <- substitute(cond)
   if (!typeof(cond)=="language") {cond <- parse(text=cond)}
-  records <- subset(data,eval(cond))
+  
+  records <-  eval(cond,data,parent.frame())
+  
+  records <- data[records,]
+
   r <- nrow(records)
   return(r)
 }
