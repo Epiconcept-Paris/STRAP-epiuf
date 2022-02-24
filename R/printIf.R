@@ -109,9 +109,16 @@ countIf <- function(data,cond) {
   cond <- substitute(cond)
   if (!typeof(cond)=="language") {cond <- parse(text=cond)}
   
-  records <-  eval(cond,data,parent.frame())
-  
-  records <- data[records,]
+  # base version 
+  # records <-  eval(cond,data,parent.frame())
+  # records <- records & !is.na(records)
+  # records <- data[records,]
+
+
+    
+  # subset will make a lazy eval, in order to work, this one should be done in countIf context 
+  # then parent.frame(2)
+  records <- subset(data,eval(cond,data,parent.frame(2)))
 
   r <- nrow(records)
   return(r)
