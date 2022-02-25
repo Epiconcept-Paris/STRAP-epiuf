@@ -9,6 +9,7 @@ readData(
   factorise = FALSE,
   lowercase = FALSE,
   label = NULL,
+  sheet = NULL,
   ...
 )
 }
@@ -20,6 +21,8 @@ readData(
 \item{lowercase}{Should variable names appear in lower case or as is , default to lowercase}
 
 \item{label}{Not used currently}
+
+\item{sheet}{Name of the excel sheet to be read}
 
 \item{...}{Other parameters passed to the base function}
 }

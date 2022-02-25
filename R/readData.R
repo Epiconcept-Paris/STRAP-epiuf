@@ -29,6 +29,7 @@
 #' @param factorise Should character value be factorised, default = FALSE
 #' @param lowercase Should variable names appear in lower case or as is , default to lowercase
 #' @param label Not used currently
+#' @param sheet Name of the excel sheet to be read
 #' @param ... Other parameters passed to the base function
 #'
 #' @return The dataset read from file
@@ -41,7 +42,7 @@
 #' readData("flucases.csv")
 #' 
 #' 
-readData <- function(filename = "", factorise = FALSE, lowercase= FALSE, label = NULL,...) {
+readData <- function(filename = "", factorise = FALSE, lowercase= FALSE, label = NULL,sheet=NULL,...) {
   # no file ? choose one
   if (filename == "") {
     catret("retrieving file tree...please wait.")
@@ -100,7 +101,7 @@ readData <- function(filename = "", factorise = FALSE, lowercase= FALSE, label =
       if (!r) {
         message("Package readxl required")
       }
-      dfloaded <- read_excel(filename)
+      dfloaded <- read_excel(filename,sheet=sheet)
     } else {
       catret("Extension '", ext, "'not found")
     }
