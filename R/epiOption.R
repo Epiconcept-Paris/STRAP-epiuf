@@ -20,8 +20,10 @@
 # 
 
 # START of SCRIPT  --------------------------------------------------------
-global <<- list()
-global$epiuf <- TRUE
+# creating a global from the package doesn't work like this, the code should be in a function 
+# which is call or in zzz.R (onload, onattach) 
+# global <<- list()
+# global$epiuf <- TRUE
 
 # epifield envirronement used to manage epifield options
 epiutils_env <- new.env(parent = emptyenv())
@@ -36,6 +38,7 @@ epiutils_env$select <- ""
 
 # The last_error in epifield functions
 epiutils_env$last_error <- NA
+
 
 #' getEpiOption
 #'
