@@ -4,13 +4,13 @@
 \alias{saveXlsx}
 \title{Title}
 \usage{
-saveXlsx(wb = NULL, filename = "")
+saveXlsx(filename = "", wb = NULL)
 }
 \arguments{
+\item{filename}{An optional filename (if empty the current filename will be used )}
+
 \item{wb}{A optional workbook created or opened by xlsx
 If not specified, the last workbook loaded with loadXlsx will be used}
-
-\item{filename}{An optional filename (if empty the current filename will be used )}
 }
 \value{
 nothing

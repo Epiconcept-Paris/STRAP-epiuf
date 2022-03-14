@@ -4,10 +4,10 @@
 \alias{expandVar}
 \title{expandVar}
 \usage{
-expandVar(df, multivar, valueslist)
+expandVar(data, multivar, valueslist)
 }
 \arguments{
-\item{df}{A dataset which contain a multi-variable}
+\item{data}{A dataset which contain a multi-variable}
 
 \item{multivar}{The name of the multi-variable}
 

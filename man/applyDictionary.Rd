@@ -4,12 +4,12 @@
 \alias{applyDictionary}
 \title{applyDictionary}
 \usage{
-applyDictionary(dictionary, datasource, verbose = TRUE, keepextra = FALSE)
+applyDictionary(dictionary, data, verbose = TRUE, keepextra = FALSE)
 }
 \arguments{
 \item{dictionary}{A dictionary (passed as dataframe)}
 
-\item{datasource}{A dataset to transform to generic}
+\item{data}{A dataset to transform to generic}
 
 \item{verbose}{Should we have feedback}
 

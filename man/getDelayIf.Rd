@@ -4,14 +4,14 @@
 \alias{getDelayIf}
 \title{getDelayIf}
 \usage{
-getDelayIf(data, date1, date2, ...)
+getDelayIf(data, FirstDateName, SecondDateName, ...)
 }
 \arguments{
 \item{data}{The dataset containing the values}
 
-\item{date1}{The first date}
+\item{FirstDateName}{The first date}
 
-\item{date2}{The second date}
+\item{SecondDateName}{The second date}
 
 \item{...}{one or more logical condition to validate. If one of the condition is not TRUE,
 NA is returned instead of the calculated delay}
@@ -26,7 +26,7 @@ else NA is returned
 }
 \examples{
 \dontrun{
-   getDelayIf(data ,date1,date2, date2 > date1 + 14)
+   getDelayIf(data ,FirstDateName,SecondDateName, SecondDateName > FirstDateName + 14)
 }
 
 }

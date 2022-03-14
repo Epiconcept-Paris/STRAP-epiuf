@@ -4,12 +4,12 @@
 \alias{compareDataSet}
 \title{compareDataSet}
 \usage{
-compareDataSet(dfmod, dftest)
+compareDataSet(modeldata, data)
 }
 \arguments{
-\item{dfmod}{A model dataset (one record at least)}
+\item{modeldata}{A model dataset (one record at least)}
 
-\item{dftest}{A dataset to test against the model}
+\item{data}{A dataset to test against the model}
 }
 \value{
 a list of difference
