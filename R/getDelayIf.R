@@ -30,8 +30,8 @@
 #' else NA is returned  
 #'
 #' @param data The dataset containing the values
-#' @param date1 The first date 
-#' @param date2 The second date
+#' @param FirstDateName The first date 
+#' @param SecondDateName The second date
 #' @param ... one or more logical condition to validate. If one of the condition is not TRUE, 
 #'            NA is returned instead of the calculated delay 
 #'
@@ -40,17 +40,17 @@
 #'
 #' @examples
 #' \dontrun{
-#'    getDelayIf(data ,date1,date2, date2 > date1 + 14)
+#'    getDelayIf(data ,FirstDateName,SecondDateName, SecondDateName > FirstDateName + 14)
 #' }
 #' 
-getDelayIf <- function(data, date1, date2, ...) {
+getDelayIf <- function(data, FirstDateName, SecondDateName, ...) {
   
   # first we catch the ... parameters
   listcond <- as.list(match.call())
   # we remove the first one which is the function name
   listcond[1] <- NULL
   # and we remove all named parameters from the list
-  namedarg <- pmatch(c("data","date1","date2"),names(listcond), nomatch = 0)
+  namedarg <- pmatch(c("data","FirstDateName","SecondDateName"),names(listcond), nomatch = 0)
   if (length(namedarg) > 0 ) {listcond[namedarg] <- NULL }
   
   # We verify that parameters are language and if it is "test" then we parse as language
@@ -60,39 +60,39 @@ getDelayIf <- function(data, date1, date2, ...) {
     }
   }  
   # we get the named parameters as "parsed language"
-  s_op <- deparse(substitute(date1))
-  # if date1 is a variable which contain char, we use content of date1
+  s_op <- deparse(substitute(FirstDateName))
+  # if FirstDateName is a variable which contain char, we use content of FirstDateName
   tryCatch(
-    if (is.character(date1)) {
-      s_op <- date1
+    if (is.character(FirstDateName)) {
+      s_op <- FirstDateName
     }
     , error = function(c) { }
   )
-  date1 <- s_op
+  FirstDateName <- s_op
   
   # we get the named parameters as "parsed language"
-  s_op <- deparse(substitute(date2))
-  # if date1 is a variable which contain char, we use content of date1
+  s_op <- deparse(substitute(SecondDateName))
+  # if FirstDateName is a variable which contain char, we use content of FirstDateName
   tryCatch(
-    if (is.character(date2)) {
-      s_op <- date2
+    if (is.character(SecondDateName)) {
+      s_op <- SecondDateName
     }
     , error = function(c) { }
   )
-  date2 <- s_op
+  SecondDateName <- s_op
   
   # check that variables names are ok otherwise stop
-  if (! date1 %in% names(data)) {
-     stop(date1," is not a valid column name")
+  if (! FirstDateName %in% names(data)) {
+     stop(FirstDateName," is not a valid column name")
   }
-  if (! date2 %in% names(data)) {
-    stop(date2," is not a valid column name")
+  if (! SecondDateName %in% names(data)) {
+    stop(SecondDateName," is not a valid column name")
   }
 
   # we add a delay variable to the dataset (should we ?) 
   tryCatch(
-    data$temp__delay <- as.numeric(data[, date2] - data[, date1])
-    , error = function(c) { stop(date1," or ",date2,"  is not a valid date for getDelayIf" )}
+    data$temp__delay <- as.numeric(data[, SecondDateName] - data[, FirstDateName])
+    , error = function(c) { stop(FirstDateName," or ",SecondDateName,"  is not a valid date for getDelayIf" )}
   )
   
   

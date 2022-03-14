@@ -40,7 +40,7 @@
 #' @param cond  A condition to check  
 #' @param text The message to print (if empty the condition is used )
 #' @param threshold cutoff number for ID reporting, as number
-#' @param column Column name of ID to print
+#' @param varname Column name of ID to print
 #'
 #' @return Message to print as list 
 #' @export 
@@ -48,21 +48,21 @@
 #' @examples
 #' df <- data.frame(Id = 1:4 ,
 #'                     Vaccs = c("pfizer"," ", "pfizer", "moderna"))
-#' printIf(df,Vaccs=="pfizer",threshold=30 , text="Pfizer vaccin", column="Id")
+#' printIf(df,Vaccs=="pfizer",threshold=30 , text="Pfizer vaccin", varname="Id")
 
-printIf<- function(data,  cond, text="", threshold=NULL , column="id"){
+printIf<- function(data,  cond, text="", threshold=NULL , varname="id"){
   
   cond <- substitute(cond)
   if (!typeof(cond)=="language") {cond <- parse(text=cond)}
   
-  if  (!column %in% names(data) ){
-    column <- names(data)[1]
+  if  (!varname %in% names(data) ){
+    varname <- names(data)[1]
   }
   if (text == "") {
     text <- as.character(cond)
   }
   if (is.null(threshold)) {threshold <- 50 }
-  Records <- subset(data,eval(cond),column)
+  Records <- subset(data,eval(cond),varname)
   
   TextToPrint <- c()
   

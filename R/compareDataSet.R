@@ -26,22 +26,22 @@
 #' 
 #' Compare two dataset for difference in terms of structure
 #'
-#' @param dfmod A model dataset (one record at least)
-#' @param dftest A dataset to test against the model
+#' @param modeldata A model dataset (one record at least)
+#' @param data A dataset to test against the model
 #'
 #' @return a list of difference 
 #' @export
 #'
 #' 
 
-compareDataSet <-  function(dfmod, dftest) {
+compareDataSet <-  function(modeldata, data) {
   
-  cmod <- ncol(dfmod)
-  ctest <- ncol(dftest)
+  cmod <- ncol(modeldata)
+  ctest <- ncol(data)
   cat("Number of variables. Modele : ",cmod,"/ Tested :",ctest,"\n")
   
-  colmod <-  colnames(dfmod)
-  coltest <-  colnames(dftest)
+  colmod <-  colnames(modeldata)
+  coltest <-  colnames(data)
   
   
   difnew <- as.data.frame(setdiff(coltest, colmod))
@@ -54,8 +54,8 @@ compareDataSet <-  function(dfmod, dftest) {
   catret(unlist(difmiss))
   catret()
   
-  tmod <- sapply(dfmod, typeof )
-  ttest <- sapply(dftest, typeof)
+  tmod <- sapply(modeldata, typeof )
+  ttest <- sapply(data, typeof)
   tmod <- cbind(colmod,tmod)
   ttest <- cbind(coltest,ttest)
   tcomp <- merge(tmod,ttest, by.x="colmod", by.y="coltest",all=TRUE)

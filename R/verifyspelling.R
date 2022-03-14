@@ -25,11 +25,11 @@
 # test a word against a list and return the most similar or NULL if not
 #' Title
 #'
-#' @param ToTest a string which will be compraed to anotehr string or a list of strings
-#' @param CorrectList a string or a list of string from which ToTest will be searched
+#' @param varname a string which will be compraed to anotehr string or a list of strings
+#' @param CorrectList a string or a list of string from which varname will be searched
 #' @param ErrPerc An acceptable errPerc when comparing string , default to 0.10% 
 #'
-#' @return The string guessed from ToTest using CorrectList
+#' @return The string guessed from varname using CorrectList
 #' @importFrom utils adist install.packages
 #' @export
 #'
@@ -37,7 +37,7 @@
 #' 
 #' verifySpelling("Janury",c("January", "Janvier" ))
 #' 
-verifySpelling <- function(ToTest,CorrectList,ErrPerc=0.25 ) {
+verifySpelling <- function(varname,CorrectList,ErrPerc=0.25 ) {
     MyWord <-  function(x,value) {
       ToGrep <- paste0("\\<",x,"\\>")
       grep(ToGrep,value,ignore.case=TRUE)
@@ -45,7 +45,7 @@ verifySpelling <- function(ToTest,CorrectList,ErrPerc=0.25 ) {
       
       
     WordIndex <-
-    agrep(ToTest,
+    agrep(varname,
           CorrectList,
           max.distance = ErrPerc,
           ignore.case = TRUE)
@@ -57,9 +57,9 @@ verifySpelling <- function(ToTest,CorrectList,ErrPerc=0.25 ) {
     # }
     # else {
     #   # many matching we use adist partial = False
-    Dist <- adist(ToTest, CorrectList, ignore.case = TRUE)
-    if (min(Dist) >= nchar(ToTest)) {
-      # Distance is greater than ToTest we cannot conclude
+    Dist <- adist(varname, CorrectList, ignore.case = TRUE)
+    if (min(Dist) >= nchar(varname)) {
+      # Distance is greater than varname we cannot conclude
       WordIndex <- 0
     } else {
       WordIndex <-
@@ -68,7 +68,7 @@ verifySpelling <- function(ToTest,CorrectList,ErrPerc=0.25 ) {
     # }
   }
   if (length(WordIndex)==0) {
-    WordIndex <- which(lapply(names(CorrectList),MyWord,value=ToTest) == 1)
+    WordIndex <- which(lapply(names(CorrectList),MyWord,value=varname) == 1)
     if (length(WordIndex) > 1) WordIndex <- WordIndex[1]
   }  
   if (length(WordIndex)==0) {WordIndex <- 0}
