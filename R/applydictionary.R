@@ -21,6 +21,7 @@
 
 # START of SCRIPT  --------------------------------------------------------
 
+
 #' applyDictionary
 #'
 #' @param dictionary A dictionary (passed as dataframe)
@@ -31,7 +32,6 @@
 #' @return A data set 
 #' @export
 #'
-
 
 applyDictionary <- function(dictionary, data, verbose=TRUE, keepextra = FALSE) {
   
