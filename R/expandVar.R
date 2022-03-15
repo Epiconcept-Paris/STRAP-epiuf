@@ -21,8 +21,10 @@
 #'               )
 #' data <-  expandVar(data,Vaccs,brand)
 #' 
-expandVar <- function(data,multivar,valueslist) {
+#' 
 
+expandVar <- function(data,multivar,valueslist) {
+  
   dataname <- deparse(substitute(data))
   multivarname <- deparse(substitute(multivar))
   
@@ -32,9 +34,9 @@ expandVar <- function(data,multivar,valueslist) {
     result  <-  grep(valtosearch,x )
     if (length(result) == 0) result <-0 else result <- 1
     if (result == 1) {
-      return("Y")
+      return("1")
     }
-    else return("N")
+    else return("0")
   } 
   
   iMax <-  length(valueslist)  
@@ -46,9 +48,8 @@ expandVar <- function(data,multivar,valueslist) {
     NewCol <- vapply(multivar ,MyFun,valtosearch=ValToGrep,FUN.VALUE=" " )
     
     NameVar <- paste0(multivarname,"_",valueslist[[iNum]])
-    data[[NameVar]] <- as.character(NewCol)
+    data[[NameVar]] <- as.numeric(NewCol)
     
   }
   return(data)
-}  
-
+} 
