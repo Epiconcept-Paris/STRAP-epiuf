@@ -29,4 +29,5 @@ brand <- list("pfizer"="pfizer",
               )
 data <-  expandVar(data,Vaccs,brand)
 
+
 }

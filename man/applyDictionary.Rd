@@ -16,7 +16,7 @@ applyDictionary(dictionary, data, verbose = TRUE, keepextra = FALSE)
 \item{keepextra}{if TRUE, extra variables are keept in generic dataset (no longer generic then...)}
 }
 \value{
-A generic data set
+A data set
 }
 \description{
 applyDictionary

@@ -8,7 +8,7 @@ Confirmation dialog box}
 ok()
 }
 \value{
-logical
+logical True if answer is "Yes"
 }
 \description{
 ok
