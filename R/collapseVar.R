@@ -21,27 +21,25 @@
 # 
 
 # START of SCRIPT  --------------------------------------------------------
+
 #' collapsVar
 #' Function aims to take checkbox variables that are not expanded, and retain only
 #' one input / patient based off hirearchy of input. Hierarchy could be derrived from dico codes
 #' set in specific order. Idea is that all checkboxes can be given action group
 #' tags depending on if they are to be expanded or collapse.
-
 #' collapseVar(data, varname, code hirearchy) (take hirearchy from dicolist - put in desired order manually) - is that dangerous????
 #' - get separated string list for each input.
 #' - if length is 1 - leave
 #' - if length is >1 - assess
 #' - retain highest value from the order of preference
-
 #'
 #' @param data The dataset which contain a multivar 
 #' @param mydictionary dico to use (or ordered list ?)
 #' @param multivarname Name of multi variable
 #'
-#' @return
+#' @return The multi variable collapsed 
 #' @export
 #'
-#' @examples
 collapseVar <- function(data, mydictionary, multivarname){
   
   s_op <- deparse(substitute(multivarname))
@@ -55,7 +53,7 @@ collapseVar <- function(data, mydictionary, multivarname){
   multivarname <- s_op
 
 # extract recode element from ditionary - currently in c(#, # , #....) format - best?
-macroCodeOrder <- subset(mydictionary, generic_name==multivarname)$recode
+macroCodeOrder <- subset(mydictionary,mydictionary$generic_name==multivarname)$recode
 CodeOrder <- eval(parse(text=macroCodeOrder))
 
 # loop through order of codes, searching for matches, and replacing when find.

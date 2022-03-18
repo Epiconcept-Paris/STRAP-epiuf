@@ -1,12 +1,12 @@
 #
 # Project Name : STRAP
 # Script Name  : applydictionary
-# GitHub repo  : SARI-VEBIS-OLD
+# GitHub repo  : https://github.com/Epiconcept-Paris/STRAP-epiuf
 # Summary      : editing of applyDictionary function
 # Date created : 01/03/2022
-# Author       : JHD
+# Author       : JHD - GDE
 # Date reviewed:
-# Reviewed by  :
+# Reviewed by  : 
 
 # Description --------------------------------------------------------------
 # applyDictionary function currently not perfectly suited to the recoding tasks
@@ -139,6 +139,21 @@ applyDictionary <- function(dictionary, data, verbose=TRUE, keepextra = FALSE) {
   gen
 }
 
+createDictionary <- function() {
+  # base 
+  dic <- data.frame(generic_name=character(),
+                    source_name=character(),
+                    type=character(),
+                    dico=character(),
+                    description=character(),
+                    comment=character(),
+                    unknown=character())
+  
+} 
 
+saveDictionary <- function(dictionary, filename) {
+  # to add some controls...
+  xlsx::write.xlsx(dictionary,filename)
+}
 
 # END of SCRIPT  --------------------------------------------------------

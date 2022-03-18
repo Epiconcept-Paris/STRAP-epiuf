@@ -6,7 +6,7 @@
 # Date created : 25/02/2022
 # Author       : JHD
 # Date reviewed:
-# Reviewed by  :
+# Reviewed by  : GDE
 
 # Description --------------------------------------------------------------
 # Function aims to check codes in source or generic dataset against the data 
@@ -62,7 +62,7 @@ checkDico <- function(data, mydictionary, mydicos, datatype) {
   names(mydictionary)[names(mydictionary) == paste0(datatype, "_name")]  <- "temp_name"
   
   # Select all those variables names in temp name that have a mydictionary code (includes checkboxes and factors)
-  dicovar <- subset(mydictionary, !is.na(dico)&!is.na(temp_name))$temp_name
+  dicovar <- subset(mydictionary, !is.na(mydictionary$dico)&!is.na(mydictionary$temp_name))$temp_name
   
   # identify all empty vectors
   dicovarempty <- sapply(dicovar, function(x)all(is.na(data[,x])))
@@ -72,19 +72,19 @@ checkDico <- function(data, mydictionary, mydicos, datatype) {
   
   
   for (d in dicovar){
-    diconame <- subset(mydictionary, temp_name==d)$dico
+    diconame <- subset(mydictionary, mydictionary$temp_name==d)$dico
     
-    myDicoCode <- c(subset(mydicos, dico_name==diconame)[,"code"], NA)
+    myDicoCode <- c(subset(mydicos, mydicos$dico_name==diconame)[,"code"], NA)
     
     # If factor with single inputs can compute directly the differences
-    if (subset(mydictionary, temp_name==d)[,"type"]=="factor"){
+    if (subset(mydictionary, mydictionary$temp_name==d)[,"type"]=="factor"){
     dataNotDico <- setdiff(data[,d], myDicoCode)
     }
     
     # If checkbox, then must separate out multiple inputs to find list of unique numbers present to check
-    else if (subset(mydictionary, temp_name==d)[,"type"]=="checkbox"){
+    else if (subset(mydictionary, mydictionary$temp_name==d)[,"type"]=="checkbox"){
     
-      checkUnique <- unique(as.numeric(unlist(regmatches(df[, d], gregexpr("[[:digit:]]+", df[, d])))))
+      checkUnique <- unique(as.numeric(unlist(regmatches(myDicoCode[, d], gregexpr("[[:digit:]]+", myDicoCode[, d])))))
       dataNotDico <- setdiff(checkUnique, myDicoCode)
     }
     
