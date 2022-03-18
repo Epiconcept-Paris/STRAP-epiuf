@@ -171,7 +171,7 @@ openXlsx <- function(filename="") {
 #' 
 #' cat("to be done")
 #' 
-saveXlsx <- function(wb=NULL,filename="")  {
+saveXlsx <- function(filename="",wb=NULL)  {
   if (! is.null(wb)) {
      report <- wb
   } 

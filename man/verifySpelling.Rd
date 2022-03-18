@@ -4,17 +4,17 @@
 \alias{verifySpelling}
 \title{Title}
 \usage{
-verifySpelling(ToTest, CorrectList, ErrPerc = 0.25)
+verifySpelling(varname, CorrectList, ErrPerc = 0.25)
 }
 \arguments{
-\item{ToTest}{a string which will be compraed to anotehr string or a list of strings}
+\item{varname}{a string which will be compraed to anotehr string or a list of strings}
 
-\item{CorrectList}{a string or a list of string from which ToTest will be searched}
+\item{CorrectList}{a string or a list of string from which varname will be searched}
 
 \item{ErrPerc}{An acceptable errPerc when comparing string , default to 0.10\%}
 }
 \value{
-The string guessed from ToTest using CorrectList
+The string guessed from varname using CorrectList
 }
 \description{
 Title

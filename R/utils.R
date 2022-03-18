@@ -74,37 +74,83 @@ charCount <- function(pattern, stosearch) {
 }
 
 
-# right
-#
-# Extract x rigth characters from a text
-#
-# @param text Text to extract from
-# @param num_char Number of char to extract from rigth
-#
-# @return  \code{num_char} extracted characters
-# @examples
-# 
-# right("dummy_test",4)
-# 
-#
+#' right
+#'
+#' Extract x rigth characters from a text
+#'
+#' @param text Text to extract from
+#' @param num_char Number of char to extract from rigth
+#'
+#' @return  \code{num_char} extracted characters from right side
+#' @export
+#' @examples
+#' 
+#' right("dummy_test",4)
+#' 
+#'
 right = function (text, num_char) {
   substr(text, nchar(text) - (num_char - 1), nchar(text))
 }
 
 
+#' Left
+#'
+#' @param text Text to extract from 
+#' @param num_char number of char to extract
+#'
+#' @return  \code{num_char} extracted characters from left side
+#' @export
+#'
+#' @examples
+#' left("dummy_test",4)
+#' 
 left = function (text, num_char) {
   substr(text, 1, num_char)
 }
 
+#' mid
+#'
+#' @param text Text to extract from 
+#' @param start_num start of extraction
+#' @param num_char number of char to extract
+#'
+#' @return \code{num_char} extracted characters starting \code{start_num}
+#' @export
+#'
+#' @examples
+#' mid("dummy_test",7,4)
+#' 
 mid = function(text, start_num, num_char) {
   substr(text, start_num, start_num + num_char - 1)
 }
 
+#' pos
+#'
+#' @param pattern A pattern to search in stosearch
+#' @param stosearch A character string 
+#'
+#' @return Position of pattern in stosearch
+#' @export
+#'
+#' @examples
+#' pos("/","test/string")
+#' 
 pos <- function(pattern, stosearch) {
   r <- regexpr(pattern, stosearch)
   r <- ifelse(r < 0,0,r)
 }
 
+#' replicate
+#'
+#' @param char Character to replicate
+#' @param ntime Number of replication
+#'
+#' @return \code{char} replicated \code{ntime} 
+#' @export
+#'
+#' @examples
+#' replicate("-",60)
+#' 
 replicate <- function(char, ntime) {
   paste(rep(char, ntime), collapse = "")
 }
@@ -123,10 +169,11 @@ ask <- function(message,answers) {
   }
 }
 
-#' ok
+
+#' ok 
 #' Confirmation dialog box
-#' 
-#' @return logical 
+#'
+#' @return logical True if answer is "Yes"
 #' @export
 #'
 #' 
@@ -208,6 +255,19 @@ blue <- function(...) {
 }
                                                                     
 
+#' addSep
+#' transform a list into a string of separated values
+#'
+#'
+#' @param li A list of values
+#' @param c A separator
+#'
+#' @return A string representing the list as separated values
+#' @export
+#'
+#' @examples
+#' li <- list("one","two","three")
+#' addSep(li,",")
 addSep <- function(li,c) {
   sep <- function(x)  paste(x, c)
   li2 <- lapply(li,sep)

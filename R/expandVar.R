@@ -5,7 +5,7 @@
 #' explode a variable which contain a list of values into Y/N variables according to the content of the "multi" variable
 #' the list of expected values should be given with the names of the new variables
 #'
-#' @param df A dataset which contain a multi-variable
+#' @param data A dataset which contain a multi-variable
 #' @param multivar The name of the multi-variable
 #' @param valueslist List of expected values with names of the variables to be created
 #'
@@ -21,20 +21,22 @@
 #'               )
 #' data <-  expandVar(data,Vaccs,brand)
 #' 
-expandVar <- function(df,multivar,valueslist) {
+#' 
 
-  dfname <- deparse(substitute(df))
+expandVar <- function(data,multivar,valueslist) {
+  
+  dataname <- deparse(substitute(data))
   multivarname <- deparse(substitute(multivar))
   
-  multivar <- df[[multivarname]]
+  multivar <- data[[multivarname]]
   
   MyFun <-  function(x,valtosearch) {
     result  <-  grep(valtosearch,x )
     if (length(result) == 0) result <-0 else result <- 1
     if (result == 1) {
-      return("Y")
+      return("1")
     }
-    else return("N")
+    else return("0")
   } 
   
   iMax <-  length(valueslist)  
@@ -46,9 +48,8 @@ expandVar <- function(df,multivar,valueslist) {
     NewCol <- vapply(multivar ,MyFun,valtosearch=ValToGrep,FUN.VALUE=" " )
     
     NameVar <- paste0(multivarname,"_",valueslist[[iNum]])
-    df[[NameVar]] <- as.character(NewCol)
+    data[[NameVar]] <- as.numeric(NewCol)
     
   }
-  return(df)
-}  
-
+  return(data)
+} 

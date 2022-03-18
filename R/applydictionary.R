@@ -1,41 +1,40 @@
 #
-# Project Name : 
-# Script Name  :
-# GitHub repo  : 
-# Summary      : 
-# Date created : 
-# Author       : 
+# Project Name : STRAP
+# Script Name  : applydictionary
+# GitHub repo  : SARI-VEBIS-OLD
+# Summary      : editing of applyDictionary function
+# Date created : 01/03/2022
+# Author       : JHD
 # Date reviewed:
 # Reviewed by  :
 
 # Description --------------------------------------------------------------
-# 
-# 
-# 
+# applyDictionary function currently not perfectly suited to the recoding tasks
+# thus create this temporary extra where I can test edits before feedback to 
+# package.
 # 
 # 
 
 
 # Changes Log --------------------------------------------------------------
-# 
+# 115-119 edit generated variable inputs to be NA, and not any values - fixes bug of dates becoming todays date, and 0 getting accidentally included.
 
 # START of SCRIPT  --------------------------------------------------------
-
 
 
 #' applyDictionary
 #'
 #' @param dictionary A dictionary (passed as dataframe)
-#' @param datasource  A dataset to transform to generic
+#' @param data  A dataset to transform to generic
 #' @param verbose Should we have feedback 
 #' @param keepextra if TRUE, extra variables are keept in generic dataset (no longer generic then...)
 #'
-#' @return A generic data set 
+#' @return A data set 
 #' @export
 #'
 
-applyDictionary <- function(dictionary, datasource, verbose=TRUE, keepextra = FALSE) {
-
+applyDictionary <- function(dictionary, data, verbose=TRUE, keepextra = FALSE) {
+  
   getColValues <- function(dataset, colname) {
     result <- unlist(dataset[ ! (dataset[,colname]=="" ) ,colname])
     result <- result[! is.na(result)]
@@ -52,7 +51,7 @@ applyDictionary <- function(dictionary, datasource, verbose=TRUE, keepextra = FA
   OldNames <- getColValues(dictionary,dicSourceName)
   
   # we make a character vector of sources names from sources
-  CurNames <- unlist(names(datasource))
+  CurNames <- unlist(names(data))
   
   # variables defined in source_name but missing in the imported dataset comparer to dictionary (dictionary not up to date)
   VarMiss <- setdiff(OldNames,CurNames)
@@ -66,21 +65,21 @@ applyDictionary <- function(dictionary, datasource, verbose=TRUE, keepextra = FA
     catret(sort(VarMiss),sep="  \n")
   }  
   
-  # the generic dataset is created from datasource taking in account the extra vriable 
+  # the generic dataset is created from data taking in account the extra vriable 
   if  (length(VarExtra) >0 ) {
     if (! keepextra ) {
       # we remove the extra column except if exists in generic 
       epiuf::bold("Extra vars in imported (dropped if not exists in generic) : ",length(VarExtra))
       catret()
       catret(sort(VarExtra),sep="  \n")
-      gen <- datasource[, -which( (names(datasource) %in% VarExtra) & !(names(datasource)%in%NewNames)  )]
+      gen <- data[, -which( (names(data) %in% VarExtra) & !(names(data)%in%NewNames)  )]
     } else {
       epiuf::bold("Extra vars in imported keept in generic  : ",length(VarExtra))
       catret()
       catret(sort(VarExtra),sep="  \n")
-      gen <- datasource  
+      gen <- data  
     }
-  } else { gen <- datasource } 
+  } else { gen <- data } 
   
   # we merge only the matching
   CurNames <- as.data.frame(CurNames)
@@ -124,10 +123,10 @@ applyDictionary <- function(dictionary, datasource, verbose=TRUE, keepextra = FA
     typevar <-  dictionary[dictionary[[dicGenericName]]==VarMiss[i],"type"]
     typevar <- typevar[! is.na(typevar)]
     valuevar <- switch (typevar,
-                        "numeric" = 0,
-                        "character" = "",
-                        "date" = date(),
-                        ""
+                        "numeric" = as.numeric(NA), ## EDIT all to be NA and not a value
+                        "character" = as.character(NA),
+                        "date" = as.Date(NA),
+                        NA
     )
     gen[,VarMiss[i]] <- valuevar
   } 
@@ -139,7 +138,6 @@ applyDictionary <- function(dictionary, datasource, verbose=TRUE, keepextra = FA
   
   gen
 }
-
 
 
 
