@@ -25,7 +25,7 @@ collapseVar(data, mydictionary, multivarname)
 \item{multivarname}{Name of multi variable}
 }
 \value{
-
+The multi variable collapsed
 }
 \description{
 collapsVar
