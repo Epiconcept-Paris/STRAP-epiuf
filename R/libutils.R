@@ -48,6 +48,18 @@ loadLib <- function(libname) {
   return(as.character(libname))
 }
 
-
+#' epiVersion
+#'
+#' @return  The version information in short line
+#' @export
+#'
+#' @examples
+#' epiVersion()
+#' 
+epiVersion <- function() {
+  result <- packageDescription("epiuf")
+  version <- paste("Epiuf version :",result$Version," - ",result$Date," - Built ",result$Built)
+  return(version)
+}
 
 # END of SCRIPT  --------------------------------------------------------
