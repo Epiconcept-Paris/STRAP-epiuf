@@ -124,9 +124,9 @@ readData <- function(filename = "", factorise = FALSE, lowercase= FALSE, label =
                "Observations of ",
                fileatt[2],
                " variables. Use str(name) for details")
-        invisible(as.data.frame(dfloaded) )
       }
-      
+      invisible(as.data.frame(dfloaded))
+  
     }
   } else {
     # file doesn't exists ??
