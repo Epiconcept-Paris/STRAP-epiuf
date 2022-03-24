@@ -116,7 +116,11 @@ setPath <-  function(pathname,path) {
 #' 
 getPath <-  function(pathname) {
   pathname <- paste0("PATH_",pathname)
-  getEpiOption(pathname)
+  r <- getEpiOption(pathname)
+  if(is.null(r)){ 
+     cat("Path not defined with setPath : ",pathname,"\n")
+  }
+  return(r)
 }
 
 
@@ -180,10 +184,7 @@ sourceFile <- function(pathname, filename )  {
 #' 
 pathToFile <- function(pathname, filename) {
   r <-  getPath(pathname) 
-  if (is.null(r)) {
-    cat("Path not defined : ",pathname,"\n")
-  } 
-  else {
+  if (! is.null(r)) {
     r <- file.path(r,filename)  
   }
   return(r)
