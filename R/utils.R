@@ -140,7 +140,7 @@ pos <- function(pattern, stosearch) {
   r <- ifelse(r < 0,0,r)
 }
 
-#' replicate
+#' replichar
 #'
 #' @param char Character to replicate
 #' @param ntime Number of replication
@@ -149,14 +149,14 @@ pos <- function(pattern, stosearch) {
 #' @export
 #'
 #' @examples
-#' replicate("-",60)
+#' replichar("-",60)
 #' 
-replicate <- function(char, ntime) {
+replichar <- function(char, ntime) {
   paste(rep(char, ntime), collapse = "")
 }
 
 
-ask <- function(message,answers) {
+askinput <- function(message,answers) {
   r <- ""
   while(r=="" ){
     n <- readline(message)
@@ -169,16 +169,32 @@ ask <- function(message,answers) {
   }
 }
 
+#' yesno
+#' 
+#' Dispkay a prompt and wait for a Yes/No answer
+#'
+#' @param message The prompt to display before the Yes/No choice
+#'
+#' @return  True if yes, FALSE if no and NA otherwise
+#' @importFrom utils askYesNo
+#' @export
+#'
+#' 
+yesno <- function(message) {
+  askYesNo(message,NA,"Yes/No/Cancel")
+}
 
-#' ok 
+#' confirm 
 #' Confirmation dialog box
 #'
+#' @param message The prompt to display before confirmation
+#' 
 #' @return logical True if answer is "Yes"
 #' @export
 #'
 #' 
-ok <- function() {
-  ask("Do you confirm?", c("Yes", "Y", "y") )
+confirm <- function(message="") {
+  askinput(paste(message," (Press Y and [enter] to confirm) : "), c("Y", "y") )
 }
 
 
@@ -194,12 +210,13 @@ ok <- function() {
 bold <- function(...) {
   if (is.null(knitr::opts_knit$get('rmarkdown.pandoc.to'))) {
     cat("\033[1m",...,"\033[0m",sep="")
-  } else {
-    cat("**",...,"**",sep="")
+  } else if (knitr::is_html_output()) {
+    r <-  paste0(...)
+    sprintf('<span style="font-weight:bold;">%s</span>', r)
   }      
 }
 
-#' italic
+#' italic  
 #'
 #' @param ... values to be outputted in italic
 #'
@@ -211,8 +228,9 @@ bold <- function(...) {
 italic <- function(...) {
   if (is.null(knitr::opts_knit$get('rmarkdown.pandoc.to'))) {
     cat("\033[3m",...,"\033[0m",sep="")
-  } else {
-    cat(...)
+  } else if (knitr::is_html_output()) {
+    r <-  paste0(...)
+    sprintf('<span style="font-style:italic;">%s</span>', r)
   }      
   
 }
@@ -229,10 +247,10 @@ italic <- function(...) {
 red <- function(...) {
   if (is.null(knitr::opts_knit$get('rmarkdown.pandoc.to'))) {
     cat("\033[31m",...,"\033[0m",sep="")
-  } else {
-    cat(...)
-  }      
-
+  } else if (knitr::is_html_output()) {
+    r <-  paste0(...)
+    sprintf('<span style="color:red;">%s</span>', r)
+  }  
 }
 
 
@@ -248,8 +266,9 @@ red <- function(...) {
 blue <- function(...) {
   if (is.null(knitr::opts_knit$get('rmarkdown.pandoc.to'))) {
     cat("\033[34m",...,"\033[0m",sep="")
-  } else {
-    cat(...)
+  } else if (knitr::is_html_output()) {
+    r <-  paste0(...)
+    sprintf('<span style="color:blue;">%s</span>', r)
   }      
   
 }
@@ -346,7 +365,7 @@ clear <- function(what, noask = FALSE) {
       cat(l, " object(s) to remove :")
       italic(as.character(lid))
       catret("")
-      if ( ( l == 1 & li[1]==swhat ) ||  noask || ok() ) {
+      if ( ( l == 1 & li[1]==swhat ) ||  noask || confirm() ) {
         rm(list = li, envir = .GlobalEnv)
       }
     } else {
