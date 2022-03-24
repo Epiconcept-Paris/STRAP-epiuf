@@ -16,6 +16,7 @@
 # 
 
 
+
 # Changes Log --------------------------------------------------------------
 # 
 
@@ -30,6 +31,7 @@
 #' @param lowercase Should variable names appear in lower case or as is , default to lowercase
 #' @param label Not used currently
 #' @param sheet Name of the excel sheet to be read
+#' @param verbose Print or not a message when data imported 
 #' @param ... Other parameters passed to the base function
 #'
 #' @return The dataset read from file
@@ -42,7 +44,7 @@
 #' readData("flucases.csv")
 #' 
 #' 
-readData <- function(filename = "", factorise = FALSE, lowercase= FALSE, label = NULL,sheet=NULL,...) {
+readData <- function(filename = "", factorise = FALSE, lowercase= FALSE, label = NULL,sheet=NULL, verbose = TRUE,...) {
   # no file ? choose one
   if (filename == "") {
     catret("retrieving file tree...please wait.")
@@ -81,8 +83,8 @@ readData <- function(filename = "", factorise = FALSE, lowercase= FALSE, label =
       if (!r) {
         message("Package haven required")
       }
-  # Prior to Stata 14, files did not declare a text encoding,haven assumes the encoding is windows-1252,
-  # Stata Mac and Linux  use a different default encoding, "latin1". 
+      # Prior to Stata 14, files did not declare a text encoding,haven assumes the encoding is windows-1252,
+      # Stata Mac and Linux  use a different default encoding, "latin1". 
       dfloaded <- haven::read_dta(filename)    # encoding = "latin1"
     } else if (ext == "rec") {
       # foreign packages is required
@@ -116,21 +118,24 @@ readData <- function(filename = "", factorise = FALSE, lowercase= FALSE, label =
       if (lowercase) {
         names(dfloaded)<-tolower(names(dfloaded))
       }
-      cat("File ", filename, " loaded. \n")
-      catret(fileatt[1],
-          "Observations of ",
-          fileatt[2],
-          " variables. Use str(name) for details")
-      invisible(as.data.frame(dfloaded) )
+      if(isTRUE(verbose)){
+        cat("File ", filename, " loaded. \n")
+        catret(fileatt[1],
+               "Observations of ",
+               fileatt[2],
+               " variables. Use str(name) for details")
+        invisible(as.data.frame(dfloaded) )
+      }
+      
     }
   } else {
-    # file doens't exists ??
+    # file doesn't exists ??
     cat("File \"", filename, "\" doesn't exist.\n", sep = "")
     catret("Verify your working directory. Current is", getwd())
     
   }
 }
 
-  
+
 
 # END of SCRIPT  --------------------------------------------------------
