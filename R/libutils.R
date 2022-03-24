@@ -53,6 +53,7 @@ loadLib <- function(libname) {
 #' @return  The version information in short line
 #' @export
 #'
+#' @importFrom utils packageDescription
 #' @examples
 #' epiVersion()
 #' 
