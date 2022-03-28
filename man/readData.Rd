@@ -10,6 +10,7 @@ readData(
   lowercase = FALSE,
   label = NULL,
   sheet = NULL,
+  verbose = TRUE,
   ...
 )
 }
@@ -23,6 +24,8 @@ readData(
 \item{label}{Not used currently}
 
 \item{sheet}{Name of the excel sheet to be read}
+
+\item{verbose}{Print or not a message when data imported}
 
 \item{...}{Other parameters passed to the base function}
 }

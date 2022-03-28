@@ -33,7 +33,6 @@
 #' @export
 #'
 #' 
-
 compareDataSet <-  function(modeldata, data) {
   
   cmod <- ncol(modeldata)
@@ -64,6 +63,39 @@ compareDataSet <-  function(modeldata, data) {
   typedif <- nrow(tcomp)
   bold(typedif , " Variable with different type\n")
   tcomp
+}
+
+
+#' UpdateDataset
+#' Transform a dataset by  adding/removing column according to a model dataset 
+#' 
+#' @param data A dataset to update 
+#' @param modele A dataset used as model for the final structure 
+#'
+#' @return the updated dataset with modele structure 
+#' @export
+#'
+
+updateDataset <- function(data, modele) {
+  data.names <- names(data)
+  modele.names <- names(modele)
+  
+  # columns in data but not in modele
+  modele.drop <- setdiff(data.names, modele.names)
+  
+  # columns in modele but not in data
+  data.add <- setdiff(modele.names, data.names)
+  
+  # remove unused column from data 
+  data <- data[,! colnames(data) %in% modele.drop] 
+  
+  # add blank columns to data
+  if(length(data.add) > 0) {
+    for(i in 1:length(data.add)) {
+      data[data.add[i]] <- NA
+    }
+  }
+  return(data)
 }
 
 
