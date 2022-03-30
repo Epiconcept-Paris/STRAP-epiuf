@@ -33,36 +33,49 @@
 #' - if length is >1 - assess
 #' - retain highest value from the order of preference
 #'
-#' @param data The dataset which contain a multivar 
-#' @param mydictionary dico to use (or ordered list ?)
-#' @param multivarname Name of multi variable
+#' @param data The dataset
+#' @param varname Name of variable
+#' @param hierachry ordered list to use in collapse
 #'
-#' @return The multi variable collapsed 
+#' @return The variable collapsed 
 #' @export
 #'
-collapseVar <- function(data, mydictionary, multivarname){
+collapseVar <- function(data, varname, hierarchy){
   
-  s_op <- deparse(substitute(multivarname))
-  # if multivarname is a variable which contain char, we use content of multivarname
+  s_op <- deparse(substitute(varname))
+  # if varname is a variable which contain char, we use content of varname
   tryCatch(
-    if (is.character(multivarname)) {
-      s_op <- multivarname
+    if (is.character(varname)) {
+      s_op <- varname
     }
     , error = function(c) { }
   )
-  multivarname <- s_op
-
-# extract recode element from ditionary - currently in c(#, # , #....) format - best?
-macroCodeOrder <- subset(mydictionary,mydictionary$generic_name==multivarname)$recode
-CodeOrder <- eval(parse(text=macroCodeOrder))
-
-# loop through order of codes, searching for matches, and replacing when find.
-for (i in 1:length(CodeOrder)) {
+  varname <- s_op
   
-  data[,multivarname] <- ifelse(grepl(CodeOrder[i], data[,multivarname]), CodeOrder[i], data[,multivarname] )
   
-}
-return(data[,multivarname])
+  # Verify hierarchy input matches variable contents.
+  # extract list of unique numbers in variable
+  unique <- unique(as.numeric(unlist(regmatches(data[, varname], gregexpr("[[:digit:]]+",data[, varname])))))
+  # Identify numbers in variable not included in heirachy
+  varNotHier <- setdiff(unique, hierarchy)
+  
+  if(length(varNotHier)==0) { # if all numbers present...
+    # loop through order of codes, searching for matches, and replacing when find.
+    for (i in 1:length(hierarchy)) {
+      
+      data[,varname] <- ifelse(grepl(hierarchy[i], data[,varname]), hierarchy[i], data[,varname] )
+      
+    }
+    
+    return(as.numeric(data[,varname]))
+    
+  }else if (length(varNotHier)>0) { # if numbers missing...
+    # print warning
+    catret(varname, ": collapse not run, hierarchy missing ", varNotHier)
+  }
+  
+  return(data[,varname])
+  
 }
 
 
