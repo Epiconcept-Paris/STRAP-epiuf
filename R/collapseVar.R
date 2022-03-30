@@ -8,12 +8,7 @@
 # Date reviewed:
 # Reviewed by  :
 
-
-
-# For expandVar, can put the list of info into the recode box - need to amend this code
-# For collapseVar, put the hireachry list into the recode box - how do with (all vs x?)
-
-
+# Description --------------------------------------------------------------
 
 # Changes Log --------------------------------------------------------------
 #  
@@ -21,17 +16,7 @@
 # 
 
 # START of SCRIPT  --------------------------------------------------------
-
-#' collapsVar
-#' Function aims to take checkbox variables that are not expanded, and retain only
-#' one input / patient based off hirearchy of input. Hierarchy could be derrived from dico codes
-#' set in specific order. Idea is that all checkboxes can be given action group
-#' tags depending on if they are to be expanded or collapse.
-#' collapseVar(data, varname, code hirearchy) (take hirearchy from dicolist - put in desired order manually) - is that dangerous????
-#' - get separated string list for each input.
-#' - if length is 1 - leave
-#' - if length is >1 - assess
-#' - retain highest value from the order of preference
+#' Title
 #'
 #' @param data The dataset
 #' @param varname Name of variable
@@ -40,6 +25,7 @@
 #' @return The variable collapsed 
 #' @export
 #'
+
 collapseVar <- function(data, varname, hierarchy){
   
   s_op <- deparse(substitute(varname))
@@ -51,7 +37,7 @@ collapseVar <- function(data, varname, hierarchy){
     , error = function(c) { }
   )
   varname <- s_op
-  
+ 
   
   # Verify hierarchy input matches variable contents.
   # extract list of unique numbers in variable
@@ -77,7 +63,6 @@ collapseVar <- function(data, varname, hierarchy){
   return(data[,varname])
   
 }
-
 
 # END of SCRIPT  --------------------------------------------------------
 

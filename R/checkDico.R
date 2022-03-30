@@ -6,13 +6,10 @@
 # Date created : 25/02/2022
 # Author       : JHD
 # Date reviewed:
-# Reviewed by  : GDE
+# Reviewed by  :
 
 # Description --------------------------------------------------------------
-# Function aims to check codes in source or generic dataset against the data 
-# dictionary. Currently output is variable code and dicos code list for all  
-# variables where source or generic data has extra code (unless variable is empty).
-# For checkbox variables, 
+
 
 
 
@@ -23,6 +20,17 @@
 # 
 
 # START of SCRIPT  --------------------------------------------------------
+
+
+#' Title
+#'
+#' @param data 
+#' @param varname 
+#' @param dicoCode 
+#'
+#' @return
+#' @export
+#'
 
 checkDico <- function(data, varname, dicoCode) {
   
@@ -44,8 +52,8 @@ checkDico <- function(data, varname, dicoCode) {
     catret(varname, "contains:" , varUnique, ", Code is:", dicoCode)
     catret()
   }
-  
 }
+
 
 
 

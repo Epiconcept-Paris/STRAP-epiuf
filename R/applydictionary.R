@@ -20,6 +20,300 @@
 # 115-119 edit generated variable inputs to be NA, and not any values - fixes bug of dates becoming todays date, and 0 getting accidentally included.
 
 # START of SCRIPT  --------------------------------------------------------
+# epiDictionaryFiles environement used to manage global values
+epidictionaryfiles_env <- new.env(parent = emptyenv())
+
+epidictionaryfiles_env$data <- NULL
+epidictionaryfiles_env$datafilename <- NULL
+epidictionaryfiles_env$dicos <- NULL
+epidictionaryfiles_env$actions <- NULL
+
+
+# this function would be rarely used except for tests
+#' Title
+#'
+#' @param dictionary 
+#'
+#' @return
+#' @export
+#'
+
+setDictionary  <- function(dictionary) {
+  epidictionaryfiles_env$data <- dictionary
+  epidictionaryfiles_env$data <- updateDataset(epidictionaryfiles_env$data,getNewDictionaryLine("dictionary"))
+  
+}
+
+#' Title
+#'
+#' @return
+#' @export
+#'
+getDictionary <- function() {
+  return(epidictionaryfiles_env$data)
+}
+
+#' Title
+#'
+#' @param filename 
+#'
+#' @return
+#' @export
+#'
+
+openDictionary <-  function(filename) {
+  epidictionaryfiles_env$datafilename <- filename
+  
+  # need more checks to verify that sheet exists with good name ! 
+  if (file.exists(filename)) {
+    epidictionaryfiles_env$data <- readData(filename,sheet="dictionary")
+    # we need to update structure if needed
+    epidictionaryfiles_env$data <- updateDataset(epidictionaryfiles_env$data,getNewDictionaryLine("dictionary"))
+    
+    
+    # if multivarname is a variable which contain char, we use content of multivarname
+    tryCatch(
+      epidictionaryfiles_env$dicos <- readData(filename,sheet="dicos")
+      , error = function(c) { 
+        epidictionaryfiles_env$dicos <- getNewDictionaryLine("dicos")
+        }
+    )
+    epidictionaryfiles_env$dicos <- updateDataset(epidictionaryfiles_env$dicos,getNewDictionaryLine("dicos"))
+    
+    tryCatch(
+        epidictionaryfiles_env$actions <- readData(filename,sheet="actions")
+      , error = function(c) { 
+        epidictionaryfiles_env$actions <- getNewDictionaryLine("actions")
+      }
+    )
+    
+    epidictionaryfiles_env$actions <- updateDataset(epidictionaryfiles_env$actions,getNewDictionaryLine("actions"))
+    
+  } else {   # datadictionary doesn't exist we have to create it
+    red("Datadictionary ",filename," not found. Empty dictionary created")
+    # we need to create the 3 data sheet
+    epidictionaryfiles_env$data <- getNewDictionaryLine("dictionary")
+    epidictionaryfiles_env$dicos <- getNewDictionaryLine("dicos")
+    epidictionaryfiles_env$actions <- getNewDictionaryLine("actions")
+  }
+}
+
+
+# may be only useful to create an empty dictionary, not urgent 
+#' Title
+#'
+#' @param filename 
+#' @param dictionary 
+#'
+#' @return
+#' @export
+#'
+
+saveDictionary <- function(filename=NULL,dictionary=NULL) {
+  # checks to be added
+  if (is.null(filename)) {
+    filename <- epidictionaryfiles_env$datafilename
+    if (is.null(filename)) {
+      # filename <- pathToFile("SOURCES","datasources.xls")
+    }
+  }
+  if(is.null(dictionary)) {
+    ds <- getDictionary()
+  } else ds <- dictionary
+  
+  if (nrow(ds)==0) {
+    # replace by empty record ? 
+    ds[1,] <- " "
+  }
+  xlsx::write.xlsx(ds,file=filename,sheetName = "dictionary",row.names=FALSE)
+  # to add some check ?
+  ds <- epidictionaryfiles_env$dicos
+  if (nrow(ds)==0) {
+    # replace by empty record ? 
+    ds[1,] <- " "
+  }
+  xlsx::write.xlsx(ds,file=filename,sheetName = "dicos",append=TRUE,row.names=FALSE)
+  
+  ds <- epidictionaryfiles_env$actions
+  if (nrow(ds)==0) {
+    # replace by empty record ? 
+    ds[1,] <- " "
+  }
+  xlsx::write.xlsx(ds,file=filename,sheetName = "actions",append=TRUE,row.names=FALSE)
+  
+}
+
+# we need to add the current status ! 
+#' Title
+#'
+#' @param mode 
+#'
+#' @return
+#' @export
+#'
+
+getNewDictionaryLine  <- function(mode="dictionary") {
+
+  if (mode=="dictionary") {  
+  OneDataLine <- data.frame(source_name=as.character(),               # name in the source
+                            generic_name=as.character(),              # generic name replacement 
+                            type=as.character(),                      # type of the variable
+                            dico=as.character(),
+                            unknowns=as.character(),
+                            description=as.character(),
+                            comments=as.character(),
+                            stringsAsFactors=FALSE
+                            )
+  } else if (mode=="dicos") {
+    OneDataLine <- data.frame(dico_name=as.character(),               # name in the source
+                              label=as.character(),              # generic name replacement 
+                              code=as.character(),
+                              stringsAsFactors=FALSE
+                              )
+                              
+  } else if (mode=="actions") {
+    OneDataLine <- data.frame(variable=as.character(),               # name in the source
+                              gaction_group=as.character(),              # generic name replacement 
+                              parameters=as.character(),
+                              stringsAsFactors=FALSE
+                              )
+                              
+  }
+  return(OneDataLine)
+}
+
+
+#' Title
+#'
+#' @return
+#' @export
+#'
+
+getDicos <- function() {
+  return(epidictionaryfiles_env$dicos)
+}
+
+#' Title
+#'
+#' @param dic 
+#'
+#' @return
+#' @export
+#'
+#'  
+setDicos <- function(dic) {
+  epidictionaryfiles_env$dicos <- dic
+}
+
+#' Title
+#'
+#' @return
+#' @export
+#'
+#'  
+getDictionaryActions <- function() {
+  return(epidictionaryfiles_env$actions)
+}
+
+#' Title
+#'
+#' @param actions 
+#'
+#' @return
+#' @export
+#'
+#'  
+setDictionaryActions <- function(actions) {
+  epidictionaryfiles_env$actions <- actions
+}
+
+
+#' Title
+#'
+#' @param varname 
+#' @param valuename 
+#'
+#' @return
+#' @export
+#'
+#'  
+getDictionaryValue <- function(varname, valuename) {
+  ds <- getDictionary()
+
+  if (nrow(ds)>0) {
+     value <- subset(ds,generic_name == varname)[,valuename] 
+  }  
+  return(value)
+}
+
+#' Title
+#'
+#' @param varname 
+#'
+#' @return
+#' @export
+#'
+#'  
+getDicoOfVar <- function(varname) {
+   diconame <- getDictionaryValue(varname,"DICO")
+   getDico(diconame)
+}
+
+#' Title
+#'
+#' @param diconame 
+#'
+#' @return
+#' @export
+#'
+#'  
+getDico <- function(diconame) {
+  ds <- getDicos()
+  ds <-  subset(ds,ds$dico == diconame)
+    
+}
+
+#' Title
+#'
+#' @param variablename 
+#' @param actiontag 
+#'
+#' @return
+#' @export
+#'
+#'  
+getVarAction <- function(variablename,actiontag) {
+  ds <- getDictionaryActions()
+  ds <-  subset(ds,ds$variable == variablename & ds$action_group == actiontag )
+}
+
+#' Title
+#'
+#' @param variablename 
+#' @param actiontag 
+#'
+#' @return
+#' @export
+#'
+#'  
+getVarActionParameters <- function(variablename,actiontag) {
+  ds <- getVarAction(variablename,actiontag)
+  ifelse(nrow(ds)>0, ds$parameters, NA)
+}  
+
+#' Title
+#'
+#' @param actiontag 
+#'
+#' @return
+#' @export
+#'
+#'  
+getActionGroup <- function(actiontag) {
+  ds <- getDictionaryActions()
+  ds <-  subset(ds, ds$action_group == actiontag )
+}
+
 
 
 #' applyDictionary
@@ -33,8 +327,12 @@
 #' @export
 #'
 
-applyDictionary <- function(dictionary, data, verbose=TRUE, keepextra = FALSE) {
+applyDictionary <- function( dictionary=NULL, data, verbose=TRUE, keepextra = FALSE) {
   
+  if (is.null(dictionary)) {
+     dictionary <-  getDictionary()
+  } 
+  # this function get non NA/Empty content of one column (mainly to get varname)
   getColValues <- function(dataset, colname) {
     result <- unlist(dataset[ ! (dataset[,colname]=="" ) ,colname])
     result <- result[! is.na(result)]
@@ -59,7 +357,7 @@ applyDictionary <- function(dictionary, data, verbose=TRUE, keepextra = FALSE) {
   # Extra variables in source that are not defined in dictionary source_name
   VarExtra  <- setdiff(CurNames,OldNames)
   
-  if (verbose) {
+  if (verbose==TRUE) {
     epiuf::bold("Vars missing in imported : ", length(VarMiss))
     catret()
     catret(sort(VarMiss),sep="  \n")
@@ -85,7 +383,7 @@ applyDictionary <- function(dictionary, data, verbose=TRUE, keepextra = FALSE) {
   CurNames <- as.data.frame(CurNames)
   MatchNames <-  merge(dictionary,CurNames, by.x=dicSourceName, by.y="CurNames")
   todrop <- MatchNames[is.na(MatchNames[dicGenericName]),dicSourceName]
-  if (verbose) {
+  if (verbose==TRUE) {
     epiuf::bold("Vars not in generic and dropped  : ", length(todrop))
     catret()
     catret(sort(todrop),sep="  \n")
@@ -97,7 +395,7 @@ applyDictionary <- function(dictionary, data, verbose=TRUE, keepextra = FALSE) {
   
   MatchNames <- MatchNames[! is.na(MatchNames[dicGenericName]),]
   
-  if (verbose) {
+  if (verbose==TRUE) {
     bold("Imported vars renamed with a generic name : ", nrow(MatchNames))
     catret()
     listMatchNames <- list()
@@ -130,7 +428,7 @@ applyDictionary <- function(dictionary, data, verbose=TRUE, keepextra = FALSE) {
     )
     gen[,VarMiss[i]] <- valuevar
   } 
-  if (verbose) {
+  if (verbose==TRUE) {
     bold("Generic vars created (as empty) : ", length(VarMiss))
     catret()
     catret(sort(VarMiss), sep=", ")
@@ -139,6 +437,13 @@ applyDictionary <- function(dictionary, data, verbose=TRUE, keepextra = FALSE) {
   gen
 }
 
+
+#' Title
+#'
+#' @return
+#' @export
+#'
+#'  
 createDictionary <- function() {
   # base 
   dic <- data.frame(generic_name=character(),
@@ -151,9 +456,6 @@ createDictionary <- function() {
   
 } 
 
-saveDictionary <- function(dictionary, filename) {
-  # to add some controls...
-  xlsx::write.xlsx(dictionary,filename)
-}
+
 
 # END of SCRIPT  --------------------------------------------------------
