@@ -43,17 +43,17 @@ checkDico <- function(data, varname, dicoCode) {
     , error = function(c) { }
   )
   varname <- s_op
-
-    varUnique <- unique(as.numeric(unlist(regmatches(data[, varname], gregexpr("[[:digit:]]+", data[, varname])))))
-    varNotDico <- setdiff(varUnique, dicoCode)
-
+  
+  varUnique <- unique(as.numeric(unlist(regmatches(data[, varname], gregexpr("[[:digit:]]+", data[, varname])))))
+  varNotDico <- setdiff(varUnique, dicoCode)
+  
   if (length(varNotDico)>0) {
     
     catret(varname, "contains:" , varUnique, ", Code is:", dicoCode)
     catret()
   }
-    
 }
+
 
 
 
