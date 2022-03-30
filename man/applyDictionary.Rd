@@ -4,7 +4,7 @@
 \alias{applyDictionary}
 \title{applyDictionary}
 \usage{
-applyDictionary(dictionary, data, verbose = TRUE, keepextra = FALSE)
+applyDictionary(dictionary = NULL, data, verbose = TRUE, keepextra = FALSE)
 }
 \arguments{
 \item{dictionary}{A dictionary (passed as dataframe)}
