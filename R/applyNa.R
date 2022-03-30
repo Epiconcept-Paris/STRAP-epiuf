@@ -18,14 +18,14 @@
 # START of SCRIPT  --------------------------------------------------------
 
 
-#' Title
+#' applyNA
 #'
 #' @param data 
 #' @param varname 
 #' @param searchlist 
 #' @param join 
 #'
-#' @return
+#' @return variable with NAs edited and message to confirm, or warning
 #' @export
 #'
 #'

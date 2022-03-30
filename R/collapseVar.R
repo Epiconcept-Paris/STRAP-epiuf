@@ -16,13 +16,13 @@
 # 
 
 # START of SCRIPT  --------------------------------------------------------
-#' Title
+#' collapseVar
 #'
 #' @param data The dataset
 #' @param varname Name of variable
 #' @param hierachry ordered list to use in collapse
 #'
-#' @return The variable collapsed 
+#' @return The variable collapsed and warnings if not possible
 #' @export
 #'
 

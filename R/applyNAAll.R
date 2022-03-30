@@ -21,7 +21,7 @@
 # START of SCRIPT  --------------------------------------------------------
 
 
-#' applyNA
+#' applyNAAll
 #'
 #' @param data 
 #' @param dictionary (optional)

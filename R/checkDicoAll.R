@@ -24,13 +24,13 @@
 
 # START of SCRIPT  --------------------------------------------------------
 
-#' Title
+#' checkDicoAll
 #'
 #' @param data 
 #' @param dictionary 
 #' @param dicos 
 #'
-#' @return
+#' @return text outputs
 #' @export
 #'
 

@@ -22,14 +22,14 @@
 # START of SCRIPT  --------------------------------------------------------
 
 
-#' Title
+#' factorUsing
 #'
 #' @param data 
 #' @param varname 
 #' @param dicoCode 
 #' @param dicoLabel 
 #'
-#' @return
+#' @return factored variable
 #' @export
 #'
 

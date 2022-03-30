@@ -22,13 +22,13 @@
 # START of SCRIPT  --------------------------------------------------------
 
 
-#' Title
+#' checkDico
 #'
 #' @param data 
 #' @param varname 
 #' @param dicoCode 
 #'
-#' @return
+#' @return text outputs
 #' @export
 #'
 

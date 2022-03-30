@@ -21,13 +21,13 @@
 
 # START of SCRIPT  --------------------------------------------------------
 
-#' Title
+#' factorUsingDico
 #'
 #' @param data 
 #' @param dictionary 
 #' @param dicos 
 #'
-#' @return
+#' @return data set
 #' @export
 #'
 
