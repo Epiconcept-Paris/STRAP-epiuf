@@ -30,15 +30,36 @@ epidictionaryfiles_env$actions <- NULL
 
 
 # this function would be rarely used except for tests
+#' Title
+#'
+#' @param dictionary 
+#'
+#' @return
+#' @export
+#'
+
 setDictionary  <- function(dictionary) {
   epidictionaryfiles_env$data <- dictionary
   epidictionaryfiles_env$data <- updateDataset(epidictionaryfiles_env$data,getNewDictionaryLine("dictionary"))
   
 }
 
+#' Title
+#'
+#' @return
+#' @export
+#'
 getDictionary <- function() {
   return(epidictionaryfiles_env$data)
 }
+
+#' Title
+#'
+#' @param filename 
+#'
+#' @return
+#' @export
+#'
 
 openDictionary <-  function(filename) {
   epidictionaryfiles_env$datafilename <- filename
@@ -78,7 +99,16 @@ openDictionary <-  function(filename) {
 }
 
 
-# may be only usefuul to create an empty dictionary, not urgent 
+# may be only useful to create an empty dictionary, not urgent 
+#' Title
+#'
+#' @param filename 
+#' @param dictionary 
+#'
+#' @return
+#' @export
+#'
+
 saveDictionary <- function(filename=NULL,dictionary=NULL) {
   # checks to be added
   if (is.null(filename)) {
@@ -114,6 +144,14 @@ saveDictionary <- function(filename=NULL,dictionary=NULL) {
 }
 
 # we need to add the current status ! 
+#' Title
+#'
+#' @param mode 
+#'
+#' @return
+#' @export
+#'
+
 getNewDictionaryLine  <- function(mode="dictionary") {
 
   if (mode=="dictionary") {  
@@ -145,23 +183,60 @@ getNewDictionaryLine  <- function(mode="dictionary") {
 }
 
 
+#' Title
+#'
+#' @return
+#' @export
+#'
+
 getDicos <- function() {
   return(epidictionaryfiles_env$dicos)
 }
 
+#' Title
+#'
+#' @param dic 
+#'
+#' @return
+#' @export
+#'
+#'  
 setDicos <- function(dic) {
   epidictionaryfiles_env$dicos <- dic
 }
 
+#' Title
+#'
+#' @return
+#' @export
+#'
+#'  
 getDictionaryActions <- function() {
   return(epidictionaryfiles_env$actions)
 }
 
+#' Title
+#'
+#' @param actions 
+#'
+#' @return
+#' @export
+#'
+#'  
 setDictionaryActions <- function(actions) {
   epidictionaryfiles_env$actions <- actions
 }
 
 
+#' Title
+#'
+#' @param varname 
+#' @param valuename 
+#'
+#' @return
+#' @export
+#'
+#'  
 getDictionaryValue <- function(varname, valuename) {
   ds <- getDictionary()
 
@@ -171,27 +246,69 @@ getDictionaryValue <- function(varname, valuename) {
   return(value)
 }
 
+#' Title
+#'
+#' @param varname 
+#'
+#' @return
+#' @export
+#'
+#'  
 getDicoOfVar <- function(varname) {
    diconame <- getDictionaryValue(varname,"DICO")
    getDico(diconame)
 }
 
+#' Title
+#'
+#' @param diconame 
+#'
+#' @return
+#' @export
+#'
+#'  
 getDico <- function(diconame) {
   ds <- getDicos()
   ds <-  subset(ds,ds$dico == diconame)
     
 }
 
+#' Title
+#'
+#' @param variablename 
+#' @param actiontag 
+#'
+#' @return
+#' @export
+#'
+#'  
 getVarAction <- function(variablename,actiontag) {
   ds <- getDictionaryActions()
   ds <-  subset(ds,ds$variable == variablename & ds$action_group == actiontag )
 }
 
+#' Title
+#'
+#' @param variablename 
+#' @param actiontag 
+#'
+#' @return
+#' @export
+#'
+#'  
 getVarActionParameters <- function(variablename,actiontag) {
   ds <- getVarAction(variablename,actiontag)
   ifelse(nrow(ds)>0, ds$parameters, NA)
 }  
 
+#' Title
+#'
+#' @param actiontag 
+#'
+#' @return
+#' @export
+#'
+#'  
 getActionGroup <- function(actiontag) {
   ds <- getDictionaryActions()
   ds <-  subset(ds, ds$action_group == actiontag )
@@ -321,6 +438,12 @@ applyDictionary <- function( dictionary=NULL, data, verbose=TRUE, keepextra = FA
 }
 
 
+#' Title
+#'
+#' @return
+#' @export
+#'
+#'  
 createDictionary <- function() {
   # base 
   dic <- data.frame(generic_name=character(),
