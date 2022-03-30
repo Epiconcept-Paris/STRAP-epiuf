@@ -7,7 +7,7 @@
 getDicos()
 }
 \value{
-
+The dataset containing all the dicos
 }
 \description{
 Title

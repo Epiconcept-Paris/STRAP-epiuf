@@ -7,10 +7,10 @@
 getNewDictionaryLine(mode = "dictionary")
 }
 \arguments{
-\item{mode}{}
+\item{mode}{Type of line to return. Could be dictionary, dicos, or actions}
 }
 \value{
-
+An empty record of type \code{mode}
 }
 \description{
 Title

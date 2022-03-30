@@ -7,7 +7,7 @@
 setDictionary(dictionary)
 }
 \arguments{
-\item{dictionary}{}
+\item{dictionary}{A dictionary epiuf structure}
 }
 \value{
 

@@ -7,12 +7,12 @@
 getDictionaryValue(varname, valuename)
 }
 \arguments{
-\item{varname}{}
+\item{varname}{The varname for which we will retrieve content of one column from dictionary}
 
-\item{valuename}{}
+\item{valuename}{Name of the coulumn to retrieve from dictionary}
 }
 \value{
-
+A single value
 }
 \description{
 Title

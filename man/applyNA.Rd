@@ -2,22 +2,22 @@
 % Please edit documentation in R/applyNa.R
 \name{applyNA}
 \alias{applyNA}
-\title{Title}
+\title{applyNA}
 \usage{
 applyNA(data, varname, searchlist = NULL, join = FALSE)
 }
 \arguments{
-\item{data}{}
+\item{data}{Dataset which contain the variable to be processed}
 
-\item{varname}{}
+\item{varname}{The variable where all kind of UNKNOWNS should be identified and replaced by NA}
 
-\item{searchlist}{}
+\item{searchlist}{An optional list of unknown values}
 
-\item{join}{}
+\item{join}{False by default, if TRUE, the searchlist will be added to the default list of UNKNOWNS}
 }
 \value{
-
+variable with NAs edited and message to confirm, or warning   GDE or data ?
 }
 \description{
-Title
+Default Unknowns : dnk nd na ne zna unknown do not know
 }

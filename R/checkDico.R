@@ -24,9 +24,9 @@
 
 #' checkDico
 #'
-#' @param data 
-#' @param varname 
-#' @param dicoCode 
+#' @param data Dataset which contain \code{varname}
+#' @param varname The variable to chack against dico 
+#' @param dicoCode A dico code list 
 #'
 #' @return text outputs
 #' @export

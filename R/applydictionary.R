@@ -32,7 +32,7 @@ epidictionaryfiles_env$actions <- NULL
 # this function would be rarely used except for tests
 #' Title
 #'
-#' @param dictionary 
+#' @param dictionary A dictionary epiuf structure 
 #'
 #' @return
 #' @export
@@ -46,7 +46,7 @@ setDictionary  <- function(dictionary) {
 
 #' Title
 #'
-#' @return
+#' @return The current dictionary
 #' @export
 #'
 getDictionary <- function() {
@@ -55,7 +55,7 @@ getDictionary <- function() {
 
 #' Title
 #'
-#' @param filename 
+#' @param filename The file (xls) containing a dictionary. The dictionary will be loaded
 #'
 #' @return
 #' @export
@@ -102,15 +102,16 @@ openDictionary <-  function(filename) {
 # may be only useful to create an empty dictionary, not urgent 
 #' Title
 #'
-#' @param filename 
-#' @param dictionary 
+#' @param filename The filename where to save the dictionary. 
+#' This file will be erased and replaced by a new  one containing the \code{dictionary} 
+#' @param dictionary Optionaly a dictionary. By default the current dictionary will be saved
 #'
 #' @return
 #' @export
 #'
 
 saveDictionary <- function(filename=NULL,dictionary=NULL) {
-  # checks to be added
+  # checks to be added in case dataset doesn't exists in memory GDE ? 
   if (is.null(filename)) {
     filename <- epidictionaryfiles_env$datafilename
     if (is.null(filename)) {
@@ -146,9 +147,9 @@ saveDictionary <- function(filename=NULL,dictionary=NULL) {
 # we need to add the current status ! 
 #' Title
 #'
-#' @param mode 
+#' @param mode Type of line to return. Could be dictionary, dicos, or actions
 #'
-#' @return
+#' @return An empty record of type \code{mode}
 #' @export
 #'
 
@@ -185,7 +186,7 @@ getNewDictionaryLine  <- function(mode="dictionary") {
 
 #' Title
 #'
-#' @return
+#' @return The dataset containing all the dicos 
 #' @export
 #'
 
@@ -195,7 +196,7 @@ getDicos <- function() {
 
 #' Title
 #'
-#' @param dic 
+#' @param dic A dataset of dicos (with epiuf structure as returned by getNewDictionaryLine)
 #'
 #' @return
 #' @export
@@ -207,7 +208,7 @@ setDicos <- function(dic) {
 
 #' Title
 #'
-#' @return
+#' @return A dataset of actions 
 #' @export
 #'
 #'  
@@ -217,7 +218,7 @@ getDictionaryActions <- function() {
 
 #' Title
 #'
-#' @param actions 
+#' @param actions A dataset of actions 
 #'
 #' @return
 #' @export
@@ -230,10 +231,10 @@ setDictionaryActions <- function(actions) {
 
 #' Title
 #'
-#' @param varname 
-#' @param valuename 
+#' @param varname The varname for which we will retrieve content of one column from dictionary
+#' @param valuename Name of the coulumn to retrieve from dictionary
 #'
-#' @return
+#' @return A single value
 #' @export
 #'
 #'  
@@ -241,14 +242,14 @@ getDictionaryValue <- function(varname, valuename) {
   ds <- getDictionary()
 
   if (nrow(ds)>0) {
-     value <- subset(ds,generic_name == varname)[,valuename] 
+     value <- subset(ds,ds$generic_name == varname)[,valuename] 
   }  
   return(value)
 }
 
 #' Title
 #'
-#' @param varname 
+#' @param varname The variable for which we want to retrieve the name of the associated dico
 #'
 #' @return
 #' @export
@@ -261,22 +262,21 @@ getDicoOfVar <- function(varname) {
 
 #' Title
 #'
-#' @param diconame 
+#' @param diconame The name of one dico from the dicos structure
 #'
-#' @return
+#' @return A datset containing one dico (list of code/labels)
 #' @export
 #'
 #'  
 getDico <- function(diconame) {
   ds <- getDicos()
   ds <-  subset(ds,ds$dico == diconame)
-    
 }
 
 #' Title
 #'
-#' @param variablename 
-#' @param actiontag 
+#' @param variablename The variable for which we want to retrieve the the associated action
+#' @param actiontag The name of the action group to retrieve
 #'
 #' @return
 #' @export
@@ -284,13 +284,14 @@ getDico <- function(diconame) {
 #'  
 getVarAction <- function(variablename,actiontag) {
   ds <- getDictionaryActions()
-  ds <-  subset(ds,ds$variable == variablename & ds$action_group == actiontag )
+# GDE check to be added for wrong action name
+    ds <-  subset(ds,ds$variable == variablename & ds$action_group == actiontag )
 }
 
 #' Title
 #'
-#' @param variablename 
-#' @param actiontag 
+#' @param variablename The variable for which we want to retrieve the the associated action parameters
+#' @param actiontag Name of the action group 
 #'
 #' @return
 #' @export
@@ -303,9 +304,9 @@ getVarActionParameters <- function(variablename,actiontag) {
 
 #' Title
 #'
-#' @param actiontag 
+#' @param actiontag Name of the action group to retrieve
 #'
-#' @return
+#' @return dataset containing all the variables with actions of type actionname
 #' @export
 #'
 #'  

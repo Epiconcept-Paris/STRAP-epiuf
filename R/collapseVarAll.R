@@ -34,8 +34,8 @@
 # START of SCRIPT  --------------------------------------------------------
 #' Title
 #'
-#' @param data 
-#' @param action 
+#' @param data Dataset to be processed
+#' @param action A Dictionary action list structure 
 #'
 #' @return
 #' @export
@@ -47,14 +47,14 @@ collapseVarAll <- function(data, action=NULL){
     getDictionaryActions()
   }
   
-  collapseActionGroup <- getActionGroup(collapse) # get list of all variables taged for an action
+  collapseActionGroup <- getActionGroup("COLLAPSE") # get list of all variables taged for an action
 
-  collapseVars <- intersect(colnames(df), collapseActionGroup) # Isolate all varnames associated with collapse action
+  collapseVars <- intersect(colnames(data), collapseActionGroup) # Isolate all varnames associated with collapse action
 
 # loop through order of codes, searching for matches, and replacing when find.
-for (i in collapsevar) {
+for (i in collapseVars) {
   
-  CodeOrder <- getVarActionParameters(i, collapse)        # get collapse code hierachy list for each variable
+  CodeOrder <- getVarActionParameters(i, "COLLAPSE")        # get collapse code hierachy list for each variable
 
   data[,i] <- collapseVar(data, i, CodeOrder)
 

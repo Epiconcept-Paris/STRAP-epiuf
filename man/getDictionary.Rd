@@ -7,7 +7,7 @@
 getDictionary()
 }
 \value{
-
+The current dictionary
 }
 \description{
 Title

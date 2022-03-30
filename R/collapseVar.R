@@ -20,7 +20,7 @@
 #'
 #' @param data The dataset
 #' @param varname Name of variable
-#' @param hierachry ordered list to use in collapse
+#' @param hierarchy ordered list to use in collapse
 #'
 #' @return The variable collapsed and warnings if not possible
 #' @export

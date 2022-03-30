@@ -2,20 +2,20 @@
 % Please edit documentation in R/checkDicoAll.R
 \name{checkDicoAll}
 \alias{checkDicoAll}
-\title{Title}
+\title{checkDicoAll}
 \usage{
 checkDicoAll(data, dictionary = NULL, dicos = NULL)
 }
 \arguments{
-\item{data}{}
+\item{data}{Dataset to process}
 
-\item{dictionary}{}
+\item{dictionary}{An optional dictionary (epiuf strucure see \link{getDictionary})}
 
-\item{dicos}{}
+\item{dicos}{A Dico structure containing code and labels}
 }
 \value{
-
+text outputs
 }
 \description{
-Title
+checkDicoAll
 }

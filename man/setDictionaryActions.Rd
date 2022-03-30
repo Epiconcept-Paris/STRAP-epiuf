@@ -7,7 +7,7 @@
 setDictionaryActions(actions)
 }
 \arguments{
-\item{actions}{}
+\item{actions}{A dataset of actions}
 }
 \value{
 

@@ -2,23 +2,18 @@
 % Please edit documentation in R/applyNAAll.R
 \name{applyNAAll}
 \alias{applyNAAll}
-\title{applyNA}
+\title{applyNAAll}
 \usage{
 applyNAAll(data, dictionary = NULL)
 }
 \arguments{
-\item{data}{}
+\item{data}{The dataset where to applyNA for each variable using the dictionnary}
 
-\item{dictionary}{(optional)}
+\item{dictionary}{an optional dictionary (epiuf strucure see \link{getDictionary})}
 }
 \value{
 data.frame and printed output
 }
 \description{
-applyNA
-}
-\examples{
-df <- applyNAAll(df)
-
-
+applyNAAll
 }

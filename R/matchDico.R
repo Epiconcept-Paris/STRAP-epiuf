@@ -36,10 +36,10 @@
 ## matchDico function: 
 #' Title
 #'
-#' @param data 
-#' @param mydicos 
-#' @param varname 
-#' @param diconame 
+#' @param data The dataset to process
+#' @param mydicos The dico (epiuf structure) to use 
+#' @param varname The variable to check
+#' @param diconame Name of the corresponding dico 
 #'
 #' @return
 #' @export
@@ -66,7 +66,7 @@ matchDico <- function(data, mydicos, varname,diconame) {
   diconame <- s_op
   
   
-  myDicoCode <- subset(mydicos, dico_name==diconame)[,c("code")]
+  myDicoCode <- subset(mydicos, mydicos$dico_name==diconame)[,c("code")]
   
   data[,varname] <- ifelse(data[,varname] %in% myDicoCode, data[,varname], NA)
   

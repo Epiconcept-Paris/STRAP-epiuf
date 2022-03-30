@@ -7,13 +7,13 @@
 matchDico(data, mydicos, varname, diconame)
 }
 \arguments{
-\item{data}{}
+\item{data}{The dataset to process}
 
-\item{mydicos}{}
+\item{mydicos}{The dico (epiuf structure) to use}
 
-\item{varname}{}
+\item{varname}{The variable to check}
 
-\item{diconame}{}
+\item{diconame}{Name of the corresponding dico}
 }
 \value{
 

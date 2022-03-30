@@ -7,11 +7,11 @@
 reverseFactorUsingDico(data, dictionary = NULL, dicos = NULL)
 }
 \arguments{
-\item{data}{}
+\item{data}{A dateset to process}
 
-\item{dictionary}{}
+\item{dictionary}{A dictionary epiuf structure}
 
-\item{dicos}{}
+\item{dicos}{A dicos epiuf structure}
 }
 \value{
 

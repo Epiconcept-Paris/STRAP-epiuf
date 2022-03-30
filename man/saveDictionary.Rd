@@ -7,9 +7,10 @@
 saveDictionary(filename = NULL, dictionary = NULL)
 }
 \arguments{
-\item{filename}{}
+\item{filename}{The filename where to save the dictionary.
+This file will be erased and replaced by a new  one containing the \code{dictionary}}
 
-\item{dictionary}{}
+\item{dictionary}{Optionaly a dictionary. By default the current dictionary will be saved}
 }
 \value{
 

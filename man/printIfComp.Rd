@@ -7,17 +7,17 @@
 printIfComp(data, data_old, cond, text = "", threshold = NULL, varname = "id")
 }
 \arguments{
-\item{data}{}
+\item{data}{The dataset to check}
 
-\item{data_old}{}
+\item{data_old}{The other dataset which may contain same records}
 
-\item{cond}{}
+\item{cond}{A condition to meet}
 
-\item{text}{}
+\item{text}{A message to display if condition is not meet}
 
-\item{threshold}{}
+\item{threshold}{Something ..}
 
-\item{varname}{}
+\item{varname}{The ID variaable to display}
 }
 \value{
 

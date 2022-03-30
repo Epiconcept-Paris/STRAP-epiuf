@@ -7,10 +7,10 @@
 getDico(diconame)
 }
 \arguments{
-\item{diconame}{}
+\item{diconame}{The name of one dico from the dicos structure}
 }
 \value{
-
+A datset containing one dico (list of code/labels)
 }
 \description{
 Title

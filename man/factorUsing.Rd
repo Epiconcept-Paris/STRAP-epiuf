@@ -2,22 +2,22 @@
 % Please edit documentation in R/factorUsing.R
 \name{factorUsing}
 \alias{factorUsing}
-\title{Title}
+\title{factorUsing}
 \usage{
 factorUsing(data, varname, dicoCode, dicoLabel)
 }
 \arguments{
-\item{data}{}
+\item{data}{DataSet which contain \code{varname}}
 
-\item{varname}{}
+\item{varname}{The variable to factorise}
 
-\item{dicoCode}{}
+\item{dicoCode}{The list of code}
 
-\item{dicoLabel}{}
+\item{dicoLabel}{The corresponding list of labels}
 }
 \value{
-
+factored variable
 }
 \description{
-Title
+factorUsing
 }

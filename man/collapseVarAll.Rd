@@ -7,9 +7,9 @@
 collapseVarAll(data, action = NULL)
 }
 \arguments{
-\item{data}{}
+\item{data}{Dataset to be processed}
 
-\item{action}{}
+\item{action}{A Dictionary action list structure}
 }
 \value{
 

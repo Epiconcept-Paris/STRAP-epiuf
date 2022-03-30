@@ -7,7 +7,7 @@
 getDictionaryActions()
 }
 \value{
-
+A dataset of actions
 }
 \description{
 Title

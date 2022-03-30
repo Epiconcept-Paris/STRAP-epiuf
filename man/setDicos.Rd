@@ -7,7 +7,7 @@
 setDicos(dic)
 }
 \arguments{
-\item{dic}{}
+\item{dic}{A dataset of dicos (with epiuf structure as returned by getNewDictionaryLine)}
 }
 \value{
 

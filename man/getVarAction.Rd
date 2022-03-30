@@ -7,9 +7,9 @@
 getVarAction(variablename, actiontag)
 }
 \arguments{
-\item{variablename}{}
+\item{variablename}{The variable for which we want to retrieve the the associated action}
 
-\item{actiontag}{}
+\item{actiontag}{The name of the action group to retrieve}
 }
 \value{
 

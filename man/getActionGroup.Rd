@@ -7,10 +7,10 @@
 getActionGroup(actiontag)
 }
 \arguments{
-\item{actiontag}{}
+\item{actiontag}{Name of the action group to retrieve}
 }
 \value{
-
+dataset containing all the variables with actions of type actionname
 }
 \description{
 Title

@@ -7,7 +7,7 @@
 getDicoOfVar(varname)
 }
 \arguments{
-\item{varname}{}
+\item{varname}{The variable for which we want to retrieve the name of the associated dico}
 }
 \value{
 
