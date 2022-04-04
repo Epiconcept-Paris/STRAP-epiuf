@@ -129,16 +129,18 @@ saveDictionary <- function(filename=NULL,dictionary=NULL) {
   xlsx::write.xlsx(ds,file=filename,sheetName = "dictionary",row.names=FALSE)
   # to add some check ?
   ds <- epidictionaryfiles_env$dicos
-  if (nrow(ds)==0) {
+  if (is.null(ds) ) {
     # replace by empty record ? 
-    ds[1,] <- " "
+    ds <- getNewDictionaryLine(mode="dicos")
+    ds[1,] <- NA
   }
   xlsx::write.xlsx(ds,file=filename,sheetName = "dicos",append=TRUE,row.names=FALSE)
   
   ds <- epidictionaryfiles_env$actions
-  if (nrow(ds)==0) {
+  if (is.null(ds) ) {
     # replace by empty record ? 
-    ds[1,] <- " "
+    ds <- getNewDictionaryLine(mode="actions") 
+    ds[1,] <- NA
   }
   xlsx::write.xlsx(ds,file=filename,sheetName = "actions",append=TRUE,row.names=FALSE)
   
