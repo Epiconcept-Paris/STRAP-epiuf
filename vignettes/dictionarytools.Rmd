@@ -1,0 +1,153 @@
+---
+title: "dictionarytools"
+author: "epi-gde"
+date: "1/31/2022"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{dictionarytools}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r setup}
+knitr::opts_chunk$set(echo = TRUE, include = TRUE)
+library(epiuf)
+
+```
+
+## R Markdown
+
+This is a first rename function which use a data dictionary.
+
+```{r dico3}
+
+cur <- data.frame(cur1=c(1,2,3),cur2=c(2,3,4),cur3=c(4,5,6),cur6=c(6,7,8))
+
+dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA),
+                  source_name=c("cur1","cur2","cur3",NA,NA,"cur6"),
+                  type=c("numeric","numeric","numeric","character","character",NA))
+
+
+new <- applyDictionary(dictionary=dic,data=cur)
+
+
+```
+
+
+We can keep Extra variables 
+
+```{r dico4}
+
+cur <- data.frame(cur1=c(1,2,3),cur2=c(2,3,4),cur3=c(4,5,6),cur4=c(5,6,7), cur6=c(6,7,8))
+
+dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA),
+                  source_name=c("cur1","cur2","cur3",NA,NA,"cur6"),
+                  type=c("numeric","numeric","numeric","character","character",NA))
+
+
+new <- applyDictionary(dic,cur,keepextra = TRUE)
+
+
+```
+
+
+Complex version which mix everything
+
+```{r dico5, ECHO = FALSE}
+
+cur <- data.frame(cur1=c(1,2,3),cur2=c(2,3,4),cur4=c(4,5,6),cur6=c(6,7,8))
+
+dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA,NA),
+                  source_name=c("cur1","cur2","cur3","",NA,"cur6",NA),
+                  type=c("numeric","numeric","numeric","character"," ","character",NA))
+
+
+new <- applyDictionary(dic,cur)
+
+```
+Utility function for dico 
+
+Retrieve values from dico by name 
+
+```{r dico6, ECHO = FALSE}
+
+dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA,NA),
+                  source_name=c("cur1","cur2","cur3","",NA,"cur6",NA),
+                  type=c("numeric","numeric","numeric","character"," ","character",NA),
+                  unknowns=c("","8","UNK","","","",""))
+
+setDictionary(dictionary = dic)
+
+val <- getDictionaryValue("gen1","type")
+print(val)
+
+val <- getDictionaryValue("gen3","unknowns")
+print(val)
+
+```
+Retrieve the dico dataset 
+
+```{r dico7, ECHO = FALSE}
+
+dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA,NA),
+                  source_name=c("cur1","cur2","cur3","",NA,"cur6",NA),
+                  type=c("numeric","numeric","numeric","character"," ","character",NA)
+                  )
+
+setDictionary(dictionary = dic)
+
+retrieved <- getDictionary()
+print(retrieved)
+
+```
+
+Manage dico  
+
+```{r dico8, ECHO = FALSE}
+
+dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA,NA),
+                  source_name=c("cur1","cur2","cur3","",NA,"cur6",NA),
+                  type=c("numeric","numeric","numeric","character"," ","character",NA),
+                  unknowns=c("","8","UNK","","","","")
+                  )
+
+setDictionary(dictionary = dic)
+FileName <-   "generic dictionary.xls" 
+saveDictionary(filename = FileName)
+
+if (file.exists(FileName)) {print("Dictionary successfully saved")}
+
+```
+Manage dico open file   
+
+```{r dico9, ECHO = FALSE}
+
+FileName <-   "generic dictionary.xls" 
+openDictionary(filename = FileName)
+
+getDictionary()
+
+```
+
+Manage dico  
+
+```{r dico10, ECHO = FALSE}
+
+dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA,NA),
+                  source_name=c("cur1","cur2","cur3","",NA,"cur6",NA),
+                  type=c("numeric","numeric","numeric","character"," ","character",NA),
+                  unknowns=c("","8","UNK","","","","")
+                  )
+
+setDictionary(dictionary = dic)
+OneLine <- getNewDictionaryLine()
+print(OneLine)
+
+
+
+```
+
+
+
+

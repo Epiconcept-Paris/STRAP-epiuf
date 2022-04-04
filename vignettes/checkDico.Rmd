@@ -1,0 +1,61 @@
+---
+title: "checkDico"
+author: "JHD"
+date: "24/03/2022"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{checkDico}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(epiuf)
+library(dplyr)
+
+```
+
+checkDico compares a number list to the contents of a variable, and flags a warning if the variable contains numbers not specified in the list Works with numeric, character and multi-input variables.
+
+```{r testdata}
+
+# create example dataset for testing
+df <- data.frame(checkbox_var = c("0|2", "1|2|3", "3|1|2", "0", "2", "3", "0|1", "2|3")
+                 ,number_var = c(0,1,2,3,0,1,2,3)
+                 ,character_var = c("0","1","nd","3","","1","2","3")
+)
+
+```
+
+
+## Test correct dico numbers 
+```{r tests2}
+checkDico(df, checkbox_var, c(0,1,2,3))
+checkDico(df, number_var, c(0,1,2,3))
+checkDico(df, character_var, c(0,1,2,3))
+``` 
+
+Expected output: nothing
+
+
+## Test extra dico numbers 
+```{r tests3}
+checkDico(df, checkbox_var, c(0,1,2,3,4))
+checkDico(df, number_var, c(0,1,2,3,4))
+checkDico(df, character_var, c(0,1,2,3,4))
+``` 
+
+Expected output: nothing
+
+
+## Test missing dico numbers 
+```{r tests1}
+checkDico(df, checkbox_var, c(0,1,2))
+checkDico(df, number_var, c(0,1,2))
+checkDico(df, character_var, c(0,1,2))
+``` 
+
+Expected output: 
+[variable name] contains: 0 1 2 3 , Code is: 0 1 2

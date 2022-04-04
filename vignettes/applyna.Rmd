@@ -1,0 +1,59 @@
+---
+title: "applyNA"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{applyNA}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(epiuf)
+
+```
+
+
+# Apply NA function
+
+The aim of this function is to take a variable and set specified values to NA. Uses gsub to acheive this. Values to search can be specified in list, or in string format. Usual nomenclature applies to specify beginning, end, ect. A default list is available that is used if no values are specified or that can be join to the specified value list.
+
+
+```{r dataload}
+
+# create example dataset for testing
+df <- data.frame(CharacterVar = c("unknown", "do not know", "other", "dnk", "na", "nd", "nsp", "ne zna", "testdnk", "dnktest", "test", "not test", "3", "4"), 
+                 NumberVar = c(1, 2, 3, 4, 1, 2, 3, 4,1, 2, 3, 4, 1, 2)
+)
+
+
+```
+
+
+# Testing the first draft of the function
+
+```{r testfunction}
+
+df$test <- applyNA(df, CharacterVar)  # only default list
+# Should make 7 conversions
+
+df$test <- applyNA(df, CharacterVar, "^test$") # only specified
+# Should make 1 conversions  
+
+df$test <- applyNA(df, CharacterVar, "^test$", join=TRUE) # both default and specified
+# Should make 8 conversions  
+
+
+df$test <- applyNA(df, CharacterVar, c("^test$","^other*"))       # list of search values
+# Should make 2 conversions  
+
+
+df$test <- applyNA(df, NumberVar, 3)        # number value
+# Should make 3 conversions
+
+df$test <- applyNA(df, NumberVar, c(3,1))         # list of numbers
+# Should make 7 convers
+
+
+```
+
