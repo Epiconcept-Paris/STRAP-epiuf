@@ -61,40 +61,6 @@ freq <- function(x,missing=FALSE,quietly = FALSE) {
 
 
 
-
-# tab <- function( ..., miss="ifany", data=df) {
-tab <- function( ..., miss="ifany", data) {
-    # first we catch the ... parameters
-  listvar <- as.list(match.call())
-  # we remove the first one which is the function name
-  listvar[1] <- NULL
-  # and we remove all named parameters from the list
-  namedarg <- pmatch(c("data", "miss"),names(listvar), nomatch = 0)
-  if (length(namedarg) > 0 ) {listvar[namedarg] <- NULL }
-  
-  # We verify that parameters are language and if it is "test" then we parse as language
-  if (length(listvar)>0) {
-    for (i in 1:length(listvar)) {
-      if (!typeof(listvar[i])=="language") {listvar[i] <- parse(text=listvar[i])}
-    }
-  }  
-  
-  # create list with first vector to receive names
-  varname <- as.character(listvar[1])
-  
-  if (length(listvar)>1) {
-    # extract each name in turn and add to list
-    for (i in 2:length(listvar)){
-      varname <- c(varname, as.character(listvar[i]))
-    }
-  } 
-  
-  # use list of colunms to make table
-  table(data[, varname], exclude=miss) 
-  
-}
-
-
 #-----------------------------------------------------------------------------------------------------------------------------------
 # Function comp() : to describe numeric variables or categorical variables (need to be in factor) according to an another variable
 #-----------------------------------------------------------------------------------------------------------------------------------
