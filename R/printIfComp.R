@@ -65,11 +65,11 @@ printIfComp<- function(data, data_old,  cond, text="", threshold=NULL , varname=
       
       listIDold <-  unlist(inOld)
       listIDold <-  paste(listIDold, collapse = ", ") # collapse repeat IDs with no formatting
-
-      listIDnew <-  unlist(inNew)
-      listIDnew <-  paste(listIDnew, collapse = "**, **") # collapse new IDs using bold nomencalture
       
-      TextToPrint <- c(TextToPrint, paste0("  + IDs: ", listIDold, listIDnew,"\n")) # Print old then new IDs
+      listIDnew <-  unlist(inNew)
+      listIDnew <-  paste(listIDnew, collapse = ", ") # collapse new IDs using bold nomencalture
+      
+      TextToPrint <- c(TextToPrint, paste0("  + IDs: [ ", listIDold, " ]  ", listIDnew,"\n")) # Print old then new IDs
       
     }else if(NbCond >= threshold){
       
