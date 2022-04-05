@@ -143,7 +143,8 @@ openXlsx <- function(filename="") {
 }
 
 
-#' Title
+#' saveXlsx 
+#'        This function save the current workbook as filename  
 #'
 #' @param wb A optional workbook created or opened by xlsx
 #'                 If not specified, the last workbook loaded with loadXlsx will be used
@@ -172,7 +173,7 @@ saveXlsx <- function(filename="",wb=NULL)  {
       filename <- epixlsx_env$reportFilename
     }
     xlsx::saveWorkbook(report, filename)
-    epixlsx_env$report <- NULL
+    # epixlsx_env$report <- NULL
     cat("Workbook saved as :",filename)
   }
 }
