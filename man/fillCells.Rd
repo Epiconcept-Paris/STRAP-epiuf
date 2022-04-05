@@ -4,7 +4,7 @@
 \alias{fillCells}
 \title{fillCells}
 \usage{
-fillCells(onesheet, line, col, ..., names = FALSE, env = sys.frame())
+fillCells(onesheet, line, col, ..., names = FALSE)
 }
 \arguments{
 \item{onesheet}{A sheet object from xlsx package}
