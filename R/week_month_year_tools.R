@@ -180,8 +180,8 @@ isoYearWeek <- function(data, varname){
   # }
   
   # Use base code to extract YEARwWEEK from date  
-  data[,varname] <- paste0(format(data[,varname], format="%Y"),
-                           "w", strftime(data[,varname], format="%V"))
+  # Use base code to extract YEARwWEEK from date  
+  data[,varname] <- paste0(isoYear(data,varname), "w", isoWeek(data,varname))
   data[, varname]
 }
 
