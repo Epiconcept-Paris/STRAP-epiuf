@@ -21,17 +21,39 @@
 
 # START of SCRIPT  --------------------------------------------------------
 
+#
+# Project Name : epiuf
+# Script Name  : week_month_year
+# GitHub repo  : epiuf
+# Summary      : wrapper functions for isoweek and and isoyear
+# Date created : 06/04/2022
+# Author       : JHD
+# Date reviewed:
+# Reviewed by  :
+
+# Description --------------------------------------------------------------
+# calYear - retrieves calender year
+# isoYear - retrieves isoyear 
+# abvMonth - retrieves 3 letter abreviated month
+# isoWeek - retrieves iso week
+# isoYearWeek - retrieves year+week in 2022w4 format
+# distanceIsoWeeks - outputs number of whole weeks from an origin (specified automatially)
+# Takes date variables, option to include validDate() if not date.
+
+# Changes Log --------------------------------------------------------------
+# 
+
+# START of SCRIPT  --------------------------------------------------------
+
+#' Title
+#'
+#' @param date 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 calYear <- function(date){
-  # enable non-character input of varname  
-  s_op <- deparse(substitute(varname))
-  # if varname is a variable which contain char, we use content of varname
-  tryCatch(
-    if (is.character(varname)) {
-      s_op <- varname
-    }
-    , error = function(c) { }
-  )
-  varname <- s_op
   
   # if variable is not date, set to date.  
   # if (class(date)!="Date"){
@@ -39,22 +61,20 @@ calYear <- function(date){
   # }
   
   # Use base code to extract year from date  
-  date <- format(date, format="%Y")
+  date <- as.numeric(format(date, format="%Y"))
   date
 }
 
 
+#' Title
+#'
+#' @param date 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 isoYear <- function (date){
-  # enable non-character input of varname  
-  s_op <- deparse(substitute(varname))
-  # if varname is a variable which contain char, we use content of varname
-  tryCatch(
-    if (is.character(varname)) {
-      s_op <- varname
-    }
-    , error = function(c) { }
-  )
-  varname <- s_op
   
   # if variable is not date, set to date.  
   # if (class(date)!="Date"){
@@ -62,21 +82,20 @@ isoYear <- function (date){
   # }
   
   # Use base code to extract week from date  
-  date <- strftime(date, format="%G")
+  date <- as.numeric(strftime(date, format="%G"))
   date
 }
 
+#' Title
+#'
+#' @param date 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 abvMonth <- function(date){
-  # enable non-character input of varname  
-  s_op <- deparse(substitute(varname))
-  # if varname is a variable which contain char, we use content of varname
-  tryCatch(
-    if (is.character(varname)) {
-      s_op <- varname
-    }
-    , error = function(c) { }
-  )
-  varname <- s_op
+  
   
   # if variable is not date, set to date.  
   # if (class(date)!="Date"){
@@ -89,17 +108,16 @@ abvMonth <- function(date){
 }
 
 
+#' Title
+#'
+#' @param date 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 isoWeek <- function(date){
-  # enable non-character input of varname  
-  s_op <- deparse(substitute(varname))
-  # if varname is a variable which contain char, we use content of varname
-  tryCatch(
-    if (is.character(varname)) {
-      s_op <- varname
-    }
-    , error = function(c) { }
-  )
-  varname <- s_op
+  
   
   # if variable is not date, set to date.  
   # if (class(date)!="Date"){
@@ -107,22 +125,21 @@ isoWeek <- function(date){
   # }
   
   # Use base code to extract week from date  
-  date <- strftime(date, format="%V")
+  date <- as.numeric(strftime(date, format="%V"))
   date
 }
 
 
+#' Title
+#'
+#' @param date 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 isoYearWeek <- function(date){
-  # enable non-character input of varname  
-  s_op <- deparse(substitute(varname))
-  # if varname is a variable which contain char, we use content of varname
-  tryCatch(
-    if (is.character(varname)) {
-      s_op <- varname
-    }
-    , error = function(c) { }
-  )
-  varname <- s_op
+  
   
   # if variable is not date, set to date.  
   # if (class(date)!="Date"){
@@ -133,5 +150,34 @@ isoYearWeek <- function(date){
   date <- paste0(isoYear(date),"w", isoWeek(date))
   date
 }
+
+
+#' Title
+#'
+#' @param date 
+#' @param origin 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+distanceIsoWeeks <- function (date = date, origin = "2019-09-30"){
+  
+  # if variable is not date, set to date.  
+  # if (class(date)!="Date"){
+  #   date <- validDate(date)
+  # }
+  
+  # Find date of start of week (a monday by default)
+  prevMonOrig <- as.Date(cut(as.Date(origin), "weeks"))
+  prevMonDate <-as.Date(cut(as.Date(date), "weeks"))
+  
+  # calculate difference in weeks between origin and input date
+  numberWeeks <- (prevMonDate-prevMonOrig)/7
+  numberWeeks
+}
+
+# END of SCRIPT  --------------------------------------------------------
+
 
 # END of SCRIPT  --------------------------------------------------------
