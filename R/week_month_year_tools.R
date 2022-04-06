@@ -21,16 +21,7 @@
 
 # START of SCRIPT  --------------------------------------------------------
 
-#' calYear
-#'
-#' @param data 
-#' @param varname 
-#'
-#' @return variable
-#' @export
-#'
-#' @examples
-calYear <- function(data, varname){
+calYear <- function(date){
   # enable non-character input of varname  
   s_op <- deparse(substitute(varname))
   # if varname is a variable which contain char, we use content of varname
@@ -43,25 +34,17 @@ calYear <- function(data, varname){
   varname <- s_op
   
   # if variable is not date, set to date.  
-  # if (class(data[,varname])!="Date"){
-  #   data[,varname] <- validDate(data[,varname])
+  # if (class(date)!="Date"){
+  #   date <- validDate(date)
   # }
   
   # Use base code to extract year from date  
-  data[,varname] <- format(data[,varname], format="%Y")
-  data[, varname]
+  date <- format(date, format="%Y")
+  date
 }
 
-#' isoYear
-#'
-#' @param data 
-#' @param varname 
-#'
-#' @return variable
-#' @export
-#'
-#' @examples
-isoYear <- function (data, varname){
+
+isoYear <- function (date){
   # enable non-character input of varname  
   s_op <- deparse(substitute(varname))
   # if varname is a variable which contain char, we use content of varname
@@ -74,28 +57,16 @@ isoYear <- function (data, varname){
   varname <- s_op
   
   # if variable is not date, set to date.  
-  # if (class(data[,varname])!="Date"){
-  #   data[,varname] <- validDate(data[,varname])
+  # if (class(date)!="Date"){
+  #   date <- validDate(date)
   # }
   
   # Use base code to extract week from date  
-  data[,varname] <- strftime(data[,varname], format="%G")
-  data[, varname]
+  date <- strftime(date, format="%G")
+  date
 }
 
-
-
-
-#' abvMonth
-#'
-#' @param data 
-#' @param varname 
-#'
-#' @return variable
-#' @export
-#'
-#' @examples
-abvMonth <- function(data, varname){
+abvMonth <- function(date){
   # enable non-character input of varname  
   s_op <- deparse(substitute(varname))
   # if varname is a variable which contain char, we use content of varname
@@ -108,28 +79,17 @@ abvMonth <- function(data, varname){
   varname <- s_op
   
   # if variable is not date, set to date.  
-  # if (class(data[,varname])!="Date"){
-  #   data[,varname] <- validDate(data[,varname])
+  # if (class(date)!="Date"){
+  #   date <- validDate(date)
   # }
   
   # Use base code to extract month from date  
-  data[,varname] <- format(data[,varname], format="%b")
-  data[, varname]
+  date <- format(date, format="%b")
+  date
 }
 
 
-
-
-#' isoWeek
-#'
-#' @param data 
-#' @param varname 
-#'
-#' @return variable
-#' @export
-#'
-#' @examples
-isoWeek <- function(data, varname){
+isoWeek <- function(date){
   # enable non-character input of varname  
   s_op <- deparse(substitute(varname))
   # if varname is a variable which contain char, we use content of varname
@@ -142,27 +102,17 @@ isoWeek <- function(data, varname){
   varname <- s_op
   
   # if variable is not date, set to date.  
-  # if (class(data[,varname])!="Date"){
-  #   data[,varname] <- validDate(data[,varname])
+  # if (class(date)!="Date"){
+  #   date <- validDate(date)
   # }
   
   # Use base code to extract week from date  
-  data[,varname] <- strftime(data[,varname], format="%V")
-  data[, varname]
+  date <- strftime(date, format="%V")
+  date
 }
 
 
-
-#' isoYearWeek
-#'
-#' @param data 
-#' @param varname 
-#'
-#' @return variable
-#' @export
-#'
-#' @examples
-isoYearWeek <- function(data, varname){
+isoYearWeek <- function(date){
   # enable non-character input of varname  
   s_op <- deparse(substitute(varname))
   # if varname is a variable which contain char, we use content of varname
@@ -175,14 +125,13 @@ isoYearWeek <- function(data, varname){
   varname <- s_op
   
   # if variable is not date, set to date.  
-  # if (class(data[,varname])!="Date"){
-  #   data[,varname] <- validDate(data[,varname])
+  # if (class(date)!="Date"){
+  #   date <- validDate(date)
   # }
   
   # Use base code to extract YEARwWEEK from date  
-  # Use base code to extract YEARwWEEK from date  
-  data[,varname] <- paste0(isoYear(data,varname), "w", isoWeek(data,varname))
-  data[, varname]
+  date <- paste0(isoYear(date),"w", isoWeek(date))
+  date
 }
 
 # END of SCRIPT  --------------------------------------------------------
