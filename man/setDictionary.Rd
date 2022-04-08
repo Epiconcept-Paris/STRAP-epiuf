@@ -2,7 +2,7 @@
 % Please edit documentation in R/applydictionary.R
 \name{setDictionary}
 \alias{setDictionary}
-\title{Title}
+\title{setDictionary}
 \usage{
 setDictionary(dictionary)
 }
@@ -10,8 +10,8 @@ setDictionary(dictionary)
 \item{dictionary}{A dictionary epiuf structure}
 }
 \value{
-
+Nothing
 }
 \description{
-Title
+setDictionary
 }

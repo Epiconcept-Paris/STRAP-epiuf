@@ -32,12 +32,12 @@
 # 
 
 # START of SCRIPT  --------------------------------------------------------
-#' Title
+#' collapseVarAll
 #'
 #' @param data Dataset to be processed
 #' @param action A Dictionary action list structure 
 #'
-#' @return
+#' @return The dataset with collapsed variable
 #' @export
 #'
 

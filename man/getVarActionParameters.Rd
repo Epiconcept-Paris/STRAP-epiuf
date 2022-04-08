@@ -2,7 +2,7 @@
 % Please edit documentation in R/applydictionary.R
 \name{getVarActionParameters}
 \alias{getVarActionParameters}
-\title{Title}
+\title{getVarActionParameters}
 \usage{
 getVarActionParameters(variablename, actiontag)
 }
@@ -12,8 +12,8 @@ getVarActionParameters(variablename, actiontag)
 \item{actiontag}{Name of the action group}
 }
 \value{
-
+The parameters associated to the variable action
 }
 \description{
-Title
+getVarActionParameters
 }

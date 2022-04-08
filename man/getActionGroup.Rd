@@ -2,7 +2,7 @@
 % Please edit documentation in R/applydictionary.R
 \name{getActionGroup}
 \alias{getActionGroup}
-\title{Title}
+\title{getActionGroup}
 \usage{
 getActionGroup(actiontag)
 }
@@ -13,5 +13,5 @@ getActionGroup(actiontag)
 dataset containing all the variables with actions of type actionname
 }
 \description{
-Title
+getActionGroup
 }

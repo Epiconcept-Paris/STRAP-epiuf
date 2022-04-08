@@ -2,7 +2,7 @@
 % Please edit documentation in R/matchDico.R
 \name{matchDico}
 \alias{matchDico}
-\title{Title}
+\title{matchDico}
 \usage{
 matchDico(data, mydicos, varname, diconame)
 }
@@ -16,8 +16,8 @@ matchDico(data, mydicos, varname, diconame)
 \item{diconame}{Name of the corresponding dico}
 }
 \value{
-
+A dataset with potential differences
 }
 \description{
-Title
+matchDico
 }

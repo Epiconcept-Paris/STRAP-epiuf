@@ -21,7 +21,31 @@
 
 # START of SCRIPT  --------------------------------------------------------
 
+#' externalFile
+#' 
+#' This function is used mainly for vignettes. The file is searched 
+#' - locally
+#' - into extdata from package 
+#' - into inst/extdata locally 
+#'
+#' @param extfile Filename
+#'
+#' @return The full path to access the founded file
+#' @export
+#'
+#' @examples
+#' externalFile("testbrand.csv")
+externalFile <- function(extfile) {
+  if (!file.exists(extfile) ) {
+    extfile <- system.file("extdata", extfile, package = "epiuf")
+  }
+  if (! file.exists(extfile)) {
+    extfile <- file.path("../inst/extdata",extfile)
+  }
 
+  stopifnot(file.exists(extfile))
+  return(extfile)
+} 
 
 #' listFiles
 #'

@@ -2,7 +2,7 @@
 % Please edit documentation in R/applydictionary.R
 \name{openDictionary}
 \alias{openDictionary}
-\title{Title}
+\title{openDictionary}
 \usage{
 openDictionary(filename)
 }
@@ -10,8 +10,8 @@ openDictionary(filename)
 \item{filename}{The file (xls) containing a dictionary. The dictionary will be loaded}
 }
 \value{
-
+Nothing
 }
 \description{
-Title
+openDictionary
 }

@@ -30,11 +30,11 @@ epidictionaryfiles_env$actions <- NULL
 
 
 # this function would be rarely used except for tests
-#' Title
+#' setDictionary
 #'
 #' @param dictionary A dictionary epiuf structure 
 #'
-#' @return
+#' @return Nothing
 #' @export
 #'
 
@@ -44,7 +44,7 @@ setDictionary  <- function(dictionary) {
   
 }
 
-#' Title
+#' getDictionary
 #'
 #' @return The current dictionary
 #' @export
@@ -53,11 +53,11 @@ getDictionary <- function() {
   return(epidictionaryfiles_env$data)
 }
 
-#' Title
+#' openDictionary
 #'
 #' @param filename The file (xls) containing a dictionary. The dictionary will be loaded
 #'
-#' @return
+#' @return Nothing
 #' @export
 #'
 
@@ -100,13 +100,13 @@ openDictionary <-  function(filename) {
 
 
 # may be only useful to create an empty dictionary, not urgent 
-#' Title
+#' saveDictionary
 #'
 #' @param filename The filename where to save the dictionary. 
 #' This file will be erased and replaced by a new  one containing the \code{dictionary} 
 #' @param dictionary Optionaly a dictionary. By default the current dictionary will be saved
 #'
-#' @return
+#' @return Nothing
 #' @export
 #'
 
@@ -147,7 +147,7 @@ saveDictionary <- function(filename=NULL,dictionary=NULL) {
 }
 
 # we need to add the current status ! 
-#' Title
+#' getNewDictionaryLine
 #'
 #' @param mode Type of line to return. Could be dictionary, dicos, or actions
 #'
@@ -186,7 +186,7 @@ getNewDictionaryLine  <- function(mode="dictionary") {
 }
 
 
-#' Title
+#' getDicos
 #'
 #' @return The dataset containing all the dicos 
 #' @export
@@ -196,11 +196,11 @@ getDicos <- function() {
   return(epidictionaryfiles_env$dicos)
 }
 
-#' Title
+#' setDicos
 #'
 #' @param dic A dataset of dicos (with epiuf structure as returned by getNewDictionaryLine)
 #'
-#' @return
+#' @return nothing
 #' @export
 #'
 #'  
@@ -208,7 +208,7 @@ setDicos <- function(dic) {
   epidictionaryfiles_env$dicos <- dic
 }
 
-#' Title
+#' getDictionaryActions
 #'
 #' @return A dataset of actions 
 #' @export
@@ -218,11 +218,11 @@ getDictionaryActions <- function() {
   return(epidictionaryfiles_env$actions)
 }
 
-#' Title
+#' setDictionaryActions
 #'
 #' @param actions A dataset of actions 
 #'
-#' @return
+#' @return Nothing
 #' @export
 #'
 #'  
@@ -231,7 +231,7 @@ setDictionaryActions <- function(actions) {
 }
 
 
-#' Title
+#' getDictionaryValue
 #'
 #' @param varname The varname for which we will retrieve content of one column from dictionary
 #' @param valuename Name of the coulumn to retrieve from dictionary
@@ -249,11 +249,11 @@ getDictionaryValue <- function(varname, valuename) {
   return(value)
 }
 
-#' Title
+#' getDicoOfVar
 #'
 #' @param varname The variable for which we want to retrieve the name of the associated dico
 #'
-#' @return
+#' @return The name of the dico associated with the variable
 #' @export
 #'
 #'  
@@ -262,7 +262,7 @@ getDicoOfVar <- function(varname) {
    getDico(diconame)
 }
 
-#' Title
+#' getDico
 #'
 #' @param diconame The name of one dico from the dicos structure
 #'
@@ -275,12 +275,12 @@ getDico <- function(diconame) {
   ds <-  subset(ds,ds$dico == diconame)
 }
 
-#' Title
+#' getVarAction
 #'
 #' @param variablename The variable for which we want to retrieve the the associated action
 #' @param actiontag The name of the action group to retrieve
 #'
-#' @return
+#' @return A dataset of var actions records for the variable 
 #' @export
 #'
 #'  
@@ -290,12 +290,12 @@ getVarAction <- function(variablename,actiontag) {
     ds <-  subset(ds,ds$variable == variablename & ds$action_group == actiontag )
 }
 
-#' Title
+#' getVarActionParameters
 #'
 #' @param variablename The variable for which we want to retrieve the the associated action parameters
 #' @param actiontag Name of the action group 
 #'
-#' @return
+#' @return The parameters associated to the variable action
 #' @export
 #'
 #'  
@@ -304,7 +304,7 @@ getVarActionParameters <- function(variablename,actiontag) {
   ifelse(nrow(ds)>0, ds$parameters, NA)
 }  
 
-#' Title
+#' getActionGroup
 #'
 #' @param actiontag Name of the action group to retrieve
 #'
@@ -441,9 +441,9 @@ applyDictionary <- function( dictionary=NULL, data, verbose=TRUE, keepextra = FA
 }
 
 
-#' Title
+#' createDictionary
 #'
-#' @return
+#' @return An empty dictionnary
 #' @export
 #'
 #'  

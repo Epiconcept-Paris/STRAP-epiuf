@@ -39,6 +39,30 @@ camel <- function(x){
   sapply(strsplit(x, "_"), function(x) paste(capit(x), collapse=""))
 }
 
+#' cleanNames
+#'
+#' @param name A string to clean by removing non ascii char and accents
+#' @param chr A chr used to replace non ascii character  
+#'
+#' @return the cleaned string
+#' @export
+#'
+#' @examples
+#' x <- "ÁbcdêãçoàúüEssai/=+$67"
+#' cleanNames(x)  # no libraries needed
+
+cleanNames <-  function(name,chr="") {
+  # will remove all punctuation defined as  "a1~!@#$%^&*(){}_+:\"<>?,./;'[]-=" 
+  # if you want to keep only non accent alpha numeric use : [^a-zA-Z0-9] or [^[:alnum:]]
+  # here we use iconv to transform accent char to simple ascii 
+  
+  name <- iconv(name, from="", to="ASCII//TRANSLIT") # will replace  accentued with ascii 
+  gsub("[[:punct:]]", chr, name)  # no libraries needed
+  
+}
+# x <- "ÁbcdêãçoàúüEssai/=+$67"
+# x <-  iconv( x , from="", to="ASCII//TRANSLIT")
+# gsub("[^a-zA-Z0-9]", "",x )  # no libraries needed
 
 #' catret
 #'    cat ret is a wrapper for cat(...,"newline")

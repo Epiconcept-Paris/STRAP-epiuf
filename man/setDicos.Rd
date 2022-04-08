@@ -2,7 +2,7 @@
 % Please edit documentation in R/applydictionary.R
 \name{setDicos}
 \alias{setDicos}
-\title{Title}
+\title{setDicos}
 \usage{
 setDicos(dic)
 }
@@ -10,8 +10,8 @@ setDicos(dic)
 \item{dic}{A dataset of dicos (with epiuf structure as returned by getNewDictionaryLine)}
 }
 \value{
-
+nothing
 }
 \description{
-Title
+setDicos
 }

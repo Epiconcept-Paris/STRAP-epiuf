@@ -2,7 +2,7 @@
 % Please edit documentation in R/applydictionary.R
 \name{getVarAction}
 \alias{getVarAction}
-\title{Title}
+\title{getVarAction}
 \usage{
 getVarAction(variablename, actiontag)
 }
@@ -12,8 +12,8 @@ getVarAction(variablename, actiontag)
 \item{actiontag}{The name of the action group to retrieve}
 }
 \value{
-
+A dataset of var actions records for the variable
 }
 \description{
-Title
+getVarAction
 }

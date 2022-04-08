@@ -19,9 +19,7 @@ library(kableExtra)
 This document show examples of epiFunction use
 ```{r, config, echo = FALSE, include=FALSE}
 
-# df <- readData("vignettes/testbrand.csv")
-# switched to document directory 
-df <- readData("testbrand.csv") 
+df <- readData("vignettes/testbrand.csv")
 
 ```
 
@@ -81,7 +79,7 @@ freq(dfError$recodedBrand,missing=TRUE)
 
 Result saved to :
 ```{r, saveresult , eval=FALSE, echo = FALSE}
-write.csv(dfError,file="Brand Error.csv")
+write.csv(dfError,file="vignettes/Brand Error.csv")
 
 ```
 

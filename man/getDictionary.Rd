@@ -2,7 +2,7 @@
 % Please edit documentation in R/applydictionary.R
 \name{getDictionary}
 \alias{getDictionary}
-\title{Title}
+\title{getDictionary}
 \usage{
 getDictionary()
 }
@@ -10,5 +10,5 @@ getDictionary()
 The current dictionary
 }
 \description{
-Title
+getDictionary
 }

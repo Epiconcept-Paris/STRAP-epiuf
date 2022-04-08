@@ -21,13 +21,13 @@
 
 # START of SCRIPT  --------------------------------------------------------
 
-#' Title
+#' reverseFactorUsingDico
 #'
 #' @param data A dateset to process
 #' @param dictionary A dictionary epiuf structure
 #' @param dicos A dicos epiuf structure 
 #'
-#' @return
+#' @return The dataset modified 
 #' @export
 #'
 

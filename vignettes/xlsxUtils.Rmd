@@ -14,7 +14,6 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 library(epiuf)
 
-
 ```
 
 ## xlsxUtility functions
@@ -26,7 +25,8 @@ The first avalaible function is **openXlsx** This function load a workbook in me
 It is also possible to assign the workbook to a local variable if needed (to work with more than one workbook at a time)
 
 ```{r data}
- openXlsx("excelfile.xlsx")
+xls_file <- externalFile("excelfile.xlsx")
+openXlsx(xls_file)
 
 ```
 
@@ -42,8 +42,8 @@ cells <- openSheet("T2")
 Optionnaly you can load cells from a local workbook
 
 ```{r usage2 }
-
-wb <- openXlsx("excelfile.xlsx")
+xls_file <- externalFile("excelfile.xlsx")
+wb <- openXlsx(xls_file)
 cells <-  openSheet("T2",wb)
 
 ```

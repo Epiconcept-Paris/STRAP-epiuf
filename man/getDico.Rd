@@ -2,7 +2,7 @@
 % Please edit documentation in R/applydictionary.R
 \name{getDico}
 \alias{getDico}
-\title{Title}
+\title{getDico}
 \usage{
 getDico(diconame)
 }
@@ -13,5 +13,5 @@ getDico(diconame)
 A datset containing one dico (list of code/labels)
 }
 \description{
-Title
+getDico
 }

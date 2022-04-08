@@ -2,7 +2,7 @@
 % Please edit documentation in R/applydictionary.R
 \name{getDictionaryValue}
 \alias{getDictionaryValue}
-\title{Title}
+\title{getDictionaryValue}
 \usage{
 getDictionaryValue(varname, valuename)
 }
@@ -15,5 +15,5 @@ getDictionaryValue(varname, valuename)
 A single value
 }
 \description{
-Title
+getDictionaryValue
 }

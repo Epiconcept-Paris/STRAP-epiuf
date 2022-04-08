@@ -34,14 +34,14 @@
 
 
 ## matchDico function: 
-#' Title
+#' matchDico
 #'
 #' @param data The dataset to process
 #' @param mydicos The dico (epiuf structure) to use 
 #' @param varname The variable to check
 #' @param diconame Name of the corresponding dico 
 #'
-#' @return
+#' @return A dataset with potential differences 
 #' @export
 #'
 

@@ -4,14 +4,14 @@
 \alias{tab}
 \title{tab}
 \usage{
-tab(..., includeNA = "ifany", data = df)
+tab(..., includeNA = "ifany", data)
 }
 \arguments{
-\item{...}{}
+\item{...}{Variable or vector}
 
-\item{includeNA}{}
+\item{includeNA}{Should NA be included in results ?}
 
-\item{data}{}
+\item{data}{The dataset which contain the variables}
 }
 \value{
 cross table

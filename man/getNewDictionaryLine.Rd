@@ -2,7 +2,7 @@
 % Please edit documentation in R/applydictionary.R
 \name{getNewDictionaryLine}
 \alias{getNewDictionaryLine}
-\title{Title}
+\title{getNewDictionaryLine}
 \usage{
 getNewDictionaryLine(mode = "dictionary")
 }
@@ -13,5 +13,5 @@ getNewDictionaryLine(mode = "dictionary")
 An empty record of type \code{mode}
 }
 \description{
-Title
+getNewDictionaryLine
 }

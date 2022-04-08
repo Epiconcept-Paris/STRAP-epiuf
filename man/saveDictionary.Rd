@@ -2,7 +2,7 @@
 % Please edit documentation in R/applydictionary.R
 \name{saveDictionary}
 \alias{saveDictionary}
-\title{Title}
+\title{saveDictionary}
 \usage{
 saveDictionary(filename = NULL, dictionary = NULL)
 }
@@ -13,8 +13,8 @@ This file will be erased and replaced by a new  one containing the \code{diction
 \item{dictionary}{Optionaly a dictionary. By default the current dictionary will be saved}
 }
 \value{
-
+Nothing
 }
 \description{
-Title
+saveDictionary
 }

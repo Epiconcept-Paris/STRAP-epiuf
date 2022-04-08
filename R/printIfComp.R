@@ -21,7 +21,7 @@
 
 # START of SCRIPT  --------------------------------------------------------
 
-#' Title
+#' printIfComp
 #'
 #' @param data The dataset to check 
 #' @param data_old The other dataset which may contain same records
@@ -30,7 +30,7 @@
 #' @param threshold Something ..
 #' @param varname The ID variaable to display
 #'
-#' @return
+#' @return  The text to print
 #' @export
 #'
 

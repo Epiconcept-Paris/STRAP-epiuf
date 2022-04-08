@@ -2,7 +2,7 @@
 % Please edit documentation in R/applydictionary.R
 \name{getDictionaryActions}
 \alias{getDictionaryActions}
-\title{Title}
+\title{getDictionaryActions}
 \usage{
 getDictionaryActions()
 }
@@ -10,5 +10,5 @@ getDictionaryActions()
 A dataset of actions
 }
 \description{
-Title
+getDictionaryActions
 }

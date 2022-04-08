@@ -2,7 +2,7 @@
 % Please edit documentation in R/ReverseFactorUsingDico.R
 \name{reverseFactorUsingDico}
 \alias{reverseFactorUsingDico}
-\title{Title}
+\title{reverseFactorUsingDico}
 \usage{
 reverseFactorUsingDico(data, dictionary = NULL, dicos = NULL)
 }
@@ -14,8 +14,8 @@ reverseFactorUsingDico(data, dictionary = NULL, dicos = NULL)
 \item{dicos}{A dicos epiuf structure}
 }
 \value{
-
+The dataset modified
 }
 \description{
-Title
+reverseFactorUsingDico
 }
