@@ -18,8 +18,8 @@ library(kableExtra)
 
 This document show examples of epiFunction use
 ```{r, config, echo = FALSE, include=FALSE}
-
-df <- readData("vignettes/testbrand.csv")
+ext_file <- externalFile("testbrand.csv")
+df <- readData(ext_file)
 
 ```
 
@@ -70,7 +70,7 @@ All values which are not matching are NA so we can check them
 ```{r, checkError , echo = TRUE}
 
 dfError <- df[is.na(df$correctBrand),]
-kable(dfError,row.names = FALSE) 
+knitr::kable(dfError,row.names = FALSE) 
 freq(dfError$recodedBrand,missing=TRUE)
 
 ```
