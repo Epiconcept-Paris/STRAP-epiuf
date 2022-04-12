@@ -42,21 +42,33 @@ applyNA <- function(data, varname, searchlist=NULL, join=FALSE){
   )
   varname <- s_op
   
-  if (is.null(searchlist)){
-    searchlist <- "^[[:space:]]*$|^dnk$|^nd$|^na$|^nsp$|^ne zna$|^unknown$|^do not know$"     # default searchlist if none provided
-  }else{
-    searchlist <- ifelse(join==TRUE,paste0(searchlist,"|^[[:space:]]*$|^dnk$|^nd$|^na$|^nsp$|^ne zna$|^unknown$|^do not know$"),    # add default searchlist to provided if specified
-                         paste(searchlist, collapse = "|"))                                                                         # If searchlist is c(1,2) converted to -> searchlist = "1|2"
+  if (is.character(data[,varname])){
+    if (is.null(searchlist)){
+      searchlist <- "^[[:space:]]*$|^dnk$|^nd$|^na$|^nsp$|^ne zna$|^unknown$|^do not know$"     # default searchlist if none provided
+    }else{
+      searchlist <- ifelse(join==TRUE,paste0(searchlist,"|^[[:space:]]*$|^dnk$|^nd$|^na$|^nsp$|^ne zna$|^unknown$|^do not know$"),    # add default searchlist to provided if specified
+                           paste(searchlist, collapse = "|"))                                                                         # If searchlist is c(1,2) converted to -> searchlist = "1|2"
+    }
+    
+    numchange <- length(which(grepl(searchlist, data[,varname] )))   # retrieve number of instances which match search list
+    
+    data[,varname] <- sapply(X = data[,varname],FUN = function(x)
+      gsub(pattern = searchlist, x = x, replacement = NA,ignore.case = TRUE))  # for variable specified, replace all instances of searchlist with NA
+    
+    catret(paste0(varname, ": ", numchange, " values converted to NA"))            # print number of changes made
+    
+  }
+  else if(!is.null(searchlist)){
+    numchange <- length(which(grepl(paste(searchlist, collapse = "|"), data[,varname] )))   # retrieve number of instances which match search list
+    
+    for(i in searchlist){
+      data[,varname] <- ifelse(data[,varname]==i, NA, data[,varname])
+    }
+    catret(paste0(varname, ": ", numchange, " values converted to NA"))            # print number of changes made
   }
   
-  numchange <- length(which(grepl(searchlist, data[,varname] )))   # retrieve number of instances which match search list
-  
-  data[,varname] <- sapply(X = data[,varname],FUN = function(x)
-    gsub(pattern = searchlist, x = x, replacement = NA,ignore.case = TRUE))  # for variable specified, replace all instances of searchlist with NA
-  
-  catret(paste0(varname, ": ", numchange, " values converted to NA"))            # print number of changes made
-  
   return(data[,varname])
+  
 }
 
 # END of SCRIPT  --------------------------------------------------------
