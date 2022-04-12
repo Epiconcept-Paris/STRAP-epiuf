@@ -315,6 +315,7 @@ getVarActionParameters <- function(variablename,actiontag) {
 getActionGroup <- function(actiontag) {
   ds <- getDictionaryActions()
   ds <-  subset(ds, ds$action_group == actiontag )
+  return(ds)
 }
 
 
