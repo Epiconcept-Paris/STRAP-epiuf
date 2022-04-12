@@ -42,7 +42,7 @@ applyNAAll <- function(data, dictionary=NULL){
   dicoVar <- intersect(colnames(data), dictionary$generic_name) # Isolate all varnames that are in the dictionary (flag no warnings for those not in dictionary or vice versa here, that is for other functions!)
   
   for (i in dicoVar){
-    unk <- getDictionaryValue(i, "unknown")      # retrieve list of coded unknowns if present. (NA if none given)
+    unk <- getDictionaryValue(i, "unknowns")      # retrieve list of coded unknowns if present. (NA if none given)
 
     if (!is.na(unk)){
       data[,i] <- applyNA(data, i, unk, join=TRUE)
