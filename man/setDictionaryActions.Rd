@@ -2,16 +2,16 @@
 % Please edit documentation in R/applydictionary.R
 \name{setDictionaryActions}
 \alias{setDictionaryActions}
-\title{Title}
+\title{setDictionaryActions}
 \usage{
 setDictionaryActions(actions)
 }
 \arguments{
-\item{actions}{}
+\item{actions}{A dataset of actions}
 }
 \value{
-
+Nothing
 }
 \description{
-Title
+setDictionaryActions
 }

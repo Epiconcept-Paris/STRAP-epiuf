@@ -21,6 +21,9 @@ knitr::opts_chunk$set(
 library(epiuf)
 ```
 
-      Essai
+      Tools Available to manage sources files (import, check, validate, recode)  
 
 -   [printIf](printIf.html)  print message and list of records if condition is verified
+-   [getDelayIf](getdelayIf.html)  calculate delay between two date with controls
+-   [verifySpelling](verifyspelling.html)  print message and list of records if condition is verified
+-   [applyNA](applyna.html)  print message and list of records if condition is verified

@@ -2,16 +2,16 @@
 % Please edit documentation in R/applydictionary.R
 \name{getActionGroup}
 \alias{getActionGroup}
-\title{Title}
+\title{getActionGroup}
 \usage{
 getActionGroup(actiontag)
 }
 \arguments{
-\item{actiontag}{}
+\item{actiontag}{Name of the action group to retrieve}
 }
 \value{
-
+dataset containing all the variables with actions of type actionname
 }
 \description{
-Title
+getActionGroup
 }

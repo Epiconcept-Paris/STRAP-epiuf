@@ -2,22 +2,22 @@
 % Please edit documentation in R/matchDico.R
 \name{matchDico}
 \alias{matchDico}
-\title{Title}
+\title{matchDico}
 \usage{
 matchDico(data, mydicos, varname, diconame)
 }
 \arguments{
-\item{data}{}
+\item{data}{The dataset to process}
 
-\item{mydicos}{}
+\item{mydicos}{The dico (epiuf structure) to use}
 
-\item{varname}{}
+\item{varname}{The variable to check}
 
-\item{diconame}{}
+\item{diconame}{Name of the corresponding dico}
 }
 \value{
-
+A dataset with potential differences
 }
 \description{
-Title
+matchDico
 }

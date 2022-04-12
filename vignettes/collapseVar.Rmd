@@ -1,0 +1,58 @@
+---
+title: "collapseVar"
+author: "JHD"
+date: "24/03/2022"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{collapseVar}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(epiuf)
+
+
+```
+
+collapseVar take number list variables in character format with any separator (eg. "1|2|3", "1/2/3", "1,2,3"), and retains only one input / row based off hirearchy specified and return numeric variable.
+If order input is not complete, a warning is given.
+
+
+```{r testdata}
+
+# create example dataset for testing
+df <- data.frame(checkbox_bar = c("0|2", "1|2|3", "3|1|2", "0", "2", "3", "0|1", "2|3", "")
+                 ,checkbox_comma = c("0,2", "1,2,3", "3,1,2", "0", "2", "3", "0,1", "2,3", "")
+                 ,checkbox_slash = c("0/2", "1/2/3", "3/1/2", "0", "2", "3", "0/1", "2/3", "")
+)
+
+```
+
+
+# Test ability to handle different separators
+```{r tests1}
+df$test <- collapseVar(df, checkbox_bar, c(0,1,2,3))
+df$test <- collapseVar(df, checkbox_comma, c(0,1,2,3))
+df$test <- collapseVar(df, checkbox_slash, c(0,1,2,3))
+``` 
+
+Expected outcome for each:
+0  1  1  0  2  3  0  2 NA
+
+
+# Test what happens if extra numbers in input
+```{r tests2}
+df$test <- collapseVar(df, checkbox_bar, c(0,1,2,3,4))
+``` 
+Expected outcome:
+0  1  1  0  2  3  0  2 NA
+
+# Test what happens if insufficient numbers in input
+```{r tests3}
+df$test <- collapseVar(df, checkbox_bar, c(0,2))
+``` 
+Expected outcome:
+Warning: input order list incomplete, missing 1 3

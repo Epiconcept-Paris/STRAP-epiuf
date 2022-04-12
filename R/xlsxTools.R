@@ -54,7 +54,7 @@ getWorkbook <- function() {
 
 #' 
 #' 
-fillCells <- function(onesheet,line,col, ..., names=FALSE) {
+fillCells <- function(onesheet,line,col, ... , names=FALSE) {
   rows_edit <- xlsx::getRows(onesheet)
   cells <- xlsx::getCells(rows_edit)
   if (is.character(col)){
@@ -62,32 +62,18 @@ fillCells <- function(onesheet,line,col, ..., names=FALSE) {
     asciival <- asciival-64
     col <- sum(asciival)
   }
-  listval <- eval(substitute(alist(...)))
-  for (i in 1:length(listval)) {
-    value <- eval(listval[[i]])
-    # is value a table ? 
+#  listval <- eval(substitute(alist(...)))
+   listval <- list( ...)
+   for (i in 1:length(listval)) {
+     #  value <- eval(listval[[i]],env)
+     value <- ...elt(i)   
+     # is value a table ? 
     if (is.data.frame(value)){
       
       xlsx::addDataFrame(value,onesheet,
                          col.names=names,row.names=names,
                          startRow = line,startColumn = col,
                          showNA = TRUE)
-      # curline <- line
-      # curcol <- col
-      # for (icol in 1:ncol(mat) ) {
-      #    for (irow in 1:nrow(mat)) {
-      #       ivalue <- value[irow,icol]
-      #       cell<- paste0(curline,".",curcol)
-      #       if (is.numeric(ivalue)) {
-      #         ivalue <- ifelse(is.finite(ivalue),ivalue,"")
-      #       } 
-      #       xlsx::setCellValue(cells[[cell]],ivalue  )
-      #       curline <- curline +1
-      #    }
-      #   curline <- line
-      #   curcol <- curcol +1
-      # } 
-      #  
     } else {
       cell<- paste0(line,".",col)
       if (is.numeric(value)) {
@@ -98,7 +84,7 @@ fillCells <- function(onesheet,line,col, ..., names=FALSE) {
       xlsx::CB.setRowData(CB,value,1,0)
       col <- col +1
     }  
-  }
+  }  # end loop i
 }
 
 
@@ -157,7 +143,8 @@ openXlsx <- function(filename="") {
 }
 
 
-#' Title
+#' saveXlsx 
+#'        This function save the current workbook as filename  
 #'
 #' @param wb A optional workbook created or opened by xlsx
 #'                 If not specified, the last workbook loaded with loadXlsx will be used
@@ -186,7 +173,7 @@ saveXlsx <- function(filename="",wb=NULL)  {
       filename <- epixlsx_env$reportFilename
     }
     xlsx::saveWorkbook(report, filename)
-    epixlsx_env$report <- NULL
+    # epixlsx_env$report <- NULL
     cat("Workbook saved as :",filename)
   }
 }

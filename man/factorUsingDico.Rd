@@ -2,20 +2,20 @@
 % Please edit documentation in R/factorUsingDico.R
 \name{factorUsingDico}
 \alias{factorUsingDico}
-\title{Title}
+\title{factorUsingDico}
 \usage{
 factorUsingDico(data, dictionary = NULL, dicos = NULL)
 }
 \arguments{
-\item{data}{}
+\item{data}{The dataset to process}
 
-\item{dictionary}{}
+\item{dictionary}{The dictionary (epiuf structure)}
 
-\item{dicos}{}
+\item{dicos}{The dicos (epiuf structure)}
 }
 \value{
-
+data set
 }
 \description{
-Title
+factorUsingDico
 }

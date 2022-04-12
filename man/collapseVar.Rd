@@ -2,20 +2,20 @@
 % Please edit documentation in R/collapseVar.R
 \name{collapseVar}
 \alias{collapseVar}
-\title{Title}
+\title{collapseVar}
 \usage{
 collapseVar(data, varname, hierarchy)
 }
 \arguments{
-\item{data}{}
+\item{data}{The dataset}
 
-\item{varname}{}
+\item{varname}{Name of variable}
 
-\item{hierarchy}{}
+\item{hierarchy}{ordered list to use in collapse}
 }
 \value{
-
+The variable collapsed and warnings if not possible
 }
 \description{
-Title
+collapseVar
 }

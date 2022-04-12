@@ -21,13 +21,13 @@
 
 # START of SCRIPT  --------------------------------------------------------
 
-#' Title
+#' factorUsingDico
 #'
-#' @param data 
-#' @param dictionary 
-#' @param dicos 
+#' @param data The dataset to process
+#' @param dictionary The dictionary (epiuf structure)
+#' @param dicos The dicos (epiuf structure)
 #'
-#' @return
+#' @return data set
 #' @export
 #'
 
@@ -45,7 +45,7 @@ factorUsingDico <- function(data, dictionary=NULL, dicos=NULL) {
     dicos <- dicos
   }
 
-dicoVar <- intersect(colnames(df), dictionary$generic_name) # Isolate all varnames that are in the dictionary
+dicoVar <- intersect(colnames(data), dictionary$generic_name) # Isolate all varnames that are in the dictionary
   
   for (i in dicoVar){
     diconame <- getDictionaryValue(i, "dico") # output, if dico not present, need standard output - like NA

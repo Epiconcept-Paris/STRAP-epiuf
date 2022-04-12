@@ -21,15 +21,14 @@
 # START of SCRIPT  --------------------------------------------------------
 
 
-#' applyNA
+#' applyNAAll
 #'
-#' @param data 
-#' @param dictionary (optional)
+#' @param data The dataset where to applyNA for each variable using the dictionnary
+#' @param dictionary an optional dictionary (epiuf strucure see \link{getDictionary}) 
 #'
 #' @return data.frame and printed output
 #' @export
 #'
-#' @examples df <- applyNAAll(df)
 #' 
 #'
 applyNAAll <- function(data, dictionary=NULL){

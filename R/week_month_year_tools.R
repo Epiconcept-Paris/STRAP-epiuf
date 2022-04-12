@@ -45,14 +45,15 @@
 
 # START of SCRIPT  --------------------------------------------------------
 
-#' Title
+#' calYear
 #'
-#' @param date 
+#' @param date A date value
 #'
-#' @return
+#' @return The calendar Year of the date 
 #' @export
 #'
 #' @examples
+#' calYear(Sys.Date())
 calYear <- function(date){
   
   # if variable is not date, set to date.  
@@ -66,14 +67,16 @@ calYear <- function(date){
 }
 
 
-#' Title
+#' isoYear 
 #'
-#' @param date 
+#' @param date A date value
 #'
-#' @return
+#' @return The isoYear of the date value which may be different from the
+#'         calendar Year 
 #' @export
 #'
 #' @examples
+#' isoYear(Sys.Date())
 isoYear <- function (date){
   
   # if variable is not date, set to date.  
@@ -86,14 +89,15 @@ isoYear <- function (date){
   date
 }
 
-#' Title
+#' abvMonth 
 #'
-#' @param date 
+#' @param date  A date Value
 #'
-#' @return
+#' @return The month of the date in abreviated format 
 #' @export
 #'
 #' @examples
+#' abvMonth(Sys.Date())
 abvMonth <- function(date){
   
   
@@ -108,14 +112,15 @@ abvMonth <- function(date){
 }
 
 
-#' Title
+#' isoWeek
 #'
-#' @param date 
+#' @param date A date Value
 #'
-#' @return
+#' @return The iso Week Number
 #' @export
 #'
 #' @examples
+#' isoWeek(Sys.Date())
 isoWeek <- function(date){
   
   
@@ -130,14 +135,15 @@ isoWeek <- function(date){
 }
 
 
-#' Title
+#' isoYearWeek
 #'
-#' @param date 
+#' @param date A date Value
 #'
-#' @return
-#' @export
+#' @return The iso year week of the Date  in xx w yyyy format  (43w2020) 
+ #' @export
 #'
 #' @examples
+#' isoYearWeek(Sys.Date())
 isoYearWeek <- function(date){
   
   
@@ -152,15 +158,16 @@ isoYearWeek <- function(date){
 }
 
 
-#' Title
+#' distanceIsoWeeks
 #'
-#' @param date 
-#' @param origin 
+#' @param date A date Value
+#' @param origin A reference date value
 #'
-#' @return
+#' @return the nimber of isoweek between the two dates
 #' @export
 #'
 #' @examples
+#' distanceIsoWeeks(Sys.Date(),"2000-01-01")
 distanceIsoWeeks <- function (date = date, origin = "2019-09-30"){
   
   # if variable is not date, set to date.  

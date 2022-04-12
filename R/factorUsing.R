@@ -22,14 +22,14 @@
 # START of SCRIPT  --------------------------------------------------------
 
 
-#' Title
+#' factorUsing
 #'
-#' @param data 
-#' @param varname 
-#' @param dicoCode 
-#' @param dicoLabel 
+#' @param data DataSet which contain \code{varname}
+#' @param varname The variable to factorise
+#' @param dicoCode The list of code 
+#' @param dicoLabel The corresponding list of labels
 #'
-#' @return
+#' @return factored variable
 #' @export
 #'
 

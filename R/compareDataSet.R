@@ -98,5 +98,20 @@ updateDataset <- function(data, modele) {
   return(data)
 }
 
+#' appendDataset
+#'
+#' @param maindata A dataset  for pooled data
+#' @param datatoadd  A dataset to Add to pooled
+#'
+#' @return  The pooled dataset 
+#' @export
+#'
+#' 
+datatoaddset <- function(maindata, datatoadd) {
+   maindata[setdiff(names(maindata),names(datatoadd))] <-  NA
+   datatoadd[setdiff(names(datatoadd),names(maindata))] <-  NA
+   result <- rbind(maindata,datatoadd)
+}
+
 
 # END of SCRIPT  --------------------------------------------------------

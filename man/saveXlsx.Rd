@@ -2,7 +2,8 @@
 % Please edit documentation in R/xlsxTools.R
 \name{saveXlsx}
 \alias{saveXlsx}
-\title{Title}
+\title{saveXlsx
+This function save the current workbook as filename}
 \usage{
 saveXlsx(filename = "", wb = NULL)
 }
@@ -16,7 +17,8 @@ If not specified, the last workbook loaded with loadXlsx will be used}
 nothing
 }
 \description{
-Title
+saveXlsx
+This function save the current workbook as filename
 }
 \examples{
 

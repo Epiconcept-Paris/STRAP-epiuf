@@ -1,27 +1,89 @@
 ---
-title: "essai"
-output: 
-  rmarkdown::html_vignette
-
+title: "verifySpelling"
+output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{essai}
-  %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{verifySpelling}
   %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
-
-```{r setup}
+```{r , setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
 library(epiuf)
-```
-Test de Vignette pour le package 
+library(kableExtra)
 
-```{r}
-  cat("ok")
 ```
+
+## Epifunction : verifySpelling 
+
+This document show examples of epiFunction use
+```{r, config, echo = FALSE, include=FALSE}
+ext_file <- externalFile("testbrand.csv")
+df <- readData(ext_file)
+
+```
+
+We use a brand name list to compare incorrectly spelled values
+
+```{r, verifySpelling , echo = TRUE}
+
+BrandName <- c("Pfizer","Moderna","Comirnaty","AstraZeneca","Spikevax",
+                     "Jansen","Comirnaty (Pfizer/BioNTech)","vaxzevria",
+                     "Johnson & Johnson","Pfizer/BioNTech Comirnaty")
+
+verifySpelling("Maderna", BrandName)
+
+```
+
+We can use verifySpelling with sapply to add a new column containing guessed correct value in the dataset 
+```{r, addColumn , echo = TRUE}
+
+df$correctBrand <- sapply(df$covvaccbrand_firstdose,verifySpelling,BrandName,ErrPerc=0.4)
+head(df,10)
+```
+We can also use a named list of brand name to regroup value like a recode 
+(But that recode accept similar values instead of equal values)
+
+```{r, verify and recode , echo = TRUE}
+
+BrandList <- c("Pfizer"="Pfizer",
+               "Pfizer"="Pfizer/BioNTech Comirnaty",
+               "Pfizer"="Comirnaty (Pfizer/BioNTech)",
+               "Pfizer"="Comirnaty",
+               "Moderna"="Moderna",
+               "Moderna"="Spikevax",
+               "AstraZeneca"="AstraZeneca",
+               "AstraZeneca"="Vaxzevria",
+               "Janssen"="Janssen",
+               "Johnson & Johnson"="Johnson & Johnson"
+               )
+
+
+df$recodedBrand <- sapply(df$covvaccbrand_firstdose,verifySpelling,BrandList,ErrPerc=0.4)
+head(df,10)
+
+
+```
+
+All values which are not matching are NA so we can check them 
+
+```{r, checkError , echo = TRUE}
+
+dfError <- df[is.na(df$correctBrand),]
+knitr::kable(dfError,row.names = FALSE) 
+freq(dfError$recodedBrand,missing=TRUE)
+
+```
+
+
+
+Result saved to :
+```{r, saveresult , eval=FALSE, echo = FALSE}
+write.csv(dfError,file="vignettes/Brand Error.csv")
+
+```
+
+
+
+
 

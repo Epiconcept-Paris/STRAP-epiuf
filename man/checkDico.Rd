@@ -2,20 +2,20 @@
 % Please edit documentation in R/checkDico.R
 \name{checkDico}
 \alias{checkDico}
-\title{Title}
+\title{checkDico}
 \usage{
 checkDico(data, varname, dicoCode)
 }
 \arguments{
-\item{data}{}
+\item{data}{Dataset which contain \code{varname}}
 
-\item{varname}{}
+\item{varname}{The variable to chack against dico}
 
-\item{dicoCode}{}
+\item{dicoCode}{A dico code list}
 }
 \value{
-
+text outputs
 }
 \description{
-Title
+checkDico
 }

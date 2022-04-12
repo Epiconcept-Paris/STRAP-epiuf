@@ -2,20 +2,20 @@
 % Please edit documentation in R/ReverseFactorUsingDico.R
 \name{reverseFactorUsingDico}
 \alias{reverseFactorUsingDico}
-\title{Title}
+\title{reverseFactorUsingDico}
 \usage{
 reverseFactorUsingDico(data, dictionary = NULL, dicos = NULL)
 }
 \arguments{
-\item{data}{}
+\item{data}{A dateset to process}
 
-\item{dictionary}{}
+\item{dictionary}{A dictionary epiuf structure}
 
-\item{dicos}{}
+\item{dicos}{A dicos epiuf structure}
 }
 \value{
-
+The dataset modified
 }
 \description{
-Title
+reverseFactorUsingDico
 }

@@ -2,18 +2,18 @@
 % Please edit documentation in R/applydictionary.R
 \name{getDictionaryValue}
 \alias{getDictionaryValue}
-\title{Title}
+\title{getDictionaryValue}
 \usage{
 getDictionaryValue(varname, valuename)
 }
 \arguments{
-\item{varname}{}
+\item{varname}{The varname for which we will retrieve content of one column from dictionary}
 
-\item{valuename}{}
+\item{valuename}{Name of the coulumn to retrieve from dictionary}
 }
 \value{
-
+A single value
 }
 \description{
-Title
+getDictionaryValue
 }

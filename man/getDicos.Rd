@@ -2,13 +2,13 @@
 % Please edit documentation in R/applydictionary.R
 \name{getDicos}
 \alias{getDicos}
-\title{Title}
+\title{getDicos}
 \usage{
 getDicos()
 }
 \value{
-
+The dataset containing all the dicos
 }
 \description{
-Title
+getDicos
 }

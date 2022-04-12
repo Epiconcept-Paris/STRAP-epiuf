@@ -2,18 +2,18 @@
 % Please edit documentation in R/collapseVarAll.R
 \name{collapseVarAll}
 \alias{collapseVarAll}
-\title{Title}
+\title{collapseVarAll}
 \usage{
 collapseVarAll(data, action = NULL)
 }
 \arguments{
-\item{data}{}
+\item{data}{Dataset to be processed}
 
-\item{action}{}
+\item{action}{A Dictionary action list structure}
 }
 \value{
-
+The dataset with collapsed variable
 }
 \description{
-Title
+collapseVarAll
 }

@@ -28,15 +28,15 @@
 # Function: 
 #' tab
 #'
-#' @param ... 
-#' @param includeNA 
-#' @param data 
+#' @param ...   Variable or vector
+#' @param includeNA Should NA be included in results ?
+#' @param data The dataset which contain the variables
 #'
 #' @return cross table
 #' @export
 #'
-#' @examples
-tab <- function( ..., includeNA="ifany", data=df) {
+#' 
+tab <- function( ..., includeNA="ifany", data) {
   # first we catch the ... parameters
   listvar <- as.list(match.call())
   # we remove the first one which is the function name

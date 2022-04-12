@@ -32,12 +32,12 @@
 # 
 
 # START of SCRIPT  --------------------------------------------------------
-#' Title
+#' collapseVarAll
 #'
-#' @param data 
-#' @param action 
+#' @param data Dataset to be processed
+#' @param action A Dictionary action list structure 
 #'
-#' @return
+#' @return The dataset with collapsed variable
 #' @export
 #'
 
@@ -49,7 +49,7 @@ collapseVarAll <- function(data, action=NULL){
   
   collapseActionGroup <- getActionGroup("checkboxcollapse")$variable # get list of all variables taged for an action
 
-  collapseVars <- intersect(colnames(df), collapseActionGroup) # Isolate all varnames associated with collapse action
+  collapseVars <- intersect(colnames(data), collapseActionGroup) # Isolate all varnames associated with collapse action
 
 # loop through order of codes, searching for matches, and replacing when find.
 for (i in collapseVars) {

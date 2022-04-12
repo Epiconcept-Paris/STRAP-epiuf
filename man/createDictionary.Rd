@@ -2,13 +2,13 @@
 % Please edit documentation in R/applydictionary.R
 \name{createDictionary}
 \alias{createDictionary}
-\title{Title}
+\title{createDictionary}
 \usage{
 createDictionary()
 }
 \value{
-
+An empty dictionnary
 }
 \description{
-Title
+createDictionary
 }

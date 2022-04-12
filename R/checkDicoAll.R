@@ -24,13 +24,13 @@
 
 # START of SCRIPT  --------------------------------------------------------
 
-#' Title
+#' checkDicoAll
 #'
-#' @param data 
-#' @param dictionary 
-#' @param dicos 
+#' @param data Dataset to process
+#' @param dictionary An optional dictionary (epiuf strucure see \link{getDictionary}) 
+#' @param dicos A Dico structure containing code and labels  
 #'
-#' @return
+#' @return text outputs
 #' @export
 #'
 
@@ -54,7 +54,7 @@ checkDicoAll <- function(data, dictionary=NULL, dicos=NULL) {
   bold("Variable code and dico code if mismatched:")
   catret()
 
-  dicoVar <- intersect(colnames(df), dictionary$generic_name) # Isolate all varnames that are in the dictionary
+  dicoVar <- intersect(colnames(data), dictionary$generic_name) # Isolate all varnames that are in the dictionary
   
   for (i in dicoVar){
     diconame <- getDictionaryValue(i, "dico") # output, if dico not present, need standard output - like NA

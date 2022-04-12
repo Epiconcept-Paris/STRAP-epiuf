@@ -2,18 +2,18 @@
 % Please edit documentation in R/applydictionary.R
 \name{getVarActionParameters}
 \alias{getVarActionParameters}
-\title{Title}
+\title{getVarActionParameters}
 \usage{
 getVarActionParameters(variablename, actiontag)
 }
 \arguments{
-\item{variablename}{}
+\item{variablename}{The variable for which we want to retrieve the the associated action parameters}
 
-\item{actiontag}{}
+\item{actiontag}{Name of the action group}
 }
 \value{
-
+The parameters associated to the variable action
 }
 \description{
-Title
+getVarActionParameters
 }

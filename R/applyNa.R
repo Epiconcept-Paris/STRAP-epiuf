@@ -18,14 +18,16 @@
 # START of SCRIPT  --------------------------------------------------------
 
 
-#' Title
+#' applyNA 
+#' 
+#'   Default Unknowns : dnk nd na ne zna unknown do not know
 #'
-#' @param data 
-#' @param varname 
-#' @param searchlist 
-#' @param join 
+#' @param data Dataset which contain the variable to be processed
+#' @param varname The variable where all kind of UNKNOWNS should be identified and replaced by NA
+#' @param searchlist An optional list of unknown values
+#' @param join False by default, if TRUE, the searchlist will be added to the default list of UNKNOWNS 
 #'
-#' @return
+#' @return variable with NAs edited and message to confirm, or warning   GDE or data ?
 #' @export
 #'
 #'

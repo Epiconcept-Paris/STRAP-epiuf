@@ -2,16 +2,16 @@
 % Please edit documentation in R/applydictionary.R
 \name{getDicoOfVar}
 \alias{getDicoOfVar}
-\title{Title}
+\title{getDicoOfVar}
 \usage{
 getDicoOfVar(varname)
 }
 \arguments{
-\item{varname}{}
+\item{varname}{The variable for which we want to retrieve the name of the associated dico}
 }
 \value{
-
+The name of the dico associated with the variable
 }
 \description{
-Title
+getDicoOfVar
 }

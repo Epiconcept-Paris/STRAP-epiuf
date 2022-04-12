@@ -21,13 +21,13 @@
 
 # START of SCRIPT  --------------------------------------------------------
 
-#' Title
+#' reverseFactorUsingDico
 #'
-#' @param data 
-#' @param dictionary 
-#' @param dicos 
+#' @param data A dateset to process
+#' @param dictionary A dictionary epiuf structure
+#' @param dicos A dicos epiuf structure 
 #'
-#' @return
+#' @return The dataset modified 
 #' @export
 #'
 
@@ -45,7 +45,7 @@ reverseFactorUsingDico <- function(data, dictionary=NULL, dicos=NULL) {
     dicos <- dicos
   }
 
-dicoVar <- intersect(colnames(df), dictionary$generic_name) # Isolate all varnames that are in the dictionary
+dicoVar <- intersect(colnames(data), dictionary$generic_name) # Isolate all varnames that are in the dictionary
   
   for (i in dicoVar){
     diconame <- getDictionaryValue(i, "dico") # output, if dico not present, need standard output - like NA
