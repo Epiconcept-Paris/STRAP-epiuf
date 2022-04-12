@@ -34,12 +34,12 @@
 applyNAAll <- function(data, dictionary=NULL){
   
   if(is.null(dictionary)){          # retrieve dictionary from global environment if none specified
-    dictionary <- getDictionary()
+    ds <- getDictionary()
   }else{
-    dictionary <- dictionary
+    ds <- dictionary
   }
   
-  dicoVar <- intersect(colnames(data), dictionary$generic_name) # Isolate all varnames that are in the dictionary (flag no warnings for those not in dictionary or vice versa here, that is for other functions!)
+  dicoVar <- intersect(colnames(data), ds$generic_name) # Isolate all varnames that are in the dictionary (flag no warnings for those not in dictionary or vice versa here, that is for other functions!)
   
   for (i in dicoVar){
     unk <- getDictionaryValue(i, "unknowns")      # retrieve list of coded unknowns if present. (NA if none given)
