@@ -273,6 +273,7 @@ getDicoOfVar <- function(varname) {
 getDico <- function(diconame) {
   ds <- getDicos()
   ds <-  subset(ds,ds$dico == diconame)
+  return(ds) 
 }
 
 #' getVarAction
@@ -288,6 +289,7 @@ getVarAction <- function(variablename,actiontag) {
   ds <- getDictionaryActions()
 # GDE check to be added for wrong action name
     ds <-  subset(ds,ds$variable == variablename & ds$action_group == actiontag )
+    return(ds)
 }
 
 #' getVarActionParameters
