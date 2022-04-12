@@ -176,7 +176,7 @@ getNewDictionaryLine  <- function(mode="dictionary") {
                               
   } else if (mode=="actions") {
     OneDataLine <- data.frame(variable=as.character(),               # name in the source
-                              gaction_group=as.character(),              # generic name replacement 
+                              action_group=as.character(),              # generic name replacement 
                               parameters=as.character(),
                               stringsAsFactors=FALSE
                               )
