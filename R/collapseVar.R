@@ -50,8 +50,10 @@ collapseVar <- function(data, varname, hierarchy){
     for (i in 1:length(hierarchy)) {
       
       data[,varname] <- ifelse(grepl(hierarchy[i], data[,varname]), hierarchy[i], data[,varname] )
-      
+
     }
+    # print success
+    catret(varname, ": collapse complete")
     
     return(as.numeric(data[,varname]))
     
