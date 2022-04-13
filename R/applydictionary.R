@@ -381,9 +381,9 @@ applyDictionary <- function( dictionary=NULL, data, verbose=TRUE, keepextra = FA
       epiuf::bold("Extra vars in imported keept in generic  : ",length(VarExtra))
       catret()
       catret(sort(VarExtra),sep="  \n")
-      gen <- data  
+      data <- data  
     }
-  } else { gen <- data } 
+  } else { data <- data } 
   
   # we merge only the matching
   CurNames <- as.data.frame(CurNames)
@@ -396,51 +396,60 @@ applyDictionary <- function( dictionary=NULL, data, verbose=TRUE, keepextra = FA
   } 
   
   # remove from the generic dataset the variables to be dropped because not defined in dictionnary
-  gen <- gen[, -which( (names(gen) %in% todrop) )]
-  
+  if (length(todrop) > 0 ) {
+    data <- data[, -which( (names(data) %in% todrop) )]
+  }  
   
   MatchNames <- MatchNames[! is.na(MatchNames[dicGenericName]),]
-  
+  MatchNames <- MatchNames[! (MatchNames[dicGenericName] == MatchNames[dicSourceName] ),]
+  nbToRename <- nrow(MatchNames)
   if (verbose==TRUE) {
-    bold("Imported vars renamed with a generic name : ", nrow(MatchNames))
+    bold("Imported vars renamed with a generic name : ", nbToRename)
     catret()
     listMatchNames <- list()
-    for (i in 1:nrow(MatchNames) ){
-      listMatchNames[i] <- paste(MatchNames[i,dicGenericName],"<=",MatchNames[i,dicSourceName])
-    }
-    catret(unlist(listMatchNames),sep="\n")
-    if (nrow(MatchNames) > 20) {
-      catret("...")
+    
+    if (nbToRename>0) {
+      for (i in 1:nbToRename ){
+        listMatchNames[i] <- paste(MatchNames[i,dicGenericName],"<=",MatchNames[i,dicSourceName])
+      }
+      catret(unlist(listMatchNames),sep="\n")
+      if (nbToRename > 20) {
+        catret("...")
+      }  
     }  
   }
   # rename the existing
-  for (i in 1:nrow(MatchNames)) {
-    thenewname <- MatchNames[i,dicGenericName]
-    theoldname <- MatchNames[i,dicSourceName]
-    names(gen)[names(gen) == theoldname] <- thenewname 
+  if (nbToRename > 0 ) {
+    for (i in 1:nrow(MatchNames)) {
+      thenewname <- MatchNames[i,dicGenericName]
+      theoldname <- MatchNames[i,dicSourceName]
+      names(data)[names(data) == theoldname] <- thenewname 
+    }
   }
-  
   #now check for missing in final
-  CurNames <- names(gen)
+  CurNames <- unlist(names(data))
   VarMiss <- setdiff(NewNames,CurNames)
-  for (i in 1:length(VarMiss) ) {
-    typevar <-  dictionary[dictionary[[dicGenericName]]==VarMiss[i],"type"]
-    typevar <- typevar[! is.na(typevar)]
-    valuevar <- switch (typevar,
-                        "numeric" = as.numeric(NA), ## EDIT all to be NA and not a value
-                        "character" = as.character(NA),
-                        "date" = as.Date(NA),
-                        NA
-    )
-    gen[,VarMiss[i]] <- valuevar
-  } 
+  nbToAdd <- length(VarMiss)
+  if (nbToAdd>0){ 
+    for (i in 1:nbToAdd ) {
+      typevar <-  dictionary[dictionary[[dicGenericName]]==VarMiss[i],"type"]
+      typevar <- typevar[! is.na(typevar)]
+      valuevar <- switch (typevar,
+                          "numeric" = as.numeric(NA), ## EDIT all to be NA and not a value
+                          "character" = as.character(NA),
+                          "date" = as.Date(NA),
+                          NA
+      )
+      data[,VarMiss[i]] <- valuevar
+    } 
+  }  
   if (verbose==TRUE) {
     bold("Generic vars created (as empty) : ", length(VarMiss))
     catret()
     catret(sort(VarMiss), sep=", ")
   }
   
-  gen
+  data
 }
 
 
