@@ -88,6 +88,11 @@ getDelayIf <- function(data, FirstDateName, SecondDateName, ...) {
   if (! SecondDateName %in% names(data)) {
     stop(SecondDateName," is not a valid column name")
   }
+  
+  # Check if data is a data.frame
+  if(!is.data.frame(data)){
+    stop(data, "is not a data frame")
+  }
 
   # we add a delay variable to the dataset (should we ?) 
   tryCatch(
