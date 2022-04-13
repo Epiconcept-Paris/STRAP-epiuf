@@ -50,7 +50,7 @@ checkDico <- function(data, varname, dicoCode) {
   if (length(varNotDico)>0) {
     
     catret(varname, "contains:" , varUnique, ", Code is:", dicoCode)
-    catret()
+    
   }else{
     catret(varname, "matches dico")
   }
