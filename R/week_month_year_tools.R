@@ -56,7 +56,7 @@
 #' calYear(Sys.Date())
 calYear <- function(date){
   
-  # if variable is not date, set to date.  
+  # if variable is not date, give warning.  
   # if (class(date)!="Date"){
   #   date <- validDate(date)
   # }
@@ -174,7 +174,7 @@ distanceIsoWeeks <- function (date = date, origin = "2019-09-30"){
   # if (class(date)!="Date"){
   #   date <- validDate(date)
   # }
-  
+  if( all(is.na(date))){ NA } else {  
   # Find date of start of week (a monday by default)
   prevMonOrig <- as.Date(cut(as.Date(origin), "weeks"))
   prevMonDate <-as.Date(cut(as.Date(date), "weeks"))
@@ -182,6 +182,7 @@ distanceIsoWeeks <- function (date = date, origin = "2019-09-30"){
   # calculate difference in weeks between origin and input date
   numberWeeks <- (prevMonDate-prevMonOrig)/7
   numberWeeks
+  }
 }
 
 # END of SCRIPT  --------------------------------------------------------
