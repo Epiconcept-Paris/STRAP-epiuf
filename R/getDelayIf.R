@@ -91,8 +91,8 @@ getDelayIf <- function(data, FirstDateName, SecondDateName, ...) {
   
   # Check if data is a data.frame
   dataType <- unique(class(data))
-  if(length(dataType) > 1){
-    stop(as.character(substitute(data)), " is not a data frame")
+  if(length(dataType) > 1 | (length(dataType) == 1 & dataType != "data.frame")){
+    stop(data, " is not a data frame")
   }
 
   # we add a delay variable to the dataset (should we ?) 
