@@ -258,7 +258,7 @@ getDictionaryValue <- function(varname, valuename) {
 #'
 #'  
 getDicoOfVar <- function(varname) {
-   diconame <- getDictionaryValue(varname,"DICO")
+   diconame <- getDictionaryValue(varname,"dico")
    getDico(diconame)
 }
 
