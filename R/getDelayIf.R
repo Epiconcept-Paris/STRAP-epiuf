@@ -90,7 +90,7 @@ getDelayIf <- function(data, FirstDateName, SecondDateName, ...) {
   }
   
   # Check if data is a data.frame
-  if(!is.data.frame(data)){
+  if(!dplyr::is.tbl(data) | !is.data.frame(data)){
     stop(data, "is not a data frame")
   }
 
