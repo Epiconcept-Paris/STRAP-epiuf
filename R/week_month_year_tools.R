@@ -154,6 +154,7 @@ isoYearWeek <- function(date){
   
   # Use base code to extract YEARwWEEK from date  
   date <- paste0(isoYear(date),"w", isoWeek(date))
+  date <- ifelse(date=="NAwNA", NA, date) # if output is NA, set it to be so
   date
 }
 
