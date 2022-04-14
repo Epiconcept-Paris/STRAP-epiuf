@@ -247,13 +247,13 @@ setDictionaryActions <- function(actions) {
 #'  
 getDictionaryValue <- function(varname, valuename=c("type","dico","unknowns")) {
   ds <- getDictionary()
-
+  value <-  NA
   if (nrow(ds)>0) {
      paramok <- (valuename%in%names(ds))
      if (paramok) {
        value <- subset(ds,ds$generic_name == varname)[,valuename]
        if (length(value)==0) value <- NA
-     } else stop(valuename," is not allowed for dico column")    
+     } else warning(valuename," is not allowed as a dico column")    
   }  
   return(value)
 }
