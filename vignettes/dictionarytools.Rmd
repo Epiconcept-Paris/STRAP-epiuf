@@ -178,8 +178,8 @@ setDictionary(dictionary = dic)
 getDictionaryValue("gen3","unknowns")
 getDictionaryValue("gen1","unknowns")
 getDictionaryValue("gen9","unknowns")
-getDictionaryValue("gen3","unknows")
-
+tryCatch(getDictionaryValue("gen3","unknows"))
+cat("next")
 
 ```
 
