@@ -166,4 +166,22 @@ print(OneLine)
 
 
 
+```{r dicovalue, ECHO = FALSE}
+
+dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA,NA),
+                  source_name=c("cur1","cur2","cur3","",NA,"cur6",NA),
+                  type=c("numeric","numeric","numeric","character"," ","character",NA),
+                  unknowns=c("","8","UNK","","","","")
+                  )
+
+setDictionary(dictionary = dic)
+getDictionaryValue("gen3","unknowns")
+getDictionaryValue("gen1","unknowns")
+getDictionaryValue("gen9","unknowns")
+getDictionaryValue("gen3","unknows")
+
+
+```
+
+
 

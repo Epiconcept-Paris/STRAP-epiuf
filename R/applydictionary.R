@@ -232,6 +232,11 @@ setDictionaryActions <- function(actions) {
 
 
 #' getDictionaryValue
+#' 
+#' Retrieve the value of one parameters (column) in the dictionary, searching for the generic_name
+#' usual column values to retrieve are for type, dico, unknowns
+#' Give an error if column name is incorrect
+#' Return NA if searched varname is not found  
 #'
 #' @param varname The varname for which we will retrieve content of one column from dictionary
 #' @param valuename Name of the coulumn to retrieve from dictionary
@@ -240,11 +245,15 @@ setDictionaryActions <- function(actions) {
 #' @export
 #'
 #'  
-getDictionaryValue <- function(varname, valuename) {
+getDictionaryValue <- function(varname, valuename=c("type","dico","unknowns")) {
   ds <- getDictionary()
 
   if (nrow(ds)>0) {
-     value <- subset(ds,ds$generic_name == varname)[,valuename] 
+     paramok <- (valuename%in%names(ds))
+     if (paramok) {
+       value <- subset(ds,ds$generic_name == varname)[,valuename]
+       if (length(value)==0) value <- NA
+     } else stop(valuename," is not allowed for dico column")    
   }  
   return(value)
 }

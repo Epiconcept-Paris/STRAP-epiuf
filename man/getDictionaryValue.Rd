@@ -4,7 +4,7 @@
 \alias{getDictionaryValue}
 \title{getDictionaryValue}
 \usage{
-getDictionaryValue(varname, valuename)
+getDictionaryValue(varname, valuename = c("type", "dico", "unknowns"))
 }
 \arguments{
 \item{varname}{The varname for which we will retrieve content of one column from dictionary}
@@ -15,5 +15,8 @@ getDictionaryValue(varname, valuename)
 A single value
 }
 \description{
-getDictionaryValue
+Retrieve the value of one parameters (column) in the dictionary, searching for the generic_name
+usual column values to retrieve are for type, dico, unknowns
+Give an error if column name is incorrect
+Return NA if searched varname is not found
 }
