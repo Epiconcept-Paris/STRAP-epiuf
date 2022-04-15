@@ -38,7 +38,7 @@ fixEncoding <- function(df, originalEncoding = "UTF-8") {
 #' @param originalEncoding  The originale encoding value (accepted value can be obtained via iconvlist())
 #' @param targetEncoding The target encoding value (For R should be latin1 or UTF-8)
 #'
-#' @return
+#' @return The newly encoded dataset 
 #' @export
 #'
 

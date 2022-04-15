@@ -14,7 +14,7 @@ convEncoding(df, originalEncoding = "UTF-8", targetEncoding = NULL)
 \item{targetEncoding}{The target encoding value (For R should be latin1 or UTF-8)}
 }
 \value{
-
+The newly encoded dataset
 }
 \description{
 convert character column in a dataset to a new encoding
