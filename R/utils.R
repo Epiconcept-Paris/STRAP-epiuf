@@ -180,6 +180,38 @@ replichar <- function(char, ntime) {
 }
 
 
+#' lpad
+#'      Used to display value with a fixed width format
+#'      format value according to width and digit is value is a number 
+#'
+#' @param value A value to format
+#' @param width The expected width
+#' @param digit The number of digit
+#'
+#' @return The formated value
+#' @export
+#'
+#' @examples
+#' lpad("test",10,0)
+#' lpad(2,6,2)
+lpad <- function(value,
+                 width = 11,
+                 digit = 0) {
+  if (is.numeric(value) ) {
+    r <-
+      format(round(value, digits = digit),
+             width = width ,nsmall = digit ,
+             justify = "right")
+  } else {
+    r <-
+      format(value, width = width , justify = "right")
+  }
+  if (is.character(value) & (nchar(r) > width)) {
+    r <- paste0(substr(r, 1, width - 2), "..")
+  }
+  return(r)
+}
+
 askinput <- function(message,answers) {
   r <- ""
   while(r=="" ){

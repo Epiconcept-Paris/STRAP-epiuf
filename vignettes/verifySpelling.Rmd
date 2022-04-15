@@ -19,7 +19,8 @@ library(kableExtra)
 This document show examples of epiFunction use
 ```{r, config, echo = FALSE, include=FALSE}
 ext_file <- externalFile("testbrand.csv")
-df <- readData(ext_file)
+# file is created in UTF-8 
+df <- read.csv(ext_file,fileEncoding="UTF-8")
 
 ```
 
