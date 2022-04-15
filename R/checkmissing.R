@@ -14,48 +14,26 @@
 #'
 #' @examples
 #' # still nothing
-checkmissing <- function(what, ..., sort=FALSE,showall=FALSE ) {
-  r <- as.list(match.call())
+checkmissing <- function(data, varlist =NULL, sort=FALSE,showall=FALSE ) {
+
+  if (is.null(varlist)) {
+    varlist = as.list(names(data))
+  } else showall <- TRUE
+  # one varname or a list ? 
+  if ( ! is.list(varlist)) varlist <- as.list(varlist)
+  nb <- length(varlist)
   
-  i <- match("sort",names(r))
-  if (!is.na(i)) r[i]<-NULL
-  
-  i <- match("showall",names(r))
-  if (!is.na(i)) r[i]<-NULL
-  
-  r[1]<-NULL    # this suppress the first argument (function name)
-  
-  df <- try(eval(r[[1]]),TRUE)
-  
-  if (is.data.frame(df)) {
-    vars = names(what)
-  } else {
-    if ( length(r) > 0 ) {
-      nb <- length(r)
-      vars <- list()
-      showall <- TRUE
-      # -----------------------------------------------------------------------
-      # Todo : verify if it is a vector or if $ is part of the name
-      # -----------------------------------------------------------------------
-      for (i in 1:nb) {
-        name <- r[[i]]
-        # if vars is long syntax then as.character doesn't work   XXX
-        vars[i] <- as.character(name)
-      }
-      
-    }
-  }
 
   # all this as to be restructured to accept vector (and df to be used as df[i]) XXX
-  effectif = nrow(df);  # var1 if single var
+  effectif = nrow(data);  # var1 if single var
   
-  res1  = list();
+  res1  = data.frame();
   i <- 0
   nomiss <- c()
-  for (name in vars) {
+  for (name in varlist) {
     i <- i + 1
-    if (any(name==colnames(df)) ) {
-      miss1 <- sum(is.na(df[,name]))
+    if (any(name==colnames(data)) ) {
+      miss1 <- sum(is.na(data[,name]))
       if (miss1 > 0 | showall ) {
         pmiss1 <- round((miss1 / effectif) * 100, digits = 2)
         res1 <- rbind(res1, c(miss1,pmiss1))
@@ -67,22 +45,16 @@ checkmissing <- function(what, ..., sort=FALSE,showall=FALSE ) {
     }
   }
   if ( length(nomiss) > 0 ) {
-    vars <- vars[-nomiss]
+    varlist <- varlist[-nomiss]
   }
-  vars <- lapply(vars,lpad,width=16)
-  rownames(res1) <- vars
-  colnames(res1) <- c("Nb Missing", "% Missing")
+  varlist <- lapply(varlist,lpad,width=16)
+  rownames(res1) <- varlist
+  colnames(res1) <- c("Nb_Missing", "% Missing")
   names(dimnames(res1)) <- c("variables","Missing")
-  # if (sort == TRUE) {
-  #   o <- res1[, "Nb Missing"]
-  #   o <- order( sapply(o, "[", 2) )
-  #   res1 <- res1[rev(o),]
-  #   row.names(res1) <- c(1:nrow(res1))
-  # }
+  if (sort == TRUE) {
+    res1 <- sortBy(res1,1)
+  }
   return(res1);
-  
-  # sortBy <- function(a, field) a[order(sapply(a, "[[", i = field))]
-  # sortBy(a, "day")
   
   # missbyrow <- function(vars, effectif) {
   #   counts = apply(df, 1, function(x) sum(is.na(x[vars])));
