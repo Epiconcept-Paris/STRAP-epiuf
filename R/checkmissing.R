@@ -25,10 +25,6 @@ checkmissing <- function(what, ..., sort=FALSE,showall=FALSE ) {
   
   r[1]<-NULL    # this suppress the first argument (function name)
   
-  if (missing(what)) {
-    what <- getdata()
-  }
-  
   df <- try(eval(r[[1]]),TRUE)
   
   if (is.data.frame(df)) {
@@ -49,12 +45,7 @@ checkmissing <- function(what, ..., sort=FALSE,showall=FALSE ) {
       
     }
   }
-  # if df was passed don't try to get var  with getvar because of ambigous names
-  if ( length(vars) > 0 ) {
-    name <- getvar(vars[[1]])
-    df <- getlastdf()
-  }
-  
+
   # all this as to be restructured to accept vector (and df to be used as df[i]) XXX
   effectif = nrow(df);  # var1 if single var
   
