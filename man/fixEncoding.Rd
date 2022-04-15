@@ -15,5 +15,7 @@ fixEncoding(df, originalEncoding = "UTF-8")
 The encoded dataset
 }
 \description{
-fixEncoding
+Add the encoding value to character vectors which contain special characters
+(including accents)
+regular ascci values stay as "unknown"
 }
