@@ -4,12 +4,13 @@
 \alias{checkmissing}
 \title{checkMissing}
 \usage{
-checkmissing(what, ..., sort = FALSE, showall = FALSE)
+
+checkmissing(data, varlist = NULL, sort = FALSE, showall = FALSE)
 }
 \arguments{
-\item{what}{a data.frame, a vector or a vector of colnames}
+\item{data}{a data.frame, a vector or a vector of colnames}
 
-\item{...}{a list of variable to be tested. Is used only if "what" is not a dataframe}
+\item{varlist}{a list of variable to be tested. Is used only if "what" is not a dataframe}
 
 \item{sort}{boolean If TRUE the output table is sorted 'NOT IMPLEMENTED'}
 

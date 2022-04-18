@@ -39,9 +39,8 @@ epidictionaryfiles_env$actions <- NULL
 #'
 
 setDictionary  <- function(dictionary) {
-  epidictionaryfiles_env$data <- dictionary
-  epidictionaryfiles_env$data <- updateDataset(epidictionaryfiles_env$data,getNewDictionaryLine("dictionary"))
-  
+  # the dictionary dataset is assigned to the internal data after being updated  
+  epidictionaryfiles_env$data <- updateDataset(dictionary,getNewDictionaryLine("dictionary"))
 }
 
 #' getDictionary
@@ -50,6 +49,7 @@ setDictionary  <- function(dictionary) {
 #' @export
 #'
 getDictionary <- function() {
+  if (is.null(epidictionaryfiles_env$data)) createDictionary()
   return(epidictionaryfiles_env$data)
 }
 
@@ -62,11 +62,11 @@ getDictionary <- function() {
 #'
 
 openDictionary <-  function(filename) {
-  epidictionaryfiles_env$datafilename <- filename
-  
   # need more checks to verify that sheet exists with good name ! 
   if (file.exists(filename)) {
-    epidictionaryfiles_env$data <- readData(filename,sheet="dictionary")
+    epidictionaryfiles_env$datafilename <- filename
+    data <- readData(filename,sheet="dictionary")
+    epidictionaryfiles_env$data <- data
     # we need to update structure if needed
     epidictionaryfiles_env$data <- updateDataset(epidictionaryfiles_env$data,getNewDictionaryLine("dictionary"))
     
@@ -92,9 +92,7 @@ openDictionary <-  function(filename) {
   } else {   # datadictionary doesn't exist we have to create it
     red("Datadictionary ",filename," not found. Empty dictionary created")
     # we need to create the 3 data sheet
-    epidictionaryfiles_env$data <- getNewDictionaryLine("dictionary")
-    epidictionaryfiles_env$dicos <- getNewDictionaryLine("dicos")
-    epidictionaryfiles_env$actions <- getNewDictionaryLine("actions")
+    createDictionary()
   }
 }
 
@@ -111,11 +109,11 @@ openDictionary <-  function(filename) {
 #'
 
 saveDictionary <- function(filename=NULL,dictionary=NULL) {
-  # checks to be added in case dataset doesn't exists in memory GDE ? 
+
   if (is.null(filename)) {
     filename <- epidictionaryfiles_env$datafilename
     if (is.null(filename)) {
-      # filename <- pathToFile("SOURCES","datasources.xls")
+      stop('A filename should be given for saving dictionary')
     }
   }
   if(is.null(dictionary)) {
@@ -127,21 +125,11 @@ saveDictionary <- function(filename=NULL,dictionary=NULL) {
     ds[1,] <- " "
   }
   xlsx::write.xlsx(ds,file=filename,sheetName = "dictionary",row.names=FALSE)
-  # to add some check ?
-  ds <- epidictionaryfiles_env$dicos
-  if (is.null(ds) ) {
-    # replace by empty record ? 
-    ds <- getNewDictionaryLine(mode="dicos")
-    ds[1,] <- NA
-  }
+
+    ds <- getDicos()
   xlsx::write.xlsx(ds,file=filename,sheetName = "dicos",append=TRUE,row.names=FALSE)
   
-  ds <- epidictionaryfiles_env$actions
-  if (is.null(ds) ) {
-    # replace by empty record ? 
-    ds <- getNewDictionaryLine(mode="actions") 
-    ds[1,] <- NA
-  }
+  ds <- getDictionaryActions()
   xlsx::write.xlsx(ds,file=filename,sheetName = "actions",append=TRUE,row.names=FALSE)
   
 }
@@ -181,7 +169,7 @@ getNewDictionaryLine  <- function(mode="dictionary") {
                               stringsAsFactors=FALSE
                               )
                               
-  }
+  } else warning(mode," is not a dictionary sheet")
   return(OneDataLine)
 }
 
@@ -193,7 +181,14 @@ getNewDictionaryLine  <- function(mode="dictionary") {
 #'
 
 getDicos <- function() {
-  return(epidictionaryfiles_env$dicos)
+  ds <- epidictionaryfiles_env$dicos
+  if (is.null(ds) ) {
+    # replace by empty record ? 
+    ds <- getNewDictionaryLine(mode="dicos")
+  }
+  if (nrow(ds)==0) ds[1,] <- NA
+  epidictionaryfiles_env$dicos <-  ds
+  return(ds)
 }
 
 #' setDicos
@@ -215,7 +210,14 @@ setDicos <- function(dic) {
 #'
 #'  
 getDictionaryActions <- function() {
-  return(epidictionaryfiles_env$actions)
+  ds <- epidictionaryfiles_env$actions
+  if (is.null(ds) ) {
+    # replace by empty record ? 
+    ds <- getNewDictionaryLine(mode="actions")
+  }
+  if (nrow(ds)==0) ds[1,] <- NA
+  epidictionaryfiles_env$actions <-  ds
+  return(ds)
 }
 
 #' setDictionaryActions
@@ -268,7 +270,10 @@ getDictionaryValue <- function(varname, valuename=c("type","dico","unknowns")) {
 #'  
 getDicoOfVar <- function(varname) {
    diconame <- getDictionaryValue(varname,"dico")
-   getDico(diconame)
+   if (!is.na(diconame)){
+     dic <- getDico(diconame)
+   } else cat("No dico associated with",varname)
+   return(dic)
 }
 
 #' getDico
@@ -282,8 +287,13 @@ getDicoOfVar <- function(varname) {
 getDico <- function(diconame) {
   ds <- getDicos()
   ds <-  subset(ds,ds$dico == diconame)
+  if (length(ds)==0) {
+    ds <- NA
+    red("Dico",diconame,"not found")
+  }  
   return(ds) 
 }
+
 
 #' getVarAction
 #'
@@ -298,6 +308,12 @@ getVarAction <- function(variablename,actiontag) {
   ds <- getDictionaryActions()
 # GDE check to be added for wrong action name
     ds <-  subset(ds,ds$variable == variablename & ds$action_group == actiontag )
+    if (length(ds)==0) {
+      ds <- NA
+      if (is.na(getActionGroup(actiontag))){
+        red(actiontag,"is not found as a valid actiontag ")
+      }
+    }  
     return(ds)
 }
 
@@ -312,7 +328,8 @@ getVarAction <- function(variablename,actiontag) {
 #'  
 getVarActionParameters <- function(variablename,actiontag) {
   ds <- getVarAction(variablename,actiontag)
-  ifelse(nrow(ds)>0, ds$parameters, NA)
+  ds <- ifelse(nrow(ds)>0, ds$parameters, NA)
+  return(ds)
 }  
 
 #' getActionGroup
@@ -326,6 +343,7 @@ getVarActionParameters <- function(variablename,actiontag) {
 getActionGroup <- function(actiontag) {
   ds <- getDictionaryActions()
   ds <-  subset(ds, ds$action_group == actiontag )
+  ds <- ifelse(nrow(ds)>0, ds, NA)
   return(ds)
 }
 
@@ -470,14 +488,9 @@ applyDictionary <- function( dictionary=NULL, data, verbose=TRUE, keepextra = FA
 #'  
 createDictionary <- function() {
   # base 
-  dic <- data.frame(generic_name=character(),
-                    source_name=character(),
-                    type=character(),
-                    dico=character(),
-                    description=character(),
-                    comment=character(),
-                    unknown=character())
-  
+  epidictionaryfiles_env$data <- getNewDictionaryLine("dictionary")
+  epidictionaryfiles_env$dicos <- getNewDictionaryLine("dicos")
+  epidictionaryfiles_env$actions <- getNewDictionaryLine("actions")
 } 
 
 
