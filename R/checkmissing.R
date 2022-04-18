@@ -34,6 +34,7 @@ checkmissing <- function(data, varlist =NULL, sort=FALSE,showall=FALSE ) {
     i <- i + 1
     if (any(name==colnames(data)) ) {
       miss1 <- sum(is.na(data[,name]))
+
       if (miss1 > 0 | showall ) {
         pmiss1 <- round((miss1 / effectif) * 100, digits = 2)
         res1 <- rbind(res1, c(miss1,pmiss1))
@@ -45,6 +46,7 @@ checkmissing <- function(data, varlist =NULL, sort=FALSE,showall=FALSE ) {
     }
   }
   if ( length(nomiss) > 0 ) {
+
     varlist <- varlist[-nomiss]
   }
   varlist <- lapply(varlist,lpad,width=16)

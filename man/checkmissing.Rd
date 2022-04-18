@@ -4,6 +4,7 @@
 \alias{checkmissing}
 \title{checkMissing}
 \usage{
+
 checkmissing(data, varlist = NULL, sort = FALSE, showall = FALSE)
 }
 \arguments{
