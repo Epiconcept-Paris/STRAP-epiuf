@@ -1,8 +1,8 @@
 #' checkMissing
 #'
 #'
-#' @param what a data.frame, a vector or a vector of colnames
-#' @param ...  a list of variable to be tested. Is used only if "what" is not a dataframe
+#' @param data a data.frame, a vector or a vector of colnames
+#' @param varlist  a list of variable to be tested. Is used only if "what" is not a dataframe
 #' @param sort boolean If TRUE the output table is sorted 'NOT IMPLEMENTED'
 #' @param showall boolean if FALSE, the default, then variables with no missing values are
 #' not included in the table
