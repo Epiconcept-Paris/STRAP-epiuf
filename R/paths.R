@@ -36,15 +36,17 @@
 #' @examples
 #' externalFile("testbrand.csv")
 externalFile <- function(extfile) {
-  if (!file.exists(extfile) ) {
-    extfile <- system.file("extdata", extfile, package = "epiuf")
-  }
-  if (! file.exists(extfile)) {
-    extfile <- file.path("../inst/extdata",extfile)
+  result <- extfile
+  if (!file.exists(result) ) {
+    result <- system.file("extdata", extfile, package = "epiuf")
+    result <- ifelse(result=="",extfile,result)
+  }  
+  if (! file.exists(result)) {
+    result <- file.path("../inst/extdata",extfile)
   }
 
-  stopifnot(file.exists(extfile))
-  return(extfile)
+  stopifnot(file.exists(result))
+  return(result)
 } 
 
 #' listFiles
