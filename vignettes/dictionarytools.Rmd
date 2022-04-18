@@ -134,6 +134,7 @@ saveDictionary(filename = FileName)
 
 if (file.exists(FileName)) {print("Dictionary successfully saved")}
 
+
 ```
 Manage dico open file   
 
@@ -143,6 +144,9 @@ FileName <-   "generic dictionary.xls"
 openDictionary(filename = FileName)
 
 getDictionary()
+
+# clean dir 
+file.remove(FileName)
 
 ```
 

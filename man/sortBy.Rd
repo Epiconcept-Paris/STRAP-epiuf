@@ -10,9 +10,11 @@ sortBy(data, field, decreasing = FALSE, na.last = TRUE)
 \arguments{
 \item{data}{The dataframe to besorted}
 
-\item{field}{The field on which to sort (numeric or character)}
+\item{field}{The field on which to sort (numeric or character).}
 
 \item{decreasing}{Default is FALSE}
+
+\item{na.last}{Should NA be at the end ?}
 }
 \value{
 The sorted dataframe
@@ -22,7 +24,7 @@ sortBy
 Sort a dataframe according to a field optionnaly decreasing
 }
 \examples{
-df <- data.frame(one=c(3,1,5,2))
-df <- sort(df,"one")
-df <- sort(df,1) 
+df <- data.frame(one=c(2,1,2,1),two=c(2,2,1,1))
+df <- sortBy(df,"one")
+df <- sortBy(df,1) 
 }

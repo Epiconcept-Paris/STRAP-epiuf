@@ -7,14 +7,14 @@
 checkmissing(data, varlist = NULL, sort = FALSE, showall = FALSE)
 }
 \arguments{
+\item{data}{a data.frame, a vector or a vector of colnames}
+
+\item{varlist}{a list of variable to be tested. Is used only if "what" is not a dataframe}
+
 \item{sort}{boolean If TRUE the output table is sorted 'NOT IMPLEMENTED'}
 
 \item{showall}{boolean if FALSE, the default, then variables with no missing values are
 not included in the table}
-
-\item{what}{a data.frame, a vector or a vector of colnames}
-
-\item{...}{a list of variable to be tested. Is used only if "what" is not a dataframe}
 }
 \value{
 list of 2 tables
