@@ -44,12 +44,14 @@ applyNA <- function(data, varname, searchlist=NULL, join=FALSE){
   )
   varname <- s_op
   
+  defaultsearch <- "^[[:space:]]*$|^dnk$|^nd$|^na$|^nsp$|^ne zna$|^unknown$|^unk$|^do not know$"     # default searchlist if none provided
+    
   if (is.character(data[,varname])){
     if (is.null(searchlist)){
-      searchlist <- "^[[:space:]]*$|^dnk$|^nd$|^na$|^nsp$|^ne zna$|^unknown$|^do not know$"     # default searchlist if none provided
+      searchlist <- defaultsearch
     }else{
-      searchlist <- ifelse(join==TRUE,paste0(searchlist,"|^[[:space:]]*$|^dnk$|^nd$|^na$|^nsp$|^ne zna$|^unknown$|^do not know$"),    # add default searchlist to provided if specified
-                           paste(searchlist, collapse = "|"))                                                                         # If searchlist is c(1,2) converted to -> searchlist = "1|2"
+      searchlist <- ifelse(join==TRUE,paste0(searchlist, defaultsearch),    # add default searchlist to provided if specified
+                           paste(searchlist, collapse = "|"))              # If searchlist is c(1,2) converted to -> searchlist = "1|2"
     }
     
     numchange <- length(which(grepl(searchlist, data[,varname] )))   # retrieve number of instances which match search list
