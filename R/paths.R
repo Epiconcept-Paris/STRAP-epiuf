@@ -87,7 +87,7 @@ fileExt <- function(text) {
   ext
 }
 
-
+# the file name whithout extension
 fileName <- function(text) {
   name <- basename(text)
   x <- strsplit(name, "\\.")

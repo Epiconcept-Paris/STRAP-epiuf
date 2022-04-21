@@ -262,26 +262,29 @@ getDictionaryValue <- function(varname, valuename=c("type","dico","unknowns")) {
 
 #' Title
 #'
-#' @param varname 
-#' @param inputname 
-#' @param valuename 
+#' @param varname The varname to search (into the search column)
+#' @param search The column name which will be searched for varname
+#' @param value The column name of the value to retrieve 
 #'
-#' @return
+#' @return One value 
 #' @export
 #'
 #' @examples
-getAnyDictionaryValue <- function(varname,inputname = c("source_name","generic_name","dico","type","unknowns"), valuename=c("source_name","generic_name","dico","type","unknowns")) {
+#' \dontrun{getAnyDictionaryValue("varname",search="source_name",value="dico")}
+getAnyDictionaryValue <- function(varname,
+                                  search = c("source_name","generic_name","dico","type","unknowns"), 
+                                  value=c("source_name","generic_name","dico","type","unknowns")) {
   ds <- getDictionary()
-  value <-  NA
+  result <-  NA
   if (nrow(ds)>0) {
-    paramok <- (valuename%in%names(ds))
-    paramok2 <- (inputname%in%names(ds))
+    paramok <- (search%in%names(ds))
+    paramok2 <- (value%in%names(ds))
     if (paramok & paramok2) {
-      value <- subset(ds,ds[,inputname] == varname)[,valuename]
-      if (length(value)==0) value <- NA
-    } else warning(inputname, "or", valuename," is not allowed as a dico column")    
+      result <- subset(ds,ds[,search] == varname)[,value]
+      if (length(result)==0) result <- NA
+    } else warning(search, "or", value," is not allowed as a dico column")    
   }  
-  return(value)
+  return(result)
 }
 
 #' getDicoOfVar

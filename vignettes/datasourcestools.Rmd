@@ -1,0 +1,68 @@
+---
+title: "datasourcestools"
+author: "epi-gde"
+date: "4/1/2022"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{datasourcestools}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(epiuf)
+
+```
+
+
+
+```{r data}
+searchNewFiles(path = "",country = "FR")
+
+```
+
+## 
+
+The openSourceList function load the current sourceList. This should be done at beginning before trying any file management in order to keep the list synchronized 
+
+```{r opendata, echo=FALSE}
+# openSourceList("datasources.xls")
+createSourceList("datasources.xls")
+searchNewFiles("","FR","epiuf*")
+
+getSourceList()
+
+```
+
+
+The getFileList function extract file list according to criteria
+
+```{r getFileList, echo=FALSE}
+getFileList(country = "FR", status="NEW")
+
+
+```
+
+Save file 
+```{r saveFileList, echo=FALSE}
+saveSourceList()
+
+```
+
+
+Update one source file
+```{r updateAfile, echo=FALSE}
+updateSourceData("source FR.csv",status="IMPORTED")
+
+getSourceList()
+
+```
+
+Clean file 
+```{r cleandir, echo=FALSE}
+file.remove("datasources.xls")
+
+```
+
+
