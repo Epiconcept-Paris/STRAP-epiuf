@@ -343,8 +343,10 @@ getVarActionParameters <- function(variablename,actiontag) {
 getActionGroup <- function(actiontag) {
   ds <- getDictionaryActions()
   ds <-  subset(ds, ds$action_group == actiontag )
-  ds <- ifelse(nrow(ds)>0, ds, NA)
-  return(ds)
+  ds <- if(nrow(ds)>0){
+    return(ds)}else{
+      return(NA) 
+    }
 }
 
 
