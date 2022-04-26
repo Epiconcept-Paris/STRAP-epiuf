@@ -97,6 +97,7 @@ Or if you want to change the name
 ```{r saving2}
 
 saveXlsx(wb=NULL,filename = "excelfile2.xlsx")
+file.remove("excelfile2.xlsx")
 
 ```
 

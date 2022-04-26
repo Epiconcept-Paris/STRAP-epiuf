@@ -17,11 +17,12 @@ fixEncoding <- function(df, originalEncoding = "UTF-8") {
   df <- data.frame(df)
   for (col in 1:numCols)
   {
-    if(class(df[, col]) == "character"){
+    # classename <-  as.character(class(df[, col]))
+    if( inherits((df[, col]),"character") ){
       Encoding(df[, col]) <- originalEncoding
     }
     
-    if(class(df[, col]) == "factor"){
+    if(inherits((df[, col]), "factor") ){
       Encoding(levels(df[, col])) <- originalEncoding
     }
   }
@@ -52,11 +53,11 @@ convEncoding <- function(df, originalEncoding = "UTF-8",targetEncoding = NULL) {
   {
     # if from contain more character than to, //TRANSLIT can be added to "to"in order to convert 
     # non existing character into the nearest  eg: to="ASCII//TRANSLIT"
-    if(class(df[, col]) == "character"){
+    if(inherits(df[, col],"character")){
       df[, col] <- iconv(df[, col],sub="?",from=originalEncoding,to=targetEncoding)
     }
     
-    if(class(df[, col]) == "factor"){
+    if(inherits(df[, col] , "factor")){
       levels(df[, col])  <- iconv(levels(df[, col]),sub="?",from=originalEncoding,to=targetEncoding)
     }
   }
