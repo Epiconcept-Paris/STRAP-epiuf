@@ -39,6 +39,9 @@ asDateTime <- function(time) {
 #' openSourceList
 #'
 #' @param filename Name of the excel file containing sources information
+#'                 If NULL then default to "SOURCES/datasources.xls" 
+#'                 if "" then current name
+#'                 (this is used to reload current datasource list) 
 #'
 #' @return nothing
 #' @export
@@ -46,7 +49,9 @@ asDateTime <- function(time) {
 #' @examples
 #' \dontrun{ openSourceList("datasources.xls")}
 openSourceList <-  function(filename=pathToFile("SOURCES","datasources.xls")) {
-
+  if (filename=="" & ! is.null(episourcefiles_env$datafilename)) {
+     filename <- episourcefiles_env$datafilename 
+  }
   if (file.exists(filename)) {
     episourcefiles_env$data <- readData(filename)
     # we need to update structure if needed
@@ -218,7 +223,7 @@ searchNewFiles <- function(path,country="",pattern=NULL) {
 #'
 #' @param country   The country code 
 #' @param status    The current status searched for  (where CurrentStatus is TRUE )
-#' 
+#' @param current   TRUE by default, return only the current status (one line) 
 #' @param periodstart Optional
 #' @param periodend Optional
 #' @param sourcetype Optional
@@ -228,7 +233,7 @@ searchNewFiles <- function(path,country="",pattern=NULL) {
 #'
 #' @examples
 #' \dontrun{  getFileList("FR","IMPORTED")} 
-getFileList<- function(country=NULL, status=NULL, periodstart=NULL, periodend=NULL, sourcetype =NULL) {
+getFileList<- function(country=NULL, status=NULL,current = TRUE, periodstart=NULL, periodend=NULL, sourcetype =NULL) {
 
   # we start with the country
   res <- getSourceList()
@@ -237,15 +242,23 @@ getFileList<- function(country=NULL, status=NULL, periodstart=NULL, periodend=NU
   # iorder <- order(rev(res$StatusDate))
   # res <- res[iorder,]
   res <- sortBy(res,"StatusDate",decreasing=TRUE)
+  # we keep only the current ststus
+  if (!is.null(current)) {
+    res <- subset(res, res$CurrentStatus == current )
+  }
+  
+  
   # we select the sourcetype if not NULL 
   if (!is.null(sourcetype)) {
-    res <- subset(res, res$SourceType == sourcetype )
+    res <- subset(res, res$SourceType %in% sourcetype )
   }
   
   # then we look for status
   if (!is.null(status)) {
-    res <- subset(res, res$SourceStatus == status )
+    res <- subset(res, res$SourceStatus %in% status )
   }
+  # we keep only the current ststus
+  
   return(res)
 }
 
@@ -353,6 +366,7 @@ updateSourceData <- function(sourcefilename,status=c("NEW","UPDATED","IMPORTED",
        dslast$SourceStatus <- status
        dslast$StatusDate <- asDateTime(date)
        if (! is.null(nbrecords)) dslast$nbRecords <- nbrecords
+       row.names(dslast) <- as.character(nrow(ds)+1) 
        ds <- rbind(ds,dslast)
        # update source
        setSourceList(ds)

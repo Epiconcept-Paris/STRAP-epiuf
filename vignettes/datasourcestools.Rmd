@@ -53,11 +53,20 @@ saveSourceList()
 
 Update one source file
 ```{r updateAfile, echo=FALSE}
-updateSourceData("source FR.csv",status="IMPORTED")
+updateSourceData("epiuf_package.html",status="IMPORTED")
 
 getSourceList()
 
 ```
+
+The getFileList function extract file list according to criteria
+
+```{r getMultiFileList, echo=FALSE}
+getFileList(country = "FR", status=c("NEW","IMPORTED"))
+
+
+```
+
 
 Clean file 
 ```{r cleandir, echo=FALSE}

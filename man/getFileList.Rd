@@ -7,6 +7,7 @@
 getFileList(
   country = NULL,
   status = NULL,
+  current = TRUE,
   periodstart = NULL,
   periodend = NULL,
   sourcetype = NULL
@@ -16,6 +17,8 @@ getFileList(
 \item{country}{The country code}
 
 \item{status}{The current status searched for  (where CurrentStatus is TRUE )}
+
+\item{current}{TRUE by default, return only the current status (one line)}
 
 \item{periodstart}{Optional}
 

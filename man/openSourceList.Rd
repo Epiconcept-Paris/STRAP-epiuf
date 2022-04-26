@@ -7,7 +7,10 @@
 openSourceList(filename = pathToFile("SOURCES", "datasources.xls"))
 }
 \arguments{
-\item{filename}{Name of the excel file containing sources information}
+\item{filename}{Name of the excel file containing sources information
+If NULL then default to "SOURCES/datasources.xls"
+if "" then current name
+(this is used to reload current datasource list)}
 }
 \value{
 nothing
