@@ -37,5 +37,5 @@ denum <- 80
 fillCells(cells,1,1, num,num/denum  )
 mat <- data.frame(Id = 1:3 , Vaccs = c("1", "3", "6"))
 
-
+writeData(wb, 1, x = "Iris dataset group means", startCol = "AA", startRow = 2)
 }
