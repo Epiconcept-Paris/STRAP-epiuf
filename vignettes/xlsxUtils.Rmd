@@ -74,7 +74,7 @@ fillCells(cells, 6 , 10 , mat,names=TRUE)
 testfun <- function() {
   whichage <- 5
   othervalue <- 8
-  fillCells(cells, 6 , 12 , whichage, othervalue )
+  fillCells(cells, 10 , 12 , whichage, othervalue )
   
 }
 

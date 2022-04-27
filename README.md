@@ -6,7 +6,7 @@ devtools::install_github("Epiconcept-Paris/STRAP-epiuf")
 
 WARNING : current epiuf package use xlsx which use java, then, Java must be installed before installing epiuf
 Java version (i.e. 64-bit Java or 32-bit Java) must fits to the type of R version that you are using 
-(use R.version to see which R version you are using )
+(use R.Version() to see which R version you are using )
 To install Java 64-bit, go to the manual installation page: https://java.com/en/download/manual.jsp
 
 For Mac M1 arm64 with R 4.2 ARM64,  version of Java is needed(see https://adoptium.net/).
