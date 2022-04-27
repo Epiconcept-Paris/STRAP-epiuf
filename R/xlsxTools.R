@@ -53,37 +53,21 @@ getWorkbook <- function() {
 #' mat <- data.frame(Id = 1:3 , Vaccs = c("1", "3", "6"))
 
 #' 
-#' 
+#' writeData(wb, 1, x = "Iris dataset group means", startCol = "AA", startRow = 2)
 fillCells <- function(onesheet,line,col, ... , names=FALSE) {
-  rows_edit <- xlsx::getRows(onesheet)
-  cells <- xlsx::getCells(rows_edit)
   if (is.character(col)){
-    asciival <- charToRaw(col)
-    asciival <- asciival-64
-    col <- sum(asciival)
+    col <- col2int(col)
   }
-#  listval <- eval(substitute(alist(...)))
    listval <- list( ...)
    for (i in 1:length(listval)) {
-     #  value <- eval(listval[[i]],env)
      value <- ...elt(i)   
-     # is value a table ? 
-    if (is.data.frame(value)){
-      
-      xlsx::addDataFrame(value,onesheet,
-                         col.names=names,row.names=names,
-                         startRow = line,startColumn = col,
-                         showNA = TRUE)
-    } else {
-      cell<- paste0(line,".",col)
-      if (is.numeric(value)) {
+     if (is.numeric(value)) {
         value <- ifelse(is.finite(value),value,"")
-      } 
-      # xlsx::setCellValue(cells[[cell]],value  ) 
-      CB <- xlsx::CellBlock(onesheet,line,col,1,1)
-      xlsx::CB.setRowData(CB,value,1,0)
-      col <- col +1
-    }  
+     }
+     writeData(epixlsx_env$report , onesheet, x = value, startCol = col, startRow = line,
+               colNames = names, rowNames = names)
+     col <- col +1
+      
   }  # end loop i
 }
 
@@ -115,12 +99,13 @@ openSheet <- function(sheetname,wb=NULL)  {
        cat("Excel file must be loaded before opening a sheet")
     } 
   }
-  sheets <- xlsx::getSheets(report)
-  sheet_edit <- sheets[[sheetname]]
-  epixlsx_env$sheet <- sheet_edit
-  sheet_edit
-  # rows_edit <- xlsx::getRows(sheet_edit)
-  # cells <- xlsx::getCells(rows_edit)
+  
+  sheets <- openxlsx::sheets(report)  # names is not exported ??
+  if ( !(sheetname %in% sheets)) {
+     warning("Sheet",sheetname, "doesn't exist in workbook")
+     sheetname <- NULL 
+  } 
+  sheetname
 }
 
 
@@ -136,7 +121,8 @@ openSheet <- function(sheetname,wb=NULL)  {
 #' cat("to be done")
 #' 
 openXlsx <- function(filename="") {
-  epixlsx_env$report <- xlsx::loadWorkbook(file = filename)
+  wb <- openxlsx::loadWorkbook(filename)
+  epixlsx_env$report <- wb
   epixlsx_env$reportFilename <- filename
   cat(filename, "workbook loaded in memory")
   invisible(epixlsx_env$report)
@@ -172,8 +158,61 @@ saveXlsx <- function(filename="",wb=NULL)  {
     if (filename=="") {
       filename <- epixlsx_env$reportFilename
     }
-    xlsx::saveWorkbook(report, filename)
-    # epixlsx_env$report <- NULL
+    openxlsx::saveWorkbook(report, filename, overwrite = TRUE)  ## save to working directory
     cat("Workbook saved as :",filename)
   }
 }
+
+
+
+# openxlsx ----------------------------------------------------------------
+# 
+# library(openxlsx)
+# boldHeader <- createStyle(textDecoration = 'bold') # Makes first row bold
+# wb <- loadWorkbook('Tables.xlsx')
+# 
+# if (!('Supplemental Table 1' %in% names(wb))) addWorksheet(wb, 'Supplemental Table 1')
+# writeData(wb, 'Supplemental Table 1', results, headerStyle = boldHeader)
+# setColWidths(wb, 'Supplemental Table 1', cols = 1:ncol(results), widths = 'auto')
+# saveWorkbook(wb, 'Tables.xlsx', overwrite = T)
+# 
+# library(openxlsx)
+# write.xlsx(iris, file = "writeXLSX1.xlsx")
+# 
+# # write one table per sheet  name = table
+# l <- list(IRIS = iris, MTCARS = mtcars)
+# # write.xlsx return the workbook 
+# wb <-  write.xlsx(l, file = "writeXLSX2.xlsx")
+# # then we can modify it
+# setColWidths(wb, sheet = 1, cols = 1:5, widths = 20)
+# # and we can save it 
+# saveWorkbook(wb, "writeXLSX2.xlsx", overwrite = TRUE)
+# 
+# # we can create a workbook 
+# wb <- createWorkbook()
+# addWorksheet(wb, sheetName = "First Sheet")
+# # write data to sheet 1
+# writeData(wb, 1, x = "Iris dataset group means", startCol = "AA", startRow = 2)
+# writeDataTable(wb, sheet = 1, x = mtcars, colNames = TRUE, rowNames = TRUE, tableStyle = "TableStyleLight9")
+# # writeData to sheet 2
+# addWorksheet(wb, sheetName = "Second Sheet")
+# writeData(wb, 2, x = "Iris dataset group means", startCol = 2, startRow = 2)
+# means <- aggregate(x = iris[, -5], by = list(iris$Species), FUN = mean)
+# writeData(wb, 2, x = means, startCol = "B", startRow = 3)
+# writeData(wb, 2, x = c(1,2,3), startCol = "B", startRow = 12)
+# saveWorkbook(wb, "basics.xlsx", overwrite = TRUE)  ## save to working directory
+# 
+# # we can load a workbook
+# wb <- loadWorkbook(system.file("extdata", "readTest.xlsx", package = "openxlsx"))
+# # or just read excel into a data.frame
+# df3 <- read.xlsx(wb, sheet = 2, colNames = TRUE)
+# 
+# # or just some data 
+# wb <- loadWorkbook(system.file("extdata", "readTest.xlsx", package = "openxlsx"))
+# df3 <- read.xlsx(wb,
+#                  sheet = 2, skipEmptyRows = FALSE,
+#                  cols = c(1, 4), rows = c(1, 3, 4)
+# )
+# 
+# wb <- loadWorkbook("datasources.xlsx")
+# 
