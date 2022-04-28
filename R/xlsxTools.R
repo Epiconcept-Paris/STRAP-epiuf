@@ -34,27 +34,23 @@ getWorkbook <- function() {
 #' @param ...   List of N values to paste in col "col" to col+N 
 #'              if contain a data.frame, the dataframe is pasted at the position 
 #' @param names if TRUE names of the dataframe are inserted with the table content              
-#'
+#' @param wb An optional wb if not already opened   
 #' @return  nothing
 #' @export
-#' @importFrom xlsx getRows getCells addDataFrame CellBlock CB.setRowData
+#' @importFrom openxlsx  writeData col2int addWorksheet
 #'
 #' @examples
-#' wb <- xlsx::createWorkbook()
-#' sheet <- xlsx::createSheet(wb,"S1")
-#' rows <- xlsx::createRow(sheet, rowIndex = 1:5)
-#' sheetTitle <-xlsx::createCell(rows, colIndex=1:3)
-#' cells <- openSheet("S1",wb)
-#' 
-#' fillCells(cells,1,1, "Total :",100  )
-#' num <-  40
-#' denum <- 80
-#' fillCells(cells,1,1, num,num/denum  )
+#' wb <- openxlsx::createWorkbook()
+#' sheetname <- "First Sheet"
+#' openxlsx::addWorksheet(wb, sheetName = sheetname)
+#' num <- 3
+#' denum <- 10
+#' fillCells(sheetname,1,1, num,denum , wb=wb )
 #' mat <- data.frame(Id = 1:3 , Vaccs = c("1", "3", "6"))
-
+#' fillCells(sheetname,1,1, mat ,wb=wb )
 #' 
-#' writeData(wb, 1, x = "Iris dataset group means", startCol = "AA", startRow = 2)
-fillCells <- function(onesheet,line,col, ... , names=FALSE) {
+fillCells <- function(onesheet,line,col, ... , names=FALSE, wb = NULL) {
+  
   if (is.character(col)){
     col <- col2int(col)
   }
@@ -64,7 +60,8 @@ fillCells <- function(onesheet,line,col, ... , names=FALSE) {
      if (is.numeric(value)) {
         value <- ifelse(is.finite(value),value,"")
      }
-     writeData(epixlsx_env$report , onesheet, x = value, startCol = col, startRow = line,
+     if (is.null(wb)) wb <- epixlsx_env$report
+     writeData( wb , onesheet, x = value, startCol = col, startRow = line,
                colNames = names, rowNames = names)
      col <- col +1
       
@@ -79,16 +76,13 @@ fillCells <- function(onesheet,line,col, ... , names=FALSE) {
 #'                 If not specified, the last workbook loaded with loadXlsx will be used
 #'
 #' @return  A cells object containing an Excel sheet
-#' @importFrom xlsx createWorkbook getSheets getRows getCells 
+#' @importFrom openxlsx createWorkbook addWorksheet sheets  
 #' @export
 #'
 #' @examples
-#'  wb <- xlsx::createWorkbook()
-#'  sheet <- xlsx::createSheet(wb,"S1")
-#'  rows <- xlsx::createRow(sheet, rowIndex = 1:5)
-#'  sheetTitle <-xlsx::createCell(rows, colIndex=1)
-#' 
-#'  cells <- openSheet("S1",wb)
+#'  wb <- openxlsx::createWorkbook()
+#'  openxlsx::addWorksheet(wb, sheetName = "First Sheet")
+#'  openSheet("First Sheet",wb)
 #' 
 openSheet <- function(sheetname,wb=NULL)  {
   if (! is.null(wb)) {
@@ -115,7 +109,7 @@ openSheet <- function(sheetname,wb=NULL)  {
 #'
 #' @return The wb (which is also saved as internal variable)
 #' @export
-#' @importFrom xlsx loadWorkbook
+#' @importFrom openxlsx loadWorkbook
 #'
 #' @examples
 #' cat("to be done")
@@ -138,7 +132,7 @@ openXlsx <- function(filename="") {
 #'
 #' @return nothing
 #' @export
-#' @importFrom xlsx saveWorkbook
+#' @importFrom openxlsx saveWorkbook
 #'
 #' @examples
 #' 

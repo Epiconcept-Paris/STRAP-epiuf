@@ -129,7 +129,7 @@ dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA,NA),
                   )
 
 setDictionary(dictionary = dic)
-FileName <-   "generic dictionary.xls" 
+FileName <-   "generic dictionary.xlsx" 
 saveDictionary(filename = FileName)
 
 if (file.exists(FileName)) {print("Dictionary successfully saved")}
@@ -140,7 +140,7 @@ Manage dico open file
 
 ```{r dico9, ECHO = FALSE}
 
-FileName <-   "generic dictionary.xls" 
+FileName <-   "generic dictionary.xlsx" 
 openDictionary(filename = FileName)
 
 getDictionary()

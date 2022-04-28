@@ -4,7 +4,7 @@
 \alias{fillCells}
 \title{fillCells}
 \usage{
-fillCells(onesheet, line, col, ..., names = FALSE)
+fillCells(onesheet, line, col, ..., names = FALSE, wb = NULL)
 }
 \arguments{
 \item{onesheet}{A sheet object from xlsx package}
@@ -17,6 +17,8 @@ fillCells(onesheet, line, col, ..., names = FALSE)
 if contain a data.frame, the dataframe is pasted at the position}
 
 \item{names}{if TRUE names of the dataframe are inserted with the table content}
+
+\item{wb}{An optional wb if not already opened}
 }
 \value{
 nothing
@@ -25,17 +27,13 @@ nothing
 fillCells
 }
 \examples{
-wb <- xlsx::createWorkbook()
-sheet <- xlsx::createSheet(wb,"S1")
-rows <- xlsx::createRow(sheet, rowIndex = 1:5)
-sheetTitle <-xlsx::createCell(rows, colIndex=1:3)
-cells <- openSheet("S1",wb)
-
-fillCells(cells,1,1, "Total :",100  )
-num <-  40
-denum <- 80
-fillCells(cells,1,1, num,num/denum  )
+wb <- openxlsx::createWorkbook()
+sheetname <- "First Sheet"
+openxlsx::addWorksheet(wb, sheetName = sheetname)
+num <- 3
+denum <- 10
+fillCells(sheetname,1,1, num,denum , wb=wb )
 mat <- data.frame(Id = 1:3 , Vaccs = c("1", "3", "6"))
+fillCells(sheetname,1,1, mat ,wb=wb )
 
-writeData(wb, 1, x = "Iris dataset group means", startCol = "AA", startRow = 2)
 }
