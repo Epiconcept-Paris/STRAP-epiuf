@@ -1,0 +1,58 @@
+---
+title: "descBy"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{descBy}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(epiuf)
+
+```
+
+# descBy function
+
+The aim of this function is to describe a list of variables according to another variable in a table.
+For example : to describe age, sex, vaccination satus according to the case or control status.
+
+
+```{r dataload}
+# create example dataset for testing
+nbrecords <- 100
+df <- data.frame(
+  age = sample(c(0:110,NA), nbrecords, replace = TRUE),
+  sex = factor(sample(c(0,1,NA), nbrecords, replace = TRUE), levels = c(0,1), labels = c("Female", "Male")),
+  fluvaccany = factor(sample(c(0,1,NA), nbrecords, replace = TRUE), levels = c(0,1), labels = c("No", "Yes")),
+  lab_flu = sample(c(0,1), nbrecords, replace = TRUE)
+)
+df$agegp4 <- cut(df$age, c(0, 4, 14, 64, max(df$age, na.rm = T)), include.lowest = TRUE, labels = c("0-4", "5-14", "15-64", "65 +"))
+
+```
+
+# Testing the function
+
+```{r testfunction}
+options(knitr.kable.NA = '')
+
+# Test when compVar is not a factor
+table <- descBy(data = df, vars = c("age", "agegp4", "sex"), labels = c("Age", "Age in group", "Sex"), compVar = "lab_flu")
+
+# Test when compVar has not enough categories (minimum is 2)
+df2 <- subset(df, lab_flu == 0)
+df2$lab_flu <- factor(df2$lab_flu, levels = c(0), labels = c("Controls"))
+table <- descBy(data = df2, vars = c("age", "agegp4", "sex"), labels = c("Age", "Age in group", "Sex"), compVar = "lab_flu")
+
+# Test
+df$lab_flu <- factor(df$lab_flu, levels = c(0,1), labels = c("Controls", "Cases"))
+table <- descBy(data = df, vars = c("age", "agegp4", "sex", "fluvaccany"), 
+                labels = c("Age", "Age in group", "Sex", "Seasonal influenza vaccination"), compVar = "lab_flu")
+
+print(table)
+
+# Or you can export the table with Excel
+# saveXlsx(filename = "")
+```
+
