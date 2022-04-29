@@ -124,14 +124,20 @@ saveDictionary <- function(filename=NULL,dictionary=NULL) {
     # replace by empty record ? 
     ds[1,] <- " "
   }
-  xlsx::write.xlsx(ds,file=filename,sheetName = "dictionary",row.names=FALSE)
-
-    ds <- getDicos()
-  xlsx::write.xlsx(ds,file=filename,sheetName = "dicos",append=TRUE,row.names=FALSE)
+  #xlsx::write.xlsx(ds,file=filename,sheetName = "dictionary",row.names=FALSE)
+  wb <- openxlsx::createWorkbook()
+  openxlsx::addWorksheet(wb,"dictionary")
+  openxlsx::writeData(wb,"dictionary",ds)
+  
+  ds <- getDicos()
+  openxlsx::addWorksheet(wb,"dicos")
+  openxlsx::writeData(wb,"dicos",ds)
   
   ds <- getDictionaryActions()
-  xlsx::write.xlsx(ds,file=filename,sheetName = "actions",append=TRUE,row.names=FALSE)
+  openxlsx::addWorksheet(wb,"actions")
+  openxlsx::writeData(wb,"actions",ds)
   
+  openxlsx::saveWorkbook(wb,file=filename,overwrite=TRUE)
 }
 
 # we need to add the current status ! 

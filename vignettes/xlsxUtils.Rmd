@@ -87,7 +87,6 @@ testfun()
 And you can save the resulting Excel file using the saveXlsx function
 
 ```{r saving }
-
 saveXlsx()
 
 ```

@@ -307,7 +307,7 @@ exportSourceList <- function(filename){
 #' @return nothing
 #' @export
 #' 
-#' @importFrom xlsx write.xlsx
+#' @importFrom openxlsx write.xlsx
 #'
 #' @examples
 #' \dontrun{
@@ -327,7 +327,7 @@ saveSourceList <- function(filename=NULL) {
    if (nrow(ds)==0) {
       ds[1,] <- NA
    }
-   xlsx::write.xlsx(ds,file=filename,row.names=FALSE)
+   openxlsx::write.xlsx(ds,file=filename,row.names=FALSE)
 }
 
 #' updateSourceData

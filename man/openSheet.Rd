@@ -19,11 +19,8 @@ A cells object containing an Excel sheet
 openSheet
 }
 \examples{
- wb <- xlsx::createWorkbook()
- sheet <- xlsx::createSheet(wb,"S1")
- rows <- xlsx::createRow(sheet, rowIndex = 1:5)
- sheetTitle <-xlsx::createCell(rows, colIndex=1)
-
- cells <- openSheet("S1",wb)
+ wb <- openxlsx::createWorkbook()
+ openxlsx::addWorksheet(wb, sheetName = "First Sheet")
+ openSheet("First Sheet",wb)
 
 }
