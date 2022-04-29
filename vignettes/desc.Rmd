@@ -1,0 +1,48 @@
+---
+title: "desc"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{desc}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(epiuf)
+
+```
+
+# desc function
+
+The aim of this function is to describe a list of variables. 
+For example : to describe age, sex, vaccination satus.
+
+
+```{r dataload}
+# create example dataset for testing
+nbrecords <- 100
+df <- data.frame(
+  age = sample(c(0:110,NA), nbrecords, replace = TRUE),
+  sex = factor(sample(c(0,1,NA), nbrecords, replace = TRUE), levels = c(0,1), labels = c("Female", "Male")),
+  fluvaccany = factor(sample(c(0,1,NA), nbrecords, replace = TRUE), levels = c(0,1), labels = c("No", "Yes")),
+  lab_flu = factor(sample(c(0,1), nbrecords, replace = TRUE), levels = c(0,1), labels = c("Controls", "Cases"))
+)
+df$agegp4 <- cut(df$age, c(0, 4, 14, 64, max(df$age, na.rm = T)), include.lowest = TRUE, labels = c("0-4", "5-14", "15-64", "65 +"))
+
+```
+
+# Testing the function
+
+```{r testfunction}
+options(knitr.kable.NA = '')
+
+# Test
+table <- desc(data = df, vars = c("age", "agegp4", "sex", "fluvaccany"), 
+              labels = c("Age", "Age in group", "Sex", "Seasonal influenza vaccination"))
+
+print(table)
+
+# Or you can export the table in Excel with saveXlsx() for example
+```
+
