@@ -52,6 +52,11 @@ table <- descBy(data = df, vars = c("age", "agegp4", "sex", "fluvaccany"),
 
 print(table)
 
+table <- freq(df$sex)
+print(table)
+tab(sex, data=df)
+
+
 # Or you can export the table with Excel
 # saveXlsx(filename = "")
 ```

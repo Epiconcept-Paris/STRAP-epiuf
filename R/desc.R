@@ -30,12 +30,12 @@
 #' @export
 #'
 #' @examples
-#' #' \dontrun{
-#'    table <- desc(data = df, vars = c("age","sex","fluvaccany"), labels = c("Age", "Sex", "Seasonal influenza vaccination"))
+#' \dontrun{
+#'    table <- desc(data = df, vars = c("age","sex","fluvaccany"), 
+#'    labels = c("Age", "Sex", "Seasonal influenza vaccination") )
 #' }
 #' 
-desc <- function(data, vars, labels)
-{
+desc <- function(data, vars, labels){
   data.desc <- data[,vars]
   res <-c(1:3)
   lvide <- c("","","")
