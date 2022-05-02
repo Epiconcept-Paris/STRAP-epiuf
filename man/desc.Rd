@@ -4,7 +4,7 @@
 \alias{desc}
 \title{desc}
 \usage{
-desc(data, vars, labels)
+desc(data, vars, labels = NULL)
 }
 \arguments{
 \item{data}{name of the dataset}

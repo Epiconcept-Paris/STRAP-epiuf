@@ -25,8 +25,8 @@
 #' 
 #' @param data name of the dataset
 #' @param vars the variables list to describe (numeric or factor)
-#' @param labels labels for the variables list
-#' @param compVar variable to compare (must be a factor and have at least two categories)
+#' @param by variable to compare (must be a factor and have at least two categories)
+#' @param labels labels for the variables list (var names used if NULL)
 #' 
 #' @return a descriptive table 
 #' @export
@@ -35,35 +35,36 @@
 #' \dontrun{
 #'    table <- descBy(data = df, vars = c("age","sex","fluvaccany"), 
 #'    labels = c("Age", "Sex", "Seasonal influenza vaccination"), 
-#'    compVar = "lab_flu"))
+#'    by = "lab_flu"))
 #' }
 #' 
-descBy <- function(data, vars, labels, compVar){
+descBy <- function(data, vars, by, labels=NULL){
   ok <-  TRUE
   # Check if compVar is a factor
-  if(class(data[[compVar]]) != "factor"){
-    warning(compVar, " is not a factor")
+  if(class(data[[by]]) != "factor"){
+    warning(by, " is not a factor")
     ok <-  FALSE
   }
   
   # Levels of compVar
-  mod <- levels(data[[compVar]])
+  mod <- levels(data[[by]])
   # Check if there are at least 2 categories
   if(length(mod) < 2){
-    warning(compVar, " has less than 2 categories")
+    warning(by, " has less than 2 categories")
     ok <-  FALSE
   }
   
   if (ok == TRUE) {
     # Select list of variables
     data.comp <- data[,vars]
+    if (is.null(labels)) labels <-  vars
     
   
     # For each level of compVar retrieve the number of records
-    compVar <- data[[compVar]]
+    by <- data[[by]]
     mod.nb <- rep(NA, length(mod))
     for (i in 1:length(mod)){
-      mod.nb[i] <- nrow(subset(data.comp, compVar==mod[i]))
+      mod.nb[i] <- nrow(subset(data.comp, by==mod[i]))
     }
     label.mod <- paste0(mod, "\n(N=", mod.nb, ")")
     
@@ -82,7 +83,7 @@ descBy <- function(data, vars, labels, compVar){
         
         for(k in 1:length(mod))
         {
-          data.k <- data.comp[compVar==mod[k] & !is.na(compVar),]
+          data.k <- data.comp[by==mod[k] & !is.na(by),]
           n <- sum(!is.na(data.k[,i]))
           na <- sum(is.na(data.k[,i]))
           na.pct <- round(na/nrow(data.k)*100,1)
@@ -117,7 +118,7 @@ descBy <- function(data, vars, labels, compVar){
           l2 <- mod2[j]
           
           for(k in 1:length(mod)){
-            data.k <- data.comp[compVar==mod[k] & !is.na(compVar),]
+            data.k <- data.comp[by==mod[k] & !is.na(by),]
             n <- sum(!is.na(data.k[,i]))
             n.tab <- as.vector(table(data.k[,i]))
             n.pct <- round((n.tab/n)*100,1)
@@ -147,7 +148,7 @@ descBy <- function(data, vars, labels, compVar){
         l3 <- "Missing"
         
         for(k in 1:length(mod)){
-          data.k <- data.comp[compVar==mod[k] & !is.na(compVar),]
+          data.k <- data.comp[by==mod[k] & !is.na(by),]
           na <- sum(is.na(data.k[,i]))
           na.pct <- round(na/nrow(data.k)*100,1)
           l3 <- c(l3, paste0(na," (",na.pct,")"))

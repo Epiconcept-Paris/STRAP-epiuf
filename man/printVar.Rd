@@ -19,3 +19,11 @@ A data frame of 10 rows with selected columns
 \description{
 printVar
 }
+\examples{
+ data <- data.frame(Id = 1:4 ,  
+                   vaccage = c(34,45, 50,22 ),
+                   symp = c("Y","Y","N","N"),
+                   vaccboost=c("N","Y","N","Y"))
+printVar(data,"symp")
+printVar(data,"vac*")                    
+}

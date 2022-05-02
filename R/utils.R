@@ -471,6 +471,12 @@ listVar <- function(dataset,pattern,regex=FALSE) {
 #' @export
 #'
 #' @examples
+#'  data <- data.frame(Id = 1:4 ,  
+#'                    vaccage = c(34,45, 50,22 ),
+#'                    symp = c("Y","Y","N","N"),
+#'                    vaccboost=c("N","Y","N","Y"))
+#'printVar(data,"symp")
+#'printVar(data,"vac*")                    
 printVar <- function(dataset,pattern,regex=FALSE) {
   lvar <- listVar(dataset,pattern,regex)
   ldata <- as.data.frame(dataset[,lvar])

@@ -35,10 +35,11 @@
 #'    labels = c("Age", "Sex", "Seasonal influenza vaccination") )
 #' }
 #' 
-desc <- function(data, vars, labels){
+desc <- function(data, vars, labels=NULL){
   data.desc <- data[,vars]
   res <-c(1:3)
   lvide <- c("","","")
+  if (is.null(labels)) labels <-  vars
   
   for(i in 1:length(vars))
   {

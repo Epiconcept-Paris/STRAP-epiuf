@@ -4,16 +4,16 @@
 \alias{descBy}
 \title{descBy}
 \usage{
-descBy(data, vars, labels, compVar)
+descBy(data, vars, by, labels = NULL)
 }
 \arguments{
 \item{data}{name of the dataset}
 
 \item{vars}{the variables list to describe (numeric or factor)}
 
-\item{labels}{labels for the variables list}
+\item{by}{variable to compare (must be a factor and have at least two categories)}
 
-\item{compVar}{variable to compare (must be a factor and have at least two categories)}
+\item{labels}{labels for the variables list (var names used if NULL)}
 }
 \value{
 a descriptive table
@@ -25,7 +25,7 @@ Aim: to describe numeric variables or categorical variables (must be in factor) 
 \dontrun{
    table <- descBy(data = df, vars = c("age","sex","fluvaccany"), 
    labels = c("Age", "Sex", "Seasonal influenza vaccination"), 
-   compVar = "lab_flu"))
+   by = "lab_flu"))
 }
 
 }
