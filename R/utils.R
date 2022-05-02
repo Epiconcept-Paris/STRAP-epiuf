@@ -442,7 +442,7 @@ clear <- function(what, noask = FALSE) {
 #' @param pattern Pattern representing varname
 #' @param regex  Should the pattern be used as regex expression or use classical "joker" ? and * 
 #'
-#' @return head of the dataset for the selected variables  
+#' @return list of the variables matching the pattern   
 #' @export
 #'
 #' @examples
@@ -456,10 +456,27 @@ clear <- function(what, noask = FALSE) {
 #' 
 listVar <- function(dataset,pattern,regex=FALSE) {
   if (!regex){pattern <- glob2rx(pattern)}
-  utils::head(dataset[,grepl(pattern,names(dataset))])  
+#  utils::head(dataset[,grepl(pattern,names(dataset))])
+  lvar <- grepl(pattern,names(dataset))
+  names(dataset)[lvar==TRUE]
 }
 
-
+#' printVar
+#'
+#' @param dataset A data.frame 
+#' @param pattern A pattern for varname in the dataframe see \code{regex}  
+#' @param regex Should the pattern be used as regex expression or use classical "joker" ? and * 
+#'
+#' @return  A data frame of 10 rows with selected columns 
+#' @export
+#'
+#' @examples
+printVar <- function(dataset,pattern,regex=FALSE) {
+  lvar <- listVar(dataset,pattern,regex)
+  ldata <- as.data.frame(dataset[,lvar])
+  colnames(ldata) <- lvar
+  utils::head(ldata)
+}
 
 
 #' isVar fonction WIP do not use

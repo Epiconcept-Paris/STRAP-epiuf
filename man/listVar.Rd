@@ -14,7 +14,7 @@ listVar(dataset, pattern, regex = FALSE)
 \item{regex}{Should the pattern be used as regex expression or use classical "joker" ? and *}
 }
 \value{
-head of the dataset for the selected variables
+list of the variables matching the pattern
 }
 \description{
 listVar
