@@ -18,7 +18,7 @@
 
 # START of SCRIPT  --------------------------------------------------------
 
-#' desc
+#' describ
 #'
 #' Aim: to describe numeric variables or categorical variables (must be in factor) in a table.
 #' 
@@ -35,7 +35,7 @@
 #'    labels = c("Age", "Sex", "Seasonal influenza vaccination") )
 #' }
 #' 
-desc <- function(data, vars, labels=NULL){
+describ <- function(data, vars, labels=NULL){
   data.desc <- data[,vars]
   res <-c(1:3)
   lvide <- c("","","")

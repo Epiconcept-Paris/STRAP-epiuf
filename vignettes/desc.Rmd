@@ -1,8 +1,8 @@
 ---
-title: "desc"
+title: "describ"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{desc}
+  %\VignetteIndexEntry{describ}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -13,7 +13,7 @@ library(epiuf)
 
 ```
 
-# desc function
+# describ function
 
 The aim of this function is to describe a list of variables. 
 For example : to describe age, sex, vaccination satus.
@@ -38,11 +38,11 @@ df$agegp4 <- cut(df$age, c(0, 4, 14, 64, max(df$age, na.rm = T)), include.lowest
 options(knitr.kable.NA = '')
 
 # Test
-table <- desc(data = df, vars = c("age", "agegp4", "sex", "fluvaccany"))
+table <- describ(data = df, vars = c("age", "agegp4", "sex", "fluvaccany"))
 
 print(table)
 
-table <- desc(data = df, vars = c("age", "agegp4", "sex", "fluvaccany"), 
+table <- describ(data = df, vars = c("age", "agegp4", "sex", "fluvaccany"), 
               labels = c("Age", "Age in group", "Sex", "Seasonal influenza vaccination"))
 
 print(table)

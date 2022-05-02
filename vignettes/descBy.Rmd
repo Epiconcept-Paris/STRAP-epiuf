@@ -1,8 +1,8 @@
 ---
-title: "descBy"
+title: "describBy"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{descBy}
+  %\VignetteIndexEntry{describBy}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -13,7 +13,7 @@ library(epiuf)
 
 ```
 
-# descBy function
+# describBy function
 
 The aim of this function is to describe a list of variables according to another variable in a table.
 For example : to describe age, sex, vaccination satus according to the case or control status.
@@ -38,23 +38,23 @@ df$agegp4 <- cut(df$age, c(0, 4, 14, 64, max(df$age, na.rm = T)), include.lowest
 options(knitr.kable.NA = '')
 
 # Test when compVar is not a factor
-table <- descBy(data = df, vars = c("age", "agegp4", "sex"), labels = c("Age", "Age in group", "Sex"), by = "lab_flu")
+table <- describBy(data = df, vars = c("age", "agegp4", "sex"), labels = c("Age", "Age in group", "Sex"), by = "lab_flu")
 
 # Test when compVar has not enough categories (minimum is 2)
 df2 <- subset(df, lab_flu == 0)
 df2$lab_flu <- factor(df2$lab_flu, levels = c(0), labels = c("Controls"))
-table <- descBy(data = df2, vars = c("age", "agegp4", "sex"), labels = c("Age", "Age in group", "Sex"), by = "lab_flu")
+table <- describBy(data = df2, vars = c("age", "agegp4", "sex"), labels = c("Age", "Age in group", "Sex"), by = "lab_flu")
 
 # Test
 df$lab_flu <- factor(df$lab_flu, levels = c(0,1), labels = c("Controls", "Cases"))
 
-table <- descBy(data = df, vars = c("age", "agegp4", "sex", "fluvaccany"), 
+table <- describBy(data = df, vars = c("age", "agegp4", "sex", "fluvaccany"), 
                  by = "lab_flu")
 
 print(table)
 
 
-table <- descBy(data = df, vars = c("age", "agegp4", "sex", "fluvaccany"), 
+table <- describBy(data = df, vars = c("age", "agegp4", "sex", "fluvaccany"), 
                 labels = c("Age", "Age in group", "Sex", "Seasonal influenza vaccination"), by = "lab_flu")
 
 print(table)

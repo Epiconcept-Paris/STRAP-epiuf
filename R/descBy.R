@@ -19,7 +19,7 @@
 
 # START of SCRIPT  --------------------------------------------------------
 
-#' descBy
+#' describBy
 #'
 #' Aim: to describe numeric variables or categorical variables (must be in factor) according to another variable in a table.
 #' 
@@ -38,7 +38,7 @@
 #'    by = "lab_flu"))
 #' }
 #' 
-descBy <- function(data, vars, by, labels=NULL){
+describBy <- function(data, vars, by, labels=NULL){
   ok <-  TRUE
   # Check if compVar is a factor
   if(class(data[[by]]) != "factor"){
