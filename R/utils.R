@@ -368,7 +368,9 @@ addSep <- function(li,c) {
 #'
 #' @export
 #' @importFrom utils ls.str
-#' @param what Keyword (vars, functions, all) or pattern
+#' @param what an object name, a Keyword (vars, functions, all) or a pattern
+#'             Object name can be passed for evaluation, pattern has to be quotted 
+#'              
 #' @param noask to clear whithout confirmation. Useful when running from a script
 #' @author Gilles Desve
 #' @references Based on: \emph{Epi6} and \emph{Stata} functionnality, available at \url{https://github.com/}.
@@ -376,9 +378,10 @@ addSep <- function(li,c) {
 #' @examples
 #' tmp <- 5
 #' temp <- 5
-#' clear(t)
-#'
-clear <- function(what, noask = FALSE) {
+#' temp2 <- 6
+#' clear(tmp)
+#' clear("t*")
+clear <- function(what="all", noask = FALSE) {
   # arg <- as.list(match.call())
   continue <- TRUE
   if ( missing(what) ) what <- "vars"
@@ -406,12 +409,13 @@ clear <- function(what, noask = FALSE) {
       "vars" = { li = setdiff(ls(.GlobalEnv), ls.str(.GlobalEnv, mode = "function")) } ,
       "functions" = { li = ls.str(.GlobalEnv, mode = "function") },
       "all" =  { li = ls((.GlobalEnv)) },
-      {
+      { # no keyword then we look for specific objects
         # there is an objects with that name... we remove it
         if ( exists(swhat) ) {
           li <- c(swhat)
         } else {
-          li <- ls(.GlobalEnv, pattern = swhat)
+          spattern <- glob2rx(swhat)
+          li <- ls(.GlobalEnv, pattern = spattern)
         }
       }
     )
@@ -484,6 +488,49 @@ printVar <- function(dataset,pattern,regex=FALSE) {
   utils::head(ldata)
 }
 
+
+#' dropVar
+#'
+#' @param data A dataset
+#' @param varname A column to remove 
+#'
+#' @return The dataset 
+#' @export
+#'
+#' 
+dropVar <- function(data , varname) {
+  dfname <- as.character(substitute(data))
+  r <- as.list(match.call())
+  vartodrop <- as.character(r$varname)
+  if (vartodrop %in% names(data)) {
+    # we drop from data copy
+    data[,vartodrop] <- NULL
+    # feedback for user
+    cat("Column ")
+    bold(vartodrop)
+    cat(" dropped from ")
+    bold(dfname)
+    catret("")
+    # update original data.frame
+    push.data(dfname,data)
+  } else red(vartodrop, "not found in",dfname)
+}
+
+#' push.data is used to update globalEnv from function
+#'
+#' @param name Name of an object to be created or replaced in global env
+#' @param object any object 
+#'
+#' @return nothing
+#' @export
+#'
+#' @examples
+#' push.data("test",6)
+#' rm(test)
+push.data <- function(name,object) {
+  exp = call("<-",name,object)
+  eval(exp,envir=.GlobalEnv)
+}
 
 #' isVar fonction WIP do not use
 #'    exists look only in GlobalEnv and parent, is.var will search from current and parent until global but not in base

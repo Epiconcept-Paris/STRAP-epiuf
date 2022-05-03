@@ -4,10 +4,11 @@
 \alias{clear}
 \title{Remove variables, dataset or functions from memory}
 \usage{
-clear(what, noask = FALSE)
+clear(what = "all", noask = FALSE)
 }
 \arguments{
-\item{what}{Keyword (vars, functions, all) or pattern}
+\item{what}{an object name, a Keyword (vars, functions, all) or a pattern
+Object name can be passed for evaluation, pattern has to be quotted}
 
 \item{noask}{to clear whithout confirmation. Useful when running from a script}
 }
@@ -26,8 +27,9 @@ If there only one object matching the exactly the \code{what} parameter, this ob
 \examples{
 tmp <- 5
 temp <- 5
-clear(t)
-
+temp2 <- 6
+clear(tmp)
+clear("t*")
 }
 \references{
 Based on: \emph{Epi6} and \emph{Stata} functionnality, available at \url{https://github.com/}.
