@@ -104,22 +104,24 @@ printIf<- function(data,  cond, text="", threshold=NULL , varname="id"){
 #' df <- data.frame(Id = 1:4 ,
 #'                     Vaccs = c("pfizer"," ", "pfizer", "moderna"))
 #' nb <- countIf(df,Vaccs=='pfizer')
-#' 
-countIf <- function(data,cond) {
+#' nb <- countIf(df)
+countIf <- function(data,cond=NULL) {
+
   cond <- substitute(cond)
-  if (!typeof(cond)=="language") {cond <- parse(text=cond)}
   
-  # base version 
-  # records <-  eval(cond,data,parent.frame())
-  # records <- records & !is.na(records)
-  # records <- data[records,]
-
-
+  if (!is.null(cond)) {
     
-  # subset will make a lazy eval, in order to work, this one should be done in countIf context 
-  # then parent.frame(2)
-  records <- subset(data,eval(cond,data,parent.frame(2)))
+    if (!typeof(cond)=="language") {cond <- parse(text=cond)}
+    
+    # base version 
+    # records <-  eval(cond,data,parent.frame())
+    # records <- records & !is.na(records)
+    # records <- data[records,]
 
+    # subset will make a lazy eval, in order to work, this one should be done in countIf context 
+    # then parent.frame(2)
+    records <- subset(data,eval(cond,data,parent.frame(2)))
+  } else records <- data  
   r <- nrow(records)
   return(r)
 }

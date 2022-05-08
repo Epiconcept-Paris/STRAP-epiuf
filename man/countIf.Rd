@@ -4,7 +4,7 @@
 \alias{countIf}
 \title{Simple count of records satisfying  a conditional expression}
 \usage{
-countIf(data, cond)
+countIf(data, cond = NULL)
 }
 \arguments{
 \item{data}{The dataset where records should be counted}
@@ -22,5 +22,5 @@ Simple count of records satisfying  a conditional expression
 df <- data.frame(Id = 1:4 ,
                     Vaccs = c("pfizer"," ", "pfizer", "moderna"))
 nb <- countIf(df,Vaccs=='pfizer')
-
+nb <- countIf(df)
 }
