@@ -14,6 +14,7 @@
 #' @seealso \code{\link{table}} for 2by2 tables
 #' @export
 #' @param x As numbers, factors or text.
+#' @param y As numbers, factors or text.
 #' @param missing If false then missing values are not included in the table
 #'   A summary output of number of missing values is added at the end
 #' @param quietly No output, only return value
@@ -23,9 +24,27 @@
 #' freq(c(3,1,2,2,5))
 #'
 #'
-freq <- function(x,missing=FALSE,quietly = FALSE) {
-  var.name <- deparse(substitute(x))
-  cur.var <- x
+freq <- function(x,y=NULL,missing=FALSE,quietly = FALSE) {
+  
+  r <- try(class(x),TRUE)
+  if ( ! inherits(r, "try-error")) {
+    if ("data.frame" %in% r ) {
+      var.name <- deparse(substitute(y))
+      ys <- parse(text=substitute(y))
+      y <-  eval(ys,x) 
+    } else if (class(x)=="character" & length(x)==1 ) {
+      var.name <- x
+      y  <- getvar(x) 
+    } else {
+      var.name <- deparse(substitute(x))
+      y <- x 
+    }
+  } else {
+    var.name <- deparse(substitute(x))
+    y <- getvar(var.name)
+  } 
+  
+  cur.var <- y
   if (! is.null(cur.var)) {
     count <- table(cur.var, useNA=ifelse(missing,"ifany","no") )
     tot <- length(cur.var)

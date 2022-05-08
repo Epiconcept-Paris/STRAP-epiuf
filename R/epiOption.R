@@ -25,6 +25,8 @@
 # global <<- list()
 # global$epiuf <- TRUE
 
+
+
 # epifield envirronement used to manage epifield options
 epiutils_env <- new.env(parent = emptyenv())
 
@@ -35,10 +37,6 @@ epiutils_env$show_Rcode <- FALSE
 # global to retrieve current and last selection in short syntax system
 # The current selection applied to the current dataframe
 epiutils_env$select <- ""
-
-# The last_error in epifield functions
-epiutils_env$last_error <- NA
-
 
 #' getEpiOption
 #'
@@ -128,7 +126,17 @@ setEpiOption <- function(EpiOption, value) {
   invisible(old)
 }
 
+# internal used to reset the short syntax system
+resetvar <- function() {
+  setEpiOption("last_var","")          # last argument object name (in long syntax)
+  setEpiOption("last_isvar","")        # last argument is a column name ?
+  setEpiOption("last_varname","")      # if yes, varname is the column name
+  setEpiOption("last_df", "")           # if yes, df is the last dataframe
+  setEpiOption("last_error", NA)
+  setEpiOption("dataset","")
+}
 
+resetvar()
 
 
 # END of SCRIPT  --------------------------------------------------------

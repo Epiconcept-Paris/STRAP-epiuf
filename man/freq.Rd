@@ -4,10 +4,12 @@
 \alias{freq}
 \title{Frequency distribution.}
 \usage{
-freq(x, missing = FALSE, quietly = FALSE)
+freq(x, y = NULL, missing = FALSE, quietly = FALSE)
 }
 \arguments{
 \item{x}{As numbers, factors or text.}
+
+\item{y}{As numbers, factors or text.}
 
 \item{missing}{If false then missing values are not included in the table
 A summary output of number of missing values is added at the end}

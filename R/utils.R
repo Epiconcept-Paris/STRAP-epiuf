@@ -583,6 +583,247 @@ isVar <- function(what="") {
 }
 
 
+# given a column name, finddf retrieve all df containing that column
+# mainly used by getvar in short syntax
+finddf <- function(varname) {
+  .df <-
+    names(Filter(isTRUE, eapply(.GlobalEnv, is.data.frame)))
+  ndf <- length(.df)
+  j <- 1
+  nfound <- 0
+  dffound <- ""
+  dflist <- list()
+  while (j <= ndf) {
+    pat <- paste0("^",varname,"$")
+    ifound <- grep(pat, names(get(.df[j])))
+    if (length(ifound) > 0) {
+      nfound <- nfound + 1
+      dflist[nfound] <- .df[j]
+      # list of dataset containing varname
+      dffound <-
+        paste0(dffound, ifelse(dffound == "", "", ", "), .df[j])
+    }
+    j <- j + 1
+  }
+  r <- list()
+  r$count <- nfound
+  r$namelist <- dflist
+  r$namestring <- dffound
+  return(r)
+}
+
+# retrieve the default data.frame defined by setdata
+# getdata return the df if there is only one in memory
+getdata <- function() {
+  df <- getEpiOption("dataset")  # epif_env$dataset
+  if ( is.character(df) ) {
+    if (! df == "") {
+      # dataset contain name ... then get the data.frame
+      df <- get(df)
+      # df <- eval(parse(text = df))
+    }
+  }
+  # we verify that we finally have a dataframe
+  if ( ! is.data.frame(df)) {
+    df <- NULL
+  }
+  # if no dataframe set by default and one is available in global env, then we use it
+  if (is.null(df)) {
+    list_df <- names(Filter(isTRUE, eapply(.GlobalEnv, is.data.frame)))
+    ndf <- length(list_df)
+    if (ndf == 1) {
+      df <- get(list_df[1])
+    }
+  }
+  df
+}
+
+
+
+# internal function to retrieve dataset variables
+
+#' @title retrieve a data.frame column
+#'
+#' @param what Name of the column
+#'
+#' @return The column
+#' @export
+#' @importFrom utils glob2rx
+#'
+#' @examples
+#' getvar()
+getvar <- function(what = NULL) {
+  
+  # first, if what is missing we return previous one
+  if (missing(what)) {
+    return(getEpiOption("last_var"))
+  } else {
+    argpassed <- substitute(what)
+    # should we look at var content ??
+    # subst <- FALSE
+    # if var is char content is used
+    # if (exists(var)) {
+    #   if (is.character(varname) & length(varname)== 1 ) {
+    #      var<-eval(varname)
+    #      subst<-TRUE
+    #   }
+    # }
+    # reset of global vars
+    # resetvar()
+    iscol <- FALSE
+    dfname <- ""
+    # Look at type of argument and get a working version of it
+    r <- try(mwhat <- mode(what),TRUE)
+    if (inherits(r, "try-error")) {
+      varname <- deparse(substitute(what))
+    } else {
+      switch(mwhat ,
+             "character" = {
+               varname <- what
+             } ,
+             "call" =  {
+               varname <- deparse(what)
+             } ,
+             "name" = {
+               varname <- as.character(what)
+             } ,
+             { # else
+               varname <- deparse(argpassed)
+             }
+      )
+      iscol <-  TRUE
+    }  
+    # got it, we save the name
+    
+    # epif_env$last_var <- varname
+    # epif_env$last_varname <- varname
+    # if ( (l <-pos("\\$",varname)) > 0) {
+    #   epif_env$last_varname <- substring(varname,l+1)
+    #   epif_env$last_df <- substr(varname,1,l-1)
+  }
+  
+  # just create an expression with content
+  ex <- parse(text=varname)
+  # we can test isVar
+  # var doesn't exist.. may be it's a formula ? We try to eval but we catch error
+  continue <- FALSE
+  r <- try(eval(ex), TRUE)
+  if (!inherits(r, "try-error")) {
+    # it's a formula ... it's evaluation is returned if not a function
+    if ( ! mode(r) == "function" ) {
+      return(r)
+    } else {
+      #  in that situation we can look for column name... to be modified
+      warning(
+        paste(
+          varname ,
+          "is probably not a variable but a function"),
+        call. = FALSE
+      )
+    }
+  } else continue <- TRUE
+  if (continue) {
+    # may be varname is part of a dataset ?
+    dffound <- finddf(varname)
+    # only one ? great
+    if (dffound$count > 1) {
+      dfset <- setdata()
+      if (!dfset=="") {
+        lset <- dfset %in% dffound$namelist
+        if (lset) {
+          dfname  <- dfset
+        }
+      }
+    }
+    if (dffound$count == 1) {
+      dfname <- dffound$namelist[[1]]
+    }
+    if (!dfname=="") {
+      varfullname <- paste(dfname, "$", varname , sep = "")
+      # we update varname with data.frame value
+      # epif_env$last_var <- varfullname
+      # epif_env$last_varname <- varname
+      # epif_env$last_df <- dfname
+      r <- try(eval(parse(text =varfullname)),TRUE)
+      return(r)
+    } else if (dffound$count > 1){
+      warning(
+        paste0(
+          varname ,
+          " is an ambiguous name and exists in following datasets: ",
+          dffound$namestring,"\n","You could try ",dffound$namelist[[1]],"$",varname,
+          "\n or try to use setdata(",dffound$namelist[[1]],")"
+        ),
+        call. = FALSE
+      )
+      # resetvar()
+      return(NULL)
+    } else {
+      warning(paste(varname , "is not defined as variable or data.frame column"), call. = FALSE)
+      return(NULL)
+    }
+  } # var not exists
+} # not missing
+
+
+#' @title set or retrieve the default data.frame
+#'
+#' Set a data.frame as default data.frame for epifield function. This avoid typing
+#' and simplify syntax for R newcomers. setdata is mandatory for some functions :
+#' generate, countif
+#' If missing df name, then setdata() return the current data.frame name
+#'
+#' @param df Name of the data.frame to set as default
+#' @export
+#' @return  The current data.frame name
+#' @examples
+#' df <-as.data.frame(c(1,2))
+#' setdata(df)
+#' rm(df)
+#'
+
+setdata <- function(df = NULL) {
+  # if argument is NULL setdata return the current default data frame
+  if (missing(df)) {
+    return(getEpiOption("dataset"))
+  } else {
+    # argument is a dataframe ?
+    m_df <- try(is.data.frame(df),TRUE)
+    if ( ! inherits(m_df, "try-error")) {
+      # df exists as an object
+      # if TRUE then it is a data frame
+      if (m_df) {
+        # setdata as a meaning only if the passed dataframe exist in environment
+        c_df <- as.character(substitute(df))
+        # the name is searched in global env
+        if (sum(match(ls.str(.GlobalEnv, mode = "list"), c_df), na.rm = TRUE) > 0) {
+          cat("Default data frame is now set to",c_df)
+          setEpiOption("dataset", c_df )
+        } else {
+          stop("Data frame should exist in global environnment")
+        }
+        # df is not a data frame, if arg is character, we search for a dataset named df
+      } else if (is.character(df)) {
+        # if df is empty then we cancel the default dataframe
+        if (df=="") {
+          setEpiOption("dataset", df)
+          cat("setdata cleared")
+        } else if (exists(df)) {
+          # an object named df exist, is it a data frame ?
+          if (is.data.frame(get(df))) {
+            setEpiOption("dataset", df)
+            cat("Default data frame is now set to",df)
+          } else stop(df , " is not a data.frame")
+        } else stop(df , " doesn't exist in environment")  # no object with that name
+      }
+    } else {
+      # a data frame was passed directly as argument
+      stop("Data frame should exist in global environnment")
+    }
+  }
+}
+
+
 
 
 # END of SCRIPT  --------------------------------------------------------
