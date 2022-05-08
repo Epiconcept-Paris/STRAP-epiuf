@@ -206,11 +206,16 @@ lpad <- function(value,
     r <-
       format(value, width = width , justify = "right")
   }
-  if (is.character(value) & (nchar(r) > width)) {
-    r <- paste0(substr(r, 1, width - 2), "..")
+  if (is.character(value) & max(nchar(r)) > width) {
+    for ( i in 1:length(r) ) {
+      if (nchar(r[i])>width) {
+        r[i] <- paste0(substr(r[i], 1, width - 2), "..")
+      }
+    }
   }
-  return(r)
+return(r)
 }
+
 
 askinput <- function(message,answers) {
   r <- ""
