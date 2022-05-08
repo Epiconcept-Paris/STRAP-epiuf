@@ -27,4 +27,6 @@ Sort a dataframe according to a field optionnaly decreasing
 df <- data.frame(one=c(2,1,2,1),two=c(2,2,1,1))
 df <- sortBy(df,"one")
 df <- sortBy(df,1) 
+df <- sortBy(df,one)
+df <- sortBy(df,df$one)
 }

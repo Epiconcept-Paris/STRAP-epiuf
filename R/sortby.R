@@ -15,18 +15,20 @@
 #' df <- data.frame(one=c(2,1,2,1),two=c(2,2,1,1))
 #' df <- sortBy(df,"one")
 #' df <- sortBy(df,1) 
+#' df <- sortBy(df,one)
+#' df <- sortBy(df,df$one)
 sortBy <- function(data,field, decreasing=FALSE, na.last=TRUE) {
   data <- as.data.frame(data)
   sfield <- substitute(field)
   r <- try(class(field),TRUE)
   if ( inherits(r, "try-error")) {
-     field <- with(data,sfield) 
+     field <- eval(parse(text=sfield),envir=data) 
   }  
-  if (is.character(field) & length(field==1)) {
+ if (length(field)==1) {
     vect <- data[,field]
   } else if (length(field)>1) {
     vect <-  field
-  } 
+  }
   neworder <- order(vect ,na.last=na.last ,decreasing=decreasing )
   data[neworder,]
 }

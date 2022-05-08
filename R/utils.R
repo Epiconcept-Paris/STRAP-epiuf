@@ -60,9 +60,50 @@ cleanNames <-  function(name,chr="") {
   gsub("[[:punct:]]", chr, name)  # no libraries needed
   
 }
+
 # x <- "ÁbcdêãçoàúüEssai/=+$67"
 # x <-  iconv( x , from="", to="ASCII//TRANSLIT")
 # gsub("[^a-zA-Z0-9]", "",x )  # no libraries needed
+
+
+#' Change the name of a data.frame column
+#'
+#' @param data Name of the column/variable to rename
+#' @param oldname Name of the column/variable to rename
+#' @param newname New name to apply
+#'
+#' @return Message to confirm the change
+#' @export
+#'
+#' @examples
+#' df <- as.data.frame( c(One=1,Two=2) )
+#' rename(df,Two,Last)
+rename <- function(data, oldname, newname) {
+  # r <- as.list(match.call())
+  # old <- getvar(r$oldname)
+  # if (! is.null(old) ) {
+  #   old.fname <- getvar()
+  #   old.name <- getvarname()
+  #   dfname <- get_lastdfname()
+  #   df <- getlastdf()
+    dfname <- as.character(substitute(data))
+    oldname <- as.character(substitute(oldname))
+    newname <- as.character(substitute(newname))
+    lname <- names(data)
+    lname[lname==oldname] <-  newname
+    names(data)<-lname
+    push.data(dfname,data)
+    
+    bold(oldname)
+    cat(" renamed as ")
+    bold(newname)
+    catret("")
+}
+
+
+
+
+
 
 #' catret
 #'    cat ret is a wrapper for cat(...,"newline")
