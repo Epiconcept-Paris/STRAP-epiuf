@@ -79,24 +79,9 @@ freq <- function(x,y=NULL,missing=FALSE,quietly = FALSE) {
 }
 
 
-
-#-----------------------------------------------------------------------------------------------------------------------------------
-# Function comp() : to describe numeric variables or categorical variables (need to be in factor) according to an another variable
-#-----------------------------------------------------------------------------------------------------------------------------------
-# Function comp 
-# Aim : To describe numeric variables or categorical variables (need to be in factor) according to an another variable
-# Parameters :
-# vars = list of vars you want to describe
-# comp.var = variable to compare (need to be data$var)
-# labels = labels for the list of vars
-# data = name of the dataset
-# Example -----------------------------------------------------------------
-# vars <- c("age", "agegp4", "sex", "fluvaccany", "virusall", "anychron1")
-# labels <- c("Age", "Age in groups", "Sex", "Seasonal flu vaccination", "Flu type", "Any chronic condition")
-# tab.comp1 <- comp(vars, df_pooled$lab_flu, labels, df_pooled)
-
-#' Title
-#'
+#' comp  Obsolete replaced by desc and desc by
+#' Aim : To describe numeric variables or categorical variables (need to be in factor) 
+#' according to an another variable
 #' @param vars list of vars you want to describe
 #' @param comp.var variable to compare (need to be data$var)
 #' @param labels labels for the list of vars

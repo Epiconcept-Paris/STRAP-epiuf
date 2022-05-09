@@ -56,12 +56,12 @@ describBy <- function(data, vars, by, labels=NULL){
   
   if (ok == TRUE) {
     # Select list of variables
-    data.comp <- data[,vars]
+    data.comp <- as.data.frame(data[,vars])
     if (is.null(labels)) labels <-  vars
     
   
     # For each level of compVar retrieve the number of records
-    by <- data[[by]]
+    by <- as.data.frame(data[[by]])
     mod.nb <- rep(NA, length(mod))
     for (i in 1:length(mod)){
       mod.nb[i] <- nrow(subset(data.comp, by==mod[i]))
@@ -83,7 +83,7 @@ describBy <- function(data, vars, by, labels=NULL){
         
         for(k in 1:length(mod))
         {
-          data.k <- data.comp[by==mod[k] & !is.na(by),]
+          data.k <-as.data.frame(data.comp[by==mod[k] & !is.na(by),])
           n <- sum(!is.na(data.k[,i]))
           na <- sum(is.na(data.k[,i]))
           na.pct <- round(na/nrow(data.k)*100,1)

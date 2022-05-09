@@ -34,6 +34,8 @@ epiutils_env <- new.env(parent = emptyenv())
 # default option controling output of R Code when usefull
 epiutils_env$show_Rcode <- FALSE
 
+epiutils_env$stat_digits <- 2
+
 # global to retrieve current and last selection in short syntax system
 # The current selection applied to the current dataframe
 epiutils_env$select <- ""

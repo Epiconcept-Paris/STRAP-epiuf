@@ -36,7 +36,7 @@
 #' }
 #' 
 describ <- function(data, vars, labels=NULL){
-  data.desc <- data[,vars]
+  data.desc <- as.data.frame(data[,vars])
   res <-c(1:3)
   lvide <- c("","","")
   if (is.null(labels)) labels <-  vars
