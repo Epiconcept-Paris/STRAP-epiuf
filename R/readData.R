@@ -100,6 +100,7 @@ readData <- function(filename = "", factorise = FALSE, lowercase= FALSE, label =
     } else if (ext == "rds") {
       # load an unique object
       dfloaded <- readRDS(filename)
+      push.data(fileName(filename),dfloaded)
     } else if (ext == "xls" | ext == "xlsx") {
       # foreign packages is required
       r <- requireNamespace("readxl", quietly = TRUE)

@@ -88,6 +88,15 @@ fileExt <- function(text) {
 }
 
 # the file name whithout extension
+#' fileName
+#'
+#' @param text A file name
+#'
+#' @return the filename without path or extension
+#' @export
+#'
+#' @examples
+#' fileName("briths.rds")
 fileName <- function(text) {
   name <- basename(text)
   x <- strsplit(name, "\\.")
