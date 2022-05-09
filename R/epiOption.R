@@ -25,6 +25,12 @@
 # global <<- list()
 # global$epiuf <- TRUE
 
+# constant used in epifield tools
+SEP   <- "|"
+CROSS <- "+"
+LINE  <- "-"
+FIRST <- 18
+COL   <- 8
 
 
 # epifield envirronement used to manage epifield options
