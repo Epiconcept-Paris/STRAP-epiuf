@@ -8,6 +8,7 @@ epitable(
   data,
   out,
   exp,
+  epiorder = TRUE,
   missing = FALSE,
   row = FALSE,
   col = FALSE,
@@ -15,10 +16,14 @@ epitable(
 )
 }
 \arguments{
+\item{data}{The dataframe to be analysed}
+
 \item{out}{"Outcome" as numbers, factors or text}
 
 \item{exp}{"Exposure" as numbers, factors or text. short syntax is available
 see help(epifield)}
+
+\item{epiorder}{Should data be reordered to respect epi tables , default to TRUE}
 
 \item{missing}{Boolean if FALSE, missing are not included in the table.
 A summary output of number of missing values is added at the end}

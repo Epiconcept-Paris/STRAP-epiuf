@@ -347,9 +347,11 @@ outputtable <-
 #' @seealso \code{\link{freq}} for frequency distributions
 #' @importFrom stats chisq.test fisher.test
 #' @export
+#' @param data The dataframe to be analysed
+#' @param out  "Outcome" as numbers, factors or text
 #' @param exp  "Exposure" as numbers, factors or text. short syntax is available
 #' see help(epifield)
-#' @param out  "Outcome" as numbers, factors or text
+#' @param epiorder Should data be reordered to respect epi tables , default to TRUE
 #' @param missing Boolean if FALSE, missing are not included in the table.
 #'   A summary output of number of missing values is added at the end
 #' @param row  "Row percentages"
@@ -360,7 +362,7 @@ outputtable <-
 #' @examples
 #' #' epitable(c(1,1,2,2,1),c(3,3,4,4,4))
 #'
-epitable <- function(data,out,exp,missing=FALSE,row=FALSE,col=FALSE,fisher=TRUE)  {
+epitable <- function(data,out,exp,epiorder=TRUE,missing=FALSE,row=FALSE,col=FALSE,fisher=TRUE)  {
   r <- try(class(data),TRUE)
   if ( ! inherits(r, "try-error")) {
     if ("data.frame" %in% r ) {
@@ -402,7 +404,7 @@ epitable <- function(data,out,exp,missing=FALSE,row=FALSE,col=FALSE,fisher=TRUE)
   # }
   # length to be verified
   if (! length(out) == tot) {
-    stop(paste("all arguments must have the same length",var.out,"<>",var.exp,
+    stop(paste("all arguments must have the same length",out.name,"<>",exp.name,
                "verify that data comes from same datase" ))
   }
   
@@ -410,8 +412,10 @@ epitable <- function(data,out,exp,missing=FALSE,row=FALSE,col=FALSE,fisher=TRUE)
   params <- names(data)
   
   if (! ( is.null(exp) |  is.null(out) )  ) {
-    
-    
+    if (epiorder) {
+      out <- epiorder(out,reverse=TRUE)
+      exp <- epiorder(exp,reverse=TRUE)
+    }
     # calculations
     r <- table(exp,out,useNA=ifelse(missing,"ifany","no"))
     # to suppress the chisq warning if table is more than 2*2
@@ -476,6 +480,181 @@ epitable <- function(data,out,exp,missing=FALSE,row=FALSE,col=FALSE,fisher=TRUE)
   }
 }
 
+
+# epifield documentation using roxygen2
+#' @title
+#' Reorder data for epi table ( 2by2 table).
+#' @description
+#' \code{epiorder} Rearrange order of factor variable to produce classical epi table
+#'  1/0  Yes/No  +/-
+#'
+#'
+#' @name epiorder
+#'
+#' @author Gilles Desve
+#' @references Based on: \emph{Epi6} and \emph{Stata} functionnality,
+#' available at \url{https://github.com/}.
+#'
+#' @seealso \code{\link{epitable}} for cross tabulation
+#' @export
+#' @param var  Variable to reorder (will be converted as factor).
+#' @param mode Label plan for the new factor variable
+#'         "yesno" for Yes, No
+#'         "10"    for 1, 0
+#'         "+-"    for +,-
+#'         "truefalse"  for TRUE, FALSE
+#'         or any set of two labels on the form c("A","B")
+#' @param levels  Custom set of levels as vector : c(1,0)
+#'        This levels will replaced by the labels. Levels and labels should have the same
+#'        length and the same order
+#' @param update if TRUE (the default) Then the original dataset is updated with new value
+#'        The recoded column is replaced by the returned value
+#'        With this option, there is no need to reassign the retruned value,
+#'        but original data are lost.
+#' @param reverse if TRUE labels are reordered to better fit epidemiological tables
+#'        with 1 before 0 , Yes before No etc...
+#'        Other type of label are not changed, existing factor are not changed
+#'
+#' @return A vector reordered Can be nested as in \code{freq(epioredr(case))}
+#' @examples
+#' \dontrun{
+#' epiorder(c(0,1,0,1,1))
+#' }
+#'
+#'
+epiorder <- function(var,
+                     mode = "yesno",
+                     levels = NULL,
+                     update = TRUE,
+                     reverse = FALSE) {
+  r <- as.list(match.call())
+  coldata <- var
+  colname <- as.character(substitute(var))
+  lab <- NULL
+  if (!is.null(coldata)) {
+    if (length(mode) > 1 & is.character(mode)) {
+      lab <- mode
+    } else {
+      switch(
+        mode ,
+        "yesno" = {
+          lab <- c("No","Yes")
+        } ,
+        "auto" = {
+          lab <- ""
+        } ,
+        "10" = {
+          lab <- c("0","1")
+        } ,
+        "+-" = {
+          lab <- c("-","+")
+        } ,
+        "truefalse" = {
+          lab <- c("FALSE","TRUE")
+        } ,
+        {
+          cat("Mode:", mode, " Incorrect. See help(epiorder)")
+          lab <- NULL
+        }
+      )
+    }
+    
+    if (!is.null(lab)) {
+      
+      fvar <- is.factor(coldata)
+      if ( fvar ) {
+        if (is.null(levels)) {
+          clevels <- levels(coldata)
+          nlevels <- nlevels(coldata)
+          if (nlevels == 2 & (substr(toupper(sort(clevels)[1]),1,1) == "N" ) ){
+            clevels <- clevels
+          } else if  (nlevels == 2 & (substr(toupper(sort(clevels)[1]),1,1) == "0" ) ) {
+            mode="10"
+            lab <- c("0","1")
+          }  else {
+            lab <- NULL
+          }
+        } else {
+          clevels <- levels
+          reverse <- FALSE
+        }
+      } else {
+        coldata <- factor(coldata)
+        # test for type of levels  (otherwise calling it two time will erase all values)
+        clevels <- levels(coldata)
+        nlevels <- nlevels(coldata)
+        if (is.null(levels)) {
+          if (nlevels == 2 ) {
+            first <- sort(clevels)[1]
+            if (first == "0") {
+              clevels <- c(0,1)
+            } else if ( substr(toupper(sort(clevels)[1]),1,1) == "N" ) {
+              clevels <- sort(clevels)
+            } else {
+              lab <- NULL
+            }
+          } else if (nlevels > 2) {
+            if (mode == "yesno" ) {
+              # we keep base factor
+              lab <- NULL
+            } else if (nlevels == length(mode) & nlevels == length(lab)) {
+              # we use the levels
+            } else lab <- NULL
+          } else {
+            catret("Check your data to verify that you can transform",
+                   colname,
+                   "as factor")
+            coldata <- NULL
+          }
+        } else {
+          clevels <- levels
+        }
+        if (!nlevels == length(clevels)) {
+          catret(
+            "Check your data to verify that number of categories is correct and match your recoding"
+          )
+          coldata <- NULL
+        }
+        if (!is.null(lab)) {
+          if (!length(lab) == length(clevels)) {
+            catret("Numbers of categories/levels must be equal to number of labels")
+            coldata <- NULL
+          }
+        }
+      }
+    }
+  }
+  if (!is.null(coldata)) {
+    if (!is.null(lab)) {
+      if (reverse) {
+        clevels <- rev(clevels)
+        lab <- rev(lab)
+      }
+      coldata <-
+        factor(coldata,
+               levels = clevels ,
+               labels = lab)
+    }
+    # if (update & is.data.frame(df)) {
+    #   df[, colname] <- coldata
+    #   # assign(dfname,df,inherits = TRUE )
+    #   push.data(dfname, df)
+    #   
+      bold(colname)
+      cat(" Reordered with labels: ")
+      catret(levels(coldata))
+      
+    # }
+    # exp <- paste0(substitute(var),"<- coldata")
+    # r <- try(evalq(parse(text = exp), envir = df, enclos = .GlobalEnv),TRUE)
+    # r
+    # df
+    coldata
+  } else {
+    catret(r$var," is not a variable or data.frame column")
+  }
+  
+}
 
 
 
