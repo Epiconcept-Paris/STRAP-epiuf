@@ -15,8 +15,8 @@
 # isoWeek - retrieves iso week
 # isoYearWeek - retrieves year+week in 2022w4 format
 # countIsoWeeks - outputs number of whole weeks from an origin (specified automatially)
+# Takes date variables, option to include validDate() if not date.
 
-# Takes date variables, option to include validDate if not date.
 
 # Changes Log --------------------------------------------------------------
 # 
@@ -75,7 +75,7 @@ isoYear <- function (date){
 #' @export
 #'
 #' @examples
-#' abrvMonth(Sys.Date())
+#' abvMonth(Sys.Date())
 abrvMonth <- function(date){
   
   
@@ -146,7 +146,7 @@ isoYearWeek <- function(date){
 #' @export
 #'
 #' @examples
-#' countIsoWeeks(Sys.Date(),"2000-01-01")
+#' countIsoWeeks(date = Sys.Date(),origin = "2000-01-01")
 countIsoWeeks <- function (date = date, origin = "2019-09-30"){
   
   # if variable is not date, set to date.  
