@@ -11,34 +11,12 @@
 # Description --------------------------------------------------------------
 # calYear - retrieves calender year
 # isoYear - retrieves isoyear 
-# abvMonth - retrieves 3 letter abreviated month
+# abrvMonth - retrieves 3 letter abreviated month
 # isoWeek - retrieves iso week
 # isoYearWeek - retrieves year+week in 2022w4 format
-# Takes date variables, option to include validDate if not date.
-
-# Changes Log --------------------------------------------------------------
-# 
-
-# START of SCRIPT  --------------------------------------------------------
-
-#
-# Project Name : epiuf
-# Script Name  : week_month_year
-# GitHub repo  : epiuf
-# Summary      : wrapper functions for isoweek and and isoyear
-# Date created : 06/04/2022
-# Author       : JHD
-# Date reviewed:
-# Reviewed by  :
-
-# Description --------------------------------------------------------------
-# calYear - retrieves calender year
-# isoYear - retrieves isoyear 
-# abvMonth - retrieves 3 letter abreviated month
-# isoWeek - retrieves iso week
-# isoYearWeek - retrieves year+week in 2022w4 format
-# distanceIsoWeeks - outputs number of whole weeks from an origin (specified automatially)
+# countIsoWeeks - outputs number of whole weeks from an origin (specified automatially)
 # Takes date variables, option to include validDate() if not date.
+
 
 # Changes Log --------------------------------------------------------------
 # 
@@ -98,7 +76,7 @@ isoYear <- function (date){
 #'
 #' @examples
 #' abvMonth(Sys.Date())
-abvMonth <- function(date){
+abrvMonth <- function(date){
   
   
   # if variable is not date, set to date.  
@@ -159,7 +137,7 @@ isoYearWeek <- function(date){
 }
 
 
-#' distanceIsoWeeks
+#' countIsoWeeks
 #'
 #' @param date A date Value
 #' @param origin A reference date value
@@ -168,8 +146,8 @@ isoYearWeek <- function(date){
 #' @export
 #'
 #' @examples
-#' distanceIsoWeeks(Sys.Date(),"2000-01-01")
-distanceIsoWeeks <- function (date = date, origin = "2019-09-30"){
+#' countIsoWeeks(date = Sys.Date(),origin = "2000-01-01")
+countIsoWeeks <- function (date = date, origin = "2019-09-30"){
   
   # if variable is not date, set to date.  
   # if (class(date)!="Date"){
