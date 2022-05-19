@@ -11,10 +11,10 @@
 # Description --------------------------------------------------------------
 # calYear - retrieves calender year
 # isoYear - retrieves isoyear 
-# abvMonth - retrieves 3 letter abreviated month
+# abrvMonth - retrieves 3 letter abreviated month
 # isoWeek - retrieves iso week
 # isoYearWeek - retrieves year+week in 2022w4 format
-# distanceIsoWeeks - outputs number of whole weeks from an origin (specified automatially)
+# countIsoWeeks - outputs number of whole weeks from an origin (specified automatially)
 
 # Takes date variables, option to include validDate if not date.
 
@@ -67,7 +67,7 @@ isoYear <- function (date){
   date
 }
 
-#' abvMonth 
+#' abrvMonth 
 #'
 #' @param date  A date Value
 #'
@@ -75,8 +75,8 @@ isoYear <- function (date){
 #' @export
 #'
 #' @examples
-#' abvMonth(Sys.Date())
-abvMonth <- function(date){
+#' abrvMonth(Sys.Date())
+abrvMonth <- function(date){
   
   
   # if variable is not date, set to date.  
@@ -137,7 +137,7 @@ isoYearWeek <- function(date){
 }
 
 
-#' distanceIsoWeeks
+#' countIsoWeeks
 #'
 #' @param date A date Value
 #' @param origin A reference date value
@@ -146,8 +146,8 @@ isoYearWeek <- function(date){
 #' @export
 #'
 #' @examples
-#' distanceIsoWeeks(Sys.Date(),"2000-01-01")
-distanceIsoWeeks <- function (date = date, origin = "2019-09-30"){
+#' countIsoWeeks(Sys.Date(),"2000-01-01")
+countIsoWeeks <- function (date = date, origin = "2019-09-30"){
   
   # if variable is not date, set to date.  
   # if (class(date)!="Date"){
