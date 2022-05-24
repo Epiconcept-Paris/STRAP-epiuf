@@ -16,5 +16,5 @@ The month of the date in abreviated format
 abrvMonth
 }
 \examples{
-abrvMonth(Sys.Date())
+abvMonth(Sys.Date())
 }

@@ -10,7 +10,7 @@ cond = specify variables and outcome to search for eg "Pregnant==1 & Sex==1" or 
 text = the specified condition to check for
 PrintIDCond( df,hosp_id2>=38266 & hosp_id2 < 38500,"hosp_id2",threshold = 50)}
 \usage{
-printIf(data, cond, text = "", threshold = NULL, varname = "id")
+printIf(data, cond, text = "", threshold = NULL, varname = "id", na.rm = FALSE)
 }
 \arguments{
 \item{data}{A dataframe to look for cond}
@@ -22,6 +22,8 @@ printIf(data, cond, text = "", threshold = NULL, varname = "id")
 \item{threshold}{cutoff number for ID reporting, as number}
 
 \item{varname}{Column name of ID to print}
+
+\item{na.rm}{Remove missing ID in the list to print, by default is False}
 }
 \value{
 Message to print as list

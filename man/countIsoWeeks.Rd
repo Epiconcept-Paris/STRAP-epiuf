@@ -18,5 +18,5 @@ the nimber of isoweek between the two dates
 countIsoWeeks
 }
 \examples{
-countIsoWeeks(Sys.Date(),"2000-01-01")
+countIsoWeeks(date = Sys.Date(),origin = "2000-01-01")
 }
