@@ -75,7 +75,7 @@ isoYear <- function (date){
 #' @export
 #'
 #' @examples
-#' abvMonth(Sys.Date())
+#' abrvMonth(Sys.Date())
 abrvMonth <- function(date){
   
   
