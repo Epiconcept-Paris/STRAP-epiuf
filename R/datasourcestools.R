@@ -200,10 +200,10 @@ searchNewFiles <- function(path,country="",pattern=NULL) {
             # Add the information to SourceList (add a row)
             episourcefiles_env$data <- rbind(episourcefiles_env$data, res)
             # Add the name to a list for summary output 
-            added <- append(added,res$FileName)
+            added <- rbind(added,c(name=res$FileName,file=res$FilePath))
             
             # Print message
-            catret("File", filesnames[i], " added to SourceList.")
+            catret("File", res$FileName, " added to SourceList.")
           }
         }  
           
