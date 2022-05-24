@@ -41,6 +41,7 @@
 #' @param text The message to print (if empty the condition is used )
 #' @param threshold cutoff number for ID reporting, as number
 #' @param varname Column name of ID to print
+#' @param na.rm Remove missing ID in the list to print, by default is False
 #'
 #' @return Message to print as list 
 #' @export 
@@ -50,18 +51,18 @@
 #'                     Vaccs = c("pfizer"," ", "pfizer", "moderna"))
 #' printIf(df,Vaccs=="pfizer",threshold=30 , text="Pfizer vaccin", varname="Id")
 
-printIf<- function(data,  cond, text="", threshold=NULL , varname="id"){
+printIf<- function(data,  cond, text = "", threshold = NULL , varname = "id", na.rm = FALSE){
   
   cond <- substitute(cond)
   if (!typeof(cond)=="language") {cond <- parse(text=cond)}
   
-  if  (!varname %in% names(data) ){
+  if (!varname %in% names(data)){
     varname <- names(data)[1]
   }
   if (text == "") {
     text <- as.character(cond)
   }
-  if (is.null(threshold)) {threshold <- 50 }
+  if (is.null(threshold)) {threshold <- 50}
   Records <- subset(data,eval(cond),varname)
   
   TextToPrint <- c()
@@ -74,11 +75,22 @@ printIf<- function(data,  cond, text="", threshold=NULL , varname="id"){
     
     if (NbCond > 0 & NbCond < threshold){
       
-      listID <-  unlist(Records)
-      listID <-  paste(listID, collapse = ", ")
-      TextToPrint <- c(TextToPrint, paste0("  + IDs: ", listID, "\n"))
+      if (isTRUE(na.rm)){
+        listID <- unlist(na.omit(Records))
+      }else{
+        listID <-  unlist(Records)
+      }
       
-    }else if(NbCond >= threshold){
+      listID <-  paste(listID, collapse = ", ")
+      
+      if (listID == ""){
+        TextToPrint <- TextToPrint
+      } else{
+        TextToPrint <- c(TextToPrint, paste0("  + IDs: ", listID, "\n"))
+      }
+      
+      
+    }else if (NbCond >= threshold){
       
       listID <- paste0(threshold, " or more")
       TextToPrint <- c(TextToPrint, paste0("  + IDs: ", listID, "\n"))
