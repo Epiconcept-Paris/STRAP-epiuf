@@ -230,7 +230,7 @@ maindialog <- function() {
   
   
   # open the source file dataset 
-  openSourceList(pathToFile("SOURCES","datasources.xls"))
+  openSourceList(pathToFile("SOURCES","datasources.xlsx"))
 
   runApp(shinyApp(ui = ui, server = server))
 }

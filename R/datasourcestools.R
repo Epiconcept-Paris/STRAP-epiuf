@@ -327,7 +327,7 @@ saveSourceList <- function(filename=NULL) {
    if (nrow(ds)==0) {
       ds[1,] <- NA
    }
-   openxlsx::write.xlsx(ds,file=filename,row.names=FALSE)
+   openxlsx::write.xlsx(ds,file=filename,rowNames=FALSE)
 }
 
 #' updateSourceData
