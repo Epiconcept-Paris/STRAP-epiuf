@@ -105,14 +105,8 @@ describe <- function(data.desc){
 #' @export
 #'
 #' @examples
-#' \dontrun{ 
-#'    table <- descBy(data, vars = c("age","sex","fluvaccany"), 
-#'    labels = c("Age", "Sex", "Seasonal influenza vaccination"))
-#'    
-#'    table.comp <- descBy(data = df, vars = c("age","sex","fluvaccany"), 
-#'    labels = c("Age", "Sex", "Seasonal influenza vaccination"), 
-#'    compVar = "lab_flu")
-#' }
+#'  descBy(iris,"Sepal.Length",compVar="Species") 
+#'
 #' 
 descBy <- function(data, vars, labels=NULL, compVar = NULL) {
   # Build the simple descriptive table
