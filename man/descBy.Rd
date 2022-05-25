@@ -22,13 +22,7 @@ a descriptive table
 Aim: to describe numeric variables or categorical variables (must be in factor) according or not to another variable in a table.
 }
 \examples{
-\dontrun{ 
-   table <- descBy(data, vars = c("age","sex","fluvaccany"), 
-   labels = c("Age", "Sex", "Seasonal influenza vaccination"))
-   
-   table.comp <- descBy(data = df, vars = c("age","sex","fluvaccany"), 
-   labels = c("Age", "Sex", "Seasonal influenza vaccination"), 
-   compVar = "lab_flu")
-}
+ descBy(iris,"Sepal.Length",compVar="Species") 
+
 
 }
