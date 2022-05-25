@@ -112,15 +112,18 @@ fileName <- function(text) {
 #'
 #' @param pathname pathname Label 
 #' @param path absolute path to associate with the pathname
+#' @param makedir if "Force" path will be created if it doesn't exist, if "Never" path will not be created and 
+#'                a warning will pop if path is missing. If set to "Ask" a prompt will ask for confirmation before 
+#'                creating the missing directory 
 #'
 #' @return Previous defined path 
 #' @export
 #'
 #' @examples
 #' 
-#' setPath("sources","c:/dev/Rsources")
+#' setPath("sources","c:/dev/Rsources", makedir = "Never")
 #' 
-setPath <-  function(pathname,path) {
+setPath <-  function(pathname,path,makedir = c("Ask","Force","Never")) {
   s_op <- deparse(substitute(pathname))
   # if pathname is a variable wich contain char, we use content of pathname
   ok <- FALSE
@@ -131,7 +134,21 @@ setPath <-  function(pathname,path) {
     }
     , error = function(c) { }
   )
-  
+  if (missing(path)) stop("path argument is missing with no default for setPath")
+  if ( ! ( path =="" | dir.exists(path))  ) {
+    if (! makedir == "never") {
+      result <- FALSE
+      if (makedir== "Ask") {
+          message <- paste(path,"doens't exist, do you want to create it ?")
+          result <- yesno(message)
+      }
+      if (makedir=="Force") result = TRUE
+      if (result==TRUE) {
+          dir.create(path) 
+      }
+    } else warning(path," doesn't exist as diretory")
+  } 
+
   invisible(setEpiOption(paste0("PATH_",s_op),path))
 }
 

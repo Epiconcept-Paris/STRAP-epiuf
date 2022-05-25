@@ -4,12 +4,16 @@
 \alias{setPath}
 \title{setPath}
 \usage{
-setPath(pathname, path)
+setPath(pathname, path, makedir = c("Ask", "Force", "Never"))
 }
 \arguments{
 \item{pathname}{pathname Label}
 
 \item{path}{absolute path to associate with the pathname}
+
+\item{makedir}{if "Force" path will be created if it doesn't exist, if "Never" path will not be created and
+a warning will pop if path is missing. If set to "Ask" a prompt will ask for confirmation before
+creating the missing directory}
 }
 \value{
 Previous defined path
@@ -19,6 +23,6 @@ Set a named path to avoid absolute path in R scripts
 }
 \examples{
 
-setPath("sources","c:/dev/Rsources")
+setPath("sources","c:/dev/Rsources", makedir = "Never")
 
 }
