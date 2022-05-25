@@ -38,24 +38,30 @@ df$agegp4 <- cut(df$age, c(0, 4, 14, 64, max(df$age, na.rm = T)), include.lowest
 options(knitr.kable.NA = '')
 
 # Test when compVar is not a factor
-table <- describBy(data = df, vars = c("age", "agegp4", "sex"), labels = c("Age", "Age in group", "Sex"), by = "lab_flu")
+try(
+   table <- descBy(data = df, vars = c("age", "agegp4", "sex"), labels = c("Age", "Age in group", "Sex"), 
+                   compVar = "lab_flu")
+   )
 
 # Test when compVar has not enough categories (minimum is 2)
 df2 <- subset(df, lab_flu == 0)
 df2$lab_flu <- factor(df2$lab_flu, levels = c(0), labels = c("Controls"))
-table <- describBy(data = df2, vars = c("age", "agegp4", "sex"), labels = c("Age", "Age in group", "Sex"), by = "lab_flu")
+try (
+  table <- descBy(data = df2, vars = c("age", "agegp4", "sex"), labels = c("Age", "Age in group", "Sex"), 
+                  compVar = "lab_flu")
+)
 
 # Test
 df$lab_flu <- factor(df$lab_flu, levels = c(0,1), labels = c("Controls", "Cases"))
+try(
+  { table <- descBy(data = df, vars = c("age", "agegp4", "sex", "fluvaccany"), 
+                   compVar = "lab_flu")
+    print(table)
+  }  
+)
 
-table <- describBy(data = df, vars = c("age", "agegp4", "sex", "fluvaccany"), 
-                 by = "lab_flu")
-
-print(table)
-
-
-table <- describBy(data = df, vars = c("age", "agegp4", "sex", "fluvaccany"), 
-                labels = c("Age", "Age in group", "Sex", "Seasonal influenza vaccination"), by = "lab_flu")
+table <- descBy(data = df, vars = c("age", "agegp4", "sex", "fluvaccany"), 
+                labels = c("Age", "Age in group", "Sex", "Seasonal influenza vaccination"), compVar = "lab_flu")
 
 print(table)
 

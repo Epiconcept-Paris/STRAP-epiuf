@@ -38,11 +38,11 @@ df$agegp4 <- cut(df$age, c(0, 4, 14, 64, max(df$age, na.rm = T)), include.lowest
 options(knitr.kable.NA = '')
 
 # Test
-table <- describ(data = df, vars = c("age", "agegp4", "sex", "fluvaccany"))
+table <- descBy(data = df, vars = c("age", "agegp4", "sex", "fluvaccany"))
 
 print(table)
 
-table <- describ(data = df, vars = c("age", "agegp4", "sex", "fluvaccany"), 
+table <- descBy(data = df, vars = c("age", "agegp4", "sex", "fluvaccany"), 
               labels = c("Age", "Age in group", "Sex", "Seasonal influenza vaccination"))
 
 print(table)
