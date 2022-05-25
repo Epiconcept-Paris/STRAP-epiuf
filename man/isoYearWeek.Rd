@@ -4,13 +4,16 @@
 \alias{isoYearWeek}
 \title{isoYearWeek}
 \usage{
-isoYearWeek(date)
+isoYearWeek(date, weekformat = NULL)
 }
 \arguments{
 \item{date}{A date Value}
+
+\item{weekformat}{A string to represent the week separator. Default is w.
+May be one or more characters (eg : "-W")}
 }
 \value{
-The iso year week of the Date  in xx w yyyy format  (43w2020)
+The iso year week of the Date  in YYYYwXX format  (2020w03)
 }
 \description{
 isoYearWeek

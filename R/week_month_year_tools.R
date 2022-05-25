@@ -13,7 +13,7 @@
 # isoYear - retrieves isoyear 
 # abrvMonth - retrieves 3 letter abreviated month
 # isoWeek - retrieves iso week
-# isoYearWeek - retrieves year+week in 2022w4 format
+# isoYearWeek - retrieves year+week in 2022w04 format
 # countIsoWeeks - outputs number of whole weeks from an origin (specified automatially)
 # Takes date variables, option to include validDate() if not date.
 
@@ -116,26 +116,25 @@ isoWeek <- function(date){
 #' isoYearWeek
 #'
 #' @param date A date Value
+#' @param weekformat A string to represent the week separator. Default is w. 
+#' May be one or more characters (eg : "-W") 
 #'
-#' @return The iso year week of the Date  in xx w yyyy format  (43w2020) 
- #' @export
+#' @return The iso year week of the Date  in YYYYwXX format  (2020w03) 
+#' @export
 #'
 #' @examples
 #' isoYearWeek(Sys.Date())
-isoYearWeek <- function(date){  # Use base code to extract YEARwWEEK from date 
+isoYearWeek <- function(date,weekformat=NULL){  # Use base code to extract YEARwWEEK from date 
   
   # if variable is not date, set to date.  
   # if (class(date)!="Date"){
   #   date <- validDate(date)
   # }
-  
-  # Retrieve week in double digits
-  week <- ifelse(nchar(isoWeek(date))==1, paste0(0, isoWeek(date)), isoWeek(date))
+  if (is.null(weekformat)) weekformat <- "w"
   # paste Week and year together
-  date <- paste0(isoYear(date),"-W", week)
-  # if output is NA, set it to be so
-  date <- ifelse(date=="NAwNA", NA, date)
-  date
+  if (is.na(isoYear(date))) date <-  NA 
+  else date <- paste0(isoYear(date),weekformat, lpad(isoWeek(date),2,char="0"))
+  return(date)
 }
 
 
