@@ -122,17 +122,19 @@ isoWeek <- function(date){
 #'
 #' @examples
 #' isoYearWeek(Sys.Date())
-isoYearWeek <- function(date){
-  
+isoYearWeek <- function(date){  # Use base code to extract YEARwWEEK from date 
   
   # if variable is not date, set to date.  
   # if (class(date)!="Date"){
   #   date <- validDate(date)
   # }
   
-  # Use base code to extract YEARwWEEK from date  
-  date <- paste0(isoYear(date),"w", isoWeek(date))
-  date <- ifelse(date=="NAwNA", NA, date) # if output is NA, set it to be so
+  # Retrieve week in double digits
+  week <- ifelse(nchar(isoWeek(date))==1, paste0(0, isoWeek(date)), isoWeek(date))
+  # paste Week and year together
+  date <- paste0(isoYear(date),"-W", week)
+  # if output is NA, set it to be so
+  date <- ifelse(date=="NAwNA", NA, date)
   date
 }
 
