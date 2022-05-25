@@ -2,12 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{setdata}
 \alias{setdata}
-\title{set or retrieve the default data.frame
-
-Set a data.frame as default data.frame for epifield function. This avoid typing
-and simplify syntax for R newcomers. setdata is mandatory for some functions :
-generate, countif
-If missing df name, then setdata() return the current data.frame name}
+\title{setdata}
 \usage{
 setdata(df = NULL)
 }

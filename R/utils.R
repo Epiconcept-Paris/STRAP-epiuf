@@ -816,7 +816,8 @@ getvar <- function(what = NULL) {
 } # not missing
 
 
-#' @title set or retrieve the default data.frame
+#' @title setdata
+#' @description  set or retrieve the default data.frame
 #'
 #' Set a data.frame as default data.frame for epifield function. This avoid typing
 #' and simplify syntax for R newcomers. setdata is mandatory for some functions :
