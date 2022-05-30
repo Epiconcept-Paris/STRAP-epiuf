@@ -37,12 +37,12 @@
 #' 
 #' verifySpelling("Janury",c("January", "Janvier" ))
 #' 
+
 verifySpelling <- function(varname,CorrectList,ErrPerc=0.25 ) {
     MyWord <-  function(x,value) {
       ToGrep <- paste0("\\<",x,"\\>")
       grep(ToGrep,value,ignore.case=TRUE)
     }
-      
       
     WordIndex <-
     agrep(varname,
@@ -84,6 +84,34 @@ verifySpelling <- function(varname,CorrectList,ErrPerc=0.25 ) {
       return(names(CorrectList)[WordIndex])
     }
   }  
+}
+
+
+#' Title sapplyVerifySpelling
+#'
+#' @param VarnameList vector of length >=1 which will be compraed to anotehr string or a list of strings
+#' @param CorrectList a string or a list of string from which varname will be searched
+#' @param ErrPerc An acceptable errPerc when comparing string , default to 0.10%
+#'
+#' @return The vector guessed from varname using CorrectList per each value
+#' @export
+#'
+#' @examples
+sapplyVerifySpelling <- function(VarnameList,CorrectList,ErrPerc=0.25){
+  
+    # df with original names and blank column to add correct one
+    df <- data.frame(OrigCol = VarnameList,NewListName=rep(NA,times=length(VarnameList))) 
+    # calls verifySpelling per each value of VarnameList
+    df$NewListName <- sapply(df$OrigCol, verifySpelling,CorrectList = CorrectList,ErrPerc=ErrPerc) 
+    NotFound <- df$OrigCol[!is.na(df$OrigCol) & is.na(df$NewListName)] # saving not converted
+    
+    if(length(NotFound)>0){
+      cat(paste0(length(NotFound)," records don't find its match: ")) # prints nº of names not matched
+      cat(paste0(NotFound[1:length(NotFound)],collapse = ", "))                        # prints texts not matched
+    }
+    
+  invisible(c(df$NewListName))
+  
 }
 
 # END of SCRIPT  --------------------------------------------------------

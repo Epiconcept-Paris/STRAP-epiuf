@@ -1,0 +1,46 @@
+---
+title: "sapplyVerifySpelling"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{sapplyVerifySpelling}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r , setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(epiuf)
+library(kableExtra)
+source(file = "/Users/usuario/Desktop/STRAP-epiuf/R/verifyspelling.R")
+
+```
+
+## Epifunction : sapplyVerifySpelling 
+
+This document show examples of epiFunction use
+```{r, config, echo = FALSE, echo = TRUE}
+sites <- c("Italy","Spain","Bretagne","Germany","Hospital A","Italy")
+
+```
+
+We use a correct list of sites to compare incorrectly spelled values
+
+```{r, verifySpelling , echo = TRUE}
+
+SiteNames <- c("Italy","Spain","Germany")
+
+sapplyVerifySpelling(sites, SiteNames)
+
+```
+
+We can use verifySpelling with only one string value
+```{r, addColumn , echo = TRUE}
+
+sapplyVerifySpelling("italy", SiteNames)
+```
+
+
+
+
+
+
