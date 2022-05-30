@@ -389,7 +389,9 @@ getActionGroup <- function(actiontag) {
 #' @param dictionary A dictionary (passed as dataframe)
 #' @param data  A dataset to transform to generic
 #' @param verbose Should we have feedback 
-#' @param keepextra if TRUE, extra variables are keept in generic dataset (no longer generic then...)
+#' @param keepextra if TRUE, extra variables existing in data but not in generic dictionary are keep
+#'  in the returned dataset. Then this generic dataset is no longer generic because it may contain 
+#'  non generic variables      
 #'
 #' @return A data set 
 #' @export
@@ -411,10 +413,14 @@ applyDictionary <- function( dictionary=NULL, data, verbose=TRUE, keepextra = FA
   dicSourceName <- "source_name"
   
   # we make a character vector of generic names from dictionary
-  NewNames <- getColValues(dictionary,dicGenericName)  
+  NewNames <- getColValues(dictionary,dicGenericName) 
+  dupName <- anyDuplicated(NewNames)
+  if (! (dupName==0)) warning(NewNames[[dupName]]," is duplicated in New name list")
   
   # we make a character vector of sources names from dictionary
   OldNames <- getColValues(dictionary,dicSourceName)
+  dupName <- anyDuplicated(OldNames)
+  if (! (dupName==0)) warning(OldNames[[dupName]]," is duplicated in Old name list")
   
   # we make a character vector of sources names from sources
   CurNames <- unlist(names(data))
