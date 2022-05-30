@@ -35,6 +35,22 @@ new <- applyDictionary(dictionary=dic,data=cur)
 ```
 
 
+This is a test of the data dictionary. duplicate are not allowed in variable list
+
+```{r dicodup}
+
+cur <- data.frame(cur1=c(1,2,3),cur2=c(2,3,4),cur3=c(4,5,6),cur6=c(6,7,8))
+
+dic <- data.frame(generic_name=c("gen1","gen1","gen3","gen4","gen5",NA),
+                  source_name=c("cur1","cur2","cur3",NA,NA,"cur6"),
+                  type=c("numeric","numeric","numeric","character","character",NA))
+
+new <- applyDictionary(dictionary=dic,data=cur)
+
+
+```
+
+
 This is a first rename function which use a data dictionary.
 
 ```{r nothingtodo }
