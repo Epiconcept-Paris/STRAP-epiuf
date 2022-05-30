@@ -5,7 +5,7 @@
 \title{Title}
 \usage{
 printDataCheck(
-  data = df,
+  data,
   data_old = NULL,
   parameters,
   header = "",
