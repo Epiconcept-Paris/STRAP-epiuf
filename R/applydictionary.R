@@ -444,7 +444,7 @@ applyDictionary <- function( dictionary=NULL, data, verbose=TRUE, keepextra = FA
       epiuf::bold("Extra vars in imported (dropped if not exists in generic) : ",length(VarExtra))
       catret()
       catret(sort(VarExtra),sep="  \n")
-      gen <- data[, -which( (names(data) %in% VarExtra) & !(names(data)%in%NewNames)  )]
+      data <- data[, -which( (names(data) %in% VarExtra) & !(names(data)%in%NewNames)  )]
     } else {
       epiuf::bold("Extra vars in imported keept in generic  : ",length(VarExtra))
       catret()
