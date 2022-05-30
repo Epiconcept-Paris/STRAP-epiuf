@@ -22,27 +22,11 @@
 # START of SCRIPT  --------------------------------------------------------
 
 
-# test a word against a list and return the most similar or NULL if not
-#' Title
-#'
-#' @param varname a string which will be compraed to anotehr string or a list of strings
-#' @param CorrectList a string or a list of string from which varname will be searched
-#' @param ErrPerc An acceptable errPerc when comparing string , default to 0.10% 
-#'
-#' @return The string guessed from varname using CorrectList
-#' @importFrom utils adist install.packages
-#' @export
-#'
-#' @examples
-#' 
-#' verifySpelling("Janury",c("January", "Janvier" ))
-#' 
-verifySpelling <- function(varname,CorrectList,ErrPerc=0.25 ) {
+.verifySpelling <- function(varname,CorrectList,ErrPerc=0.25 ) {
     MyWord <-  function(x,value) {
       ToGrep <- paste0("\\<",x,"\\>")
       grep(ToGrep,value,ignore.case=TRUE)
     }
-      
       
     WordIndex <-
     agrep(varname,
@@ -84,6 +68,47 @@ verifySpelling <- function(varname,CorrectList,ErrPerc=0.25 ) {
       return(names(CorrectList)[WordIndex])
     }
   }  
+}
+
+
+
+# test a word against a list and return the most similar or NULL if not
+#' Title
+#'
+#' @param varname a string or a string vector which will be compared to another string 
+#'          or a list of strings in order to find similarity or sound like 
+#'          The objective is to automaticaly correct small mistake in wording 
+#' @param CorrectList a string or a list of string from which code{varname} will be searched
+#' @param ErrPerc An acceptable errPerc when comparing string , default to 0.10% 
+#'
+#' @return The string guessed from varname using CorrectList
+#' @importFrom utils adist install.packages
+#' @export
+#'
+#' @examples
+#' 
+#' verifySpelling("Janury",c("January", "Janvier" ))
+#' 
+
+verifySpelling <- function(varname,CorrectList,ErrPerc=0.25, verbose = TRUE){
+  
+    if (length(varname)==1) {  # this is a character sring then we use the normal function directly
+       return(.verifySpelling(varname,CorrectList,ErrPerc))
+    } else {
+      # df with original names and blank column to add correct one
+      # df <- data.frame(OrigCol = VarnameList,NewListName=rep(NA,times=length(VarnameList))) 
+      # calls verifySpelling per each value of VarnameList
+      NewName <- sapply(varname, .verifySpelling,CorrectList = CorrectList,ErrPerc=ErrPerc)
+      df <- data.frame(varname,NewName)
+      NotFound <- df$varname[!is.na(df$varname) & is.na(df$NewName)] # saving not converted
+      
+      if( (length(NotFound)>0) & (verbose==TRUE) ) {
+        catret(paste(length(NotFound),"records don't find its match: ")) # prints nº of names not matched
+        catret(paste(NotFound[1:length(NotFound)],collapse = "\n"))       # prints texts not matched
+      }
+    }
+  invisible(NewName)
+  
 }
 
 # END of SCRIPT  --------------------------------------------------------

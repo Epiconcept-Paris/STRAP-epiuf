@@ -6,7 +6,7 @@
 Used to display value with a fixed width format
 format value according to width and digit is value is a number}
 \usage{
-lpad(value, width = 11, digit = 0)
+lpad(value, width = 11, digit = 0, char = " ")
 }
 \arguments{
 \item{value}{A value to format}
@@ -14,6 +14,8 @@ lpad(value, width = 11, digit = 0)
 \item{width}{The expected width}
 
 \item{digit}{The number of digit}
+
+\item{char}{Char used to pad left}
 }
 \value{
 The formated value

@@ -217,6 +217,7 @@ pos <- function(pattern, stosearch) {
 #' replichar("-",60)
 #' 
 replichar <- function(char, ntime) {
+  ntime <- max(ntime,0)
   paste(rep(char, ntime), collapse = "")
 }
 
@@ -228,6 +229,7 @@ replichar <- function(char, ntime) {
 #' @param value A value to format
 #' @param width The expected width
 #' @param digit The number of digit
+#' @param char Char used to pad left 
 #'
 #' @return The formated value
 #' @export
@@ -237,17 +239,19 @@ replichar <- function(char, ntime) {
 #' lpad(2,6,2)
 lpad <- function(value,
                  width = 11,
-                 digit = 0) {
+                 digit = 0,
+                 char = " ") {
   if (is.numeric(value) ) {
     r <-
-      format(round(value, digits = digit),
-             width = width ,nsmall = digit ,
-             justify = "right")
+      formatC(round(value, digits = digit),
+             width = width ,digits = digit ,
+             format="f",flag=char)
   } else {
     r <-
-      format(value, width = width , justify = "right")
+      # format(value, width = width , justify = "right")
+      paste0(  replichar(char,(width-nchar(value)))  , trimws(value,"left")  )
   }
-  if (is.character(value) & max(nchar(r)) > width) {
+  if (is.character(value) & max(nchar(value)) > width) {
     for ( i in 1:length(r) ) {
       if (nchar(r[i])>width) {
         r[i] <- paste0(substr(r[i], 1, width - 2), "..")
@@ -812,7 +816,8 @@ getvar <- function(what = NULL) {
 } # not missing
 
 
-#' @title set or retrieve the default data.frame
+#' @title setdata
+#' @description  set or retrieve the default data.frame
 #'
 #' Set a data.frame as default data.frame for epifield function. This avoid typing
 #' and simplify syntax for R newcomers. setdata is mandatory for some functions :

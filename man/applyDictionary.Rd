@@ -13,7 +13,9 @@ applyDictionary(dictionary = NULL, data, verbose = TRUE, keepextra = FALSE)
 
 \item{verbose}{Should we have feedback}
 
-\item{keepextra}{if TRUE, extra variables are keept in generic dataset (no longer generic then...)}
+\item{keepextra}{if TRUE, extra variables existing in data but not in generic dictionary are keep
+in the returned dataset. Then this generic dataset is no longer generic because it may contain
+non generic variables}
 }
 \value{
 A data set
