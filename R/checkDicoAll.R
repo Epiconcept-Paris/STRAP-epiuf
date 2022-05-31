@@ -51,7 +51,7 @@ checkDicoAll <- function(data, dictionary=NULL, dicos=NULL) {
   # Pint header message
   
   catret()
-  bold("Variable code and dico code if mismatched:")
+  bold("Comparison of codes used by variable and dico:")
   catret()
 
   dicoVar <- intersect(colnames(data), dictionary$generic_name) # Isolate all varnames that are in the dictionary
