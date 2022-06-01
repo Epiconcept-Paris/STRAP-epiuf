@@ -20,26 +20,14 @@
 # 
 
 # START of SCRIPT  --------------------------------------------------------
-# PrintIDCond : prints the list of IDs meeting the specified condition 
-## data = "name of dataset to look in" eg "df"
-## threshold = cutoff number for ID reporting, as number
-## Cond = specify variables and outcome to search for eg "Pregnant==1 & Sex==1" or "is.na(Sex)"
-## NB: the "" are important
-## PrintIDCond( df,50,hosp_id2>=38266 & hosp_id2 < 38500,"hosp_id2")
 
-
-#' printIf
-#' prints the list of IDs meeting the specified condition 
-#' data dataset to look in 
-#' threshold = cutoff number for ID reporting, as number
-#' cond = specify variables and outcome to search for eg "Pregnant==1 & Sex==1" or "is.na(Sex)"
-#' text = the specified condition to check for 
-#' PrintIDCond( df,hosp_id2>=38266 & hosp_id2 < 38500,"hosp_id2",threshold = 50)
-
-#' @param data  A dataframe to look for cond  
+#' 
+#' prints the list of IDs meeting the specified condition
+#'  
+#' @param data  A dataframe to look for condition  
 #' @param cond  A condition to check  
-#' @param text The message to print (if empty the condition is used )
-#' @param threshold cutoff number for ID reporting, as number
+#' @param text The message to print (if empty the condition is used)
+#' @param threshold Cutoff number for ID reporting, as number
 #' @param varname Column name of ID to print
 #' @param na.rm Remove missing ID in the list to print, by default is False
 #'
@@ -47,9 +35,8 @@
 #' @export 
 #'
 #' @examples
-#' df <- data.frame(Id = 1:4 ,
-#'                     Vaccs = c("pfizer"," ", "pfizer", "moderna"))
-#' printIf(df,Vaccs=="pfizer",threshold=30 , text="Pfizer vaccin", varname="Id")
+#' df <- data.frame(ID = 1:4, Vaccs = c("pfizer"," ", "pfizer", "moderna"))
+#' printIf(data = df, cond = Vaccs == "pfizer", threshold = 30, text = "Pfizer vaccin", varname = "ID")
 
 printIf<- function(data,  cond, text = "", threshold = NULL , varname = "id", na.rm = FALSE){
   
