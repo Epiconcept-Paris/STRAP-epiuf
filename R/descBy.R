@@ -22,8 +22,8 @@
 describe <- function(data.desc){
   
   # Numeric variable
-  if (is.numeric(data.desc))
-  {
+  if (is.numeric(data.desc)){
+    
     n <- sum(!is.na(data.desc))
     na <- sum(is.na(data.desc))
     na.pct <- round(na/length(data.desc)*100,1)
@@ -40,11 +40,9 @@ describe <- function(data.desc){
     # Median (IQR)
     l3 <- paste0(med," (",p25,"-",p75,")")
     # Missing, n(%)
-    if(na == 0)
-    {
+    if(na == 0){
       l4 <- na
-    }else
-    {
+    }else{
       l4 <- paste0(na," (",na.pct,")")
     }
     
@@ -53,8 +51,8 @@ describe <- function(data.desc){
   
   
   # Categorical variable
-  if (is.factor(data.desc))
-  {
+  if (is.factor(data.desc)){
+    
     # Levels of the variable
     mod.var <- levels(data.desc)
     
@@ -68,8 +66,7 @@ describe <- function(data.desc){
     l1 <- NA
     
     # For each level j of the variable
-    for(j in 1:length(mod.var))
-    {
+    for(j in 1:length(mod.var)){
       
       l2 <- paste0(n.tab[j]," (",n.pct[j],")")
       l12 <- rbind(l1,l2)
@@ -79,11 +76,9 @@ describe <- function(data.desc){
     # n(%) x nb of variable levels (1 line = 1 level)
     l123 <- l12
     # Missing, n(%)
-    if(na == 0)
-    {
+    if(na == 0){
       l4 <- na
-    }else
-    {
+    }else{
       l4 <- paste0(na," (",na.pct,")")
     }
     table.desc <- rbind(l123,l4)
@@ -108,12 +103,12 @@ describe <- function(data.desc){
 #'  descBy(iris,"Sepal.Length",compVar="Species") 
 #'
 #' 
-descBy <- function(data, vars, labels=NULL, compVar = NULL) {
+descBy <- function(data, vars, labels=NULL, compVar = NULL){
   # Build the simple descriptive table
   data <- as.data.frame(data)
   if (is.null(labels)) labels <-  vars
 
-    if(is.null(compVar))  {
+    if(is.null(compVar)){
     # Select list of variables
     data.subset <-data[,vars]
     
@@ -121,13 +116,13 @@ descBy <- function(data, vars, labels=NULL, compVar = NULL) {
     table <- NULL
     
     # Loop in the list of variables to be described
-    for (i in 1:length(vars))
-    {
+    for (i in 1:length(vars)){
+      
       var <- data.subset[,i]
       
       # Numeric variable
-      if(is.numeric(var))
-      {
+      if(is.numeric(var)){
+        
         l1 <- labels[i]
         l2 <- "Mean (SD)"
         l3 <- "Median (IQR)"
@@ -137,14 +132,13 @@ descBy <- function(data, vars, labels=NULL, compVar = NULL) {
       }
       
       # Categorical variable
-      if (is.factor(var))
-      {
+      if (is.factor(var)){
+        
         mod.var <- levels(var)
         
         l1 <- labels[i]
         
-        for(k in 1:length(mod.var))
-        {
+        for(k in 1:length(mod.var)){
           l2 <- paste0(mod.var[k],", n(%)")
           l12 <- rbind(l1,l2)
           l1 <- l12
@@ -169,23 +163,20 @@ descBy <- function(data, vars, labels=NULL, compVar = NULL) {
     data.subset <- data[,c(vars,compVar)]
     
     # Check if compVar is a factor
-    if(class(data[,compVar]) != "factor")
-    {
+    if(class(data[,compVar]) != "factor"){
       stop(compVar, " is not a factor")
     }
     
     # Levels of compVar
     mod.compVar <- levels(data[,compVar])
     # Check if there are at least 2 categories
-    if(length(mod.compVar) < 2)
-    {
+    if(length(mod.compVar) < 2){
       stop(compVar, " has less than 2 categories")
     }
     
     # For each level of compVar retrieve the number of records
     mod.compVar.nb <- rep(NA, length(mod.compVar))
-    for (i in 1:length(mod.compVar))
-    {
+    for (i in 1:length(mod.compVar)){
       mod.compVar.nb[i] <- nrow(data.subset[data.subset[[compVar]] == mod.compVar[i],])
     }
     mod.CompVar.label <- paste0(mod.compVar, "\n(N=", mod.compVar.nb, ")")
@@ -194,13 +185,13 @@ descBy <- function(data, vars, labels=NULL, compVar = NULL) {
     table <- NULL
     
     # Loop in the list of variables to be described
-    for (i in 1:length(vars))
-    {
+    for (i in 1:length(vars)){
+      
       var <- data.subset[,i]
       
       # Numeric variable
-      if(is.numeric(var))
-      {
+      if(is.numeric(var)){
+        
         l1 <- labels[i]
         l2 <- "Mean (SD)"
         l3 <- "Median (IQR)"
@@ -209,8 +200,7 @@ descBy <- function(data, vars, labels=NULL, compVar = NULL) {
         l1234 <- rbind(l1,l2,l3,l4)
         
         all.res <- NULL
-        for(k in 1:length(mod.compVar))
-        {
+        for(k in 1:length(mod.compVar)){
           data.k <- data.subset[data.subset[[compVar]] == mod.compVar[k],]
           res <- describe(data.k[,vars[i]])
           all.res <- cbind(all.res, res)
@@ -218,14 +208,13 @@ descBy <- function(data, vars, labels=NULL, compVar = NULL) {
       }
       
       # Categorical variable
-      if (is.factor(var))
-      {
+      if (is.factor(var)){
+        
         mod.var <- levels(var)
         
         l1 <- labels[i]
         
-        for(k in 1:length(mod.var))
-        {
+        for(k in 1:length(mod.var)){
           l2 <- paste0(mod.var[k],", n(%)")
           l12 <- rbind(l1,l2)
           l1 <- l12
@@ -235,8 +224,7 @@ descBy <- function(data, vars, labels=NULL, compVar = NULL) {
         l1234 <- rbind(l1, l4)
         
         all.res <- NULL
-        for(k in 1:length(mod.compVar))
-        {
+        for(k in 1:length(mod.compVar)){
           data.k <- data.subset[data.subset[[compVar]] == mod.compVar[k],]
           res <- describe(data.k[,vars[i]])
           all.res <- cbind(all.res, res)
