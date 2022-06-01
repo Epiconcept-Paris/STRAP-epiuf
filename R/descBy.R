@@ -89,26 +89,26 @@ describe <- function(data.desc){
 
 #' descBy
 #'
-#' Aim: to describe numeric variables or categorical variables (must be in factor) according or not to another variable in a table.
+#' Describe numeric variables or categorical variables (must be in factor) according or not to another variable in a table.
 #' 
 #' @param data name of the dataset
 #' @param vars the variables list to describe (numeric or factor)
 #' @param labels labels for the variables list
-#' @param compVar variable to compare (must be a factor and have at least two categories)
+#' @param by variable to compare (must be a factor and have at least two categories)
 #' 
 #' @return a descriptive table 
 #' @export
 #'
 #' @examples
-#'  descBy(iris,"Sepal.Length",compVar="Species") 
+#'  descBy(iris, "Sepal.Length", by = "Species") 
 #'
 #' 
-descBy <- function(data, vars, labels=NULL, compVar = NULL){
+descBy <- function(data, vars, labels=NULL, by = NULL){
   # Build the simple descriptive table
   data <- as.data.frame(data)
   if (is.null(labels)) labels <-  vars
 
-    if(is.null(compVar)){
+    if(is.null(by)){
     # Select list of variables
     data.subset <-data[,vars]
     
@@ -160,26 +160,26 @@ descBy <- function(data, vars, labels=NULL, compVar = NULL){
   }else{
     
     # Select list of variables
-    data.subset <- data[,c(vars,compVar)]
+    data.subset <- data[,c(vars,by)]
     
-    # Check if compVar is a factor
-    if(class(data[,compVar]) != "factor"){
-      stop(compVar, " is not a factor")
+    # Check if by is a factor
+    if(class(data[,by]) != "factor"){
+      stop(by, " is not a factor")
     }
     
-    # Levels of compVar
-    mod.compVar <- levels(data[,compVar])
+    # Levels of by variable
+    mod.by <- levels(data[,by])
     # Check if there are at least 2 categories
-    if(length(mod.compVar) < 2){
-      stop(compVar, " has less than 2 categories")
+    if(length(mod.by) < 2){
+      stop(by, " has less than 2 categories")
     }
     
-    # For each level of compVar retrieve the number of records
-    mod.compVar.nb <- rep(NA, length(mod.compVar))
-    for (i in 1:length(mod.compVar)){
-      mod.compVar.nb[i] <- nrow(data.subset[data.subset[[compVar]] == mod.compVar[i],])
+    # For each level of by variable retrieve the number of records
+    mod.by.nb <- rep(NA, length(mod.by))
+    for (i in 1:length(mod.by)){
+      mod.by.nb[i] <- nrow(data.subset[data.subset[[by]] == mod.by[i],])
     }
-    mod.CompVar.label <- paste0(mod.compVar, "\n(N=", mod.compVar.nb, ")")
+    mod.by.label <- paste0(mod.by, "\n(N=", mod.by.nb, ")")
     
     # Empty object to save the table
     table <- NULL
@@ -200,8 +200,8 @@ descBy <- function(data, vars, labels=NULL, compVar = NULL){
         l1234 <- rbind(l1,l2,l3,l4)
         
         all.res <- NULL
-        for(k in 1:length(mod.compVar)){
-          data.k <- data.subset[data.subset[[compVar]] == mod.compVar[k],]
+        for(k in 1:length(mod.by)){
+          data.k <- data.subset[data.subset[[by]] == mod.by[k],]
           res <- describe(data.k[,vars[i]])
           all.res <- cbind(all.res, res)
         }
@@ -224,8 +224,8 @@ descBy <- function(data, vars, labels=NULL, compVar = NULL){
         l1234 <- rbind(l1, l4)
         
         all.res <- NULL
-        for(k in 1:length(mod.compVar)){
-          data.k <- data.subset[data.subset[[compVar]] == mod.compVar[k],]
+        for(k in 1:length(mod.by)){
+          data.k <- data.subset[data.subset[[by]] == mod.by[k],]
           res <- describe(data.k[,vars[i]])
           all.res <- cbind(all.res, res)
         }
@@ -237,7 +237,7 @@ descBy <- function(data, vars, labels=NULL, compVar = NULL){
     }
     
     rownames(table) <- 1:nrow(table)
-    colnames(table) <- c("Variable", mod.CompVar.label)
+    colnames(table) <- c("Variable", mod.by.label)
     table <- as.data.frame(table)
     return(table)
   }
