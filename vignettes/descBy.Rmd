@@ -1,25 +1,27 @@
 ---
-title: "describBy"
+title: "descBy"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{describBy}
+  %\VignetteIndexEntry{descBy}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+options(knitr.kable.NA = '')
 library(epiuf)
+library(kableExtra)
 
 ```
 
-# describBy function
+# Description
 
-The aim of this function is to describe a list of variables according to another variable in a table.
-For example : to describe age, sex, vaccination satus according to the case or control status.
+The aim of this function is to describe numeric variables or categorical variables (must be in factor) according or not to another variable in a table.
+For example : to describe age, sex, vaccination status according to the case or control status.
 
 
-```{r dataload}
+```{r dataload, echo=FALSE}
 # create example dataset for testing
 nbrecords <- 100
 df <- data.frame(
@@ -34,44 +36,51 @@ df$agegp4 <- cut(df$age, c(0, 4, 14, 64, max(df$age, na.rm = T)), include.lowest
 
 # Testing the function
 
-```{r testfunction}
-options(knitr.kable.NA = '')
+## DescBy: descriptive table
+```{r testfunction1}
+# Test: no labels specified
+table <- descBy(data = df, vars = c("age", "agegp4", "sex", "fluvaccany"))
+kable(table)
 
-# Test when compVar is not a factor
+# Example
+table <- descBy(data = df, 
+                vars = c("age", "agegp4", "sex", "fluvaccany"),
+                labels = c("Age", "Age in group", "Sex", "Seasonal influenza vaccination"))
+kable(table)
+```
+
+## DescBy: descriptive table according to another variable
+```{r testfunction2}
+# Test: by is not a factor
 try(
-   table <- descBy(data = df, vars = c("age", "agegp4", "sex"), labels = c("Age", "Age in group", "Sex"), 
-                   compVar = "lab_flu")
+   table <- descBy(data = df, 
+                   vars = c("age", "agegp4", "sex"), 
+                   labels = c("Age", "Age in group", "Sex"), 
+                   by = "lab_flu")
    )
 
-# Test when compVar has not enough categories (minimum is 2)
+# Test: by has not enough categories (minimum is 2)
 df2 <- subset(df, lab_flu == 0)
 df2$lab_flu <- factor(df2$lab_flu, levels = c(0), labels = c("Controls"))
 try (
-  table <- descBy(data = df2, vars = c("age", "agegp4", "sex"), labels = c("Age", "Age in group", "Sex"), 
-                  compVar = "lab_flu")
+  table <- descBy(data = df2, 
+                  vars = c("age", "agegp4", "sex"), 
+                  labels = c("Age", "Age in group", "Sex"), 
+                  by = "lab_flu")
 )
 
-# Test
+# Test: no labels for the variables
 df$lab_flu <- factor(df$lab_flu, levels = c(0,1), labels = c("Controls", "Cases"))
-try(
-  { table <- descBy(data = df, vars = c("age", "agegp4", "sex", "fluvaccany"), 
-                   compVar = "lab_flu")
-    print(table)
-  }  
-)
+table <- descBy(data = df, 
+                vars = c("age", "agegp4", "sex", "fluvaccany"), 
+                by = "lab_flu")
+kable(table)
 
-table <- descBy(data = df, vars = c("age", "agegp4", "sex", "fluvaccany"), 
-                labels = c("Age", "Age in group", "Sex", "Seasonal influenza vaccination"), compVar = "lab_flu")
-
-print(table)
-
-table <- freq(df$sex)
-print(table)
-
-tab(sex, data=df)
-
-
-# Or you can export the table with Excel
-# saveXlsx(filename = "")
+# Example:
+table <- descBy(data = df, 
+                vars = c("age", "agegp4", "sex", "fluvaccany"), 
+                labels = c("Age", "Age in group", "Sex", "Seasonal influenza vaccination"), 
+                by = "lab_flu")
+kable(table)
 ```
 
