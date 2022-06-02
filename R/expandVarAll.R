@@ -43,7 +43,7 @@ expandVarAll <- function(data, action=NULL){
     
     InfoSource <- eval(parse(text = getVarActionParameters(i, "expand")))   # get list input for expanding variables
     
-    data[,i] <- expandVar(data = data, multivar = i, valueslist = InfoSource)
+    data[,i] <- expandVar(data = data, varname = i, valueslist = InfoSource)
     
   }
   
