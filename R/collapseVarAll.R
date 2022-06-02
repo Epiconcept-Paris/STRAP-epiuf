@@ -1,6 +1,6 @@
 #
 # Project Name : STRAP
-# Script Name  : collapseVar
+# Script Name  : collapseVarAll
 # GitHub repo  : SARI-VEBIS-OLD
 # Summary      : developement of collapseVar function
 # Date created : 02/03/2022
@@ -56,7 +56,7 @@ for (i in collapseVars) {
   
   CodeOrder <- eval(parse(text = getVarActionParameters(i, "collapse")))         # get collapse code hierachy list for each variable
 
-  data[,i] <- collapseVar(data, i, CodeOrder)
+  data[,i] <- collapseVar(data = data, varname = i, hierarchy = CodeOrder)
 
 }
 

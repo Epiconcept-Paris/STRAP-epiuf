@@ -4,12 +4,12 @@
 \alias{expandVar}
 \title{expandVar}
 \usage{
-expandVar(data, multivar, valueslist)
+expandVar(data, varname, valueslist)
 }
 \arguments{
 \item{data}{A dataset which contain a multi-variable}
 
-\item{multivar}{The name of the multi-variable}
+\item{varname}{The name of the multi-variable}
 
 \item{valueslist}{List of expected values with names of the variables to be created}
 }

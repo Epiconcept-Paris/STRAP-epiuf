@@ -6,7 +6,7 @@
 #' the list of expected values should be given with the names of the new variables
 #'
 #' @param data A dataset which contain a multi-variable
-#' @param multivar The name of the multi-variable
+#' @param varname The name of the multi-variable
 #' @param valueslist List of expected values with names of the variables to be created
 #'
 #' @return A df with the new variables
@@ -23,10 +23,10 @@
 #' 
 #' 
 
-expandVar <- function(data,multivar,valueslist) {
+expandVar <- function(data,varname,valueslist) {
   
   dataname <- deparse(substitute(data))
-  multivarname <- deparse(substitute(multivar))
+  multivarname <- deparse(substitute(varname))
   
   multivar <- data[[multivarname]]
   
