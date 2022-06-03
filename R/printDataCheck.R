@@ -60,8 +60,8 @@ printDataCheck<- function(data, data_old=NULL,  parameters, header="", threshold
       
       Records_old <- subset(data_old,eval(cond),varname) # get records list from old set
       
-      inOld <- intersect(Records, Records_old) # list those in new that are also in old (ie are repeats)
-      inNew <- setdiff(Records, inOld) # list those only in the new
+      inOld <- intersect(Records[,varname], Records_old[,varname]) # list those in new that are also in old (ie are repeats)
+      inNew <- setdiff(Records[,varname], inOld) # list those only in the new
       
       listIDold <-  unlist(inOld)
       listIDold <-  paste(listIDold, collapse = ", ") # collapse repeat IDs
