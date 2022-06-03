@@ -69,6 +69,38 @@ fillCells <- function(onesheet,line,col, ... , names=FALSE, wb = NULL) {
 }
 
 
+
+#' fillimage
+#'
+#' @param onesheet 
+#' @param image 
+#' @param line 
+#' @param col 
+#' @param wide 
+#' @param high 
+#' @param unit 
+#' @param spec.dpi 
+#' @param wb 
+#'
+#' @return
+#' @export
+#'
+#' @examples 
+#' fillimage(onesheet = cells,image = graphname,line=2, col = 2, wb=template)
+fillimage <- function(onesheet,image,line,col, wide=7, high=4 , unit = "in", spec.dpi=300, wb = NULL) {
+  
+  if (is.character(col)){
+    col <- col2int(col)
+  }
+  
+  if (is.null(wb)) wb <- epixlsx_env$report
+  
+  openxlsx::insertImage( wb , onesheet, file = image, width = wide, height=high
+                         , startCol = col, startRow = line, units=unit, dpi=spec.dpi)
+  
+  
+}
+
 #' openSheet
 #'
 #' @param sheetname The name of hte sheet to load 
