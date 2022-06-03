@@ -43,8 +43,22 @@ df$test <- applyNA(df, CharacterVar, "^test$") # only specified
 df$test <- applyNA(df, CharacterVar, "^test$", join=TRUE) # both default and specified
 # Should make 8 conversions  
 
+df$test <- applyNA(df, CharacterVar, "test", join=TRUE) # both default and specified
+# Should make 8 conversions  
+
 
 df$test <- applyNA(df, CharacterVar, c("^test$","^other*"))       # list of search values
+# Should make 2 conversions  
+df$test <- applyNA(df, CharacterVar, "test,other")       # list of search values
+# Should make 2 conversions  
+
+df$test <- applyNA(df, CharacterVar, "3")       # list of search values
+# Should make 1 conversions  
+
+df$test <- applyNA(df, CharacterVar, "3,4")       # list of search values
+# Should make 2 conversions  
+
+df$test <- applyNA(df, CharacterVar, c(3,4))       # list of search values
 # Should make 2 conversions  
 
 
@@ -53,7 +67,8 @@ df$test <- applyNA(df, NumberVar, 3)        # number value
 
 df$test <- applyNA(df, NumberVar, c(3,1))         # list of numbers
 # Should make 7 convers
-
+df$test <- applyNA(df, NumberVar, "3,1")         # list of numbers
+# Should make 7 convers
 
 ```
 
