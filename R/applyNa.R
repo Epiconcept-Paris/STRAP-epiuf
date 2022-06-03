@@ -58,7 +58,7 @@ applyNA <- function(data, varname, searchlist=NULL, join=FALSE){
       searchlist <- lapply(searchlist,onetoreg)
       searchlist <- paste(searchlist, collapse = "|")
       # add default searchlist to provided if specified
-      searchlist <- ifelse(join==TRUE,paste0(searchlist, defaultsearch),   
+      searchlist <- ifelse(join==TRUE,paste0(searchlist,"|",defaultsearch),   
                       searchlist)              
     }
     

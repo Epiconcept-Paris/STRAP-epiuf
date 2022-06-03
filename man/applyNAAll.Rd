@@ -4,12 +4,14 @@
 \alias{applyNAAll}
 \title{applyNAAll}
 \usage{
-applyNAAll(data, dictionary = NULL)
+applyNAAll(data, dictionary = NULL, join = TRUE)
 }
 \arguments{
 \item{data}{The dataset where to applyNA for each variable using the dictionnary}
 
 \item{dictionary}{an optional dictionary (epiuf strucure see \link{getDictionary})}
+
+\item{join}{Should default NA value added to those from dictionary}
 }
 \value{
 data.frame and printed output
