@@ -24,14 +24,15 @@
 #' applyNAAll
 #'
 #' @param data The dataset where to applyNA for each variable using the dictionnary
-#' @param dictionary an optional dictionary (epiuf strucure see \link{getDictionary}) 
+#' @param dictionary an optional dictionary (epiuf strucure see \link{getDictionary})
+#' @param join Should default NA value added to those from dictionary 
 #'
 #' @return data.frame and printed output
 #' @export
 #'
 #' 
 #'
-applyNAAll <- function(data, dictionary=NULL){
+applyNAAll <- function(data, dictionary=NULL, join=TRUE){
   
   if(is.null(dictionary)){          # retrieve dictionary from global environment if none specified
     ds <- getDictionary()
@@ -45,7 +46,7 @@ applyNAAll <- function(data, dictionary=NULL){
     unk <- getDictionaryValue(i, "unknowns")      # retrieve list of coded unknowns if present. (NA if none given)
 
     if (!is.na(unk)){
-      data[,i] <- applyNA(data, i, unk, join=TRUE)
+      data[,i] <- applyNA(data, i, unk, join)
     }
     else if (is.na(unk)){
       data[,i] <- applyNA(data, i)  

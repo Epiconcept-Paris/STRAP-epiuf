@@ -32,6 +32,10 @@
 #'
 #'
 applyNA <- function(data, varname, searchlist=NULL, join=FALSE){
+  onetoreg <- function(x) {
+    x <- paste0("^",x,"$")
+    return(x)
+  } 
   
   # Run code to make it possible to input varname without ""
   s_op <- deparse(substitute(varname))
@@ -50,8 +54,12 @@ applyNA <- function(data, varname, searchlist=NULL, join=FALSE){
     if (is.null(searchlist)){
       searchlist <- defaultsearch
     }else{
-      searchlist <- ifelse(join==TRUE,paste0(searchlist, defaultsearch),    # add default searchlist to provided if specified
-                           paste(searchlist, collapse = "|"))              # If searchlist is c(1,2) converted to -> searchlist = "1|2"
+      # If searchlist is c(1,2) converted to -> searchlist = "^1$|^2$"
+      searchlist <- lapply(searchlist,onetoreg)
+      searchlist <- paste(searchlist, collapse = "|")
+      # add default searchlist to provided if specified
+      searchlist <- ifelse(join==TRUE,paste0(searchlist,"|",defaultsearch),   
+                      searchlist)              
     }
     
     numchange <- length(which(grepl(searchlist, data[,varname] )))   # retrieve number of instances which match search list
@@ -74,6 +82,8 @@ applyNA <- function(data, varname, searchlist=NULL, join=FALSE){
   return(data[,varname])
   
 }
+
+
 
 # END of SCRIPT  --------------------------------------------------------
 
