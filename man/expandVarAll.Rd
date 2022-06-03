@@ -4,7 +4,7 @@
 \alias{expandVarAll}
 \title{expandVarAll}
 \usage{
-expandVarAll(data, action = NULL)
+expandVarAll(data)
 }
 \arguments{
 \item{data}{}
