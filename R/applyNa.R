@@ -54,8 +54,12 @@ applyNA <- function(data, varname, searchlist=NULL, join=FALSE){
     if (is.null(searchlist)){
       searchlist <- defaultsearch
     }else{
-      # If searchlist is c(1,2) converted to -> searchlist = "^1$|^2$"
-      searchlist <- lapply(searchlist,onetoreg)
+      searchlist <- strsplit(searchlist,",")
+      # If searchlist is 1,2 converted to -> searchlist = "^1$|^2$"
+      # only if not already contain regex
+      if (charCount("\\^",searchlist)==0) {
+        searchlist <- lapply(searchlist,onetoreg)
+      }
       searchlist <- paste(searchlist, collapse = "|")
       # add default searchlist to provided if specified
       searchlist <- ifelse(join==TRUE,paste0(searchlist,"|",defaultsearch),   
