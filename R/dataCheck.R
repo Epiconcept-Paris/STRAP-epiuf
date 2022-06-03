@@ -34,7 +34,7 @@
 #' @return a vector
 #' @export
 #'
-#' @examples
+
 dataCheck<- function(data, data_old=NULL,  cond, text="", threshold=NULL , varname="id"){ # call in second dataset (that used in the last datacheck)
   
   cond <- substitute(cond)

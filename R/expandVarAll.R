@@ -27,7 +27,6 @@
 #' @return data.frame
 #' @export
 #'
-#' @examples
 expandVarAll <- function(data, action=NULL){
   
   if(is.null(action)){

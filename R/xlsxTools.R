@@ -72,17 +72,18 @@ fillCells <- function(onesheet,line,col, ... , names=FALSE, wb = NULL) {
 
 #' fillimage
 #'
-#' @param onesheet 
-#' @param image 
-#' @param line 
-#' @param col 
-#' @param wide 
-#' @param high 
-#' @param unit 
-#' @param spec.dpi 
-#' @param wb 
-#'
-#' @return
+#' @param onesheet A sheet object from xlsx package
+#' @param image The filename of a previously saved image 
+#' @param line The line where to paste the image
+#' @param col The col where to paste the image
+#' @param wide Size of the image 
+#' @param high Size of the image
+#' @param unit For wide and high, default is "in" (Inch) 
+#' @param spec.dpi 300 by default
+#' @param wb  An optional wb if not already opened
+#'  
+#' @return Nothing
+#'  
 #' @export
 #'
 #' @examples 

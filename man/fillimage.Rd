@@ -17,23 +17,26 @@ fillimage(
 )
 }
 \arguments{
-\item{onesheet}{}
+\item{onesheet}{A sheet object from xlsx package}
 
-\item{image}{}
+\item{image}{The filename of a previously saved image}
 
-\item{line}{}
+\item{line}{The line where to paste the image}
 
-\item{col}{}
+\item{col}{The col where to paste the image}
 
-\item{wide}{}
+\item{wide}{Size of the image}
 
-\item{high}{}
+\item{high}{Size of the image}
 
-\item{unit}{}
+\item{unit}{For wide and high, default is "in" (Inch)}
 
-\item{spec.dpi}{}
+\item{spec.dpi}{300 by default}
 
-\item{wb}{}
+\item{wb}{An optional wb if not already opened}
+}
+\value{
+Nothing
 }
 \description{
 fillimage
