@@ -1,7 +1,7 @@
 #
 # Project Name : SARI-VEBIS
-# Script Name  : printIf2
-# GitHub repo  : STRAP6EPIUF
+# Script Name  : dataCheck
+# GitHub repo  : STRAP-EPIUF
 # Summary      : core function for extracting data check information
 # Date created : 30/05/2022
 # Author       : JHD
@@ -35,7 +35,7 @@
 #' @export
 #'
 
-dataCheck<- function(data, data_old=NULL,  cond, text="", threshold=NULL , varname="id"){ # call in second dataset (that used in the last datacheck)
+dataCheck<- function(data, data_old=NULL,  cond, text="", threshold=NULL , varname="id"){ 
   
   cond <- substitute(cond)
   if (!typeof(cond)=="language") {cond <- parse(text=cond)}
@@ -62,8 +62,8 @@ dataCheck<- function(data, data_old=NULL,  cond, text="", threshold=NULL , varna
         
         Records_old <- subset(data_old,eval(cond),varname) # get records list from old set
         
-        inOld <- intersect(Records, Records_old) # list those in new that are also in old (ie are repeats)
-        inNew <- setdiff(Records, inOld) # list those only in the new
+        inOld <- intersect(Records[, varname],Records_old[,varname]) # list those in new that are also in old (ie are repeats)
+        inNew <- setdiff(Records[, varname], inOld) # list those only in the new
         
         listIDold <-  unlist(inOld)
         listIDold <-  paste(listIDold, collapse = ", ") # collapse repeat IDs
@@ -74,7 +74,7 @@ dataCheck<- function(data, data_old=NULL,  cond, text="", threshold=NULL , varna
         listID <- paste0("[ ", listIDold, " ]  ", listIDnew) # combine to list IDs
         
       } else {# if no second dataset provided, output ids 
-        listID <- paste(Records$IdCheck, collapse= ", ")
+        listID <- paste(Records[,varname], collapse= ", ")
       }
       
     }else if(NbCond >= threshold){# if number of ids more than threshold, print message
