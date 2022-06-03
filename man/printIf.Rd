@@ -2,24 +2,18 @@
 % Please edit documentation in R/printIf.R
 \name{printIf}
 \alias{printIf}
-\title{printIf
-prints the list of IDs meeting the specified condition
-data dataset to look in
-threshold = cutoff number for ID reporting, as number
-cond = specify variables and outcome to search for eg "Pregnant==1 & Sex==1" or "is.na(Sex)"
-text = the specified condition to check for
-PrintIDCond( df,hosp_id2>=38266 & hosp_id2 < 38500,"hosp_id2",threshold = 50)}
+\title{prints the list of IDs meeting the specified condition}
 \usage{
 printIf(data, cond, text = "", threshold = NULL, varname = "id", na.rm = FALSE)
 }
 \arguments{
-\item{data}{A dataframe to look for cond}
+\item{data}{A dataframe to look for condition}
 
 \item{cond}{A condition to check}
 
-\item{text}{The message to print (if empty the condition is used )}
+\item{text}{The message to print (if empty the condition is used)}
 
-\item{threshold}{cutoff number for ID reporting, as number}
+\item{threshold}{Cutoff number for ID reporting, as number}
 
 \item{varname}{Column name of ID to print}
 
@@ -29,16 +23,9 @@ printIf(data, cond, text = "", threshold = NULL, varname = "id", na.rm = FALSE)
 Message to print as list
 }
 \description{
-printIf
 prints the list of IDs meeting the specified condition
-data dataset to look in
-threshold = cutoff number for ID reporting, as number
-cond = specify variables and outcome to search for eg "Pregnant==1 & Sex==1" or "is.na(Sex)"
-text = the specified condition to check for
-PrintIDCond( df,hosp_id2>=38266 & hosp_id2 < 38500,"hosp_id2",threshold = 50)
 }
 \examples{
-df <- data.frame(Id = 1:4 ,
-                    Vaccs = c("pfizer"," ", "pfizer", "moderna"))
-printIf(df,Vaccs=="pfizer",threshold=30 , text="Pfizer vaccin", varname="Id")
+df <- data.frame(ID = 1:4, Vaccs = c("pfizer"," ", "pfizer", "moderna"))
+printIf(data = df, cond = Vaccs == "pfizer", threshold = 30, text = "Pfizer vaccin", varname = "ID")
 }

@@ -4,7 +4,7 @@
 \alias{descBy}
 \title{descBy}
 \usage{
-descBy(data, vars, labels = NULL, compVar = NULL)
+descBy(data, vars, labels = NULL, by = NULL)
 }
 \arguments{
 \item{data}{name of the dataset}
@@ -13,16 +13,16 @@ descBy(data, vars, labels = NULL, compVar = NULL)
 
 \item{labels}{labels for the variables list}
 
-\item{compVar}{variable to compare (must be a factor and have at least two categories)}
+\item{by}{variable to compare (must be a factor and have at least two categories)}
 }
 \value{
 a descriptive table
 }
 \description{
-Aim: to describe numeric variables or categorical variables (must be in factor) according or not to another variable in a table.
+Describe numeric variables or categorical variables (must be in factor) according or not to another variable in a table.
 }
 \examples{
- descBy(iris,"Sepal.Length",compVar="Species") 
+ descBy(iris, "Sepal.Length", by = "Species") 
 
 
 }
