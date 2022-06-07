@@ -9,8 +9,8 @@ dataCheck(
   data_old = NULL,
   cond,
   text = "",
-  threshold = NULL,
-  varname = "id"
+  varname = NULL,
+  threshold = NULL
 )
 }
 \arguments{
@@ -22,9 +22,9 @@ dataCheck(
 
 \item{text}{}
 
-\item{threshold}{}
-
 \item{varname}{}
+
+\item{threshold}{}
 }
 \value{
 a vector

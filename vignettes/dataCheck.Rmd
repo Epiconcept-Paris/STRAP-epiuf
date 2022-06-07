@@ -10,34 +10,55 @@ knitr::opts_chunk$set(echo = TRUE)
 library(epiuf)
 ```
 
-checkDico takes a dataset, a condition and a caption. It extracts the rows which meet the conditition, and ouputs the caption, the count of rows, and (if less the threshold) the list of or a specified variable, usually id. An optional extra, if 2 datasets are input, repeated IDs meeting the criteria are highlighted by [ ] so that new IDs can be quickly identified. 
+The data check suite: core functions to extract each element of a data check, and wrapper function to generate outputs in each format we 
+
+countIf() : the count of records matching a given condition
+listIf() : the list of specified variable for records matching a given condition
+printIf() : the count of records and list if under a specified threshold
+dataCheck() takes a dataset, a condition and a caption. It extracts the rows which meet the conditition, and ouputs the caption, the count of rows, and (if less the threshold) the list of or a specified variable, usually id. An optional extra, if 2 datasets are input, repeated IDs meeting the criteria are highlighted by [ ] so that new IDs can be quickly identified. 
+Attention: Must specify each parameter.
 
 
 ```{r testdata}
-df1 <- data.frame(Id = c(1,2,3,4,5,6,7,8,9,10)
-                  , A = c("a", "b", "c", "d", "e","a", "b", "c", "d", "e")
-                  , B = c("", "dog", "cat", "rabbit", "mole", "dog", "horse", "cat", "", "")
+df1 <- data.frame(Id = c(1,2,3,4,5,6,7,8,9,10, NA_real_)
+                  , A = c("a", "b", "b", "d", "b","a", "b", "b", "d", "e", "b")
+                  , B = c("", "dog", "cat", "rabbit", "mole", "dog", "horse", "cat", "", NA_character_, "mouse")
                   )
-df2 <- data.frame(Id = c(6,7,8,9,10, 11,12,13,14,15)
-                  , A = c("a", "b", "c", "d", "e","f", "b", "c", "d", "e")
-                  , B = c("dog", "horse", "cat", "", "mouse","mole", "antelope", "antelope", "hamster", "")
+df2 <- data.frame(Id = c(6,7,8,9,10, 11,12,13,14,15, NA_real_)
+                  , A = c("a", "b", "b", "d", "b","f", "b", "b", "d", "e", "b")
+                  , B = c("dog", "horse", "cat", "", "mouse","mole", "antelope", "antelope", "hamster", "", "mouse")
                   )
 
 ```
 
-Currently, when want to only pass 1 data frame, must specify data_old=NULL
-```{r tests1}
-dataCheck(data=df1, data_old=NULL, cond = A=="b", "B's in df1 only", varname="Id")
+```{r countiftest}
+countIf(data=df1, cond = A=="b")
+countIf(df1, A=="b")
+
+```
+
+```{r listiftest}
+listIf(data=df1, varname="Id", cond = A=="b")
+listIf(data=df1, varname="Id", cond = A=="b", na.rm=TRUE)
+
+listIf(df1, "Idcheck", A=="b")
+listIf(df1, "Idcheck")
+listIf(df1, "Id", collapse=TRUE, na.rm=TRUE)
+
+```
+
+```{r printIf2tests}
+printIf2(data=df1, cond = A=="b", text = "B's in df1 only", varname="Id")
 # output is 7 and 2
-dataCheck(data=df1, data_old=df2, cond = A=="b", "B's in df1 and df2", varname = "Id")
+printIf2(data=df1, data_old=df2, cond = A=="b",text = "B's in df1 and df2", varname = "Id")
 # output is 7 in both, 2 in df1 only
 ```
 ```{r tests2}
-dataCheck(data=df1, data_old=NULL, cond = A=="b"&B=="mouse", "B's and mice in df1 only", varname="Id")
+dataCheck(data=df1, cond = A=="b"&B=="mouse", text = "B's and mice in df1 only", varname="Id")
 # output should be null
-dataCheck(data=df1, data_old=df2, cond = A=="b"&B=="mouse", "B's and mice in df1 and df2", varname = "Id")
+dataCheck(data=df1, data_old=df2, cond = A=="b"&B=="mouse", text = "B's and mice in df1 and df2", varname = "Id")
 # output should be null
 
-dataCheck(data=df1, data_old=df2, cond = A=="b"&B=="horse", "B's and horses in df1 and df2", varname = "Id")
+dataCheck(data=df1, data_old=df2, cond = A=="b"&B=="horse", text = "B's and horses in df1 and df2", varname = "Id")
 # output should be 7 from both.
 ```
