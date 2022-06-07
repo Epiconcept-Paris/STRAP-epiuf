@@ -14,14 +14,27 @@ knitr::opts_chunk$set(echo = TRUE)
 library(epiuf)
 ```
 
-The data check suite: core functions to extract each element of a data check, and wrapper function to generate outputs in each format we 
+The data check suite: core functions to extract each element of a data check, and wrapper functions to generate outputs in each format we use. Description of each function (not all created yet)
 
 countIf() : the count of records matching a given condition
-listIf() : the list of specified variable for records matching a given condition
-printIf() : the count of records and list if under a specified threshold
-dataCheck() takes a dataset, a condition and a caption. It extracts the rows which meet the conditition, and ouputs the caption, the count of rows, and (if less the threshold) the list of or a specified variable, usually id. An optional extra, if 2 datasets are input, repeated IDs meeting the criteria are highlighted by [ ] so that new IDs can be quickly identified. 
+
+listIf() : the list of specified variable (usually Id) for records matching a given condition. If no condition given lists whole dataset. Can specify to remove NAs. 4 outputs possible: 
+          1) vector of Ids eg c(1, 2, 3, 4)
+          2) string of Ids eg "1, 2, 3, 4"
+          3) vector of Ids with comparison to second dataset and repeats Ids listed separately from new  eg list(repeat = c(1,2), new = c(3,4))
+          4) string of Ids with comparison to second dataset with repeats highlighed eg "[1, 2 ] 3, 4"
+          
+printIf() : output for bullet point in rmd. Prints given caption, the count of records and list of Ids in string format if under a specified threshold. 1 or 2 data set entry possible.
+
+printKableIf() : output for kable in rmd. Prints given caption, the count of records and list of Ids in string format if under a specified threshold for group of input conditions and captions into a table with a header. 1 or 2 data set entry possible.
+
+exportTableIf(): output for excel table. Prints given caption, the count of records and list of Ids in vector format (ie ID section has number of columns to match threshold given) if under a specified threshold for multiple groups of input conditions and captions with header each into a data frame ready for insertion to excel table. 1 or 2 data set entry possible.
+
 Attention: Must specify each parameter.
 
+Issues: 
+Trouble shooting listIf(). This is the most important and most complicated of the functions!  
+Use of subset and lazy processing causing difficulty in wrapper functions. 
 
 ```{r testdata}
 df1 <- data.frame(Id = c(1,2,3,4,5,6,7,8,9,10, NA_real_)
@@ -45,7 +58,9 @@ countIf(df1, A=="b")
 listIf(data=df1, varname="Id", cond = A=="b")
 listIf(data=df1, varname="Id", cond = A=="b", na.rm=TRUE)
 
-listIf(df1, "Idcheck", A=="b")
+listIf(data=df1, varname="Id", cond = A=="b", data_old=df2)
+
+listIf(df1,  "Idcheck", A=="b")
 listIf(df1, "Idcheck")
 listIf(df1, "Id", collapse=TRUE, na.rm=TRUE)
 

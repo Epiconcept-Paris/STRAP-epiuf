@@ -3,7 +3,8 @@
 \name{printIf2}
 \alias{printIf2}
 \title{printIf2
-prints the list of IDs meeting the specified condition}
+Prints the caption, count and list of IDs meeting the specified condition in
+rmd bullet point format. Aim is to replace printIf.}
 \usage{
 printIf2(
   data,
@@ -35,7 +36,8 @@ Message to print as list
 }
 \description{
 printIf2
-prints the list of IDs meeting the specified condition
+Prints the caption, count and list of IDs meeting the specified condition in
+rmd bullet point format. Aim is to replace printIf.
 }
 \examples{
 df <- data.frame(ID = 1:4, Vaccs = c("pfizer"," ", "pfizer", "moderna"))

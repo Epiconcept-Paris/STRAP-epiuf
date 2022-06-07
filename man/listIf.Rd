@@ -7,7 +7,14 @@ Simple list all of specified variable for which row data meets specific conditio
 Option for removing NAs. Option to have output as list or collapsed string.
 First column use as default if no variable specified or variable specified is not within the datset.}
 \usage{
-listIf(data, varname = NULL, cond = NULL, collapse = FALSE, na.rm = FALSE)
+listIf(
+  data,
+  varname = NULL,
+  cond = NULL,
+  collapse = FALSE,
+  na.rm = FALSE,
+  data_old = NULL
+)
 }
 \arguments{
 \item{data}{The dataset to process}
