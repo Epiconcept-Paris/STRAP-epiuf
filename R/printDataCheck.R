@@ -23,18 +23,21 @@
 
 #' Title
 #'
-#' @param data 
-#' @param data_old 
-#' @param parameters 
-#' @param header 
-#' @param threshold 
-#' @param varname 
+#' @param data The dataset
+#' @param data_old A previously check dataset 
+#' @param parameters ...
+#' @param header The header to display before list of ID 
+#' @param threshold The maximum number of ID to be displayed 
+#' @param varname The ID varname
 #'
+#' @importFrom kableExtra kable
 #' @return data.frame
 #' @export
 #'
-#' @examples printDataCheck(data=df, data_old=NULL,  parameters = parameters, header="Essential Data Checks", threshold=NULL , varname="idCheck")
-printDataCheck<- function(data, data_old=NULL,  parameters, header="", threshold=NULL , varname="id"){ # call in second dataset (that used in the last datacheck)
+#' @examples printDataCheck(data=df, data_old=NULL,  parameters = parameters, 
+#'                   header="Essential Data Checks", threshold=NULL , varname="idCheck")
+printDataCheck<- function(data, data_old=NULL,  parameters, header="", threshold=NULL , varname="id"){ 
+  # call in second dataset (that used in the last datacheck)
   
   if  (!varname %in% names(data) ){ # if varname is not in dataset, default to first line.
     varname <- names(data)[1]

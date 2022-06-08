@@ -14,17 +14,17 @@ printDataCheck(
 )
 }
 \arguments{
-\item{data}{}
+\item{data}{The dataset}
 
-\item{data_old}{}
+\item{data_old}{A previously check dataset}
 
-\item{parameters}{}
+\item{parameters}{...}
 
-\item{header}{}
+\item{header}{The header to display before list of ID}
 
-\item{threshold}{}
+\item{threshold}{The maximum number of ID to be displayed}
 
-\item{varname}{}
+\item{varname}{The ID varname}
 }
 \value{
 data.frame
@@ -33,5 +33,6 @@ data.frame
 Title
 }
 \examples{
-printDataCheck(data=df, data_old=NULL,  parameters = parameters, header="Essential Data Checks", threshold=NULL , varname="idCheck")
+printDataCheck(data=df, data_old=NULL,  parameters = parameters, 
+                  header="Essential Data Checks", threshold=NULL , varname="idCheck")
 }

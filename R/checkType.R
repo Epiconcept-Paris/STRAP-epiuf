@@ -26,14 +26,18 @@
 #' checkType
 #' Gives feedback on whether a variable matches the type specified. 
 #' 
-#' @param data 
-#' @param varname 
-#' @param type 
+#' @param data The dataset
+#' @param varname The var 
+#' @param type The expeted type
 #'
 #' @return report
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#'    checkType(data,var)
+#' }
+#' 
 checkType <- function(data, varname, type=c("character", "date", "factor", "numeric")) {
   
   s_op <- deparse(substitute(varname))

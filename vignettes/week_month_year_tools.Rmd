@@ -2,7 +2,11 @@
 title: "week_month_year_tools"
 author: "JHD"
 date: '2022-06-08'
-output: html_document
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{week_month_year_tools}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}
@@ -10,7 +14,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r data}
-df <- data.frame(date1 = ("2022-05-02", "2022-05-05","2022-05-08", "2022-05-10", "2022-05-12", "2022-05-10", "2022-05-19", "2022-05-25")
+df <- data.frame(date1 = c("2022-05-02", "2022-05-05","2022-05-08", "2022-05-10", "2022-05-12", 
+                          "2022-05-10", "2022-05-19", "2022-05-25")
                  ,date2 = c("2022-05-02", "2022-05-05","2022-05-08", "2022-05-10", "2022-05-12", NA_character_, NA_character_, NA_character_))
 
 

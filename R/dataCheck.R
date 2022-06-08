@@ -61,9 +61,11 @@ countIf <- function(data,cond=NULL) {
 #' Option for removing NAs. Option to have output as list or collapsed string. 
 #' First column use as default if no variable specified or variable specified is not within the datset.
 #' 
-#' @param data 
-#' @param varname 
-#' @param cond 
+#' @param data The dataset to process
+#' @param varname The ID varname which will be printed for each row where condition is not true 
+#' @param cond The condition to verify 
+#' @param collapse If true then ...
+#' @param na.rm  Should missing be included 
 #'
 #' @return A list of records
 #' @export
@@ -139,6 +141,7 @@ listIf <- function(data, varname=NULL, cond=NULL, collapse=FALSE,na.rm = FALSE){
 #' @param threshold Cutoff number for ID reporting, as number
 #' @param varname Column name of ID to print
 #' @param na.rm Remove missing ID in the list to print, by default is False
+#' @param data_old A dataset where to look for previously checked values 
 #'
 #' @return Message to print as list 
 #' @export 
@@ -194,12 +197,12 @@ printIf2<- function(data,  cond, text = "", threshold = NULL , varname = "id", n
 
 #' dataCheck
 #'
-#' @param data 
-#' @param data_old 
-#' @param cond 
-#' @param text 
-#' @param threshold 
-#' @param varname 
+#' @param data The dataset
+#' @param data_old A previously checked dataset
+#' @param cond The logical condition to test
+#' @param text The message to prefix the list in case of error 
+#' @param threshold The max number of ID displayed
+#' @param varname The ID varname
 #'
 #' @return a vector
 #' @export

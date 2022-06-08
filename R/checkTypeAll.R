@@ -24,14 +24,18 @@
 #' Uses dictionary to compare class of each variable to type listed. 
 #' A specific class of interest can be specified with the flag parameter
 #' 
-#' @param data 
-#' @param dictionary 
-#' @param flag 
+#' @param data The dataset
+#' @param dictionary The epiuf dictionary
+#' @param flag A flag 
 #'
 #' @return report
 #' @export
 #'
 #' @examples
+#'  \dontrun{
+#'    checkTypeAll(data)
+#'    }
+#' 
 checkTypeAll <- function(data, dictionary=NULL, flag=NULL) {
   
   if(is.null(dictionary)){          # retrieve dictionary from global environment if none specified

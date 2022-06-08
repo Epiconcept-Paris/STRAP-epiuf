@@ -21,8 +21,7 @@
 
 #' expandVarAll
 #'
-#' @param data 
-#' @param action 
+#' @param data dataframe to be processed, the dico must be loaded 
 #'
 #' @return data.frame
 #' @export
