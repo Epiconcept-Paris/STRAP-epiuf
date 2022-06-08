@@ -33,6 +33,7 @@ data.frame
 Title
 }
 \examples{
-printDataCheck(data=df, data_old=NULL,  parameters = parameters, 
-                  header="Essential Data Checks", threshold=NULL , varname="idCheck")
+\dontrun{   printDataCheck(data=df, data_old=NULL,  parameters = parameters, 
+                  header="Essential Data Checks", threshold=NULL , varname="idCheck") }
+                  
 }

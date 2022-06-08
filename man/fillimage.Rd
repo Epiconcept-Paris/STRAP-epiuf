@@ -42,5 +42,6 @@ Nothing
 fillimage
 }
 \examples{
-/dontrun{ fillimage(onesheet = cells,image = graphname,line=2, col = 2, wb=template) }
+\dontrun{ fillimage(onesheet = cells,image = graphname,line=2, col = 2, wb=template) }
+
 }

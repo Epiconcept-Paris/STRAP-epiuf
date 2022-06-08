@@ -34,8 +34,10 @@
 #' @return data.frame
 #' @export
 #'
-#' @examples printDataCheck(data=df, data_old=NULL,  parameters = parameters, 
-#'                   header="Essential Data Checks", threshold=NULL , varname="idCheck")
+#' @examples 
+#' \dontrun{   printDataCheck(data=df, data_old=NULL,  parameters = parameters, 
+#'                   header="Essential Data Checks", threshold=NULL , varname="idCheck") }
+#'                   
 printDataCheck<- function(data, data_old=NULL,  parameters, header="", threshold=NULL , varname="id"){ 
   # call in second dataset (that used in the last datacheck)
   
