@@ -132,8 +132,8 @@ isoYearWeek <- function(date,weekformat=NULL){  # Use base code to extract YEARw
   # }
   if (is.null(weekformat)) weekformat <- "w"
   # paste Week and year together
-  if (is.na(isoYear(date))) date <-  NA 
-  else date <- paste0(isoYear(date),weekformat, lpad(isoWeek(date),2,char="0"))
+  date <- ifelse(is.na(isoYear(date)), NA_character_,
+                 paste0(isoYear(date),weekformat, lpad(isoWeek(date),2,char="0")))
   return(date)
 }
 
