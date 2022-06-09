@@ -21,9 +21,9 @@ checkDico compares a number list to the contents of a variable, and flags a warn
 ```{r testdata}
 
 # create example dataset for testing
-df <- data.frame(checkbox_var = c("0|2", "1|2|3", "3|1|2", "0", "2", "3", "0|1", "2|3")
-                 ,number_var = c(0,1,2,3,0,1,2,3)
-                 ,character_var = c("0","1","nd","3","","1","2","3")
+df <- data.frame(checkbox_var = c("0|2", "1|2|3", "3|1|2", "0", "2", "3", "0|1", "2|3", NA_character_)
+                 ,number_var = c(0,1,2,3,0,1,2,3,NA_real_)
+                 ,character_var = c("0","1","nd","3","","1","2","3",NA_character_)
 )
 
 ```
