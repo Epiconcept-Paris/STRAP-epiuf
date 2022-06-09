@@ -148,7 +148,7 @@ isoYearWeek <- function(date,weekformat=NULL){  # Use base code to extract YEARw
 #'
 #' @examples
 #' countIsoWeeks(date = Sys.Date(),origin = "2000-01-01")
-countIsoWeeks <- function (date = date, origin = "2019-09-30"){
+countIsoWeeks <- function (date = date, origin = "2020-10-05"){
   
   # if variable is not date, set to date.  
   # if (class(date)!="Date"){
