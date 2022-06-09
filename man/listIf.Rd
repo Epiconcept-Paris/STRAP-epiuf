@@ -10,11 +10,15 @@ First column use as default if no variable specified or variable specified is no
 listIf(data, varname = NULL, cond = NULL, collapse = FALSE, na.rm = FALSE)
 }
 \arguments{
-\item{data}{}
+\item{data}{The dataset to process}
 
-\item{varname}{}
+\item{varname}{The ID varname which will be printed for each row where condition is not true}
 
-\item{cond}{}
+\item{cond}{The condition to verify}
+
+\item{collapse}{If true then ...}
+
+\item{na.rm}{Should missing be included}
 }
 \value{
 A list of records

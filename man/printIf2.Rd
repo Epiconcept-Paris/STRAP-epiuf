@@ -27,6 +27,8 @@ printIf2(
 \item{varname}{Column name of ID to print}
 
 \item{na.rm}{Remove missing ID in the list to print, by default is False}
+
+\item{data_old}{A dataset where to look for previously checked values}
 }
 \value{
 Message to print as list

@@ -8,11 +8,11 @@ Gives feedback on whether a variable matches the type specified.}
 checkType(data, varname, type = c("character", "date", "factor", "numeric"))
 }
 \arguments{
-\item{data}{}
+\item{data}{The dataset}
 
-\item{varname}{}
+\item{varname}{The var}
 
-\item{type}{}
+\item{type}{The expeted type}
 }
 \value{
 report
@@ -20,4 +20,10 @@ report
 \description{
 checkType
 Gives feedback on whether a variable matches the type specified.
+}
+\examples{
+\dontrun{
+   checkType(data,var)
+}
+
 }

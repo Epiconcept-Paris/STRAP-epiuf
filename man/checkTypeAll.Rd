@@ -9,11 +9,11 @@ A specific class of interest can be specified with the flag parameter}
 checkTypeAll(data, dictionary = NULL, flag = NULL)
 }
 \arguments{
-\item{data}{}
+\item{data}{The dataset}
 
-\item{dictionary}{}
+\item{dictionary}{The epiuf dictionary}
 
-\item{flag}{}
+\item{flag}{A flag}
 }
 \value{
 report
@@ -22,4 +22,10 @@ report
 checkTypeAll
 Uses dictionary to compare class of each variable to type listed.
 A specific class of interest can be specified with the flag parameter
+}
+\examples{
+ \dontrun{
+   checkTypeAll(data)
+   }
+
 }
