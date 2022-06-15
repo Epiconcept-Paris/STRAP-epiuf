@@ -4,7 +4,7 @@
 \alias{countIsoWeeks}
 \title{countIsoWeeks}
 \usage{
-countIsoWeeks(date = date, origin = "2019-09-30")
+countIsoWeeks(date = date, origin = "2020-10-05")
 }
 \arguments{
 \item{date}{A date Value}
