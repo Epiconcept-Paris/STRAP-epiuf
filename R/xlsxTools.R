@@ -33,7 +33,8 @@ getWorkbook <- function() {
 #' @param col   The col where to paste value
 #' @param ...   List of N values to paste in col "col" to col+N 
 #'              if contain a data.frame, the dataframe is pasted at the position 
-#' @param names if TRUE names of the dataframe are inserted with the table content              
+#' @param colnames if TRUE column names of the dataframe are displayed 
+#' @param rownames if TRUE row names of the dataframe are displayed             
 #' @param wb An optional wb if not already opened   
 #' @return  nothing
 #' @export
