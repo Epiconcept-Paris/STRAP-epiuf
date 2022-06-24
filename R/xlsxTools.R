@@ -49,7 +49,7 @@ getWorkbook <- function() {
 #' mat <- data.frame(Id = 1:3 , Vaccs = c("1", "3", "6"))
 #' fillCells(sheetname,1,1, mat ,wb=wb )
 #' 
-fillCells <- function(onesheet,line,col, ... , names=FALSE, wb = NULL) {
+fillCells <- function(onesheet,line,col, ... , colnames=FALSE, rownames=FALSE, wb = NULL) {
   
   if (is.character(col)){
     col <- col2int(col)
@@ -62,7 +62,7 @@ fillCells <- function(onesheet,line,col, ... , names=FALSE, wb = NULL) {
      }
      if (is.null(wb)) wb <- epixlsx_env$report
      writeData( wb , onesheet, x = value, startCol = col, startRow = line,
-               colNames = names, rowNames = names)
+               colNames = colnames, rowNames = rownames)
      col <- col +1
       
   }  # end loop i
