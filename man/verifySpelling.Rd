@@ -14,6 +14,8 @@ The objective is to automaticaly correct small mistake in wording}
 \item{CorrectList}{a string or a list of string from which code{varname} will be searched}
 
 \item{ErrPerc}{An acceptable errPerc when comparing string , default to 0.10\%}
+
+\item{verbose}{If true a message is issued}
 }
 \value{
 The string guessed from varname using CorrectList

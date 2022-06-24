@@ -221,7 +221,7 @@ getDictionaryActions <- function() {
     # replace by empty record ? 
     ds <- getNewDictionaryLine(mode="actions")
   }
-  if (nrow(ds)==0) ds[1,] <- NA
+  if (nrow(ds)==0){ ds[1,] <- NA}
   epidictionaryfiles_env$actions <-  ds
   return(ds)
 }

@@ -80,6 +80,7 @@
 #'          The objective is to automaticaly correct small mistake in wording 
 #' @param CorrectList a string or a list of string from which code{varname} will be searched
 #' @param ErrPerc An acceptable errPerc when comparing string , default to 0.10% 
+#' @param verbose If true a message is issued 
 #'
 #' @return The string guessed from varname using CorrectList
 #' @importFrom utils adist install.packages

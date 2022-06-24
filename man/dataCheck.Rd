@@ -9,22 +9,22 @@ dataCheck(
   data_old = NULL,
   cond,
   text = "",
-  threshold = NULL,
-  varname = "id"
+  varname = NULL,
+  threshold = NULL
 )
 }
 \arguments{
-\item{data}{}
+\item{data}{The dataset}
 
-\item{data_old}{}
+\item{data_old}{A previously checked dataset}
 
-\item{cond}{}
+\item{cond}{The logical condition to test}
 
-\item{text}{}
+\item{text}{The message to prefix the list in case of error}
 
-\item{threshold}{}
+\item{varname}{The ID varname}
 
-\item{varname}{}
+\item{threshold}{The max number of ID displayed}
 }
 \value{
 a vector

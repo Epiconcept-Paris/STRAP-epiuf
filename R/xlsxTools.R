@@ -87,7 +87,8 @@ fillCells <- function(onesheet,line,col, ... , colnames=FALSE, rownames=FALSE, w
 #' @export
 #'
 #' @examples 
-#' fillimage(onesheet = cells,image = graphname,line=2, col = 2, wb=template)
+#' \dontrun{ fillimage(onesheet = cells,image = graphname,line=2, col = 2, wb=template) }
+#' 
 fillimage <- function(onesheet,image,line,col, wide=7, high=4 , unit = "in", spec.dpi=300, wb = NULL) {
   
   if (is.character(col)){

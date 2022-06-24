@@ -54,18 +54,21 @@ applyNA <- function(data, varname, searchlist=NULL, join=FALSE){
     if (is.null(searchlist)){
       searchlist <- defaultsearch
     }else{
-      searchlist <- strsplit(searchlist,",")
+      # if searchlist is a list (and not a character) we unlist 
+      searchlist <- paste(unlist(searchlist),collapse=",") 
       # If searchlist is 1,2 converted to -> searchlist = "^1$|^2$"
-      # only if not already contain regex
-      if (charCount("\\^",searchlist)==0) {
-        searchlist <- lapply(searchlist,onetoreg)
-      }
-      searchlist <- paste(searchlist, collapse = "|")
+      # but only if not already contain regex
+      regex <-  ifelse (charCount("\\^",searchlist)==0,FALSE,TRUE)
+      # we split char into a list 
+      searchlist <- strsplit(searchlist,",")
+      # we transform as regex if needed 
+      if (regex == FALSE)  searchlist <- lapply(searchlist,onetoreg)
+      # we transform back to character but with | as separator
+      searchlist <- paste(unlist(searchlist), collapse = "|")
       # add default searchlist to provided if specified
       searchlist <- ifelse(join==TRUE,paste0(searchlist,"|",defaultsearch),   
                       searchlist)              
     }
-    
     numchange <- length(which(grepl(searchlist, data[,varname] )))   # retrieve number of instances which match search list
     
     data[,varname] <- sapply(X = data[,varname],FUN = function(x)
@@ -75,6 +78,8 @@ applyNA <- function(data, varname, searchlist=NULL, join=FALSE){
     
   }
   else if(!is.null(searchlist)){
+    
+    if (is.character(searchlist)) searchlist <- as.numeric(unlist(strsplit(searchlist,",")))
     numchange <- length(which(grepl(paste(searchlist, collapse = "|"), data[,varname] )))   # retrieve number of instances which match search list
     
     for(i in searchlist){

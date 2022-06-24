@@ -23,18 +23,23 @@
 
 #' Title
 #'
-#' @param data 
-#' @param data_old 
-#' @param parameters 
-#' @param header 
-#' @param threshold 
-#' @param varname 
+#' @param data The dataset
+#' @param data_old A previously check dataset 
+#' @param parameters ...
+#' @param header The header to display before list of ID 
+#' @param threshold The maximum number of ID to be displayed 
+#' @param varname The ID varname
 #'
+#' @importFrom kableExtra kable
 #' @return data.frame
 #' @export
 #'
-#' @examples printDataCheck(data=df, data_old=NULL,  parameters = parameters, header="Essential Data Checks", threshold=NULL , varname="idCheck")
-printDataCheck<- function(data, data_old=NULL,  parameters, header="", threshold=NULL , varname="id"){ # call in second dataset (that used in the last datacheck)
+#' @examples 
+#' \dontrun{   printDataCheck(data=df, data_old=NULL,  parameters = parameters, 
+#'                   header="Essential Data Checks", threshold=NULL , varname="idCheck") }
+#'                   
+printDataCheck<- function(data, data_old=NULL,  parameters, header="", threshold=NULL , varname="id"){ 
+  # call in second dataset (that used in the last datacheck)
   
   if  (!varname %in% names(data) ){ # if varname is not in dataset, default to first line.
     varname <- names(data)[1]
@@ -60,8 +65,8 @@ printDataCheck<- function(data, data_old=NULL,  parameters, header="", threshold
       
       Records_old <- subset(data_old,eval(cond),varname) # get records list from old set
       
-      inOld <- intersect(Records, Records_old) # list those in new that are also in old (ie are repeats)
-      inNew <- setdiff(Records, inOld) # list those only in the new
+      inOld <- intersect(Records[,varname], Records_old[,varname]) # list those in new that are also in old (ie are repeats)
+      inNew <- setdiff(Records[,varname], inOld) # list those only in the new
       
       listIDold <-  unlist(inOld)
       listIDold <-  paste(listIDold, collapse = ", ") # collapse repeat IDs
