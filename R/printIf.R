@@ -90,40 +90,4 @@ printIf<- function(data,  cond, text = "", threshold = NULL , varname = "id", na
 
 }
 
-#' Simple count of records satisfying  a conditional expression
-#'
-#' @param data The dataset where records should be counted 
-#' @param cond A logical expression 
-#'
-#' @return A number of records
-#' @export
-#'
-#' @examples
-#' 
-#' df <- data.frame(Id = 1:4 ,
-#'                     Vaccs = c("pfizer"," ", "pfizer", "moderna"))
-#' nb <- countIf(df,Vaccs=='pfizer')
-#' nb <- countIf(df)
-countIf <- function(data,cond=NULL) {
-
-  cond <- substitute(cond)
-  
-  if (!is.null(cond)) {
-    
-    if (!typeof(cond)=="language") {cond <- parse(text=cond)}
-    
-    # base version 
-    # records <-  eval(cond,data,parent.frame())
-    # records <- records & !is.na(records)
-    # records <- data[records,]
-
-    # subset will make a lazy eval, in order to work, this one should be done in countIf context 
-    # then parent.frame(2)
-    records <- subset(data,eval(cond,data,parent.frame(2)))
-  } else records <- data  
-  r <- nrow(records)
-  return(r)
-}
-
-
 # END of SCRIPT  --------------------------------------------------------
