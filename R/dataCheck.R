@@ -35,13 +35,16 @@
 #' nb <- countIf(df,Vaccs=='pfizer')
 #' nb <- countIf(df)
 countIf <- function(data,cond=NULL) {
-  
-  cond <- substitute(cond)
-  
-  if (!is.null(cond)) {
-    
-    if (!typeof(cond)=="language") {cond <- parse(text=cond)}
-    
+
+  s_cond <- substitute(cond)
+  if (!is.null(s_cond)) {
+      if (typeof(s_cond)=="symbol") {
+        if (! s_cond == "cond") {
+          # do something for a variable ? 
+        }    
+      } else if (! typeof(s_cond)=="language") {
+        cond <- parse(text=s_cond)
+      } else cond = s_cond
     # base version 
     # records <-  eval(cond,data,parent.frame())
     # records <- records & !is.na(records)
@@ -95,19 +98,25 @@ listIf <- function(data, varname=NULL, cond=NULL,  collapse=FALSE, na.rm = FALSE
     warning1 <- paste0(varname, " is not in dataset, first column used")
     varname <- names(data)[1]
   }
- 
+
   # enable cond to be used in subset function
-  cond <- substitute(cond)
-  
-  if (!is.null(cond)) { # if cond has been given
-    if (!typeof(cond)=="language") {cond <- parse(text=cond)}
+  s_cond <- substitute(cond)
+
+  if (!is.null(s_cond)) { # if cond has been given
+    if (typeof(s_cond)=="symbol") {
+      if (! s_cond == "cond") {
+        # do something for a variable ? 
+      } 
+    } else if (!typeof(s_cond)=="language") {
+      cond <- parse(text=s_cond)
+    }  else cond = s_cond
 
   # Retrieve records matching cond
     # subset will make a lazy eval, in order to work, this one should be done in listIf context 
     # then parent.frame(2)
     Records <- subset(data,eval(cond,data,parent.frame(2)), varname)
   } else {
-    Records <- data[,varname]
+    Records <- subset(data,TRUE,varname)
     warning2 <- "No condition provided, all records listed"
   }
 
@@ -123,12 +132,11 @@ listIf <- function(data, varname=NULL, cond=NULL,  collapse=FALSE, na.rm = FALSE
   
     if(!is.null(data_old)){ # if a second dataset is provided
 
-      if (!is.null(cond)) { # if cond has been given
-        if (!typeof(cond)=="language") {cond <- parse(text=cond)}
+      if (!is.null(s_cond)) { # if cond has been given
         # Retrieve records matching cond
         # subset will make a lazy eval, in order to work, this one should be done in listIf context 
         # then parent.frame(2)        
-    Records_old <- subset(data_old,eval(cond,data,parent.frame(2)),varname) # get records list from old set
+         Records_old <- subset(data_old,eval(cond,data,parent.frame(2)),varname) # get records list from old set
       } else {
         Records_old <- data_old[,varname]
       }
@@ -187,8 +195,15 @@ printIf2<- function(data,  cond, text = "", threshold = NULL , varname = "id", n
 
   TextToPrint <- c()
   
+  s_cond <- (substitute(cond))
+  
+  if (!typeof(s_cond)=="language") {
+    cond <- parse(text=s_cond)
+  } else cond = s_cond
+  
+  
 # retrieve count and list  
- NbCond <- countIf(data=data, cond=cond)
+  NbCond <- countIf(data=data, cond=cond)
  
 # if count not 0, output in desired format 
   if (NbCond != 0){
