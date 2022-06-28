@@ -4,7 +4,16 @@
 \alias{fillCells}
 \title{fillCells}
 \usage{
-fillCells(onesheet, line, col, ..., names = FALSE, wb = NULL)
+fillCells(
+  onesheet,
+  line,
+  col,
+  ...,
+  names = FALSE,
+  colnames = FALSE,
+  rownames = FALSE,
+  wb = NULL
+)
 }
 \arguments{
 \item{onesheet}{A sheet object from xlsx package}
@@ -16,7 +25,11 @@ fillCells(onesheet, line, col, ..., names = FALSE, wb = NULL)
 \item{...}{List of N values to paste in col "col" to col+N
 if contain a data.frame, the dataframe is pasted at the position}
 
-\item{names}{if TRUE names of the dataframe are inserted with the table content}
+\item{names}{if TRUE column and row names of the dataframe are displayed (overwrite colnames and rownames)}
+
+\item{colnames}{if TRUE column names of the dataframe are displayed}
+
+\item{rownames}{if TRUE row names of the dataframe are displayed}
 
 \item{wb}{An optional wb if not already opened}
 }

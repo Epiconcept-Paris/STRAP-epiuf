@@ -33,6 +33,7 @@ getWorkbook <- function() {
 #' @param col   The col where to paste value
 #' @param ...   List of N values to paste in col "col" to col+N 
 #'              if contain a data.frame, the dataframe is pasted at the position 
+#' @param names if TRUE column and row names of the dataframe are displayed (overwrite colnames and rownames)
 #' @param colnames if TRUE column names of the dataframe are displayed 
 #' @param rownames if TRUE row names of the dataframe are displayed             
 #' @param wb An optional wb if not already opened   
@@ -50,10 +51,14 @@ getWorkbook <- function() {
 #' mat <- data.frame(Id = 1:3 , Vaccs = c("1", "3", "6"))
 #' fillCells(sheetname,1,1, mat ,wb=wb )
 #' 
-fillCells <- function(onesheet,line,col, ... , colnames=FALSE, rownames=FALSE, wb = NULL) {
+fillCells <- function(onesheet,line,col, ... , names = FALSE, colnames=FALSE, rownames=FALSE, wb = NULL) {
   
   if (is.character(col)){
     col <- col2int(col)
+  }
+  if (names==TRUE) {
+    colnames = TRUE
+    rownames = TRUE 
   }
    listval <- list( ...)
    for (i in 1:length(listval)) {
