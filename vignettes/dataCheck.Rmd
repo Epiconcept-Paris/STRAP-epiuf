@@ -12,6 +12,8 @@ vignette: >
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(epiuf)
+library(rlang)
+
 ```
 
 The data check suite: core functions to extract each element of a data check, and wrapper functions to generate outputs in each format we use. Description of each function (not all created yet)
@@ -24,9 +26,9 @@ listIf() : the list of specified variable (usually Id) for records matching a gi
           3) vector of Ids with comparison to second dataset and repeats Ids listed separately from new  eg list(repeat = c(1,2), new = c(3,4))
           4) string of Ids with comparison to second dataset with repeats highlighed eg "[1, 2 ] 3, 4"
           
-printIf() : output for bullet point in rmd. Prints given caption, the count of records and list of Ids in string format if under a specified threshold. 1 or 2 data set entry possible.
+printIf() : output for bullet point in rmd. Prints given caption, the count of records and list of Ids in string format if under a specified threshold. 1 or 2 data set entry possible. NB. currently called printIf2 so as not to interfere with the current printIf(), which it will replace.
 
-printKableIf() : output for kable in rmd. Prints given caption, the count of records and list of Ids in string format if under a specified threshold for group of input conditions and captions into a table with a header. 1 or 2 data set entry possible.
+printKableIf() : output for kable in rmd. Prints given caption, the count of records and list of Ids in string format if under a specified threshold for group of input conditions and captions into a table with a header. 1 or 2 data set entry possible. Replacement for printDataCheck().
 
 exportTableIf(): output for excel table. Prints given caption, the count of records and list of Ids in vector format (ie ID section has number of columns to match threshold given) if under a specified threshold for multiple groups of input conditions and captions with header each into a data frame ready for insertion to excel table. 1 or 2 data set entry possible.
 
@@ -67,14 +69,17 @@ listIf(df1, "Id", collapse=TRUE, na.rm=TRUE)
 ```
 
 ```{r printIf2tests}
-# printIf2(data=df1, cond = A=="b", text = "B's in df1 only", varname="Id")
+
+printIf2(data=df1, cond = A=="b", text = "B's in df1 only", varname="Id")
 # output is 7 and 2
-# printIf2(data=df1, data_old=df2, cond = A=="b",text = "B's in df1 and df2", varname = "Id")
+printIf2(data=df1, data_old=df2, cond = A=="b",text = "B's in df1 and df2", varname = "Id")
 # output is 7 in both, 2 in df1 only
+printIf2(data=df1, cond = A=="b", text = "B's in df1 only", varname="Id")
+
 ```
 
 ```{r tests2}
-dataCheck(data=df1, cond = A=="b"&B=="mouse", text = "B's and mice in df1 only", varname="Id")
+dataCheck(data=df1, cond = "A==\"b\"&B==\"mouse\"", text = "B's and mice in df1 only", varname="Id")
 # output should be null
 dataCheck(data=df1, data_old=df2, cond = A=="b"&B=="mouse", text = "B's and mice in df1 and df2", varname = "Id")
 # output should be null
