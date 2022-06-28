@@ -70,7 +70,7 @@ printIf2(data=df1, cond = A=="b", text = "B's in df1 only", varname="Id")
 printIf2(data=df1, data_old=df2, cond = A=="b",text = "B's in df1 and df2", varname = "Id")
 # output is 7 in both, 2 in df1 only
 
-ast(printIf2(data=df1, cond = A=="b", text = "B's in df1 only", varname="Id"))
+printIf2(data=df1, cond = A=="b", text = "B's in df1 only", varname="Id")
 
 ```
 ```{r tests2}
