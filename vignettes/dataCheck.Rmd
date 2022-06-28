@@ -69,14 +69,11 @@ listIf(df1, "Id", collapse=TRUE, na.rm=TRUE)
 ```
 
 ```{r printIf2tests}
-<<<<<<< HEAD
-
-=======
->>>>>>> datacheck listif countif improved to allow nested calls
 printIf2(data=df1, cond = A=="b", text = "B's in df1 only", varname="Id")
 # output is 7 and 2
 printIf2(data=df1, data_old=df2, cond = A=="b",text = "B's in df1 and df2", varname = "Id")
 # output is 7 in both, 2 in df1 only
+
 printIf2(data=df1, cond = A=="b", text = "B's in df1 only", varname="Id")
 
 ```
