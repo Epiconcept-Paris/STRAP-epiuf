@@ -8,7 +8,6 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(epiuf)
-library(rlang)
 
 ```
 
@@ -26,7 +25,7 @@ printIf() : output for bullet point in rmd. Prints given caption, the count of r
 
 printKableIf() : output for kable in rmd. Prints given caption, the count of records and list of Ids in string format if under a specified threshold for group of input conditions and captions into a table with a header. 1 or 2 data set entry possible. Replacement for printDataCheck().
 
-exportTableIf(): output for excel table. Prints given caption, the count of records and list of Ids in vector format (ie ID section has number of columns to match threshold given) if under a specified threshold for multiple groups of input conditions and captions with header each into a data frame ready for insertion to excel table. 1 or 2 data set entry possible.
+exportTableIf() : output for excel table. Prints given caption, the count of records and list of Ids in vector format (ie ID section has number of columns to match threshold given) if under a specified threshold for multiple groups of input conditions and captions with header each into a data frame ready for insertion to excel table. 1 or 2 data set entry possible.
 
 Attention: Must specify each parameter.
 
@@ -69,8 +68,6 @@ printIf2(data=df1, cond = "A==\"b\"", text = "B's in df1 only", varname="Id")
 # output is 7 and 2
 printIf2(data=df1, data_old=df2, cond = A=="b",text = "B's in df1 and df2", varname = "Id")
 # output is 7 in both, 2 in df1 only
-
-ast(printIf2(data=df1, cond = A=="b", text = "B's in df1 only", varname="Id"))
 
 ```
 ```{r tests2}
