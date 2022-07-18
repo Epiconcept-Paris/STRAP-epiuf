@@ -48,7 +48,7 @@ applyNA <- function(data, varname, searchlist=NULL, join=FALSE){
   )
   varname <- s_op
   
-  defaultsearch <- "^[[:space:]]*$|^dnk$|^nd$|^na$|^nsp$|^ne zna$|^unknown$|^unk$|^do not know$"     # default searchlist if none provided
+  defaultsearch <- "^[[:space:]]*$|^dnk$|^nd$|^nk$|^na$|^nsp$|^ne zna$|^unknown$|^unk$|^do not know$"     # default searchlist if none provided
     
   if (is.character(data[,varname])){
     if (is.null(searchlist)){
