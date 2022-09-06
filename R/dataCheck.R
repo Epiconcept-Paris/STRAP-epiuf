@@ -281,18 +281,6 @@ printKableIf <- function(data,  parameters, header="Data Check", threshold = NUL
   }
 
 
-#' dataCheck
-#'
-#' @param data The dataset
-#' @param data_old A previously checked dataset
-#' @param cond The logical condition to test
-#' @param text The message to prefix the list in case of error 
-#' @param threshold The max number of ID displayed
-#' @param varname The ID varname
-#'
-#' @return a vector
-#' @export
-#'
 
 dataCheck<- function(data, data_old=NULL, cond, text="", varname=NULL, threshold=NULL){ 
 # Set up the parameters: 

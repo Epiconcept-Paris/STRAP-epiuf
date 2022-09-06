@@ -24,13 +24,14 @@ listIf() : the list of specified variable (usually Id) for records matching a gi
           1) vector of Ids eg c(1, 2, 3, 4)
           2) string of Ids eg "1, 2, 3, 4"
           3) vector of Ids with comparison to second dataset and repeats Ids listed separately from new  eg list(repeat = c(1,2), new = c(3,4))
-          4) string of Ids with comparison to second dataset with repeats highlighed eg "[1, 2 ] 3, 4"
-          
+          4) string of Ids with comparison to second dataset with repeats highlighted eg "[1, 2 ] 3, 4"
+
 printIf() : output for bullet point in rmd. Prints given caption, the count of records and list of Ids in string format if under a specified threshold. 1 or 2 data set entry possible. NB. currently called printIf2 so as not to interfere with the current printIf(), which it will replace.
 
 printKableIf() : output for kable in rmd. Prints given caption, the count of records and list of Ids in string format if under a specified threshold for group of input conditions and captions into a table with a header. 1 or 2 data set entry possible. Replacement for printDataCheck().
 
-exportTableIf(): output for excel table. Prints given caption, the count of records and list of Ids in vector format (ie ID section has number of columns to match threshold given) if under a specified threshold for multiple groups of input conditions and captions with header each into a data frame ready for insertion to excel table. 1 or 2 data set entry possible.
+
+exportTableIf() : output for excel table. Prints given caption, the count of records and list of Ids in vector format (ie ID section has number of columns to match threshold given) if under a specified threshold for multiple groups of input conditions and captions with header each into a data frame ready for insertion to excel table. 1 or 2 data set entry possible.
 
 Attention: Must specify each parameter.
 
@@ -75,7 +76,6 @@ printIf2(data=df1, data_old=df2, cond = A=="b",text = "B's in df1 and df2", varn
 # output is 7 in both, 2 in df1 only
 
 printIf2(data=df1, cond = A=="b", text = "B's in df1 only", varname="Id")
-
 ```
 
 ```{r tests2}
