@@ -32,7 +32,7 @@ freq <- function(x,y=NULL,missing=FALSE,quietly = FALSE) {
       var.name <- deparse(substitute(y))
       ys <- parse(text=substitute(y))
       y <-  eval(ys,x) 
-    } else if (class(x)=="character" & length(x)==1 ) {
+    } else if (is.character(x) & length(x)==1 ) {
       var.name <- x
       y  <- getvar(x) 
     } else {
