@@ -78,7 +78,6 @@ printDataCheck<- function(data, data_old=NULL,  parameters, header="", threshold
         listID <- paste0("[ ", listIDold, " ]  **", listIDnew,"**") # combine to list IDs
       }else{listID <- paste0("[ ", listIDold, " ]")} # combine to list IDs
       
-      }
       } else {# if no second dataset provided, output ids 
         listID <- paste(Records$IdCheck, collapse= ", ")
       }
