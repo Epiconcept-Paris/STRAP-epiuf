@@ -246,4 +246,3 @@ pathToFile <- function(pathname, filename) {
 
 
 # END of SCRIPT  --------------------------------------------------------
-
