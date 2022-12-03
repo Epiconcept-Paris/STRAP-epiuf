@@ -32,6 +32,8 @@ if contain a data.frame, the dataframe is pasted at the position}
 
 \item{rownames}{if TRUE row names of the dataframe are displayed}
 
+\item{style}{An optional style created with createXlsxStyle}
+
 \item{wb}{An optional wb if not already opened}
 }
 \value{

@@ -72,17 +72,21 @@ cells <- openSheet("T2")
 
 # We define two style  and a default style ! 
 # In order to be abble to apply defaultStyle in case a specific style was applied before
+myStyle = createXlsxStyle()
+italicStyle = createXlsxStyle(textDecoration="Italic",fontColour="green")
+alertStyle =  createXlsxStyle(textDecoration="Bold",fontColour="red")
+boldStyle = createXlsxStyle(textDecoration="Bold")
 
-myStyle  = openxlsx::createStyle()
-italicStyle = openxlsx::createStyle(textDecoration="Italic",fontColour="green")
-alertStyle = openxlsx::createStyle(textDecoration="Bold",fontColour="red")
-
-fillCells(cells, 17 , 2 , "Cases in green", style=italicStyle)
+fillCells(cells, 17, 1 ," Total ", style=alertStyle )
+fillCells(cells, 17 , 2 , "Cases ", style=italicStyle)
 if (value > 10) {
   myStyle = alertStyle
 } 
 fillCells(cells, 17 , 3 , value , style = myStyle)
 
+# if you want erase a previous formatand use wb default : 
+myStyle  = createXlsxStyle()
+formatCells(cells,17,1,myStyle)
 
 ```
 
