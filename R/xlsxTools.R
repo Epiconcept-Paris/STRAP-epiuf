@@ -51,8 +51,10 @@ getWorkbook <- function() {
 #' mat <- data.frame(Id = 1:3 , Vaccs = c("1", "3", "6"))
 #' fillCells(sheetname,1,1, mat ,wb=wb )
 #' 
-fillCells <- function(onesheet,line,col, ... , names = FALSE, colnames=FALSE, rownames=FALSE, wb = NULL) {
+fillCells <- function(onesheet,line,col, ... , names = FALSE, colnames=FALSE, 
+                      rownames=FALSE, style = NULL,  wb = NULL) {
   
+
   if (is.character(col)){
     col <- col2int(col)
   }
@@ -69,6 +71,9 @@ fillCells <- function(onesheet,line,col, ... , names = FALSE, colnames=FALSE, ro
      if (is.null(wb)) wb <- epixlsx_env$report
      writeData( wb , onesheet, x = value, startCol = col, startRow = line,
                colNames = colnames, rowNames = rownames)
+     if (! is.null(style)) {
+        openxlsx::addStyle(wb,onesheet,style,line,col)
+     }   
      col <- col +1
       
   }  # end loop i

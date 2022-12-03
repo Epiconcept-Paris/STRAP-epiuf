@@ -12,6 +12,7 @@ fillCells(
   names = FALSE,
   colnames = FALSE,
   rownames = FALSE,
+  style = NULL,
   wb = NULL
 )
 }

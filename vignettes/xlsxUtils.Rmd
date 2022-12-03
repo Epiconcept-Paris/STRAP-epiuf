@@ -62,6 +62,33 @@ fillCells(cells, 4 , 2 , "total",100)
 
 ```
 
+It's also possible to colorize some cells using styles 
+fontColour must be one of the color returned by colours()
+
+
+```{r colorize }
+value <-  5
+cells <- openSheet("T2")
+
+# We define two style  and a default style ! 
+# In order to be abble to apply defaultStyle in case a specific style was applied before
+
+myStyle  = openxlsx::createStyle()
+italicStyle = openxlsx::createStyle(textDecoration="Italic",fontColour="green")
+alertStyle = openxlsx::createStyle(textDecoration="Bold",fontColour="red")
+
+fillCells(cells, 17 , 2 , "Cases in green", style=italicStyle)
+if (value > 10) {
+  myStyle = alertStyle
+} 
+fillCells(cells, 17 , 3 , value , style = myStyle)
+
+
+```
+
+
+
+
 ```{r matrice}
 mat <- data.frame(Id = 1:3 , Vaccs = c("1", "3", "6"))
 cells <-  openSheet("T3")
@@ -95,7 +122,8 @@ Or if you want to change the name
 
 ```{r saving2}
 
-saveXlsx(wb=NULL,filename = "excelfile2.xlsx")
+saveXlsx(filename = "excelfile2.xlsx")
+# comment the next line if you want to see the result of this vignette
 file.remove("excelfile2.xlsx")
 
 ```
