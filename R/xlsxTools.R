@@ -36,6 +36,7 @@ getWorkbook <- function() {
 #' @param names if TRUE column and row names of the dataframe are displayed (overwrite colnames and rownames)
 #' @param colnames if TRUE column names of the dataframe are displayed 
 #' @param rownames if TRUE row names of the dataframe are displayed             
+#' @param style An optional style created with createXlsxStyle   
 #' @param wb An optional wb if not already opened   
 #' @return  nothing
 #' @export
@@ -51,8 +52,8 @@ getWorkbook <- function() {
 #' mat <- data.frame(Id = 1:3 , Vaccs = c("1", "3", "6"))
 #' fillCells(sheetname,1,1, mat ,wb=wb )
 #' 
-fillCells <- function(onesheet,line,col, ... , names = FALSE, colnames=FALSE, rownames=FALSE, wb = NULL) {
-  
+fillCells <- function(onesheet,line,col, ... , names = FALSE, colnames=FALSE, 
+                      rownames=FALSE, style = NULL,  wb = NULL) {
   if (is.character(col)){
     col <- col2int(col)
   }
@@ -69,12 +70,49 @@ fillCells <- function(onesheet,line,col, ... , names = FALSE, colnames=FALSE, ro
      if (is.null(wb)) wb <- epixlsx_env$report
      writeData( wb , onesheet, x = value, startCol = col, startRow = line,
                colNames = colnames, rowNames = rownames)
+     if (! is.null(style)) {
+        openxlsx::addStyle(wb,onesheet,style,line,col)
+     }   
      col <- col +1
       
   }  # end loop i
 }
 
 
+#' formatCells
+#'
+#' @param onesheet A sheet object from xlsx package
+#' @param line  The line where to paste value 
+#' @param col   The col where to paste value
+#' @param style A style created by createXlsxStyle
+#'
+#' @return nothing
+#' @export
+#'
+formatCells <- function(onesheet, line, col , style = NULL )
+{
+  
+  if (is.character(col)){
+    col <- col2int(col)
+  }
+  if (is.null(wb)) wb <- epixlsx_env$report
+    if (! is.null(style)) {
+    openxlsx::addStyle(wb,onesheet,style,line,col)
+  }   
+  
+}  
+  
+
+#' createXlsxStyle
+#'
+#' @param ...   Parameters for createStyle 
+#'
+#' @return a Style to be used in XLSX
+#' @export
+#'
+createXlsxStyle <- function(...) {
+  openxlsx::createStyle(...)
+}
 
 #' fillimage
 #'
