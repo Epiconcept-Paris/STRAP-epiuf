@@ -36,9 +36,9 @@
 #'
 #' @return The dataset read from file
 #' @export
-#' @importFrom foreign read.epiinfo  // Foreign is obsolete but the only one which read EpiInfo
-#' @importFrom haven read_dta        // haven as replaced foreign 
-#' @importFrom readxl read_excel     // Fast Excel reading
+#' @importFrom foreign read.epiinfo  
+#' @importFrom haven read_dta        
+#' @importFrom readxl read_excel     
 #'
 #' @examples
 #' readData("flucases.csv")

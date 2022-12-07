@@ -2,8 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{catret}
 \alias{catret}
-\title{catret
-cat ret is a wrapper for cat(...,"newline")}
+\title{catret}
 \usage{
 catret(...)
 }
@@ -14,8 +13,11 @@ catret(...)
 nothing
 }
 \description{
-catret
-cat ret is a wrapper for cat(...,"newline")
+is a wrapper for cat(...,"newline").
+
+catret concatenate all provided entry and
+output the result to the console, then out a carriage return to make any further cat
+function to start on the next line.
 }
 \examples{
 catret("test")
