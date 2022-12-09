@@ -20,7 +20,7 @@ library(epiuf)
 
 Using xlsx to write simple values to cells may be repetitive and trivial. This set of functions should simplify a lot the process
 
-The first avalaible function is **openXlsx** This function load a workbook in memory The workbook is a java object and having it in environment does help so much... Then this workbook is stored into the functions them self
+The first available function is **openXlsx**. This function load a workbook in memory. The workbook is a java object and having it in environment does help so much... Then this workbook is stored into the functions them self
 
 It is also possible to assign the workbook to a local variable if needed (to work with more than one workbook at a time)
 

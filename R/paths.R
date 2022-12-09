@@ -123,7 +123,7 @@ fileName <- function(text) {
 #' 
 #' setPath("sources","c:/dev/Rsources", makedir = "Never")
 #' 
-setPath <-  function(pathname,path,makedir = c("Ask","Force","Never")) {
+setPath <-  function(pathname, path, makedir = c("Ask","Force","Never")) {
   s_op <- deparse(substitute(pathname))
   # if pathname is a variable wich contain char, we use content of pathname
   ok <- FALSE
@@ -132,24 +132,24 @@ setPath <-  function(pathname,path,makedir = c("Ask","Force","Never")) {
       s_op <- pathname
       ok <- TRUE
     }
-    , error = function(c) { }
+    , error = function(c) { } #LM: Why tryCatch? It overwrite the stop below ----
   )
   if (missing(path)) stop("path argument is missing with no default for setPath")
-  if ( ! ( path =="" | dir.exists(path))  ) {
+  if ( ! (path == "" | dir.exists(path))  ) {
     if (! makedir == "never") {
       result <- FALSE
       if (makedir== "Ask") {
           message <- paste(path,"doens't exist, do you want to create it ?")
-          result <- yesno(message)
+          result <- epiuf::yesno(message)
       }
-      if (makedir=="Force") result = TRUE
-      if (result==TRUE) {
+      if (makedir == "Force") result = TRUE
+      if (result == TRUE) {
           dir.create(path) 
       }
-    } else warning(path," doesn't exist as diretory")
+    } else warning(path, " doesn't exist as directory")
   } 
 
-  invisible(setEpiOption(paste0("PATH_",s_op),path))
+  invisible(epiuf::setEpiOption(paste0("PATH_", s_op), path))
 }
 
 

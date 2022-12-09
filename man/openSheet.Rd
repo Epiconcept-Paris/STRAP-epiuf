@@ -7,10 +7,10 @@
 openSheet(sheetname, wb = NULL)
 }
 \arguments{
-\item{sheetname}{The name of hte sheet to load}
+\item{sheetname}{The name of the sheet to load}
 
-\item{wb}{A optional workbook created or opened by xlsx
-If not specified, the last workbook loaded with loadXlsx will be used}
+\item{wb}{A optional workbook created or opened by xlsx.
+If not specified, the last workbook loaded with openXlsx will be used}
 }
 \value{
 A cells object containing an Excel sheet

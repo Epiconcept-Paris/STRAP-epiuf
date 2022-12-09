@@ -147,14 +147,15 @@ fillimage <- function(onesheet,image,line,col, wide=7, high=4 , unit = "in", spe
   
 }
 
+
 #' openSheet
 #'
-#' @param sheetname The name of hte sheet to load 
-#' @param wb       A optional workbook created or opened by xlsx
-#'                 If not specified, the last workbook loaded with loadXlsx will be used
+#' @param sheetname The name of the sheet to load 
+#' @param wb       A optional workbook created or opened by xlsx.
+#'                 If not specified, the last workbook loaded with openXlsx will be used
 #'
 #' @return  A cells object containing an Excel sheet
-#' @importFrom openxlsx createWorkbook addWorksheet sheets  
+#' @importFrom openxlsx createWorkbook addWorksheet   
 #' @export
 #'
 #' @examples
@@ -162,7 +163,7 @@ fillimage <- function(onesheet,image,line,col, wide=7, high=4 , unit = "in", spe
 #'  openxlsx::addWorksheet(wb, sheetName = "First Sheet")
 #'  openSheet("First Sheet",wb)
 #' 
-openSheet <- function(sheetname,wb=NULL)  {
+openSheet <- function(sheetname, wb = NULL)  {
   if (! is.null(wb)) {
     report <- wb
   } else { 
@@ -172,7 +173,8 @@ openSheet <- function(sheetname,wb=NULL)  {
     } 
   }
   
-  sheets <- openxlsx::sheets(report)  # names is not exported ??
+  # sheets <- openxlsx::sheets(report)  # names is not exported ??
+  sheets <- names(report) # LM: Replaced openxlsx::sheets with base::names as this function is deprecated  
   if ( !(sheetname %in% sheets)) {
      warning("Sheet",sheetname, "doesn't exist in workbook")
      sheetname <- NULL 
