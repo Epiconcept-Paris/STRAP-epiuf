@@ -36,16 +36,16 @@
 #'
 #' @return The dataset read from file
 #' @export
-#' @importFrom foreign read.epiinfo
-#' @importFrom haven read_dta
-#' @importFrom readxl read_excel
+#' @importFrom foreign read.epiinfo  
+#' @importFrom haven read_dta        
+#' @importFrom readxl read_excel     
 #'
 #' @examples
 #' readData("flucases.csv")
 #' 
 #' 
 readData <- function(filename = "", factorise = FALSE, lowercase= FALSE, label = NULL,sheet=NULL, verbose = TRUE,...) {
-  # no file ? choose one
+  # no file name ? choose one using explorer
   if (filename == "") {
     catret("retrieving file tree...please wait.")
     r <- try(filename <- file.choose())
@@ -54,7 +54,7 @@ readData <- function(filename = "", factorise = FALSE, lowercase= FALSE, label =
       return(r)
     }
   }
-  # try to extract name...
+  # try to extract name and extension ...
   ext <- tolower(fileExt(filename))
   name <- fileName(filename)
   if (file.exists(filename)) {
@@ -78,12 +78,13 @@ readData <- function(filename = "", factorise = FALSE, lowercase= FALSE, label =
         dfloaded <- utils::read.csv(filename,as.is = !factorise,...)
       }
     } else  if (ext == "dta") {
-      # foreign packages is required
+      # haven packages is required
       r <- requireNamespace("haven", quietly = TRUE)
       if (!r) {
         message("Package haven required")
       }
-      # Prior to Stata 14, files did not declare a text encoding,haven assumes the encoding is windows-1252,
+      # Prior to Stata 14, files did not declare a text encoding,
+      # haven assumes the encoding is windows-1252,
       # Stata Mac and Linux  use a different default encoding, "latin1". 
       dfloaded <- haven::read_dta(filename)    # encoding = "latin1"
     } else if (ext == "rec") {
@@ -102,12 +103,12 @@ readData <- function(filename = "", factorise = FALSE, lowercase= FALSE, label =
       dfloaded <- readRDS(filename)
       push.data(fileName(filename),dfloaded)
     } else if (ext == "xls" | ext == "xlsx") {
-      # foreign packages is required
+      # readxl packages is required
       r <- requireNamespace("readxl", quietly = TRUE)
       if (!r) {
         message("Package readxl required")
       }
-      dfloaded <- read_excel(filename,sheet=sheet)
+      dfloaded <- readxl::read_excel(filename,sheet=sheet)
     } else {
       catret("Extension '", ext, "'not found")
     }
