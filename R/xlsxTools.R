@@ -54,21 +54,25 @@ getWorkbook <- function() {
 #' 
 fillCells <- function(onesheet,line,col, ... , names = FALSE, colnames=FALSE, 
                       rownames=FALSE, style = NULL,  wb = NULL) {
+  
+  # If col is provided as a character string (i.e., col = "A") then converted as column index 
   if (is.character(col)){
-    col <- col2int(col)
+    col <- openxlsx::col2int(col)
   }
-  if (names==TRUE) {
+  
+  if (names == TRUE) {
     colnames = TRUE
     rownames = TRUE 
   }
+  
    listval <- list( ...)
    for (i in 1:length(listval)) {
      value <- ...elt(i)   
      if (is.numeric(value)) {
         value <- ifelse(is.finite(value),value,"")
      }
-     if (is.null(wb)) wb <- epixlsx_env$report
-     writeData( wb , onesheet, x = value, startCol = col, startRow = line,
+     if (is.null(wb)) wb <- epixlsx_env$report # LM: why is it in the loop and not outside the loop?
+     openxlsx::writeData( wb , onesheet, x = value, startCol = col, startRow = line,
                colNames = colnames, rowNames = rownames)
      if (! is.null(style)) {
         openxlsx::addStyle(wb,onesheet,style,line,col)
@@ -85,19 +89,20 @@ fillCells <- function(onesheet,line,col, ... , names = FALSE, colnames=FALSE,
 #' @param line  The line where to paste value 
 #' @param col   The col where to paste value
 #' @param style A style created by createXlsxStyle
+#' @param wb  An optional wb if not already opened
 #'
 #' @return nothing
 #' @export
 #'
-formatCells <- function(onesheet, line, col , style = NULL )
+formatCells <- function(onesheet, line, col , style = NULL, wb = NULL)
 {
   
   if (is.character(col)){
-    col <- col2int(col)
+    col <- openxlsx::col2int(col)
   }
   if (is.null(wb)) wb <- epixlsx_env$report
     if (! is.null(style)) {
-    openxlsx::addStyle(wb,onesheet,style,line,col)
+    openxlsx::addStyle(wb,onesheet,style,line,col) #LM: could we add ... in order to possibly benefit from additional arguments?
   }   
   
 }  
@@ -113,6 +118,10 @@ formatCells <- function(onesheet, line, col , style = NULL )
 createXlsxStyle <- function(...) {
   openxlsx::createStyle(...)
 }
+
+
+
+
 
 #' fillimage
 #'
@@ -136,7 +145,7 @@ createXlsxStyle <- function(...) {
 fillimage <- function(onesheet,image,line,col, wide=7, high=4 , unit = "in", spec.dpi=300, wb = NULL) {
   
   if (is.character(col)){
-    col <- col2int(col)
+    col <- openxlsx::col2int(col)
   }
   
   if (is.null(wb)) wb <- epixlsx_env$report
@@ -176,7 +185,7 @@ openSheet <- function(sheetname, wb = NULL)  {
   # sheets <- openxlsx::sheets(report)  # names is not exported ??
   sheets <- names(report) # LM: Replaced openxlsx::sheets with base::names as this function is deprecated  
   if ( !(sheetname %in% sheets)) {
-     warning("Sheet",sheetname, "doesn't exist in workbook")
+     warning("Sheet ", sheetname, " doesn't exist in workbook")
      sheetname <- NULL 
   } 
   sheetname
