@@ -236,13 +236,13 @@ sourceFile <- function(pathname, filename )  {
 #' 
 pathToFile <- function(pathname, filename) {
   r <-  getPath(pathname) 
-  if (! is.null(r)) {
-    r <- file.path(r,filename)  
+  if (! is.null(r))   { 
+    if ( ! r =="" ) {
+      r <- file.path(r,filename) 
+    } else r <- filename
   }
   return(r)
 }
 
 
-
 # END of SCRIPT  --------------------------------------------------------
-

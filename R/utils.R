@@ -105,8 +105,15 @@ rename <- function(data, oldname, newname) {
 
 
 
-#' catret
-#'    cat ret is a wrapper for cat(...,"newline")
+#' @title catret
+#'        
+#' @description 
+#'    catret is a wrapper for cat(...,"newline"). 
+#'    
+#'    catret concatenate all provided entry and 
+#'    output the result to the console, then out a carriage return to make any further cat
+#'    function to start on the next line.
+#'     
 #' @param ... list of values to concatenate for console output
 #'
 #' @return  nothing
