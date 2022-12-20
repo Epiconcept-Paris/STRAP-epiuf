@@ -13,7 +13,7 @@ openSheet(sheetname, wb = NULL)
 If not specified, the last workbook loaded with openXlsx will be used}
 }
 \value{
-A cells object containing an Excel sheet
+Character string of the name of the sheet
 }
 \description{
 openSheet
