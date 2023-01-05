@@ -294,7 +294,9 @@ askinput <- function(message,answers) {
 #'
 #' 
 yesno <- function(message) {
-  askYesNo(message,NA,"Yes/No/Cancel")
+  askYesNo(msg = message,
+           default = NA,
+           prompts = "yes/no/cancel")
 }
 
 #' confirm 

@@ -23,6 +23,14 @@ Set a named path to avoid absolute path in R scripts
 }
 \examples{
 
-setPath("sources","c:/dev/Rsources", makedir = "Never")
+setPath("SOURCES","c:/dev/Rsources", makedir = "Never")
+getPath("SOURCES")
+
+# Setting a name/keyword associated to a specific path
+setPath(pathname = "DATA", 
+        path = "./data", # Note './' for relative paths
+        makedir = "Never")
+# Checking the path is properly set
+getPath("DATA")
 
 }

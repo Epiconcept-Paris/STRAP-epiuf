@@ -121,30 +121,41 @@ fileName <- function(text) {
 #'
 #' @examples
 #' 
-#' setPath("sources","c:/dev/Rsources", makedir = "Never")
+#' setPath("SOURCES","c:/dev/Rsources", makedir = "Never")
+#' getPath("SOURCES")
+#' 
+#' # Setting a name/keyword associated to a specific path
+#' setPath(pathname = "DATA", 
+#'         path = "./data", # Note './' for relative paths
+#'         makedir = "Never")
+#' # Checking the path is properly set
+#' getPath("DATA")
 #' 
 setPath <-  function(pathname, path, makedir = c("Ask","Force","Never")) {
   s_op <- deparse(substitute(pathname))
-  # if pathname is a variable wich contain char, we use content of pathname
+  # if pathname is a variable which contain char, we use content of pathname
   ok <- FALSE
   tryCatch(
     if (is.character(pathname)) {
       s_op <- pathname
       ok <- TRUE
     }
-    , error = function(c) { } #LM: Why tryCatch? It overwrite the stop below ----
+    , error = function(c) { }
   )
   if (missing(path)) stop("path argument is missing with no default for setPath")
-  if ( ! (path == "" | dir.exists(path))  ) {
-    if (! makedir == "never") {
+  if (missing(makedir)) { #LM: added to remove an annoying warning
+    makedir <- "Ask"
+  }
+  if ( ! (path == "" | dir.exists(path)) ) {
+    if (! makedir == "Never") {
       result <- FALSE
-      if (makedir== "Ask") {
+      if (makedir == "Ask") {
           message <- paste(path,"doens't exist, do you want to create it ?")
           result <- epiuf::yesno(message)
       }
       if (makedir == "Force") result = TRUE
-      if (result == TRUE) {
-          dir.create(path) 
+      if (!is.na(result) & result == TRUE) { #LM: adding check for NA
+          dir.create(path, recursive = TRUE) #LM: recursive added in order to allow subfolders
       }
     } else warning(path, " doesn't exist as directory")
   } 
