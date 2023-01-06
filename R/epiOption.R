@@ -123,7 +123,7 @@ setEpiOption <- function(EpiOption, value) {
       s_op <- EpiOption
       ok <- TRUE
     }
-    , error = function(c) { } #LM: Why tryCatch? ----
+    , error = function(c) { }
   )
   
   old <- NA
