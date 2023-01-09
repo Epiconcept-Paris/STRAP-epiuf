@@ -1,11 +1,19 @@
-# Open Excel File
-# report <- xlsx::loadWorkbook(file = pathToFile("EXCEL","Tables/Tables_Modify_R.xlsx"))
-# sheets <- getSheets(report)
-# sheet_edit <- sheets[['T2']]
-# rows_edit <- getRows(sheet_edit)
-# cells <- getCells(rows_edit)
+# Project Name : 
+# Script Name  :
+# GitHub repo  : 
+# Summary      : 
+# Date created : 
+# Author       : 
+# Date reviewed:
+# Reviewed by  :
 
+# Description -------------------------------------------------------------
+#'
 
+# Changes Log -------------------------------------------------------------
+#' 
+
+# START of SCRIPT  --------------------------------------------------------
 
 # epixlsx environment used to manage global values
 epixlsx_env <- new.env(parent = emptyenv())
@@ -86,12 +94,14 @@ fillCells <- function(onesheet,
   
   # If col is provided as a character string (i.e., col = "A") 
   # then will be converted as column index 
+  # WriteData() will automatically convert it, but it is fine to double check! :)
+  # (e.g. which(LETTERS == "C"))
   if (is.character(col)){
     col <- openxlsx::col2int(col)
   }
   
   # Default workbook being in package's env
-  if (is.null(wb)) wb <- epixlsx_env$report #LM: why is it in the loop and not outside the loop?
+  if (is.null(wb)) wb <- epixlsx_env$report
   
   # Global argument 'names' setting both colnames and rownames 
   if (names == TRUE) {
@@ -160,8 +170,9 @@ fillCells <- function(onesheet,
           # For atomic variables or vector
           
           # Checking that style condition is TRUE/FALSE
+          # Note: vectors are printed in 1 column, therefore only rows can be styled
           if (!(typeof(styleRowsIndex) %in% c("integer", "double"))) {
-            warning("Type not supported for 'styleRowsIndex' / 'styleColsIndex' arguments")
+            warning("Type not supported for 'styleRowsIndex' arguments")
           }
           
           # Adding style at the proper location
@@ -206,38 +217,7 @@ fillCells <- function(onesheet,
     
   }  # end loop i
 }
-# # Previous version below
-# fillCells <- function(onesheet,line,col, ... , names = FALSE, colnames=FALSE, 
-#                       rownames=FALSE, style = NULL, stylecondition = NULL,  wb = NULL) {
-#   
-#   # If col is provided as a character string (i.e., col = "A") then converted as column index 
-#   if (is.character(col)){
-#     col <- openxlsx::col2int(col)
-#   }
-#   
-#   if (names == TRUE) {
-#     colnames = TRUE
-#     rownames = TRUE 
-#   }
-#   
-#    listval <- list( ...)
-#    for (i in 1:length(listval)) {
-#      value <- ...elt(i)   
-#      if (is.numeric(value)) {
-#         value <- ifelse(is.finite(value),value,"")
-#      }
-#      if (is.null(wb)) wb <- epixlsx_env$report # LM: why is it in the loop and not outside the loop?
-#      openxlsx::writeData(wb, onesheet, x = value, startCol = col, startRow = line,
-#                colNames = colnames, rowNames = rownames)
-#      
-#      # Adding style if required
-#      if (!is.null(style)) {
-#          openxlsx::addStyle(wb, onesheet, style, line, col)
-#      }   
-#      col <- col +1
-#       
-#   }  # end loop i
-# }
+
 
 
 #' formatCells
@@ -247,11 +227,12 @@ fillCells <- function(onesheet,
 #' @param col   The col where to paste value
 #' @param style A style created by createXlsxStyle
 #' @param wb  An optional wb if not already opened
+#' @param ... any additional style accedpted by openxlsx::addStyle()
 #'
 #' @return nothing
 #' @export
 #'
-formatCells <- function(onesheet, line, col , style = NULL, wb = NULL)
+formatCells <- function(onesheet, line, col , style = NULL, wb = NULL, ...)
 {
   
   if (is.character(col)){
@@ -259,7 +240,7 @@ formatCells <- function(onesheet, line, col , style = NULL, wb = NULL)
   }
   if (is.null(wb)) wb <- epixlsx_env$report
     if (! is.null(style)) {
-    openxlsx::addStyle(wb, onesheet, style, line, col) # LM: could we add ... in order to possibly benefit from additional arguments like createStyle?
+    openxlsx::addStyle(wb, onesheet, style, line, col, ...)
   }   
   
 }  
@@ -339,8 +320,7 @@ openSheet <- function(sheetname, wb = NULL)  {
     } 
   }
   
-  # sheets <- openxlsx::sheets(report)  # GD: names is not exported ??
-  sheets <- names(report) # LM: Replaced openxlsx::sheets with base::names as this function is deprecated  
+  sheets <- names(report)  
   if ( !(sheetname %in% sheets)) {
      warning("Sheet ", sheetname, " doesn't exist in workbook")
      sheetname <- NULL 
@@ -419,55 +399,4 @@ saveXlsx <- function(filename="",wb=NULL)  {
 }
 
 
-
-# openxlsx ----------------------------------------------------------------
-# 
-# library(openxlsx)
-# boldHeader <- createStyle(textDecoration = 'bold') # Makes first row bold
-# wb <- loadWorkbook('Tables.xlsx')
-# 
-# if (!('Supplemental Table 1' %in% names(wb))) addWorksheet(wb, 'Supplemental Table 1')
-# writeData(wb, 'Supplemental Table 1', results, headerStyle = boldHeader)
-# setColWidths(wb, 'Supplemental Table 1', cols = 1:ncol(results), widths = 'auto')
-# saveWorkbook(wb, 'Tables.xlsx', overwrite = T)
-# 
-# library(openxlsx)
-# write.xlsx(iris, file = "writeXLSX1.xlsx")
-# 
-# # write one table per sheet  name = table
-# l <- list(IRIS = iris, MTCARS = mtcars)
-# # write.xlsx return the workbook 
-# wb <-  write.xlsx(l, file = "writeXLSX2.xlsx")
-# # then we can modify it
-# setColWidths(wb, sheet = 1, cols = 1:5, widths = 20)
-# # and we can save it 
-# saveWorkbook(wb, "writeXLSX2.xlsx", overwrite = TRUE)
-# 
-# # we can create a workbook 
-# wb <- createWorkbook()
-# addWorksheet(wb, sheetName = "First Sheet")
-# # write data to sheet 1
-# writeData(wb, 1, x = "Iris dataset group means", startCol = "AA", startRow = 2)
-# writeDataTable(wb, sheet = 1, x = mtcars, colNames = TRUE, rowNames = TRUE, tableStyle = "TableStyleLight9")
-# # writeData to sheet 2
-# addWorksheet(wb, sheetName = "Second Sheet")
-# writeData(wb, 2, x = "Iris dataset group means", startCol = 2, startRow = 2)
-# means <- aggregate(x = iris[, -5], by = list(iris$Species), FUN = mean)
-# writeData(wb, 2, x = means, startCol = "B", startRow = 3)
-# writeData(wb, 2, x = c(1,2,3), startCol = "B", startRow = 12)
-# saveWorkbook(wb, "basics.xlsx", overwrite = TRUE)  ## save to working directory
-# 
-# # we can load a workbook
-# wb <- loadWorkbook(system.file("extdata", "readTest.xlsx", package = "openxlsx"))
-# # or just read excel into a data.frame
-# df3 <- read.xlsx(wb, sheet = 2, colNames = TRUE)
-# 
-# # or just some data 
-# wb <- loadWorkbook(system.file("extdata", "readTest.xlsx", package = "openxlsx"))
-# df3 <- read.xlsx(wb,
-#                  sheet = 2, skipEmptyRows = FALSE,
-#                  cols = c(1, 4), rows = c(1, 3, 4)
-# )
-# 
-# wb <- loadWorkbook("datasources.xlsx")
-# 
+# END of SCRIPT  ---------------------------------------------------------- 

@@ -22,7 +22,6 @@ Previous defined path
 Set a named path to avoid absolute path in R scripts
 }
 \examples{
-
 setPath("SOURCES","c:/dev/Rsources", makedir = "Never")
 getPath("SOURCES")
 

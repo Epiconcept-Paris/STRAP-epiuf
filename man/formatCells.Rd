@@ -4,7 +4,7 @@
 \alias{formatCells}
 \title{formatCells}
 \usage{
-formatCells(onesheet, line, col, style = NULL, wb = NULL)
+formatCells(onesheet, line, col, style = NULL, wb = NULL, ...)
 }
 \arguments{
 \item{onesheet}{A sheet object from xlsx package}
@@ -16,6 +16,8 @@ formatCells(onesheet, line, col, style = NULL, wb = NULL)
 \item{style}{A style created by createXlsxStyle}
 
 \item{wb}{An optional wb if not already opened}
+
+\item{...}{any additional style accedpted by openxlsx::addStyle()}
 }
 \value{
 nothing

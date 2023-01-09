@@ -6,27 +6,13 @@
 
 ## New features
 
--   In `fillCells()`, added the possibility to add colors.
+-   In `fillCells()`, added the possibility to add colors 
+with three new arguments: `style`, `styleRowsIndex` and `styleColsIndex`.
 
-```{=html}
-<!-- -->
-```
-    # Creating an empty workbook
-    wb <- openxlsx::createWorkbook()
+## Minor bug fixes
 
-    # Creating a new sheet
-    openxlsx::addWorksheet(wb, sheetName = "First Sheet")
+-   `setPath()`
 
-    # Writing a data frame in the workbook using a style to apply for a set of rows and columns
-    alertStyle <- createXlsxStyle(textDecoration = "Bold", fontColour = "red")
-    fillCells(wb = wb, 
-              onesheet = "First Sheet", 
-              line = 7, 
-              col = 2, 
-              iris, 
-              style = alertStyle, 
-              styleRowsIndex = which(iris$Sepal.Length<5),
-              styleColsIndex = 1:4) 
 
 # epiuf 0.4.0.0 (26-09-2022)
 

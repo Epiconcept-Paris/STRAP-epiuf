@@ -120,7 +120,6 @@ fileName <- function(text) {
 #' @export
 #'
 #' @examples
-#' 
 #' setPath("SOURCES","c:/dev/Rsources", makedir = "Never")
 #' getPath("SOURCES")
 #' 
@@ -142,8 +141,12 @@ setPath <-  function(pathname, path, makedir = c("Ask","Force","Never")) {
     }
     , error = function(c) { }
   )
-  if (missing(path)) stop("path argument is missing with no default for setPath")
-  if (missing(makedir)) { #LM: added to remove an annoying warning
+  if (missing(path)) stop("setPath: path argument is missing with no default for setPath")
+  if (missing(makedir)) {
+    makedir <- "Ask"
+  }
+  if (!(makedir %in% c("Ask","Force","Never"))) {
+    warning("setPath: ", makedir, " is not a valid option for 'makedir' argument. Please check help.")
     makedir <- "Ask"
   }
   if ( ! (path == "" | dir.exists(path)) ) {
@@ -154,10 +157,10 @@ setPath <-  function(pathname, path, makedir = c("Ask","Force","Never")) {
           result <- epiuf::yesno(message)
       }
       if (makedir == "Force") result = TRUE
-      if (!is.na(result) & result == TRUE) { #LM: adding check for NA
-          dir.create(path, recursive = TRUE) #LM: recursive added in order to allow subfolders
+      if (!is.na(result) & result == TRUE) {
+          dir.create(path, recursive = TRUE)
       }
-    } else warning(path, " doesn't exist as directory")
+    } else warning("setPath: ", path, " doesn't exist as directory")
   } 
 
   invisible(epiuf::setEpiOption(paste0("PATH_", s_op), path))
