@@ -89,6 +89,27 @@ abrvMonth <- function(date){
   date
 }
 
+#' Month 
+#'
+#' @param date  A date Value
+#'
+#' @return The month of the date in numeric
+#' @export
+#'
+#' @examples
+#' Month(Sys.Date())
+Month <- function(date){
+  
+  
+  # if variable is not date, set to date.  
+  # if (class(date)!="Date"){
+  #   date <- validDate(date)
+  # }
+  
+  # Use base code to extract month from date  
+  date <- as.numeric(format(date, format="%m"))
+  date
+}
 
 #' isoWeek
 #'
