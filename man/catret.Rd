@@ -13,7 +13,7 @@ catret(...)
 nothing
 }
 \description{
-is a wrapper for cat(...,"newline").
+catret is a wrapper for cat(...,"newline").
 
 catret concatenate all provided entry and
 output the result to the console, then out a carriage return to make any further cat

@@ -116,7 +116,7 @@ listEpiOption <- function(pattern="*") {
 setEpiOption <- function(EpiOption, value) {
   # we get op as symbol
   s_op <- deparse(substitute(EpiOption))
-  # if op is a variable wich contain char, we use content of op
+  # if op is a variable which contains char, we use content of op
   ok <- FALSE
   tryCatch(
     if (is.character(EpiOption)) {

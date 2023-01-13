@@ -120,12 +120,19 @@ fileName <- function(text) {
 #' @export
 #'
 #' @examples
+#' setPath("SOURCES","c:/dev/Rsources", makedir = "Never")
+#' getPath("SOURCES")
 #' 
-#' setPath("sources","c:/dev/Rsources", makedir = "Never")
+#' # Setting a name/keyword associated to a specific path
+#' setPath(pathname = "DATA", 
+#'         path = "./data", # Note './' for relative paths
+#'         makedir = "Never")
+#' # Checking the path is properly set
+#' getPath("DATA")
 #' 
-setPath <-  function(pathname,path,makedir = c("Ask","Force","Never")) {
+setPath <-  function(pathname, path, makedir = c("Ask","Force","Never")) {
   s_op <- deparse(substitute(pathname))
-  # if pathname is a variable wich contain char, we use content of pathname
+  # if pathname is a variable which contain char, we use content of pathname
   ok <- FALSE
   tryCatch(
     if (is.character(pathname)) {
@@ -134,22 +141,31 @@ setPath <-  function(pathname,path,makedir = c("Ask","Force","Never")) {
     }
     , error = function(c) { }
   )
-  if (missing(path)) stop("path argument is missing with no default for setPath")
-  if ( ! ( path =="" | dir.exists(path))  ) {
+  if (missing(path)) stop("setPath: path argument is missing with no default for setPath")
+  if (missing(makedir)) {
+    makedir <- "ask"
+  }
+  # Lower cap makedir so that it is not case sensitive
+  makedir <- tolower(makedir)
+  if (!(makedir %in% c("ask","force","never"))) {
+    warning("setPath: ", makedir, " is not a valid option for 'makedir' argument. Please check help.")
+    makedir <- "ask"
+  }
+  if ( ! (path == "" | dir.exists(path)) ) {
     if (! makedir == "never") {
       result <- FALSE
-      if (makedir== "Ask") {
-          message <- paste(path,"doens't exist, do you want to create it ?")
-          result <- yesno(message)
+      if (makedir == "ask") {
+        cat(paste(path, "doens't exist."))
+        result <- epiuf::yesno("Do you want to create it ?")
       }
-      if (makedir=="Force") result = TRUE
-      if (result==TRUE) {
-          dir.create(path) 
+      if (makedir == "force") result = TRUE
+      if (!is.na(result) & result == TRUE) {
+        dir.create(path, recursive = TRUE)
       }
-    } else warning(path," doesn't exist as diretory")
+    } else warning("setPath: ", path, " doesn't exist as directory")
   } 
 
-  invisible(setEpiOption(paste0("PATH_",s_op),path))
+  invisible(epiuf::setEpiOption(paste0("PATH_", s_op), path))
 }
 
 

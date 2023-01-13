@@ -22,6 +22,21 @@ This function save the current workbook as filename
 }
 \examples{
 
-cat("to be done")
+# Creating an empty workbook
+wb <- openxlsx::createWorkbook()
+sheetname <- "First Sheet"
+openxlsx::addWorksheet(wb, sheetName = sheetname)
+
+# Writing a data frame in the workbook 
+fillCells(wb = wb, 
+          onesheet = sheetname, 
+          line = 1, 
+          col = 1, 
+          iris)
+          
+# Saving the Excel file
+\dontrun{
+saveXlsx(filename = "test.xlsx", wb = wb)
+}
 
 }
