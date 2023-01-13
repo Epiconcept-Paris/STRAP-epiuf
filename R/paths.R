@@ -143,22 +143,24 @@ setPath <-  function(pathname, path, makedir = c("Ask","Force","Never")) {
   )
   if (missing(path)) stop("setPath: path argument is missing with no default for setPath")
   if (missing(makedir)) {
-    makedir <- "Ask"
+    makedir <- "ask"
   }
-  if (!(makedir %in% c("Ask","Force","Never"))) {
+  # Lower cap makedir so that it is not case sensitive
+  makedir <- tolower(makedir)
+  if (!(makedir %in% c("ask","force","never"))) {
     warning("setPath: ", makedir, " is not a valid option for 'makedir' argument. Please check help.")
-    makedir <- "Ask"
+    makedir <- "ask"
   }
   if ( ! (path == "" | dir.exists(path)) ) {
-    if (! makedir == "Never") {
+    if (! makedir == "never") {
       result <- FALSE
-      if (makedir == "Ask") {
-          message <- paste(path,"doens't exist, do you want to create it ?")
-          result <- epiuf::yesno(message)
+      if (makedir == "ask") {
+        cat(paste(path, "doens't exist."))
+        result <- epiuf::yesno("Do you want to create it ?")
       }
-      if (makedir == "Force") result = TRUE
+      if (makedir == "force") result = TRUE
       if (!is.na(result) & result == TRUE) {
-          dir.create(path, recursive = TRUE)
+        dir.create(path, recursive = TRUE)
       }
     } else warning("setPath: ", path, " doesn't exist as directory")
   } 
