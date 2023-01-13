@@ -1,4 +1,4 @@
-# epiuf (development version)
+# epiuf 0.4.1.0 (13-01-2023)
 
 ## Minor improvements
 
@@ -8,6 +8,7 @@
 
 -   In `fillCells()`, added the possibility to add colors 
 with three new arguments: `style`, `styleRowsIndex` and `styleColsIndex`.
+-   In `setPath()`, added the possibility to create sub-folders.
 
 ## Minor bug fixes
 
