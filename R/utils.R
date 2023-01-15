@@ -1,19 +1,16 @@
 #
-# Project Name : 
-# Script Name  :
-# GitHub repo  : 
-# Summary      : 
-# Date created : 
-# Author       : 
-# Date reviewed:
-# Reviewed by  :
+# Project Name : STRAP Project
+# Script Name  : utils.R
+# GitHub repo  : https://github.com/Epiconcept-Paris/STRAP-epiuf
+# Summary      : Utilities and general functions 
+# Date created : 01/01/2022
+# Author       : Gilles DESVE
+# Date reviewed: 15/01/2023
+# Reviewed by  : Gilles DESVE
 
 # Description --------------------------------------------------------------
-# 
-# 
-# 
-# 
-# 
+#' Set of utility functions used widely in the epiuf package 
+#' 
 
 
 # Changes Log --------------------------------------------------------------
@@ -22,29 +19,37 @@
 # START of SCRIPT  --------------------------------------------------------
 
 
-#' camel
-#' To transform snake_case into CamelCase 
+#' Transform snake_case into CamelCase
 #' 
-#' @param x a string or a sring list or a vector of strings 
+#' Camel can be used to transform snake_case notation into a CamelCase notation.
+#' You can use it on string, string list or string vector. This could be usefull to transform
+#' all columns name into a standard notation    
+#' 
+#' @param x : A string containing "snake_case" or a string list or a vector of strings 
 #'
-#' @return a CamelCase value or list 
+#' @return x with any occurrence transformed in to a CamelCase  
 #' @export  
 #'
 #' @examples
 #' test <- "snake_case"
 #' camel(test)
 #' 
-camel <- function(x){         
+camel <- function(x){        
   capit <- function(x) paste0(toupper(substring(x, 1, 1)), substring(x, 2, nchar(x)))
   sapply(strsplit(x, "_"), function(x) paste(capit(x), collapse=""))
 }
 
-#' cleanNames
+#' Clean names by removing special char and accented
+#' 
+#' cleanNames can be used to obtain valid column names by removing non ascii char. 
+#' All invalid characters would be replaced by chr, an optional 
+#' character, if provided otherwise they are removed 
+#' In the same time, all accented character are replaced by a simple equivalent char 
 #'
-#' @param name A string to clean by removing non ascii char and accents
+#' @param name A string to clean by removing non ascii char 
 #' @param chr A chr used to replace non ascii character  
 #'
-#' @return the cleaned string
+#' @return the cleaned string 
 #' @export
 #'
 #' @examples
@@ -56,7 +61,7 @@ cleanNames <-  function(name,chr="") {
   # if you want to keep only non accent alpha numeric use : [^a-zA-Z0-9] or [^[:alnum:]]
   # here we use iconv to transform accent char to simple ascii 
   
-  name <- iconv(name, from="", to="ASCII//TRANSLIT") # will replace  accentued with ascii 
+  name <- iconv(name, from="", to="ASCII//TRANSLIT") # will replace  accented with ascii 
   gsub("[[:punct:]]", chr, name)  # no libraries needed
   
 }
@@ -67,12 +72,19 @@ cleanNames <-  function(name,chr="") {
 
 
 #' Change the name of a data.frame column
+#' 
+#' Simple function to rename a column in a data.frame
+#' The rename is done "in place", no need to reassign the data.frame 
+#' A message is printed to confirm the change
+#' 
+#' Data.frame and column names are passed to the function as symbols (without "")
+#' 
 #'
-#' @param data Name of the column/variable to rename
+#' @param data A data frame passed to the function 
 #' @param oldname Name of the column/variable to rename
 #' @param newname New name to apply
 #'
-#' @return Message to confirm the change
+#' @return Nothing, the passed data.frame is modified directly
 #' @export
 #'
 #' @examples
@@ -102,34 +114,39 @@ rename <- function(data, oldname, newname) {
 
 
 
-
-
-
-#' @title catret
-#'        
-#' @description 
-#'    catret is a wrapper for cat(...,"newline"). 
-#'    
-#'    catret concatenate all provided entry and 
-#'    output the result to the console, then out a carriage return to make any further cat
-#'    function to start on the next line.
+#' Output to the console and go next line
+#'
+#'
+#' catret is a wrapper for cat(...,"newline"). 
+#'  
+#' catret concatenate all provided entry and 
+#' output the result to the console, then out a carriage return to make any further cat
+#' function to start on the next line.
 #'     
-#' @param ... list of values to concatenate for console output
+#' @param ... list of values to be concatenated for console output
 #'
 #' @return  nothing
 #' @export
 #'
 #' @examples
-#' catret("test")
+#' {cat("un ");catret("test");cat("second")}
+#' 
 #' 
 catret  <- function(...) {
   cat(...,"\n")
 }
 
-#' charCount
-#' count number of specific char into a text using reg expr
+
+#' count how many char 
+#'
+#' Count the number of a specified char into a text using reg expr
+#' If pattern is a single character or a suite of character, then charcount return
+#' the number of occurrence of pattern into "tosearch" 
 #' 
-#' @param pattern "The character or pattern to searh
+#' If pattern is a regular expression, charCount return the number of time this regular 
+#' expression is verified into "tosearch" string 
+#' 
+#' @param pattern "The character or pattern to search for
 #' @param stosearch The string to search in 
 #'
 #' @return number of match
@@ -137,6 +154,9 @@ catret  <- function(...) {
 #'
 #' @examples
 #' nb <- charCount("/", "test/essai/try")
+#' nb <- charCount("^t", "test/essai/try")
+#' nb <- charCount(".t", "test/essai/try")
+#' 
 #' 
 charCount <- function(pattern, stosearch) {
   # pattern <- glob2rx(pattern)
@@ -146,18 +166,22 @@ charCount <- function(pattern, stosearch) {
 }
 
 
-#' right
+
+#' Extract x right characters of a string
 #'
-#' Extract x rigth characters from a text
+#' This function allow to extract the x last character of a string 
+#' (Character are counted from the end)
+#' It could be used to extract the last part of a string 
+#' To retrieve extension of a file use \code{fileExt} instead
 #'
 #' @param text Text to extract from
-#' @param num_char Number of char to extract from rigth
+#' @param num_char Number of char to extract from right
 #'
 #' @return  \code{num_char} extracted characters from right side
 #' @export
 #' @examples
-#' 
-#' right("dummy_test",4)
+#' right("dummy_example",7)
+#' right"data_completed_2022",4)
 #' 
 #'
 right = function (text, num_char) {
@@ -165,7 +189,10 @@ right = function (text, num_char) {
 }
 
 
-#' Left
+#' Extract x left character of a string
+#' 
+#' This function allows to extract the x first character of a string
+#' (Character are counted from the beginning)
 #'
 #' @param text Text to extract from 
 #' @param num_char number of char to extract
@@ -174,13 +201,16 @@ right = function (text, num_char) {
 #' @export
 #'
 #' @examples
-#' left("dummy_test",4)
+#' left("dummy_test",5)
 #' 
 left = function (text, num_char) {
   substr(text, 1, num_char)
 }
 
-#' mid
+#' Extract the midlle of a string
+#' 
+#' Extract \code{num_char} character of a string, starting from the \code{start_num}
+#' character   
 #'
 #' @param text Text to extract from 
 #' @param start_num start of extraction
@@ -190,13 +220,20 @@ left = function (text, num_char) {
 #' @export
 #'
 #' @examples
-#' mid("dummy_test",7,4)
+#' mid("dummy_test_2002",7,4)
 #' 
 mid = function(text, start_num, num_char) {
   substr(text, start_num, start_num + num_char - 1)
 }
 
-#' pos
+#' Retrieve the position of a char in a string
+#' 
+#' pos is used to find the position of a specific char or pattern into a string
+#' If pattern is a single character, the first position of this character in the searched 
+#' string is returned 
+#' If pattern is a regular expression, the result is 0 if the expression is not verified
+#' or the position of the first pattern in the string \code{stosearch} 
+#' 
 #'
 #' @param pattern A pattern to search in stosearch
 #' @param stosearch A character string 
@@ -209,7 +246,7 @@ mid = function(text, start_num, num_char) {
 #' 
 pos <- function(pattern, stosearch) {
   r <- regexpr(pattern, stosearch)
-  r <- ifelse(r < 0,0,r)
+  ifelse(r < 0,0,r)
 }
 
 #' replichar

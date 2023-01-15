@@ -2,24 +2,27 @@
 % Please edit documentation in R/utils.R
 \name{right}
 \alias{right}
-\title{right}
+\title{Extract x right characters of a string}
 \usage{
 right(text, num_char)
 }
 \arguments{
 \item{text}{Text to extract from}
 
-\item{num_char}{Number of char to extract from rigth}
+\item{num_char}{Number of char to extract from right}
 }
 \value{
 \code{num_char} extracted characters from right side
 }
 \description{
-Extract x rigth characters from a text
+This function allow to extract the x last character of a string
+(Character are counted from the end)
+It could be used to extract the last part of a string
+To retrieve extension of a file use \code{fileExt} instead
 }
 \examples{
-
-right("dummy_test",4)
+right("dummy_example",7)
+right"data_completed_2022",4)
 
 
 }

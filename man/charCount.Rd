@@ -2,13 +2,12 @@
 % Please edit documentation in R/utils.R
 \name{charCount}
 \alias{charCount}
-\title{charCount
-count number of specific char into a text using reg expr}
+\title{count how many char}
 \usage{
 charCount(pattern, stosearch)
 }
 \arguments{
-\item{pattern}{"The character or pattern to searh}
+\item{pattern}{"The character or pattern to search for}
 
 \item{stosearch}{The string to search in}
 }
@@ -16,10 +15,18 @@ charCount(pattern, stosearch)
 number of match
 }
 \description{
-charCount
-count number of specific char into a text using reg expr
+Count the number of a specified char into a text using reg expr
+If pattern is a single character or a suite of character, then charcount return
+the number of occurrence of pattern into "tosearch"
+}
+\details{
+If pattern is a regular expression, charCount return the number of time this regular
+expression is verified into "tosearch" string
 }
 \examples{
 nb <- charCount("/", "test/essai/try")
+nb <- charCount("^t", "test/essai/try")
+nb <- charCount(".t", "test/essai/try")
+
 
 }

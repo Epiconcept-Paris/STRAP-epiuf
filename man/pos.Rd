@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{pos}
 \alias{pos}
-\title{pos}
+\title{Retrieve the position of a char in a string}
 \usage{
 pos(pattern, stosearch)
 }
@@ -15,7 +15,11 @@ pos(pattern, stosearch)
 Position of pattern in stosearch
 }
 \description{
-pos
+pos is used to find the position of a specific char or pattern into a string
+If pattern is a single character, the first position of this character in the searched
+string is returned
+If pattern is a regular expression, the result is 0 if the expression is not verified
+or the position of the first pattern in the string \code{stosearch}
 }
 \examples{
 pos("/","test/string")

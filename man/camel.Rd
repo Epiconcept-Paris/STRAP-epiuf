@@ -2,20 +2,23 @@
 % Please edit documentation in R/utils.R
 \name{camel}
 \alias{camel}
-\title{camel
-To transform snake_case into CamelCase}
+\title{Set of utility functions used widely in the epiuf package}
 \usage{
 camel(x)
 }
 \arguments{
-\item{x}{a string or a sring list or a vector of strings}
+\item{x}{: A string containing "snake_case" or a string list or a vector of strings}
 }
 \value{
-a CamelCase value or list
+x with any occurrence transformed in to a CamelCase
 }
 \description{
-camel
-To transform snake_case into CamelCase
+Transform snake_case into CamelCase
+}
+\details{
+Camel can be used to transform snake_case notation into a CamelCase notation.
+You can use it on string, string list or string vector. This could be usefull to transform
+all columns name into a standard notation
 }
 \examples{
 test <- "snake_case"
