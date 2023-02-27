@@ -12,7 +12,7 @@
 #' @param var2 The second variable (the columns)
 #' @param missing Boolean, whether to show counts missing data. Default is True
 #' @param extra What extra info you want. Currently default is 'Total' and output has row and column totals listed. There is space in the function for more kinds of extras to be added
-#
+
 crosstab <- function(data, var1, var2, missing=TRUE, extra="Total"){
   
   ctab <- data.frame(rbind(table(data[[var1]], data[[var2]], exclude=missing)))
