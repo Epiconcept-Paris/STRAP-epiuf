@@ -13,7 +13,7 @@ crosstab(data, var1, var2, missing = TRUE, extra = "Total")
 
 \item{var2}{The second variable (the columns)}
 
-\item{missing}{Boolean, whether to show counts missing data. Default is True}
+\item{missing}{takes auguments 'no' to not show missing and 'always' to show missing (as for table())}
 
 \item{extra}{What extra info you want. Currently default is 'Total' and output has row and column totals listed. There is space in the function for more kinds of extras to be added}
 }

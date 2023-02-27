@@ -10,20 +10,20 @@
 #' @param data The data set to look at
 #' @param var1 The first variable (the rows)
 #' @param var2 The second variable (the columns)
-#' @param missing Boolean, whether to show counts missing data. Default is True
+#' @param missing takes auguments 'no' to not show missing and 'always' to show missing (as for table())
 #' @param extra What extra info you want. Currently default is 'Total' and output has row and column totals listed. There is space in the function for more kinds of extras to be added
-#
+
 crosstab <- function(data, var1, var2, missing=TRUE, extra="Total"){
-  
-  ctab <- data.frame(rbind(table(data[[var1]], data[[var2]], exclude=missing)))
+  ctab <- data.frame(rbind(table(data[[var1]], data[[var2]], useNA=missing)))
   ncolum <- ncol(ctab)
   
   if(extra=="Total"){
-  ctab$total <- rowSums(ctab[,1:ncolum])
-  ctab <- rbind(ctab,c(colSums(ctab[,1:ncol(ctab[1:(ncolum+1)])]),""))
+    ctab$total <- rowSums(ctab[,1:ncolum])
+    ctab <- rbind(ctab,c(colSums(ctab[,1:ncol(ctab[1:(ncolum+1)])])))
   }
-
-  mynames <- c("No", "Yes", "Missing")
+  
+  mynames <- c("No", "Yes")
+  if(missing=="always"){mynames<- c(mynames, "Missing")}
   
 colnames(ctab) <- c(mynames[1:ncolum], extra)
 rownames(ctab) <- c(mynames[1:ncolum], extra)
