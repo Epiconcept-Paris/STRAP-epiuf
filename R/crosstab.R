@@ -11,21 +11,36 @@
 #' @param var1 The first variable (the rows)
 #' @param var2 The second variable (the columns)
 #' @param missing takes auguments 'no' to not show missing and 'always' to show missing (as for table())
-#' @param extra What extra info you want. Currently default is 'Total' and output has row and column totals listed. There is space in the function for more kinds of extras to be added
+#' @param decimals state how many decimal points you want to list for the output of any calculations. Default is 1
+#' @param extra What extra info you want. Current options "None", "Total" and "Percent". Default is "None". Feel free to add your own!
 
-crosstab <- function(data, var1, var2, missing=TRUE, extra="Total"){
+crosstab <- function(data, var1, var2, missing="always", extra="None", decimals=1){
+  
   ctab <- data.frame(rbind(table(data[[var1]], data[[var2]], useNA=missing)))
   ncolum <- ncol(ctab)
+  nrows <- nrow(ctab)
+  total <- nrow(data)
   
-  if(extra=="Total"){
+  if(extra=="Total"|extra=="Percent"){
     ctab$total <- rowSums(ctab[,1:ncolum])
     ctab <- rbind(ctab,c(colSums(ctab[,1:ncol(ctab[1:(ncolum+1)])])))
+    extraname <- extra
   }
+  
+  if(extra=="Percent"){
+    ctab$percent <- round(ctab$total/total*100,decimals)
+    ctab <- rbind(ctab, sapply(ctab[nrows+1,], function(x) round(x/total*100,decimals)))
+    ctab$total <- NULL
+    ctab<-ctab[-(nrows+1),]
+  }
+  
+  if(extra=="None"){extraname <- NULL}
   
   mynames <- c("No", "Yes")
   if(missing=="always"){mynames<- c(mynames, "Missing")}
   
-colnames(ctab) <- c(mynames[1:ncolum], extra)
-rownames(ctab) <- c(mynames[1:ncolum], extra)
-return(ctab)
+  
+  colnames(ctab) <- c(mynames[1:ncolum], extraname)
+  rownames(ctab) <- c(mynames[1:ncolum], extraname)
+  return(ctab)
 }

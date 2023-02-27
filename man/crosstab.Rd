@@ -4,7 +4,7 @@
 \alias{crosstab}
 \title{crosstab - outputs a cross table in format data frame}
 \usage{
-crosstab(data, var1, var2, missing = TRUE, extra = "Total")
+crosstab(data, var1, var2, missing = "always", extra = "None", decimals = 1)
 }
 \arguments{
 \item{data}{The data set to look at}
@@ -15,9 +15,10 @@ crosstab(data, var1, var2, missing = TRUE, extra = "Total")
 
 \item{missing}{takes auguments 'no' to not show missing and 'always' to show missing (as for table())}
 
-\item{extra}{What extra info you want. Currently default is 'Total' and output has row and column totals listed. There is space in the function for more kinds of extras to be added}
-}
+\item{extra}{What extra info you want. Current options "None", "Total" and "Percent". Default is "None". Feel free to add your own!}
 
+\item{decimals}{state how many decimal points you want to list for the output of any calculations. Default is 1}
+}
 \description{
 crosstab - outputs a cross table in format data frame
 }
