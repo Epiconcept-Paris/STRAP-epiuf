@@ -17,6 +17,7 @@ crosstab(data, var1, var2, missing = TRUE, extra = "Total")
 
 \item{extra}{What extra info you want. Currently default is 'Total' and output has row and column totals listed. There is space in the function for more kinds of extras to be added}
 }
+
 \description{
 crosstab - outputs a cross table in format data frame
 }
