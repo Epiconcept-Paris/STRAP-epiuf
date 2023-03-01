@@ -9,9 +9,11 @@ crosstab(data, var1, var2, missing = "always", extra = "None", decimals = 1)
 \arguments{
 \item{data}{The data set to look at}
 
-\item{var1}{The first variable (the rows)}
+\item{var1}{Character string, colomn name of the first variable (the rows).
+Must be a 0/1 (numeric) or No/Yes (character) categorical variable (factors not supported yet).}
 
-\item{var2}{The second variable (the columns)}
+\item{var2}{Character string, colomn name of the second variable (the columns).
+Must be a 0/1 (numeric) or No/Yes (character) categorical variable (factors not supported yet).}
 
 \item{missing}{takes auguments 'no' to not show missing and 'always' to show missing (as for table())}
 
@@ -21,4 +23,26 @@ crosstab(data, var1, var2, missing = "always", extra = "None", decimals = 1)
 }
 \description{
 crosstab - outputs a cross table in format data frame
+}
+\examples{
+data <- data.frame(id = 1:10,
+                   cases = c(rep(1,3), rep(0,7)),
+                   vacc = sample(c(0,1), replace = TRUE, size = 10))
+table(data$cases, data$vacc, useNA = "always")
+crosstab(data, 
+         var1 = "cases", 
+         var2 = "vacc")
+crosstab(data, 
+         var1 = "cases", 
+         var2 = "vacc", 
+         missing = "no")
+crosstab(data, 
+         var1 = "cases", 
+         var2 = "vacc", 
+         extra = "Total")
+crosstab(data, 
+         var1 = "cases", 
+         var2 = "vacc", 
+         extra = "Percent")
+
 }

@@ -8,11 +8,36 @@
 #' crosstab - outputs a cross table in format data frame
 #'
 #' @param data The data set to look at
-#' @param var1 The first variable (the rows)
-#' @param var2 The second variable (the columns)
+#' @param var1 Character string, colomn name of the first variable (the rows). 
+#' Must be a 0/1 (numeric) or No/Yes (character) categorical variable (factors not supported yet).
+#' @param var2 Character string, colomn name of the second variable (the columns).
+#' Must be a 0/1 (numeric) or No/Yes (character) categorical variable (factors not supported yet).
 #' @param missing takes auguments 'no' to not show missing and 'always' to show missing (as for table())
 #' @param decimals state how many decimal points you want to list for the output of any calculations. Default is 1
 #' @param extra What extra info you want. Current options "None", "Total" and "Percent". Default is "None". Feel free to add your own!
+#' 
+#' @examples 
+#' data <- data.frame(id = 1:10,
+#'                    cases = c(rep(1,3), rep(0,7)),
+#'                    vacc = sample(c(0,1), replace = TRUE, size = 10))
+#' table(data$cases, data$vacc, useNA = "always")
+#' crosstab(data, 
+#'          var1 = "cases", 
+#'          var2 = "vacc")
+#' crosstab(data, 
+#'          var1 = "cases", 
+#'          var2 = "vacc", 
+#'          missing = "no")
+#' crosstab(data, 
+#'          var1 = "cases", 
+#'          var2 = "vacc", 
+#'          extra = "Total")
+#' crosstab(data, 
+#'          var1 = "cases", 
+#'          var2 = "vacc", 
+#'          extra = "Percent")
+#' 
+#' @export
 
 crosstab <- function(data, var1, var2, missing="always", extra="None", decimals=1){
   
@@ -29,7 +54,9 @@ crosstab <- function(data, var1, var2, missing="always", extra="None", decimals=
   
   if(extra=="Percent"){
     ctab$percent <- round(ctab$total/total*100,decimals)
-    ctab <- rbind(ctab, sapply(ctab[nrows+1,], function(x) round(x/total*100,decimals)))
+    # PR_LMC Removing 100% percent from the sapply to avoid summing it up 
+    # ctab <- rbind(ctab, sapply(ctab[nrows+1,], function(x) round(x/total*100,decimals)))
+    ctab <- rbind(ctab,c(sapply(ctab[nrows+1,-(ncolum+2)], function(x) round(x/total*100,decimals)), 100))
     ctab$total <- NULL
     ctab<-ctab[-(nrows+1),]
   }
