@@ -181,7 +181,7 @@ charCount <- function(pattern, stosearch) {
 #' @export
 #' @examples
 #' right("dummy_example",7)
-#' right"data_completed_2022",4)
+#' right("data_completed_2022",4)
 #' 
 #'
 right = function (text, num_char) {

@@ -22,7 +22,7 @@ To retrieve extension of a file use \code{fileExt} instead
 }
 \examples{
 right("dummy_example",7)
-right"data_completed_2022",4)
+right("data_completed_2022",4)
 
 
 }
