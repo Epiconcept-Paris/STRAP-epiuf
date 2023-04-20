@@ -363,8 +363,9 @@ bold <- function(...) {
   if (is.null(knitr::opts_knit$get('rmarkdown.pandoc.to'))) {
     cat("\033[1m",...,"\033[0m",sep="")
   } else if (knitr::is_html_output()) {
-    r <-  paste0(...)
-    sprintf('<span style="font-weight:bold;">%s</span>', r)
+    r <-  paste0('<span style="font-weight:bold;">',...,'</span>')
+    cat(mark(r))
+    
   }      
 }
 
@@ -381,8 +382,9 @@ italic <- function(...) {
   if (is.null(knitr::opts_knit$get('rmarkdown.pandoc.to'))) {
     cat("\033[3m",...,"\033[0m",sep="")
   } else if (knitr::is_html_output()) {
-    r <-  paste0(...)
-    sprintf('<span style="font-style:italic;">%s</span>', r)
+    r <-  paste0('<span style="font-style:italic;">',...,'</span>')
+    cat(mark(r))
+    
   }      
   
 }
@@ -393,6 +395,7 @@ italic <- function(...) {
 #'
 #' @return nothing
 #' @export
+#' 
 #'
 #' @examples
 #' red("text in red")
@@ -400,8 +403,8 @@ red <- function(...) {
   if (is.null(knitr::opts_knit$get('rmarkdown.pandoc.to'))) {
     cat("\033[31m",...,"\033[0m",sep="")
   } else if (knitr::is_html_output()) {
-    r <-  paste0(...)
-    sprintf('<span style="color:red;">%s</span>', r)
+    r <-  paste0('<span style="color:red;">',...,'</span>')
+    cat(mark(r))
   }  
 }
 
@@ -412,6 +415,7 @@ red <- function(...) {
 #'
 #' @return nothing
 #' @export
+#' @import markdown
 #'
 #' @examples
 #' blue("text in blue")
@@ -419,8 +423,8 @@ blue <- function(...) {
   if (is.null(knitr::opts_knit$get('rmarkdown.pandoc.to'))) {
     cat("\033[34m",...,"\033[0m",sep="")
   } else if (knitr::is_html_output()) {
-    r <-  paste0(...)
-    sprintf('<span style="color:blue;">%s</span>', r)
+    r <- paste0('<span style="color:blue;">',...,'</span>')
+    cat(mark(r))
   }      
   
 }
@@ -561,11 +565,13 @@ listVar <- function(dataset,pattern,regex=FALSE) {
   names(dataset)[lvar==TRUE]
 }
 
-#' printVar
+#' printVar  
+#' 
+#' Function used to quickly print/list a serie of variable (similar names like vaccdate, vacctype, vaccbrand ) 
 #'
-#' @param dataset A data.frame 
+#' @param dataset A data.frame containing the variable to be listed 
 #' @param pattern A pattern for varname in the dataframe see \code{regex}  
-#' @param regex Should the pattern be used as regex expression or use classical "joker" ? and * 
+#' @param regex Should the pattern be used as regex expression or use classical "joker" ? and * , the default 
 #'
 #' @return  A data frame of 10 rows with selected columns 
 #' @export
@@ -575,8 +581,9 @@ listVar <- function(dataset,pattern,regex=FALSE) {
 #'                    vaccage = c(34,45, 50,22 ),
 #'                    symp = c("Y","Y","N","N"),
 #'                    vaccboost=c("N","Y","N","Y"))
-#'printVar(data,"symp")
-#'printVar(data,"vac*")                    
+#'printVar(data,"symp") 
+#'printVar(data,"vac*") 
+#'                   
 printVar <- function(dataset,pattern,regex=FALSE) {
   lvar <- listVar(dataset,pattern,regex)
   ldata <- as.data.frame(dataset[,lvar])
