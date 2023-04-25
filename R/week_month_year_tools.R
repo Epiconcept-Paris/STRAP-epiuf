@@ -186,6 +186,33 @@ countIsoWeeks <- function (date = date, origin = "2020-10-05"){
   }
 }
 
+
+
+#' lastDateMonth
+#'
+#' @param month abbreviated month+year (eg. dec2022)
+#' @return The last date in that month in date format
+#' @export
+#'
+#' @examples
+#' lastDateMonth("dec2022")
+lastDateMonth <- function(month){
+  # separate year and month
+  # get date for 1st of month
+  d <- as.Date(paste0("01",month), format="%d%b%Y")
+  # Get year
+  y <- calYear(d)
+  
+  # find date for 1st of next month
+  m2 <- Month(as.Date(d+31)) # retrieve next month
+  if(m2==1){y = y+1} # if next month is in next year, edit year
+  d2 <- as.Date(paste0("01-", m2,"-", y), format = "%d-%m-%Y") # get first date for the year
+  
+  lastday <- d2-1 # get last day of the given month
+  
+  return(lastday)
+  
+}
 # END of SCRIPT  --------------------------------------------------------
 
 
