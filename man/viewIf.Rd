@@ -11,7 +11,7 @@ viewIf(data, ..., cond = NULL, nline = 10)
 
 \item{...}{variable name(s) to include in view}
 
-\item{cond}{A logical condition to select records}
+\item{cond}{A logical condition to select records which will be evaluated into data, given as character string}
 
 \item{nline}{Number of rows to show (default to n) If negative then number of row from the end}
 }
@@ -22,9 +22,14 @@ invisibly, the resulting selection
 List head of data.frame allowing to select column to view
 }
 \examples{
-\dontrun{
-view(data ,age,case)
-view(data, ,case, nline=5)
-view(data, age,case, nline= -10)
-}
+data <- data.frame(id = 1:10,
+                   case = c(rep(1,3), rep(0,7)),
+                   vacc = sample(c(0,1), replace = TRUE, size = 10),
+                   ill = sample(c(0,1), replace = TRUE, size = 10))
+data[8,2]<-NA                    
+viewIf(data ,case,vacc)
+viewIf(data, ,case,vacc, nline=3)
+viewIf(data,case,ill, nline= -3)
+viewIf(data,case,ill,cond="vacc==1" )
+ 
 }
