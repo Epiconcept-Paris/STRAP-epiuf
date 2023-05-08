@@ -360,6 +360,8 @@ outputtable <-
 #' @param col  "Col percentages"
 #' @param fisher TRUE by default, display the fisher exact probability.
 #' If table is larger than 2*2 then Fisher is not calculated
+#' @param total Default TRUE , display marginal total
+#' 
 #' 
 #' @return An array containing  values of \code{
 #' table : The resulting table
@@ -394,7 +396,7 @@ outputtable <-
 #'                    vacc = sample(c(0,1,2), replace = TRUE, size = 10))
 
 #'
-epitable <- function(data,out,exp,epiorder=TRUE,missing=FALSE,row=FALSE,col=FALSE,fisher=TRUE)  {
+epitable <- function(data,out,exp,epiorder=TRUE,missing=FALSE,row=FALSE,col=FALSE,fisher=TRUE,total=TRUE)  {
   r <- try(class(data),TRUE)
   if ( ! inherits(r, "try-error")) {
     if ("data.frame" %in% r ) {
@@ -474,11 +476,12 @@ epitable <- function(data,out,exp,epiorder=TRUE,missing=FALSE,row=FALSE,col=FALS
       propcol <- rbind(propcol,100)
     }
     
+    if(total) {
     m <- margin.table(r,1)
     r <- cbind(r,Total = m)
     m <- margin.table(r,2)
     r <- rbind(r,Total = m)
-    
+    }
     # must be done after all structure changes
     names(dimnames(r))  <- c(exp.name,out.name)
     
@@ -486,7 +489,7 @@ epitable <- function(data,out,exp,epiorder=TRUE,missing=FALSE,row=FALSE,col=FALS
     
     title <- paste("Tabulation of",out.name,"by",exp.name)
     
-    outputtable(r, deci=1, totcol=TRUE, title=title, rowperc = proprow , colperc = propcol )
+    outputtable(r, deci=1, totcol=total, totrow = total, title=title, rowperc = proprow , colperc = propcol )
     
     # construct the return list
     result <- list()

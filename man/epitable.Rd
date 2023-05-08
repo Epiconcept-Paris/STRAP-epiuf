@@ -12,7 +12,8 @@ epitable(
   missing = FALSE,
   row = FALSE,
   col = FALSE,
-  fisher = TRUE
+  fisher = TRUE,
+  total = TRUE
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ A summary output of number of missing values is added at the end}
 
 \item{fisher}{TRUE by default, display the fisher exact probability.
 If table is larger than 2*2 then Fisher is not calculated}
+
+\item{total}{Default TRUE , display marginal total}
 }
 \value{
 An array containing  values of \code{
