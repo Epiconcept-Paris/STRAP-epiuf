@@ -356,16 +356,17 @@ confirm <- function(message="") {
 #'
 #' @return nothing
 #' @export
+#' @import markdown
 #'
 #' @examples
 #' bold("text in bold")
 bold <- function(...) {
-  if (is.null(knitr::opts_knit$get('rmarkdown.pandoc.to'))) {
+  if (is.null(knitr::opts_knit$get('rmarkdown.pandoc.to')) & is.null(sys.call(-1))) {
     cat("\033[1m",...,"\033[0m",sep="")
   } else if (knitr::is_html_output()) {
     r <-  paste0('<span style="font-weight:bold;">',...,'</span>')
     cat(mark(r))
-  }      
+  } else {cat(...)}         
 }
 
 #' italic  
@@ -378,13 +379,12 @@ bold <- function(...) {
 #' @examples
 #' italic("text in italic")
 italic <- function(...) {
-  if (is.null(knitr::opts_knit$get('rmarkdown.pandoc.to'))) {
+  if (is.null(knitr::opts_knit$get('rmarkdown.pandoc.to')) & is.null(sys.call(-1))) {
     cat("\033[3m",...,"\033[0m",sep="")
   } else if (knitr::is_html_output()) {
     r <-  paste0('<span style="font-style:italic;">',...,'</span>')
     cat(mark(r))
-    
-  }      
+  } else { cat(...)}         
   
 }
 
@@ -399,32 +399,38 @@ italic <- function(...) {
 #' @examples
 #' red("text in red")
 red <- function(...) {
-  if (is.null(knitr::opts_knit$get('rmarkdown.pandoc.to'))) {
+  if (is.null(knitr::opts_knit$get('rmarkdown.pandoc.to')) & is.null(sys.call(-1))) {
     cat("\033[31m",...,"\033[0m",sep="")
   } else if (knitr::is_html_output()) {
     r <-  paste0('<span style="color:red;">',...,'</span>')
     cat(mark(r))
-  }  
+  } else {
+    cat(...) 
+    }     
 }
 
 
 #' blue
+#' 
+#' Send text colored in blue to the console
+#' 
+#' red, blue, italic and bold functions are used to decor text outputted to the console
+#' syntax is similar to \code{cat()} syntax 
 #'
-#' @param ... values to be outputted in blue
+#' @param ... list of values to be outputted in blue
 #'
 #' @return nothing
 #' @export
-#' @import markdown
 #'
 #' @examples
 #' blue("text in blue")
 blue <- function(...) {
-  if (is.null(knitr::opts_knit$get('rmarkdown.pandoc.to'))) {
+  if (is.null(knitr::opts_knit$get('rmarkdown.pandoc.to')) & is.null(sys.call(-1))) {
     cat("\033[34m",...,"\033[0m",sep="")
   } else if (knitr::is_html_output()) {
     r <- paste0('<span style="color:blue;">',...,'</span>')
     cat(mark(r))
-  }      
+  } else {cat(...)}     
   
 }
                                                                     
