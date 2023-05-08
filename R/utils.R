@@ -365,7 +365,6 @@ bold <- function(...) {
   } else if (knitr::is_html_output()) {
     r <-  paste0('<span style="font-weight:bold;">',...,'</span>')
     cat(mark(r))
-    
   }      
 }
 
