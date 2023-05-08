@@ -236,7 +236,9 @@ tab_row <- function(rname, line, deci=0, tot = FALSE, coldeci=NULL, indic=NULL, 
   cat("", SEP)
   for (i in 1:(l - 1)) {
     ndigit <- ifelse(coldeci[i],deci,0)
-    fout <- lpad(line[[i]], COL, digit = ndigit)
+    value <- line[[i]]
+    if(is.na(value)) value <-"" 
+    fout <- lpad(value, COL, digit = ndigit)
     cat(fout, " ")
   }
   if (tot) {
@@ -358,9 +360,39 @@ outputtable <-
 #' @param col  "Col percentages"
 #' @param fisher TRUE by default, display the fisher exact probability.
 #' If table is larger than 2*2 then Fisher is not calculated
-#' @return An array containing  values of \code{...}   \code{}
+#' 
+#' @return An array containing  values of \code{
+#' table : The resulting table
+#' rowperc : The optional row percentage
+#' colperc : The optional col percentage  
+#' chisq : Chi Square value
+#' p : Estimated probability of this distribution
+#' fischer : Exact probaility
+#' missing : Number of missing values
+
+#' 
+#' }   
+#' 
 #' @examples
-#' #' epitable(c(1,1,2,2,1),c(3,3,4,4,4))
+#' data <- data.frame(id = 1:10,
+#'                    cases = c(rep(1,3), rep(0,7)),
+#'                    vacc = sample(c(0,1), replace = TRUE, size = 10))
+#' data[8,2]<-NA                    
+#' table(data$cases, data$vacc, useNA = "always")
+#' result <- epitable(data,cases,vacc)
+#' epitable(data,cases,vacc,epiorder=FALSE)
+#' 
+#' epitable(data,"cases","vacc") 
+#' epitable(data,out=cases,exp=vacc,missing=TRUE) 
+#' epitable(data,out=cases,exp=vacc,row=TRUE) 
+#' 
+#' table <- result
+#' result$table
+#' 
+#' data <- data.frame(id = 1:10,
+#'                    cases = c(rep(1,3), rep(0,7)),
+#'                    vacc = sample(c(0,1,2), replace = TRUE, size = 10))
+
 #'
 epitable <- function(data,out,exp,epiorder=TRUE,missing=FALSE,row=FALSE,col=FALSE,fisher=TRUE)  {
   r <- try(class(data),TRUE)
@@ -372,7 +404,9 @@ epitable <- function(data,out,exp,epiorder=TRUE,missing=FALSE,row=FALSE,col=FALS
       out <-  eval(out,data) 
       exp <- parse(text=substitute(exp))
       exp <-  eval(exp,data) 
-    } else stop(paste("data must be a dataframe")) 
+    } else { 
+      stop(paste("data must be a dataframe")) 
+    }
   }    
     #   if (class(out)=="character" & length(out)==1 ) {
     #   var.out <- out
@@ -403,9 +437,10 @@ epitable <- function(data,out,exp,epiorder=TRUE,missing=FALSE,row=FALSE,col=FALS
   #   outdata <- epiorder(outdata,update=FALSE, reverse=TRUE)
   # }
   # length to be verified
+  
   if (! length(out) == tot) {
     stop(paste("all arguments must have the same length",out.name,"<>",exp.name,
-               "verify that data comes from same datase" ))
+               "verify that data comes from same database" ))
   }
   
   # to get options
@@ -640,7 +675,7 @@ epiorder <- function(var,
     #   # assign(dfname,df,inherits = TRUE )
     #   push.data(dfname, df)
     #   
-      bold(colname)
+      cat(colname)
       cat(" Reordered with labels: ")
       catret(levels(coldata))
       

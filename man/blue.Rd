@@ -7,17 +7,13 @@
 blue(...)
 }
 \arguments{
-\item{...}{list of values to be outputted in blue}
+\item{...}{values to be outputted in blue}
 }
 \value{
 nothing
 }
 \description{
-Send text colored in blue to the console
-}
-\details{
-red, blue, italic and bold functions are used to decor text outputted to the console
-syntax is similar to \code{cat()} syntax
+blue
 }
 \examples{
 blue("text in blue")
