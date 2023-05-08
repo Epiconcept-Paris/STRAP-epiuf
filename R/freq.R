@@ -675,7 +675,7 @@ epiorder <- function(var,
     #   # assign(dfname,df,inherits = TRUE )
     #   push.data(dfname, df)
     #   
-      cat(colname)
+      italic(colname)
       cat(" Reordered with labels: ")
       catret(levels(coldata))
       
