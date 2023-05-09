@@ -2,24 +2,31 @@
 % Please edit documentation in R/viewIf.R
 \name{viewIf}
 \alias{viewIf}
-\title{List head of data.frame allowing to select column to view}
+\title{List selected column with an optional condition}
 \usage{
 viewIf(data, ..., cond = NULL, nline = 10)
 }
 \arguments{
-\item{data}{The dataset to explore}
+\item{data}{The dataframe to explore}
 
-\item{...}{variable name(s) to include in view}
+\item{...}{variable name(s) to include in view, as character}
 
-\item{cond}{A logical condition to select records which will be evaluated into data, given as character string}
+\item{cond}{A logical condition to select records which will be evaluated into data, given as character
+string. The condition should be passed between quote : cond="mycondition".}
 
-\item{nline}{Number of rows to show (default to n) If negative then number of row from the end}
+\item{nline}{Number of rows to show (default to 10) If nline is negative then \code{viewIf} display nline rows
+from the end (similar to tail function)}
 }
 \value{
-invisibly, the resulting selection
+the resulting selection of n rows for the given list of column
 }
 \description{
-List head of data.frame allowing to select column to view
+List head or tail of a data.frame allowing to select column to be viewed and an optional condition to select
+rows to be displayed.
+
+\code{viewIf} allow to quickly display some column of a dataframe satisfiyng a condition. It can be used during
+data exploration or after a recoding to verify the result
+When a condition is given, viewIf return all rows for which the condition is TRUE plus all rows with NA
 }
 \examples{
 data <- data.frame(id = 1:10,
