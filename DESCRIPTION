@@ -10,7 +10,7 @@ License: GPL-3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
-Imports: foreign , haven, openxlsx, readxl, shiny, kableExtra
+Imports: foreign , haven, openxlsx, readxl, shiny, kableExtra, markdown
 Suggests: 
     testthat (>= 3.0.0),
     knitr,

@@ -12,7 +12,8 @@ epitable(
   missing = FALSE,
   row = FALSE,
   col = FALSE,
-  fisher = TRUE
+  fisher = TRUE,
+  total = TRUE
 )
 }
 \arguments{
@@ -34,9 +35,20 @@ A summary output of number of missing values is added at the end}
 
 \item{fisher}{TRUE by default, display the fisher exact probability.
 If table is larger than 2*2 then Fisher is not calculated}
+
+\item{total}{Default TRUE , display marginal total}
 }
 \value{
-An array containing  values of \code{...}   \code{}
+An array containing  values of \code{
+table : The resulting table
+rowperc : The optional row percentage
+colperc : The optional col percentage  
+chisq : Chi Square value
+p : Estimated probability of this distribution
+fischer : Exact probaility
+missing : Number of missing values
+
+}
 }
 \description{
 \code{epitable} Display a cross tabulation of two variables optionnaly with
@@ -47,7 +59,24 @@ to get a resulting table compatible with usual epidemiology interpretation.
 Exposed Cases appear on upper left part of the table.
 }
 \examples{
-#' epitable(c(1,1,2,2,1),c(3,3,4,4,4))
+data <- data.frame(id = 1:10,
+                   cases = c(rep(1,3), rep(0,7)),
+                   vacc = sample(c(0,1), replace = TRUE, size = 10))
+data[8,2]<-NA                    
+table(data$cases, data$vacc, useNA = "always")
+result <- epitable(data,cases,vacc)
+epitable(data,cases,vacc,epiorder=FALSE)
+
+epitable(data,"cases","vacc") 
+epitable(data,out=cases,exp=vacc,missing=TRUE) 
+epitable(data,out=cases,exp=vacc,row=TRUE) 
+
+table <- result
+result$table
+
+data <- data.frame(id = 1:10,
+                   cases = c(rep(1,3), rep(0,7)),
+                   vacc = sample(c(0,1,2), replace = TRUE, size = 10))
 
 }
 \references{

@@ -7,17 +7,22 @@
 rename(data, oldname, newname)
 }
 \arguments{
-\item{data}{Name of the column/variable to rename}
+\item{data}{A data frame passed to the function}
 
 \item{oldname}{Name of the column/variable to rename}
 
 \item{newname}{New name to apply}
 }
 \value{
-Message to confirm the change
+Nothing, the passed data.frame is modified directly
 }
 \description{
-Change the name of a data.frame column
+Simple function to rename a column in a data.frame
+The rename is done "in place", no need to reassign the data.frame
+A message is printed to confirm the change
+}
+\details{
+Data.frame and column names are passed to the function as symbols (without "")
 }
 \examples{
 df <- as.data.frame( c(One=1,Two=2) )

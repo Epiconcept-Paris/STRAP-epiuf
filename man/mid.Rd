@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{mid}
 \alias{mid}
-\title{mid}
+\title{Extract the midlle of a string}
 \usage{
 mid(text, start_num, num_char)
 }
@@ -17,9 +17,10 @@ mid(text, start_num, num_char)
 \code{num_char} extracted characters starting \code{start_num}
 }
 \description{
-mid
+Extract \code{num_char} character of a string, starting from the \code{start_num}
+character
 }
 \examples{
-mid("dummy_test",7,4)
+mid("dummy_test_2002",7,4)
 
 }
