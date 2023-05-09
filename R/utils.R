@@ -550,6 +550,7 @@ clear <- function(what="all", noask = FALSE) {
 #' @param dataset A dataset to explore
 #' @param pattern Pattern representing varname
 #' @param regex  Should the pattern be used as regex expression or use classical "joker" ? and * 
+#' @param strict If FALSE, the default, look for any column name containing the pattern  
 #'
 #' @return list of the variables matching the pattern   
 #' @export
@@ -563,10 +564,17 @@ clear <- function(what="all", noask = FALSE) {
 #'listVar(data,"vac*")                    
 #'                    
 #' 
-listVar <- function(dataset,pattern,regex=FALSE) {
+listVar <- function(dataset,pattern,regex=FALSE, strict=FALSE) {
+  savedpattern <-pattern
   if (!regex){pattern <- glob2rx(pattern)}
 #  utils::head(dataset[,grepl(pattern,names(dataset))])
   lvar <- grepl(pattern,names(dataset))
+  icol <- length(lvar[lvar==TRUE])
+  if( icol==0 & !regex & !strict) {
+    pattern<-paste0("*",savedpattern,"*")
+    pattern <- glob2rx(pattern)
+    lvar <- grepl(pattern,names(dataset))
+  }
   names(dataset)[lvar==TRUE]
 }
 
