@@ -24,7 +24,8 @@
 #' @param datevar an (character) array to convert it to a Date array
 #' @param format an optional format string to use in place of automatic system, useful for some complex format  
 #'
-#' @return an (Date) array already converted into the Universal Date Format (UDF) in R (YYYY-mm-dd) 
+#' @return an (Date) array already converted into the Universal Date Format (UDF) in R (YYYY-mm-dd)
+#' @importFrom stats complete.cases
 #' @export 
 #'
 #' @examples
