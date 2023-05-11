@@ -26,15 +26,12 @@
 #'
 #' @return an (Date) array already converted into the Universal Date Format (UDF) in R (YYYY-mm-dd)
 #' @importFrom stats complete.cases
+#' @importFrom stringr word
 #' @export 
 #'
 #' @examples
-#' Example 1: 
 #' datevar <- c("2022/01/15","2022/02/10","1950/01/31","2022/15/15",NA)
-#' returns c("2022-01-15","2022-02-10","1950-01-31",NA,NA)
-#' Example 2: 
 #' datevar <- c("20220115","20220210","19500131","111",NA)
-#' returns c("2022-01-15","2022-02-10","1950-01-31",NA,NA)
 #' 
 validDate <- function(datevar, format = NULL)  {
   
