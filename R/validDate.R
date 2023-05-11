@@ -115,9 +115,9 @@ validDate <- function(datevar, format = NULL)  {
           }
           # "." separator doesn't work with word !! must be replaced before splitting in word ...
           
-          part <- data.frame(as.numeric(sapply(firstrows,getWord,1,pattern=datesep)))
-          part[,2] <- as.numeric(sapply(firstrows,getWord,2,pattern=datesep))
-          part[,3] <- as.numeric(sapply(firstrows,getWord,3,pattern=datesep))
+          part <- data.frame(as.numeric(getWord(firstrows,1,pattern=datesep)))
+          part[,2] <- as.numeric(getWord(firstrows,2,pattern=datesep))
+          part[,3] <- as.numeric(getWord(firstrows,3,pattern=datesep))
           
           if (digit==TRUE) {datesep <- ""} # **modified: before: (digit==TRUE) {datesep==""}  
           datedays <- datemonths <- dateyears <- 0
