@@ -18,15 +18,18 @@
 # START of SCRIPT  --------------------------------------------------------
 
 
-# format can be passed as parameters for worst cases where validDate can't guess the format automaticaly 
-#' @title transforms any character into a valid R Date format
+#' @title Transforms any character into a valid R Date format
+#' 
+#' @description validDate process a character or a vector of character (like dataframe column)
+#' to verify date format and to transform almost any date formainto standard R date format
+#' format can be passed as parameters for worst cases where validDate can't guess the format
+#' automaticaly.  
 #'
 #' @param datevar an (character) array to convert it to a Date array
 #' @param format an optional format string to use in place of automatic system, useful for some complex format  
 #'
 #' @return an (Date) array already converted into the Universal Date Format (UDF) in R (YYYY-mm-dd)
 #' @importFrom stats complete.cases
-#' @importFrom stringr word
 #' @export 
 #'
 #' @examples
@@ -80,6 +83,7 @@ validDate <- function(datevar, format = NULL)  {
           nbvalue <-  length(firstrows)
           if (nbmaxsep > nbvalue  ) {
             indexsep <- which.max(nbsep)
+            # needed for stringr::word
             datesep <- ifelse(typesep[indexsep]==".","\\.",typesep[indexsep]) # **modified: to recognized dot
             
           }else{   # too few separator, probably no one
@@ -109,9 +113,9 @@ validDate <- function(datevar, format = NULL)  {
           }
           # "." separator doesn't work with word !! must be replaced before splitting in word ...
           
-          part <- data.frame(as.numeric(stringr::word(firstrows,1,sep=datesep)) )
-          part[,2] <- as.numeric(stringr::word(firstrows,2,sep=datesep))
-          part[,3] <- as.numeric(stringr::word(firstrows,3,sep=datesep))
+          part <- data.frame(as.numeric(getWord(firstrows,1,pattern=datesep)) )
+          part[,2] <- as.numeric(getWord(firstrows,2,pattern=datesep))
+          part[,3] <- as.numeric(getWord(firstrows,3,pattern=datesep))
           
           if (digit==TRUE) {datesep <- ""} # **modified: before: (digit==TRUE) {datesep==""}  
           

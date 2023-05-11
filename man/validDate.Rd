@@ -2,7 +2,7 @@
 % Please edit documentation in R/validDate.R
 \name{validDate}
 \alias{validDate}
-\title{transforms any character into a valid R Date format}
+\title{Transforms any character into a valid R Date format}
 \usage{
 validDate(datevar, format = NULL)
 }
@@ -15,7 +15,10 @@ validDate(datevar, format = NULL)
 an (Date) array already converted into the Universal Date Format (UDF) in R (YYYY-mm-dd)
 }
 \description{
-transforms any character into a valid R Date format
+validDate process a character or a vector of character (like dataframe column)
+to verify date format and to transform almost any date formainto standard R date format
+format can be passed as parameters for worst cases where validDate can't guess the format
+automaticaly.
 }
 \examples{
 datevar <- c("2022/01/15","2022/02/10","1950/01/31","2022/15/15",NA)

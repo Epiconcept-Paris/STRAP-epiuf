@@ -22,6 +22,8 @@ the number of occurrence of pattern into "tosearch"
 \details{
 If pattern is a regular expression, charCount return the number of time this regular
 expression is verified into "tosearch" string
+Verify regular expression syntax for specific exptression like . which should
+be escaped by \\ : \\.
 }
 \examples{
 nb <- charCount("/", "test/essai/try")
@@ -29,4 +31,7 @@ nb <- charCount("^t", "test/essai/try")
 nb <- charCount(".t", "test/essai/try")
 
 
+}
+\seealso{
+\code{\link[=nchar]{nchar()}}
 }

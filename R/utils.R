@@ -145,7 +145,10 @@ catret  <- function(...) {
 #' 
 #' If pattern is a regular expression, charCount return the number of time this regular 
 #' expression is verified into "tosearch" string 
+#' Verify regular expression syntax for specific exptression like . which should
+#' be escaped by \\ : \\. 
 #' 
+#' @seealso [nchar()]
 #' @param pattern "The character or pattern to search for
 #' @param stosearch The string to search in 
 #'
@@ -165,6 +168,30 @@ charCount <- function(pattern, stosearch) {
   #            "match.length")[attr(gregexpr(pattern,stosearch)[[1]], "match.length")>0])
 }
 
+#' split a character string into word and return word x
+#'
+#' @param tosearch The character string to be searched for
+#' @param item The \code{item} word in the string 
+#' @param pattern The sep as a regular expression pattern, default to word separator
+#'
+#' @return the word at \code{item} position in tosearch 
+#' @export
+#'
+#' @examples
+#' getWord("aaa  bb,cc.",3)
+#' getWord("aaa-bb-cc",2,pattern="-")
+
+getWord <- function(tosearch,item=1,pattern="\\W+") {
+  word<-regmatches(tosearch,gregexpr(pattern, tosearch),invert = TRUE)
+  word <- word[[1]][word[[1]][]!=""]
+  nword <-length(word)
+  if (nword == 0) return( "" )
+  if(item <= nword) {
+    return(word[item])
+  }
+  else 
+  { return("")}
+}
 
 
 #' Extract x right characters of a string
@@ -222,7 +249,7 @@ left = function (text, num_char) {
 #' @examples
 #' mid("dummy_test_2002",7,4)
 #' 
-mid = function(text, start_num, num_char) {
+mid <- function(text, start_num, num_char) {
   substr(text, start_num, start_num + num_char - 1)
 }
 
