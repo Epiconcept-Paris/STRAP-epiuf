@@ -180,8 +180,16 @@ charCount <- function(pattern, stosearch) {
 #' @examples
 #' getWord("aaa  bb,cc.",3)
 #' getWord("aaa-bb-cc",2,pattern="-")
-
 getWord <- function(tosearch,item=1,pattern="\\W+") {
+   if(length(tosearch) > 1) {
+      res <- sapply(tosearch,.getWord,item,pattern)
+      names(res) <- NULL
+      return(res)
+   }
+  else return(.getWord(tosearch,item,pattern))
+}  
+
+.getWord <- function(tosearch,item=1,pattern="\\W+") {
   word<-regmatches(tosearch,gregexpr(pattern, tosearch),invert = TRUE)
   word <- word[[1]][word[[1]][]!=""]
   nword <-length(word)
