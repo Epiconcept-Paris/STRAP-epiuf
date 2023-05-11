@@ -1,0 +1,137 @@
+---
+title: "validDate"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{validDate}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(epiuf)
+```
+
+```{r prepdata,echo=FALSE}
+genRandomDates <- function(size, sep, YearDigits, order){
+  
+  days <- round(rnorm(n = size,mean = 15,sd = 7))  # gen days
+  months <- round(rnorm(n = size,mean = 7,sd = 4)) # gen month
+  if(YearDigits == 2){                             # gen years with 2 dig
+    years <- round(rnorm(n = size,mean = 90,sd = 4))
+    years <- years[years<100]
+    years[nchar(years)==1] <- paste0("0",years[nchar(years)==1])
+  }else{                                           # gen years with 2 dig < 2022
+    years <- round(rnorm(n = size,mean = 1990,sd = 60))
+    years <- years[years<2022 & years>=1920]
+  }
+  
+  days <- days[days<=31 & days>=1]
+  days[nchar(days)==1] <- paste0("0",days[nchar(days)==1])   # adding 0 if the day only has 1 char
+  months <- months[months<=12 & months>=1]
+  months[nchar(months)==1] <- paste0("0",months[nchar(months)==1]) # adding 0 if the day only has 1 char
+  
+  lmin <- min(length(days),length(months),length(years))
+  
+  datevar <- ifelse(order=="dmy",paste0(days[1:lmin],sep,months[1:lmin],sep,years[1:lmin]),
+               ifelse(order=="dym",paste0(days[1:lmin],sep,years[1:lmin],sep,months[1:lmin]),
+                 ifelse(order=="ymd",paste0(years[1:lmin],sep,months[1:lmin],sep,days[1:lmin]),
+                   ifelse(order=="ydm",paste0(years[1:lmin],sep,days[1:lmin],sep,months[1:lmin]),
+                     ifelse(order=="mdy",paste0(months[1:lmin],sep,days[1:lmin],sep,years[1:lmin]),
+                       ifelse(order=="myd",paste0(months[1:lmin],sep,days[1:lmin],sep,years[1:lmin]),                           "")
+                     )
+                   )
+                 )
+               )
+             )
+  
+  return(datevar)
+  
+}
+```
+
+
+##### Brief description: 
+validDate function aims to convert an character date into the Universal Date Format (UDF) in R (YYYY-mm-dd)<br />
+
+validDate can be use with various date format, the function will guess the format by analysing the first values of the character date<br />
+
+##### Workflow: 
+This function workflow is divided into 5 phases: <br />
+
+* *PHASE 1:* Prints warnings if any date inside the date vector is too short or if > 10% of the date vector values have too short length. In these cases: validDate converts them to NA, as it's impossible to guess date format<br />
+  + Example 1: datevar <- c(...,"3/3/3",...)<br />
+  + Example 2: datevar <- c("3/3/3","555","03031")<br />
+
+* *PHASE 2:* Guess if: <br />
+a) There are separators in the date vector -> function selects the most frequent separator<br />
+b) Or, it's compound of only digits  -> parameter digits = TRUE (kind of flag to know there are only digits within datevar)<br />
+
+
+* *PHASE 3:* Save different parts of the date depending on:<br />
+a) There are separators in datevar -> create part where part[,1], part[,2] and part[,3] contains day,month,year (not knowing yet which one is)<br />
+b) It's compound of only digits    -> as there is no separator, just guess if the year is at the beginning or at the end and save 3 parts too<br />
+
+* *PHASE 4:* Guess which part is day,month,year depending on the max, min and range values<br />
+
+* *PHASE 5:* Assemble datevar to call function as.Date(x = datevar, format = the format guessed)<br />
+
+##### Issues:
+Mixed formats of dates: it is working but it prints a message. You can check it with date8, we could find the way to make that value "1/3/22" -> NA and that's it
+
+##### Test: 
+To test validDate we did it in two ways: First one, this test dataset was created 
+
+```{r newdf, echo=FALSE}
+
+# create a sample dataset dfdate with column in various format 
+dfdate <- data.frame(simpledate=c("2022/01/15","2022/02/10","1950/01/31","2022/15/15",NA),
+                     digitdate=c("20221120","20210615","20210303","",NA),
+                     dotteddate=c("2022.01.15","2022.02.10","1950.01.31","2022.15.15",NA),
+                     spaceddate=c("2022 01 15","2022 02 10","1950 01 31","2022 15 15",NA)
+                     ) 
+
+print(dfdate)
+```
+
+
+```{r passedformat,results="markup",eval=TRUE}
+# Example 1
+validDate(dfdate$simpledate,format="%Y-%m-%d")
+# Example 2
+validDate(datevar = dfdate$dotteddate)
+# Example 3
+validDate(dfdate$digitdate)
+```
+
+Sencond way for testing: I created the function _genRandomDates_, to summarize: with this function you can generate random date vectors to test validDate. You choose the size of the vector, the separator you want, nº of year digits (if onlydigits) and order of the date. See some examples and its test:
+
+```{r passedformat2,results="markup",eval=TRUE}
+date1 <- genRandomDates(size = 20,sep = "-",YearDigits = 2,order = "dmy")
+date2 <- genRandomDates(size = 50,sep = " ",YearDigits = 4,order = "ymd")
+date3 <- genRandomDates(size = 100,sep = ".",YearDigits = 2,order = "mdy")
+date3 <- genRandomDates(size = 100,sep = ".",YearDigits = 2,order = "mdy")
+date4 <- genRandomDates(size = 100,sep = ",",YearDigits = 2,order = "mdy")
+date5 <- c(date1,"1/1/2",rep(NA,times=10))
+date6 <- genRandomDates(size = 100,sep = "",YearDigits = 4,order = "dmy")
+date7 <- genRandomDates(size = 100,sep = "",YearDigits = 4,order = "ymd")
+date8 <- c("1/2/3","1/3/22","1/2/3","1/2/3","1/2/3","1/2/3","1/2/3",date1)
+# Test if all warning messages work
+# Warning 1: Not recognized sep
+validDate(datevar = date4)  
+# Warning 2: datevar is not character class
+validDate(datevar = as.Date(date1,format = "%d-%m-%y"))  
+# Warning 3: Record 20 with nchar < 6 converted to NA
+validDate(datevar = c(date1,"1/1/2"))  
+# >=10% to NA
+validDate(datevar = date8) 
+# nchar<6 to NA
+validDate(datevar = date5)  
+
+# Tested & corrected to work with "."
+validDate(datevar = date3)
+# Tested for 8 digits (year at the end)
+validDate(datevar = date6)  
+# year at the beginning
+validDate(datevar = date7)   
+```

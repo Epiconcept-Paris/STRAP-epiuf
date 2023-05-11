@@ -55,15 +55,17 @@ validDate <- function(datevar, format = NULL)  {
         
         if(any(lvar<6)){
           datevar[which(lvar<6)] <- NA
-          firstrows[which(lvar<6)] <- NA
           cat("Record(s)",as.numeric(which(lvar<6)),"with nchar < 6 converted to NA\n") #**modified: any record(s) (<10% of total) transformed to NA
           if(length(which(lvar<6)) >= length(datevar)*0.1){
             cat("Warning: > 10% of datevar converted to NA\n") # **modified: message printed if >10% transformed to NA
           }
+          firstrows[which(lvar<6)] <- NA
+          firstrows <- firstrows[complete.cases(firstrows)]
+          lvar <- sapply(firstrows, nchar)
         }  
-        lvar <- ifelse(lvar<6,NA,lvar)                        # **modified: lvar==0 with lvar<6
-        lvarmean <- mean(lvar, na.rm = TRUE) # **suggestion:option b) median 
-        
+        lvar <- na.omit(lvar)
+        suppressWarnings(lvarmean <- mean(lvar, na.rm = TRUE)) # **suggestion:option b) median 
+        if( !is.numeric(lvarmean)) lvarmean <- 1
         # then identify the type of separator
         typesep <- c("/","-","\\.","\\s")
         nbsep <- c(1:length(typesep))                                       # **modified: nbsep <- c(1:4) with length(typesep), something more generic
@@ -94,7 +96,7 @@ validDate <- function(datevar, format = NULL)  {
             } else {                 # **modified: find if year is at the end or at the begining
               # to find a way to test result ... number of NA ? 
               # then try again with year last with firstrows again ? 
-              
+            
               StartYear <- min(as.numeric(substr(firstrows,1,4)),na.rm = T)>=1920   # if TRUE = at the begining 
               EndYear <- min(as.numeric(substr(firstrows,5,8)),na.rm = T)>=1920     # if TRUE = at the end 
               if(StartYear){
@@ -113,12 +115,12 @@ validDate <- function(datevar, format = NULL)  {
           }
           # "." separator doesn't work with word !! must be replaced before splitting in word ...
           
-          part <- data.frame(as.numeric(getWord(firstrows,1,pattern=datesep)) )
-          part[,2] <- as.numeric(getWord(firstrows,2,pattern=datesep))
-          part[,3] <- as.numeric(getWord(firstrows,3,pattern=datesep))
+          part <- data.frame(as.numeric(sapply(firstrows,getWord,1,pattern=datesep)))
+          part[,2] <- as.numeric(sapply(firstrows,getWord,2,pattern=datesep))
+          part[,3] <- as.numeric(sapply(firstrows,getWord,3,pattern=datesep))
           
           if (digit==TRUE) {datesep <- ""} # **modified: before: (digit==TRUE) {datesep==""}  
-          
+          datedays <- datemonths <- dateyears <- 0
           # then try to guess the order year first or last then months and days 
           for (i in 1:3) {
             imean <- mean(part[,i],na.rm=TRUE)
@@ -132,19 +134,22 @@ validDate <- function(datevar, format = NULL)  {
               yearformat <- ifelse(imean>1000,"%Y","%y")
             }
           }
-          
-          # more tricky : try to identify months in letter format eg November
-          
-          
-          # now we construct format according to finding (see sprptime for formats)
-          datesep <- ifelse(datesep=="\\.",".",datesep)    # **modified: if dot, convert again "\\." to "."
-          format <- ifelse(dateyears==1,yearformat,ifelse(datedays==1,"%d","%m"))
-          format <- paste0(format,datesep,ifelse(datemonths==2,"%m",ifelse(datedays==2,"%d",yearformat) ) )
-          format <- paste0(format,datesep,ifelse(datemonths==3,"%m",ifelse(datedays==3,"%d",yearformat) ) )
-          
-          cat("Format guessed from data : ", format,"\n")
-    
-        }
+          if(datedays*datemonths*dateyears==0) {
+            format <- NULL
+            cat("Not enough values to guess format\n")
+          }
+          else {  
+            # more tricky : try to identify months in letter format eg November
+            
+            # now we construct format according to finding (see sprptime for formats)
+            datesep <- ifelse(datesep=="\\.",".",datesep)    # **modified: if dot, convert again "\\." to "."
+            format <- ifelse(dateyears==1,yearformat,ifelse(datedays==1,"%d","%m"))
+            format <- paste0(format,datesep,ifelse(datemonths==2,"%m",ifelse(datedays==2,"%d",yearformat) ) )
+            format <- paste0(format,datesep,ifelse(datemonths==3,"%m",ifelse(datedays==3,"%d",yearformat) ) )
+            
+            cat("Format guessed from data : ", format,"\n")
+          }
+       }
     }
     # if format is NULL then something was wrong 
     if (is.null(format)) {
