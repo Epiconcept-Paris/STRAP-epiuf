@@ -42,7 +42,7 @@ validDate <- function(datevar, format = NULL)  {
   if (typeof(datevar) == "character") {
     if (!is.null(format)) {
       # format is passed we will use it asis
-      cat("Format used passed as parameters :", format)
+      catret("Format used passed as parameters :", format)
     }else{
       # format is NULL, we try to guess on 50 first records
       # we take only non NA 
@@ -158,6 +158,8 @@ validDate <- function(datevar, format = NULL)  {
       
     } else { 
       datevar <- as.Date(datevar, format)
+      # check for date after system date (to change century)
+      # 
       return(datevar)
     }
     

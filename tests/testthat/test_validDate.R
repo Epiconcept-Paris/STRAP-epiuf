@@ -16,3 +16,4 @@ test_that("Standard Date correctly identified Year Last", {
 test_that("Standard Date correctly identified Year 2 digit", {
   expect_equal(validDate(datevar = "15/01/60"),as.Date("1960-01-15"))
 })
+
