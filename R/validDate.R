@@ -36,7 +36,7 @@
 #' datevar <- c("2022/01/15","2022/02/10","1950/01/31","2022/15/15",NA)
 #' datevar <- c("20220115","20220210","19500131","111",NA)
 #' 
-validDate <- function(datevar, format = NULL)  {
+validDate <- function(datevar, format = NULL,dropFuture=FALSE)  {
   
   # is date character ? if not we skip all
   if (typeof(datevar) == "character") {
@@ -159,7 +159,13 @@ validDate <- function(datevar, format = NULL)  {
     } else { 
       datevar <- as.Date(datevar, format)
       # check for date after system date (to change century)
-      # 
+      if(dropFuture){ # if the user ask for drop future dates
+        indexfut <- which(datevar>Sys.Date()) 
+        if(length(indexfut) > 0){
+          # substract one century (in days)
+          datevar[indexfut] <- datevar[indexfut]-(365.25)*100
+        }
+      }
       return(datevar)
     }
     
