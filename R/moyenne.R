@@ -7,6 +7,7 @@
 #' @importFrom stats na.omit
 #' @export
 moyenne <- function(x){
-  x <-  na.omit(x)
-  sum(x)/length(x)
+  # x <-  na.omit(x)
+  # sum(x)/length(x)
+  stop("The function moyenne has been depreciated and will be deleted from the Epiuf package.\nPlease use base function mean()")
 }
