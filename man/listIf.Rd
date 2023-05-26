@@ -2,10 +2,7 @@
 % Please edit documentation in R/dataCheck.R
 \name{listIf}
 \alias{listIf}
-\title{listIf
-Simple list all of specified variable for which row data meets specific conditions.
-Option for removing NAs. Option to have output as list or collapsed string.
-First column use as default if no variable specified or variable specified is not within the datset.}
+\title{listIf}
 \usage{
 listIf(data, varname = NULL, cond = NULL, collapse = FALSE, na.rm = FALSE)
 }
@@ -24,7 +21,6 @@ listIf(data, varname = NULL, cond = NULL, collapse = FALSE, na.rm = FALSE)
 A list of records
 }
 \description{
-listIf
 Simple list all of specified variable for which row data meets specific conditions.
 Option for removing NAs. Option to have output as list or collapsed string.
 First column use as default if no variable specified or variable specified is not within the datset.
