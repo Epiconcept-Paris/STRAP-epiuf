@@ -79,9 +79,11 @@ freq <- function(x,y=NULL,missing=FALSE,quietly = FALSE) {
 }
 
 
-#' comp  Obsolete replaced by desc and desc by
+#' comp  >> Obsolete replaced by desc and desc by
+#' 
 #' Aim : To describe numeric variables or categorical variables (need to be in factor) 
 #' according to an another variable
+#' 
 #' @param vars list of vars you want to describe
 #' @param comp.var variable to compare (need to be data$var)
 #' @param labels labels for the list of vars
