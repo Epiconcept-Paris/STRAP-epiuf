@@ -7,21 +7,39 @@
 getMin(x)
 }
 \arguments{
-\item{x}{vector}
+\item{x}{numeric or character vector}
 }
 \value{
-numeric
+single  numeric or character element
 }
 \description{
-get the minimum value from a vector skipping NA values. If all values are NA returns NA.
+Get the minimum value from a vector skipping NA values. If all values are NA, returns NA.
 }
 \examples{
-getMin(c(1,1))
-getMin(c(NA,NA))
+# Numerics
+getMin(c(1, 9))
+getMin(c(1, 9, NA))
+getMin(c(as.Date("2023-01-01"), 
+         NA, 
+         as.Date("2023-01-31")))
+
+# Characters
+getMin(LETTERS) 
+getMin(month.name)
+getMin(c(NA, month.name))
+
+# If missing values
+## using basic min() function from base R
+min(c(1:5, NA)) #NA value takes over the other values by default
+min(c(1:5, NA), na.rm = TRUE) #Need to add na.rm = TRUE to get the min value despite NAs
+min(c(NA,NA), na.rm = TRUE) #If NAs only, returns Inf and a warning
+## using getMin, we do not have these issues
+getMin(c(1:5, NA))
+getMin(c(NA, NA))
+
 }
 \seealso{
-For more details see the link below to access the vignette:
-\href{../doc/epiuf_package.html}{\code{vignette("epiuf_package")}}
+\code{\link[base:Extremes]{base::min()}} and \code{\link[=getMax]{getMax()}}
 }
 \author{
 STRAP team \email{strap@epiconcept.fr}
