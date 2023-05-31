@@ -4,10 +4,10 @@
 \alias{getMin}
 \title{getMin}
 \usage{
-getMin(x)
+getMin(...)
 }
 \arguments{
-\item{x}{numeric or character vector}
+\item{...}{numeric or character vector arguments}
 }
 \value{
 single  numeric or character element
@@ -18,28 +18,29 @@ Get the minimum value from a vector skipping NA values. If all values are NA, re
 \examples{
 # Numerics
 getMin(c(1, 9))
-getMin(c(1, 9, NA))
-getMin(c(as.Date("2023-01-01"), 
-         NA, 
-         as.Date("2023-01-31")))
+getMin(1, 9, NA) #c() is not mandatory
+getMin(as.Date("2023-01-01"), 
+       NA, 
+       as.Date("2023-01-31"))
 
 # Characters
 getMin(LETTERS) 
 getMin(month.name)
-getMin(c(NA, month.name))
+getMin(NA, month.name)
 
 # If missing values
 ## using basic min() function from base R
-min(c(1:5, NA)) #NA value takes over the other values by default
-min(c(1:5, NA), na.rm = TRUE) #Need to add na.rm = TRUE to get the min value despite NAs
-min(c(NA,NA), na.rm = TRUE) #If NAs only, returns Inf and a warning
+min(c(1:9, NA)) #NA value takes over the other values by default
+min(c(1:9, NA), na.rm = TRUE) #Need to add na.rm = TRUE to get the min value despite NAs
+min(c(NA, NA), na.rm = TRUE) #If NAs only, returns Inf and a warning
 ## using getMin, we do not have these issues
-getMin(c(1:5, NA))
+getMin(c(NA, 1:9))
 getMin(c(NA, NA))
 
 }
 \seealso{
-\code{\link[base:Extremes]{base::min()}} and \code{\link[=getMax]{getMax()}}
+\code{\link[base:Extremes]{base::min()}} and \code{\link[=getMax]{getMax()}}, \code{\link[=getMean]{getMean()}},
+\code{\link[=getMedian]{getMedian()}} from \code{epiuf} package
 }
 \author{
 STRAP team \email{strap@epiconcept.fr}

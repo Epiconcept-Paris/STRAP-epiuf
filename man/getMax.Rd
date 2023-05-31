@@ -4,10 +4,10 @@
 \alias{getMax}
 \title{getMax}
 \usage{
-getMax(x)
+getMax(...)
 }
 \arguments{
-\item{x}{numeric or character vector}
+\item{...}{numeric or character vector arguments}
 }
 \value{
 single numeric or character element
@@ -18,28 +18,29 @@ Get the maximum value from a vector skipping NA values. If all values are NA, re
 \examples{
 # Numerics
 getMax(c(1, 9))
-getMax(c(1, 9, NA))
-getMax(c(as.Date("2023-01-01"), 
-         NA, 
-         as.Date("2023-01-31")))
+getMax(1, 9, NA) #c() is not mandatory
+getMax(as.Date("2023-01-01"), 
+       NA, 
+       as.Date("2023-01-31"))
 
 # Characters
 getMax(LETTERS) 
 getMax(month.name)
-getMax(c(NA, month.name))
+getMax(NA, month.name)
 
 # If missing values
 ## using basic max() function from base R
-max(c(1:5, NA)) #NA value takes over the other values by default
-max(c(1:5, NA), na.rm = TRUE) #Need to add na.rm = TRUE to get the max value despite NAs
-max(c(NA,NA), na.rm = TRUE) #If NAs only, returns Inf and a warning
+max(c(1:9, NA)) #NA value takes over the other values by default
+max(c(1:9, NA), na.rm = TRUE) #Need to add na.rm = TRUE to get the max value despite NAs
+max(c(NA, NA), na.rm = TRUE) #If NAs only, returns Inf and a warning
 ## using getMax, we do not have these issues
-getMax(c(1:5, NA))
+getMax(c(NA, 1:9))
 getMax(c(NA, NA))
 
 }
 \seealso{
-\code{\link[base:Extremes]{base::max()}} and \code{\link[=getMin]{getMin()}}
+\code{\link[base:Extremes]{base::max()}} and \code{\link[=getMin]{getMin()}}, \code{\link[=getMean]{getMean()}},
+\code{\link[=getMedian]{getMedian()}} from \code{epiuf} package
 }
 \author{
 STRAP team \email{strap@epiconcept.fr}
