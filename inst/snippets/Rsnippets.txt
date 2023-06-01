@@ -1,0 +1,17 @@
+snippet roxy
+	#' Title
+	#' 
+	#' Description
+	#' 
+	#' @param
+	#' @returns
+	#' @export
+	#' @author STRAP team \email{strap@epiconcept.fr}
+	#' @seealso
+	#' For more details see the link below to access the vignette:
+	#' \href{../doc/epiuf_package.html}{\code{vignette("epiuf_package")}}
+	#'
+	#' @examples
+
+snippet lore
+  # My name is Lore
