@@ -25,7 +25,9 @@ getMax(as.Date("2023-01-01"),
 
 # Characters
 getMax(LETTERS) 
-getMax(month.name)
+## Note: For characters, getMax() will return the last month 
+## according to alphabetical order (i.e., "September")
+getMax(month.name) 
 getMax(NA, month.name)
 
 # If missing values

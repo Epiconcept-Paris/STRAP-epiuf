@@ -44,7 +44,9 @@
 #' 
 #' # Characters
 #' getMax(LETTERS) 
-#' getMax(month.name)
+#' ## Note: For characters, getMax() will return the last month 
+#' ## according to alphabetical order (i.e., "September")
+#' getMax(month.name) 
 #' getMax(NA, month.name)
 #' 
 #' # If missing values
@@ -94,7 +96,9 @@ getMax <- function(...){
 #'        as.Date("2023-01-31"))
 #' 
 #' # Characters
-#' getMin(LETTERS) 
+#' getMin(LETTERS)
+#' ## Note: For characters, getMin() will return the first month 
+#' ## according to alphabetical order (i.e., "April") 
 #' getMin(month.name)
 #' getMin(NA, month.name)
 #' 
