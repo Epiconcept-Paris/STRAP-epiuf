@@ -189,17 +189,33 @@ countIsoWeeks <- function (date = date, origin = "2020-10-05"){
 
 
 #' lastDateMonth
+#' 
+#' Takes monthly dates in character string such as "dec2022" and returns the date of 
+#' the last day of the month in date format 
 #'
-#' @param month abbreviated month+year (eg. dec2022)
+#' @param month character string, abbreviated month+year (eg. dec2022)
+#' @param lc_time character string, input of the `Sys.setlocale("LC_TIME", lc_time)`,
+#' required if the system local language for the time is not the same as the `month` argument
+#' (e.g., if Sys.getlocale("LC_TIME") is "French_France.utf8", but month = "dec2022")
 #' @return The last date in that month in date format
 #' @export
 #'
 #' @examples
 #' lastDateMonth("dec2022")
-lastDateMonth <- function(month){
+#' 
+lastDateMonth <- function(month, lc_time = "C"){
+  
   # separate year and month
+  
+  ## convert if needed the system local language for dates
+  lc_time0 <- Sys.getlocale("LC_TIME")
+  if(lc_time0 != lc_time) {
+    Sys.setlocale("LC_TIME", lc_time)
+  }
+  
   # get date for 1st of month
   d <- as.Date(paste0("01",month), format="%d%b%Y")
+  
   # Get year
   y <- calYear(d)
   
@@ -210,10 +226,14 @@ lastDateMonth <- function(month){
   
   lastday <- d2-1 # get last day of the given month
   
+  ## convert back to the initial language
+  if(lc_time0 != lc_time) {
+    Sys.setlocale("LC_TIME", lc_time0)
+  }
+  
   return(lastday)
   
 }
-# END of SCRIPT  --------------------------------------------------------
 
 
 # END of SCRIPT  --------------------------------------------------------
