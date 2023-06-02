@@ -9,7 +9,7 @@
 # Reviewed by  :
 
 # Description --------------------------------------------------------------
-# Find it in validDate.RMd
+# Find it in validDate.Rmd
 
 
 # Changes Log --------------------------------------------------------------
@@ -17,25 +17,29 @@
 
 # START of SCRIPT  --------------------------------------------------------
 
-
-#' @title Transforms any character into a valid R Date format
+#' validDate
 #' 
-#' @description validDate process a character or a vector of character (like dataframe column)
-#' to verify date format and to transform almost any date formainto standard R date format
-#' format can be passed as parameters for worst cases where validDate can't guess the format
-#' automaticaly.  
+#' Description: Validates and converts date formats to standard R date format
+#' This function processes a character or a vector of characters to verify the date format 
+#' and transform it into a standard R date format. 
+#' If the format cannot be automatically determined, you can provide a format string as a parameter.
 #'
-#' @param datevar an (character) array to convert it to a Date array
-#' @param format an optional format string to use in place of automatic system, useful for some complex format  
-#'
-#' @return an (Date) array already converted into the Universal Date Format (UDF) in R (YYYY-mm-dd)
-#' @importFrom stats complete.cases
-#' @export 
+#' @param datevar A character array to be converted into a Date array.
+#' @param format An optional format string to use instead of the automatic system. Useful for complex formats.
+#' @param dropFuture Logical value. If TRUE and the year is ambiguous, it will be placed in the future. Default is FALSE.
+#' 
+#' @returns A Date object or a vector of Date objects in standard R date format.
+#' @export
+#' @author STRAP team \email{strap@epiconcept.fr}
+#' @seealso
+#' For more details see the link below to access the vignette:
+#' \href{../doc/epiuf_package.html}{\code{vignette("epiuf_package")}}
 #'
 #' @examples
-#' datevar <- c("2022/01/15","2022/02/10","1950/01/31","2022/15/15",NA)
-#' datevar <- c("20220115","20220210","19500131","111",NA)
-#' 
+#' validDate("2023-05-25")
+#' validDate(c("20221120","20210615","20210303","",NA))
+#' validDate(c("05-25-2023", "26/05/2023"), format = "%m-%d-%Y")
+#' validDate(c("21.05.30","01.11.50","31.11.25"),dropFuture = T)
 validDate <- function(datevar, format = NULL,dropFuture=FALSE)  {
   
   # is date character ? if not we skip all
