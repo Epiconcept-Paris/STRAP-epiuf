@@ -12,46 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(epiuf)
 ```
 
-```{r prepdata,echo=FALSE}
-genRandomDates <- function(size, sep, YearDigits, order){
-  
-  days <- round(rnorm(n = size,mean = 15,sd = 7))  # gen days
-  months <- round(rnorm(n = size,mean = 7,sd = 4)) # gen month
-  if(YearDigits == 2){                             # gen years with 2 dig
-    years <- round(rnorm(n = size,mean = 90,sd = 4))
-    years <- years[years<100]
-    years[nchar(years)==1] <- paste0("0",years[nchar(years)==1])
-  }else{                                           # gen years with 2 dig < 2022
-    years <- round(rnorm(n = size,mean = 1990,sd = 60))
-    years <- years[years<2022 & years>=1920]
-  }
-  
-  days <- days[days<=31 & days>=1]
-  days[nchar(days)==1] <- paste0("0",days[nchar(days)==1])   # adding 0 if the day only has 1 char
-  months <- months[months<=12 & months>=1]
-  months[nchar(months)==1] <- paste0("0",months[nchar(months)==1]) # adding 0 if the day only has 1 char
-  
-  lmin <- min(length(days),length(months),length(years))
-  
-  datevar <- ifelse(order=="dmy",paste0(days[1:lmin],sep,months[1:lmin],sep,years[1:lmin]),
-               ifelse(order=="dym",paste0(days[1:lmin],sep,years[1:lmin],sep,months[1:lmin]),
-                 ifelse(order=="ymd",paste0(years[1:lmin],sep,months[1:lmin],sep,days[1:lmin]),
-                   ifelse(order=="ydm",paste0(years[1:lmin],sep,days[1:lmin],sep,months[1:lmin]),
-                     ifelse(order=="mdy",paste0(months[1:lmin],sep,days[1:lmin],sep,years[1:lmin]),
-                       ifelse(order=="myd",paste0(months[1:lmin],sep,days[1:lmin],sep,years[1:lmin]),                           "")
-                     )
-                   )
-                 )
-               )
-             )
-  
-  return(datevar)
-  
-}
-```
-
-
-##### Brief description: 
+##### Description: 
 validDate function aims to convert an character date into the Universal Date Format (UDF) in R (YYYY-mm-dd)<br />
 
 validDate can be use with various date format, the function will guess the format by analysing the first values of the character date<br />
@@ -76,62 +37,38 @@ b) It's compound of only digits    -> as there is no separator, just guess if th
 
 * *PHASE 5:* Assemble datevar to call function as.Date(x = datevar, format = the format guessed)<br />
 
-##### Issues:
-Mixed formats of dates: it is working but it prints a message. You can check it with date8, we could find the way to make that value "1/3/22" -> NA and that's it
-
-##### Test: 
-To test validDate we did it in two ways: First one, this test dataset was created 
-
-```{r newdf, echo=FALSE}
-
-# create a sample dataset dfdate with column in various format 
-dfdate <- data.frame(simpledate=c("2022/01/15","2022/02/10","1950/01/31","2022/15/15",NA),
-                     digitdate=c("20221120","20210615","20210303","",NA),
-                     dotteddate=c("2022.01.15","2022.02.10","1950.01.31","2022.15.15",NA),
-                     spaceddate=c("2022 01 15","2022 02 10","1950 01 31","2022 15 15",NA)
-                     ) 
-
-print(dfdate)
-```
-
+#####  Testing the function
 
 ```{r passedformat,results="markup",eval=TRUE}
-# Example 1
-validDate(dfdate$simpledate,format="%Y-%m-%d")
-# Example 2
-validDate(datevar = dfdate$dotteddate)
-# Example 3
-validDate(dfdate$digitdate)
+# Example 1. The 3rd date is converted to NA because looking at the overall vector the number 15 doesn't corresponds to any month number.
+dates1 <-  c("2022/01/15","2022/02/10","1950/01/31","2022/15/15",NA)
+validDate(dates1)
+# Example 2. A only-digit vector.
+dates2 <- c("20221120","20210615","20210303","",NA)
+validDate(dates2)
+# Example 3. Using the same vector as dates1 but with "." as the separator.
+dates3 <- c("2022.01.15","2022.02.10","1950.01.31","2022.15.15",NA)
+validDate(dates3)
+# Example 4. Using dates1 vector but with a blank space a the separator.
+dates4 <- c("2022 01 15","2022 02 10","1950 01 31","2022 15 15",NA)
+validDate(dates4)
+# Example 5. A vector in which is not possible to guess which position carries the year, the month and the day returns NA.
+dates5 <- c("1/2/3","1/3/22","1/2/3","1/2/3","1/2/3","1/2/3","1/2/3")
+validDate(dates5)
+# Example 6. A unique value in which is not possible to guess the year, month and date will return NA.
+validDate(c("1/1/2"))
+# Example 7. A unique value in which the year, month and date are predictable will return the vector converted into R Date format.
+validDate("30/1/2022")
+# Example 8. A vector in which the second date doesn't exists (30 february) gives NA for that value. 
+validDate(c("2010/3/20","2010/2/30"))
+# Example 9. A vector dated on the future.
+validDate(c("21.05.2030","01.11.2050","15.07.2024"))
+# Example 10. An ambiguous vector in terms of year. If we are sure that all the dates are in the past, we can use the parameter dropFuture = TRUE.
+validDate(c("21.05.30","01.11.50","31.11.25"),dropFuture = T)
+# Example 11. A vector with mixed formats. The function will convert into NA the formats that are not represented by the majority in the vector.
+dates11 <- c("17/10/2021","21.10.2020","07.03.2021")
+validDate(dates11)
 ```
 
-Sencond way for testing: I created the function _genRandomDates_, to summarize: with this function you can generate random date vectors to test validDate. You choose the size of the vector, the separator you want, nº of year digits (if onlydigits) and order of the date. See some examples and its test:
 
-```{r passedformat2,results="markup",eval=TRUE}
-date1 <- genRandomDates(size = 20,sep = "-",YearDigits = 2,order = "dmy")
-date2 <- genRandomDates(size = 50,sep = " ",YearDigits = 4,order = "ymd")
-date3 <- genRandomDates(size = 100,sep = ".",YearDigits = 2,order = "mdy")
-date3 <- genRandomDates(size = 100,sep = ".",YearDigits = 2,order = "mdy")
-date4 <- genRandomDates(size = 100,sep = ",",YearDigits = 2,order = "mdy")
-date5 <- c(date1,"1/1/2",rep(NA,times=10))
-date6 <- genRandomDates(size = 100,sep = "",YearDigits = 4,order = "dmy")
-date7 <- genRandomDates(size = 100,sep = "",YearDigits = 4,order = "ymd")
-date8 <- c("1/2/3","1/3/22","1/2/3","1/2/3","1/2/3","1/2/3","1/2/3",date1)
-# Test if all warning messages work
-# Warning 1: Not recognized sep
-validDate(datevar = date4)  
-# Warning 2: datevar is not character class
-validDate(datevar = as.Date(date1,format = "%d-%m-%y"))  
-# Warning 3: Record 20 with nchar < 6 converted to NA
-validDate(datevar = c(date1,"1/1/2"))  
-# >=10% to NA
-validDate(datevar = date8) 
-# nchar<6 to NA
-validDate(datevar = date5)  
 
-# Tested & corrected to work with "."
-validDate(datevar = date3)
-# Tested for 8 digits (year at the end)
-validDate(datevar = date6)  
-# year at the beginning
-validDate(datevar = date7)   
-```
