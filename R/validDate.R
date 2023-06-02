@@ -26,7 +26,7 @@
 #'
 #' @param datevar A character array to be converted into a Date array.
 #' @param format An optional format string to use instead of the automatic system. Useful for complex formats.
-#' @param dropFuture Logical value. If TRUE and the year is ambiguous, it will be placed in the future. Default is FALSE.
+#' @param dropFuture Logical value. If TRUE and the year is ambiguous, it will be placed in the past. Default is TRUE.
 #' 
 #' @returns A Date object or a vector of Date objects in standard R date format.
 #' @export
@@ -39,8 +39,8 @@
 #' validDate("2023-05-25")
 #' validDate(c("20221120","20210615","20210303","",NA))
 #' validDate(c("05-25-2023", "26/05/2023"), format = "%m-%d-%Y")
-#' validDate(c("21.05.30","01.11.50","31.11.25"),dropFuture = T)
-validDate <- function(datevar, format = NULL,dropFuture=FALSE)  {
+#' validDate(datevar = "15/01/60",dropFuture = FALSE)
+validDate <- function(datevar, format = NULL,dropFuture=TRUE){
   
   # is date character ? if not we skip all
   if (typeof(datevar) == "character") {
