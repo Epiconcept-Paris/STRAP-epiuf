@@ -29,6 +29,8 @@
 #' @param dropFuture Logical value. If TRUE and the year is ambiguous, it will be placed in the past. Default is TRUE.
 #' 
 #' @returns A Date object or a vector of Date objects in standard R date format.
+#' 
+#' @importFrom stats complete.cases
 #' @export
 #' @author STRAP team \email{strap@epiconcept.fr}
 #' @seealso
