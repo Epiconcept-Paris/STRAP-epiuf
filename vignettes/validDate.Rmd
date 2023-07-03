@@ -1,0 +1,74 @@
+---
+title: "validDate"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{validDate}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(epiuf)
+```
+
+##### Description: 
+validDate function aims to convert an character date into the Universal Date Format (UDF) in R (YYYY-mm-dd)<br />
+
+validDate can be use with various date format, the function will guess the format by analysing the first values of the character date<br />
+
+##### Workflow: 
+This function workflow is divided into 5 phases: <br />
+
+* *PHASE 1:* Prints warnings if any date inside the date vector is too short or if > 10% of the date vector values have too short length. In these cases: validDate converts them to NA, as it's impossible to guess date format<br />
+  + Example 1: datevar <- c(...,"3/3/3",...)<br />
+  + Example 2: datevar <- c("3/3/3","555","03031")<br />
+
+* *PHASE 2:* Guess if: <br />
+a) There are separators in the date vector -> function selects the most frequent separator<br />
+b) Or, it's compound of only digits  -> parameter digits = TRUE (kind of flag to know there are only digits within datevar)<br />
+
+
+* *PHASE 3:* Save different parts of the date depending on:<br />
+a) There are separators in datevar -> create part where part[,1], part[,2] and part[,3] contains day,month,year (not knowing yet which one is)<br />
+b) It's compound of only digits    -> as there is no separator, just guess if the year is at the beginning or at the end and save 3 parts too<br />
+
+* *PHASE 4:* Guess which part is day,month,year depending on the max, min and range values<br />
+
+* *PHASE 5:* Assemble datevar to call function as.Date(x = datevar, format = the format guessed)<br />
+
+#####  Testing the function
+
+```{r passedformat,results="markup",eval=TRUE}
+# Example 1. The 3rd date is converted to NA because looking at the overall vector the number 15 doesn't corresponds to any month number.
+dates1 <-  c("2022/01/15","2022/02/10","1950/01/31","2022/15/15",NA)
+validDate(dates1)
+# Example 2. A only-digit vector.
+dates2 <- c("20221120","20210615","20210303","",NA)
+validDate(dates2)
+# Example 3. Using the same vector as dates1 but with "." as the separator.
+dates3 <- c("2022.01.15","2022.02.10","1950.01.31","2022.15.15",NA)
+validDate(dates3)
+# Example 4. Using dates1 vector but with a blank space a the separator.
+dates4 <- c("2022 01 15","2022 02 10","1950 01 31","2022 15 15",NA)
+validDate(dates4)
+# Example 5. A vector in which is not possible to guess which position carries the year, the month and the day returns NA.
+dates5 <- c("1/2/3","1/3/22","1/2/3","1/2/3","1/2/3","1/2/3","1/2/3")
+validDate(dates5)
+# Example 6. A unique value in which is not possible to guess the year, month and date will return NA.
+validDate(c("1/1/2"))
+# Example 7. A unique value in which the year, month and date are predictable will return the vector converted into R Date format.
+validDate("30/1/2022")
+# Example 8. A vector in which the second date doesn't exists (30 february) gives NA for that value. 
+validDate(c("2010/3/20","2010/2/30"))
+# Example 9. A vector dated on the future.
+validDate(c("21.05.2030","01.11.2050","15.07.2024"))
+# Example 10. An ambiguous vector in terms of year. If we are sure that all the dates are in the past, we can use the parameter dropFuture = TRUE.
+validDate(c("21.05.30","01.11.50","31.11.25"),dropFuture = T)
+# Example 11. A vector with mixed formats. The function will convert into NA the formats that are not represented by the majority in the vector.
+dates11 <- c("17/10/2021","21.10.2020","07.03.2021")
+validDate(dates11)
+```
+
+
+
