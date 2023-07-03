@@ -2,8 +2,7 @@
 % Please edit documentation in R/dataCheck.R
 \name{printIf2}
 \alias{printIf2}
-\title{printIf2
-prints the list of IDs meeting the specified condition}
+\title{printIf2}
 \usage{
 printIf2(
   data,
@@ -34,8 +33,7 @@ printIf2(
 Message to print as list
 }
 \description{
-printIf2
-prints the list of IDs meeting the specified condition
+Prints the list of IDs meeting the specified condition
 }
 \examples{
 df <- data.frame(ID = 1:4, Vaccs = c("pfizer"," ", "pfizer", "moderna"))
