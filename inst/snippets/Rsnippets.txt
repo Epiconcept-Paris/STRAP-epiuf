@@ -36,3 +36,4 @@ snippet roxy
 	#' \href{../doc/epiuf_package.html}{\code{vignette("epiuf_package")}}
 	#'
 	#' @examples
+	
