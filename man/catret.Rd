@@ -2,12 +2,12 @@
 % Please edit documentation in R/utils.R
 \name{catret}
 \alias{catret}
-\title{catret}
+\title{Output to the console and go next line}
 \usage{
 catret(...)
 }
 \arguments{
-\item{...}{list of values to concatenate for console output}
+\item{...}{list of values to be concatenated for console output}
 }
 \value{
 nothing
@@ -20,6 +20,7 @@ output the result to the console, then out a carriage return to make any further
 function to start on the next line.
 }
 \examples{
-catret("test")
+{cat("un ");catret("test");cat("second")}
+
 
 }

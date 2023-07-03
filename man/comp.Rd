@@ -2,9 +2,7 @@
 % Please edit documentation in R/freq.R
 \name{comp}
 \alias{comp}
-\title{comp  Obsolete replaced by desc and desc by
-Aim : To describe numeric variables or categorical variables (need to be in factor)
-according to an another variable}
+\title{comp  >> Obsolete replaced by desc and desc by}
 \usage{
 comp(vars, comp.var, labels, data)
 }
@@ -21,7 +19,6 @@ comp(vars, comp.var, labels, data)
 the result
 }
 \description{
-comp  Obsolete replaced by desc and desc by
 Aim : To describe numeric variables or categorical variables (need to be in factor)
 according to an another variable
 }

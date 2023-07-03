@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{left}
 \alias{left}
-\title{Left}
+\title{Extract x left character of a string}
 \usage{
 left(text, num_char)
 }
@@ -15,9 +15,10 @@ left(text, num_char)
 \code{num_char} extracted characters from left side
 }
 \description{
-Left
+This function allows to extract the x first character of a string
+(Character are counted from the beginning)
 }
 \examples{
-left("dummy_test",4)
+left("dummy_test",5)
 
 }

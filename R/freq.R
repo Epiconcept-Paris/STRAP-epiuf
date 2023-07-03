@@ -79,9 +79,11 @@ freq <- function(x,y=NULL,missing=FALSE,quietly = FALSE) {
 }
 
 
-#' comp  Obsolete replaced by desc and desc by
+#' comp  >> Obsolete replaced by desc and desc by
+#' 
 #' Aim : To describe numeric variables or categorical variables (need to be in factor) 
 #' according to an another variable
+#' 
 #' @param vars list of vars you want to describe
 #' @param comp.var variable to compare (need to be data$var)
 #' @param labels labels for the list of vars
@@ -102,113 +104,114 @@ freq <- function(x,y=NULL,missing=FALSE,quietly = FALSE) {
 #' }
 comp <- function(vars, comp.var, labels, data)
 {
-  # Select list of variables
-  data.comp <- data[,c(vars)]
-  
-  # Levels of comp.var
-  mod <- levels(comp.var)
-  mod.nb <- rep(NA, length(mod))
-  for (i in 1:length(mod)){
-    mod.nb[i] <-nrow(subset(data.comp, comp.var==mod[i]))
-  }
-  label.mod <- paste0(mod, "\n(N=", mod.nb, ")")
-  
-  # Empty object to save the table
-  res <-c(1:(1+length(mod)))
-  
-  for(i in 1:length(vars))
-  {
-    # Numeric variable
-    if (is.numeric(data.comp[,i]))
-    {
-      l1 <- labels[i]
-      l2 <- "Mean (SD)"
-      l3 <- "Median (IQR)"
-      l4 <- "Missing, n(%)"
-      
-      for(k in 1:length(mod))
-      {
-        data.k <- data.comp[comp.var==mod[k] & !is.na(comp.var),]
-        n <- sum(!is.na(data.k[,i]))
-        na <- sum(is.na(data.k[,i]))
-        na.pct <- round(na/nrow(data.k)*100,1)
-        moy <- round(mean(data.k[,i],na.rm=TRUE),1)
-        sd <- round(sd(data.k[,i],na.rm=TRUE),1)
-        med <- round(median(data.k[,i],na.rm=TRUE),1)
-        p25 <- round(quantile(data.k[,i],c(0.25),na.rm=TRUE),1)
-        p75 <- round(quantile(data.k[,i],c(0.75),na.rm=TRUE),1)
-        
-        l1 <- c(l1, NA)
-        l2 <- c(l2, paste0(moy," (",sd,")"))
-        l3 <- c(l3, paste0(med," (",p25,"-",p75,")"))
-        l4 <- c(l4, paste0(na," (",na.pct,")"))
-      }
-      
-      l1234 <- rbind(l1,l2,l3,l4)
-      
-      table.comp <- rbind(res,l1234)
-      res <-table.comp
-    }
-    
-    # Categorical variable
-    if (is.factor(data.comp[,i]))
-    {
-      # Levels of variable i 
-      mod2 <- levels(data.comp[,i])
-      
-      for(j in 1:length(mod2))
-      {
-        l1 <- c(paste0(labels[i], ", n(%)"), rep(NA, length(mod)))
-        l2 <- mod2[j]
-        
-        for(k in 1:length(mod)){
-          data.k <- data.comp[comp.var==mod[k] & !is.na(comp.var),]
-          n <- sum(!is.na(data.k[,i]))
-          n.tab <- as.vector(table(data.k[,i]))
-          n.pct <- round((n.tab/n)*100,1)
-          
-          if (j==1 & k!=length(mod)) 
-          {
-            l2 <- c(l2,paste(n.tab[j]," (",n.pct[j],")",sep=""))
-          }
-          if (j==1 & k==length(mod))
-          {
-            l2 <- c(l2,paste(n.tab[j]," (",n.pct[j],")",sep=""))
-          }
-          if (j>1 & k!=length(mod))
-          {
-            l1 <- l
-            l2 <- c(l2,paste(n.tab[j]," (",n.pct[j],")",sep=""))
-          }
-          if (j>1 & k==length(mod))
-          {
-            l1 <- l
-            l2 <- c(l2,paste(n.tab[j]," (",n.pct[j],")",sep=""))
-          }            
-        }
-        l <- rbind(l1,l2)
-      }
-      
-      l3 <- "Missing"
-      
-      for(k in 1:length(mod)){
-        data.k <- data.comp[comp.var==mod[k] & !is.na(comp.var),]
-        na <- sum(is.na(data.k[,i]))
-        na.pct <- round(na/nrow(data.k)*100,1)
-        l3 <- c(l3, paste0(na," (",na.pct,")"))
-      }
-      
-      l <- rbind(l,l3)
-      
-      table.comp <- rbind(res,l)
-      res <-table.comp
-    }
-  }
-  
-  table.comp <- table.comp[-1,]
-  rownames(table.comp) <- 1:nrow(table.comp)
-  colnames(table.comp) <- c("Variable", label.mod)
-  return(table.comp)
+  # # Select list of variables
+  # data.comp <- data[,c(vars)]
+  # 
+  # # Levels of comp.var
+  # mod <- levels(comp.var)
+  # mod.nb <- rep(NA, length(mod))
+  # for (i in 1:length(mod)){
+  #   mod.nb[i] <-nrow(subset(data.comp, comp.var==mod[i]))
+  # }
+  # label.mod <- paste0(mod, "\n(N=", mod.nb, ")")
+  # 
+  # # Empty object to save the table
+  # res <-c(1:(1+length(mod)))
+  # 
+  # for(i in 1:length(vars))
+  # {
+  #   # Numeric variable
+  #   if (is.numeric(data.comp[,i]))
+  #   {
+  #     l1 <- labels[i]
+  #     l2 <- "Mean (SD)"
+  #     l3 <- "Median (IQR)"
+  #     l4 <- "Missing, n(%)"
+  #     
+  #     for(k in 1:length(mod))
+  #     {
+  #       data.k <- data.comp[comp.var==mod[k] & !is.na(comp.var),]
+  #       n <- sum(!is.na(data.k[,i]))
+  #       na <- sum(is.na(data.k[,i]))
+  #       na.pct <- round(na/nrow(data.k)*100,1)
+  #       moy <- round(mean(data.k[,i],na.rm=TRUE),1)
+  #       sd <- round(sd(data.k[,i],na.rm=TRUE),1)
+  #       med <- round(median(data.k[,i],na.rm=TRUE),1)
+  #       p25 <- round(quantile(data.k[,i],c(0.25),na.rm=TRUE),1)
+  #       p75 <- round(quantile(data.k[,i],c(0.75),na.rm=TRUE),1)
+  #       
+  #       l1 <- c(l1, NA)
+  #       l2 <- c(l2, paste0(moy," (",sd,")"))
+  #       l3 <- c(l3, paste0(med," (",p25,"-",p75,")"))
+  #       l4 <- c(l4, paste0(na," (",na.pct,")"))
+  #     }
+  #     
+  #     l1234 <- rbind(l1,l2,l3,l4)
+  #     
+  #     table.comp <- rbind(res,l1234)
+  #     res <-table.comp
+  #   }
+  #   
+  #   # Categorical variable
+  #   if (is.factor(data.comp[,i]))
+  #   {
+  #     # Levels of variable i 
+  #     mod2 <- levels(data.comp[,i])
+  #     
+  #     for(j in 1:length(mod2))
+  #     {
+  #       l1 <- c(paste0(labels[i], ", n(%)"), rep(NA, length(mod)))
+  #       l2 <- mod2[j]
+  #       
+  #       for(k in 1:length(mod)){
+  #         data.k <- data.comp[comp.var==mod[k] & !is.na(comp.var),]
+  #         n <- sum(!is.na(data.k[,i]))
+  #         n.tab <- as.vector(table(data.k[,i]))
+  #         n.pct <- round((n.tab/n)*100,1)
+  #         
+  #         if (j==1 & k!=length(mod)) 
+  #         {
+  #           l2 <- c(l2,paste(n.tab[j]," (",n.pct[j],")",sep=""))
+  #         }
+  #         if (j==1 & k==length(mod))
+  #         {
+  #           l2 <- c(l2,paste(n.tab[j]," (",n.pct[j],")",sep=""))
+  #         }
+  #         if (j>1 & k!=length(mod))
+  #         {
+  #           l1 <- l
+  #           l2 <- c(l2,paste(n.tab[j]," (",n.pct[j],")",sep=""))
+  #         }
+  #         if (j>1 & k==length(mod))
+  #         {
+  #           l1 <- l
+  #           l2 <- c(l2,paste(n.tab[j]," (",n.pct[j],")",sep=""))
+  #         }            
+  #       }
+  #       l <- rbind(l1,l2)
+  #     }
+  #     
+  #     l3 <- "Missing"
+  #     
+  #     for(k in 1:length(mod)){
+  #       data.k <- data.comp[comp.var==mod[k] & !is.na(comp.var),]
+  #       na <- sum(is.na(data.k[,i]))
+  #       na.pct <- round(na/nrow(data.k)*100,1)
+  #       l3 <- c(l3, paste0(na," (",na.pct,")"))
+  #     }
+  #     
+  #     l <- rbind(l,l3)
+  #     
+  #     table.comp <- rbind(res,l)
+  #     res <-table.comp
+  #   }
+  # }
+  # 
+  # table.comp <- table.comp[-1,]
+  # rownames(table.comp) <- 1:nrow(table.comp)
+  # colnames(table.comp) <- c("Variable", label.mod)
+  # return(table.comp)
+  stop("The function comp has been depreciated and will be deleted from the epiuf package.\nPlease use function epiuf::descBy()")
 }
 
 
@@ -236,7 +239,9 @@ tab_row <- function(rname, line, deci=0, tot = FALSE, coldeci=NULL, indic=NULL, 
   cat("", SEP)
   for (i in 1:(l - 1)) {
     ndigit <- ifelse(coldeci[i],deci,0)
-    fout <- lpad(line[[i]], COL, digit = ndigit)
+    value <- line[[i]]
+    if(is.na(value)) value <-"" 
+    fout <- lpad(value, COL, digit = ndigit)
     cat(fout, " ")
   }
   if (tot) {
@@ -358,11 +363,43 @@ outputtable <-
 #' @param col  "Col percentages"
 #' @param fisher TRUE by default, display the fisher exact probability.
 #' If table is larger than 2*2 then Fisher is not calculated
-#' @return An array containing  values of \code{...}   \code{}
+#' @param total Default TRUE , display marginal total
+#' 
+#' 
+#' @return An array containing  values of \code{
+#' table : The resulting table
+#' rowperc : The optional row percentage
+#' colperc : The optional col percentage  
+#' chisq : Chi Square value
+#' p : Estimated probability of this distribution
+#' fischer : Exact probaility
+#' missing : Number of missing values
+
+#' 
+#' }   
+#' 
 #' @examples
-#' #' epitable(c(1,1,2,2,1),c(3,3,4,4,4))
+#' data <- data.frame(id = 1:10,
+#'                    cases = c(rep(1,3), rep(0,7)),
+#'                    vacc = sample(c(0,1), replace = TRUE, size = 10))
+#' data[8,2]<-NA                    
+#' table(data$cases, data$vacc, useNA = "always")
+#' result <- epitable(data,cases,vacc)
+#' epitable(data,cases,vacc,epiorder=FALSE)
+#' 
+#' epitable(data,"cases","vacc") 
+#' epitable(data,out=cases,exp=vacc,missing=TRUE) 
+#' epitable(data,out=cases,exp=vacc,row=TRUE) 
+#' 
+#' table <- result
+#' result$table
+#' 
+#' data <- data.frame(id = 1:10,
+#'                    cases = c(rep(1,3), rep(0,7)),
+#'                    vacc = sample(c(0,1,2), replace = TRUE, size = 10))
+
 #'
-epitable <- function(data,out,exp,epiorder=TRUE,missing=FALSE,row=FALSE,col=FALSE,fisher=TRUE)  {
+epitable <- function(data,out,exp,epiorder=TRUE,missing=FALSE,row=FALSE,col=FALSE,fisher=TRUE,total=TRUE)  {
   r <- try(class(data),TRUE)
   if ( ! inherits(r, "try-error")) {
     if ("data.frame" %in% r ) {
@@ -372,7 +409,9 @@ epitable <- function(data,out,exp,epiorder=TRUE,missing=FALSE,row=FALSE,col=FALS
       out <-  eval(out,data) 
       exp <- parse(text=substitute(exp))
       exp <-  eval(exp,data) 
-    } else stop(paste("data must be a dataframe")) 
+    } else { 
+      stop(paste("data must be a dataframe")) 
+    }
   }    
     #   if (class(out)=="character" & length(out)==1 ) {
     #   var.out <- out
@@ -403,9 +442,10 @@ epitable <- function(data,out,exp,epiorder=TRUE,missing=FALSE,row=FALSE,col=FALS
   #   outdata <- epiorder(outdata,update=FALSE, reverse=TRUE)
   # }
   # length to be verified
+  
   if (! length(out) == tot) {
     stop(paste("all arguments must have the same length",out.name,"<>",exp.name,
-               "verify that data comes from same datase" ))
+               "verify that data comes from same database" ))
   }
   
   # to get options
@@ -439,11 +479,12 @@ epitable <- function(data,out,exp,epiorder=TRUE,missing=FALSE,row=FALSE,col=FALS
       propcol <- rbind(propcol,100)
     }
     
+    if(total) {
     m <- margin.table(r,1)
     r <- cbind(r,Total = m)
     m <- margin.table(r,2)
     r <- rbind(r,Total = m)
-    
+    }
     # must be done after all structure changes
     names(dimnames(r))  <- c(exp.name,out.name)
     
@@ -451,7 +492,7 @@ epitable <- function(data,out,exp,epiorder=TRUE,missing=FALSE,row=FALSE,col=FALS
     
     title <- paste("Tabulation of",out.name,"by",exp.name)
     
-    outputtable(r, deci=1, totcol=TRUE, title=title, rowperc = proprow , colperc = propcol )
+    outputtable(r, deci=1, totcol=total, totrow = total, title=title, rowperc = proprow , colperc = propcol )
     
     # construct the return list
     result <- list()
@@ -639,10 +680,12 @@ epiorder <- function(var,
     #   df[, colname] <- coldata
     #   # assign(dfname,df,inherits = TRUE )
     #   push.data(dfname, df)
-    #   
-      bold(colname)
-      cat(" Reordered with labels: ")
-      catret(levels(coldata))
+    # 
+    
+    # This display temporarly removed because difficult to read
+    #   cat("** ",colname," **")
+    #   cat(" Reordered with labels: ")
+    #   catret(levels(coldata))
       
     # }
     # exp <- paste0(substitute(var),"<- coldata")
