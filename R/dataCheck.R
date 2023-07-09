@@ -89,7 +89,7 @@ countIf <- function(data, cond = NULL) {
 #' 
 
 listIf <- function(data, varname=NULL, cond=NULL, collapse=FALSE,na.rm = FALSE){
-
+  
   # set up 2 warnings
   warning1 <- NULL
   warning2 <- NULL
@@ -111,8 +111,8 @@ listIf <- function(data, varname=NULL, cond=NULL, collapse=FALSE,na.rm = FALSE){
   
   if (!is.null(cond)) {
     if (!typeof(cond)=="language") {cond <- parse(text=cond)}
-
-  # Retrieve records matching cond
+    
+    # Retrieve records matching cond
     # subset will make a lazy eval, in order to work, this one should be done in listIf context 
     # then parent.frame(2)
     records <- subset(data,eval(cond,data,parent.frame(2)))
@@ -120,22 +120,22 @@ listIf <- function(data, varname=NULL, cond=NULL, collapse=FALSE,na.rm = FALSE){
     records <- data
     warning2 <- "No condition provided, all records listed"
   }
-
   
-    if (isTRUE(na.rm)){
-      listID <- records[!is.na(records[,varname]),varname]
-    }else{
-      listID <- records[,varname]
-    }
   
-    if (collapse==TRUE){
-      listID <- paste(listID, collapse= ", ")
-    }
+  if (isTRUE(na.rm)){
+    listID <- records[!is.na(records[,varname]),varname]
+  }else{
+    listID <- records[,varname]
+  }
+  
+  if (collapse==TRUE){
+    listID <- paste(listID, collapse= ", ")
+  }
   
   if(!is.null(warning1)&is.null(warning2)){warning(warning1)}
   if(is.null(warning1)&!is.null(warning2)){warning(warning2)}
   if(!is.null(warning1)&!is.null(warning2)){warning(paste0(warning1, "\n", warning2))}
-
+  
   return(listID)
 }
 
@@ -231,20 +231,20 @@ printIf<- function(data,  cond, text = "", threshold = NULL , varname = "id", na
 #' printIf(data = df, cond = Vaccs == "pfizer", threshold = 30, text = "Pfizer vaccin", varname = "ID")
 
 printIf2<- function(data,  cond, text = "", threshold = NULL , varname = "id", na.rm = FALSE, data_old=NULL){
-# Set parameters  
+  # Set parameters  
   if (text == "") {
     text <- as.character(cond)
   }
   
   if (is.null(threshold)) {threshold <- 50}
-
+  
   TextToPrint <- c()
   
-# retrieve count and list  
+  # retrieve count and list  
   NbCond <- countIf(data=data, cond=cond)
- Records <- listIf(data=data, varname=varname, cond=cond, na.rm=na.rm)
- 
-# if count not 0, output in desired format 
+  Records <- listIf(data=data, varname=varname, cond=cond, na.rm=na.rm)
+  
+  # if count not 0, output in desired format 
   if (NbCond != 0){
     if (NbCond > 0 & NbCond < threshold){ #if number is under threshold
       
@@ -289,8 +289,8 @@ printIf2<- function(data,  cond, text = "", threshold = NULL , varname = "id", n
 #'
 
 dataCheck<- function(data, data_old=NULL, cond, text="", varname=NULL, threshold=NULL){ 
-# Set up the parameters: 
-
+  # Set up the parameters: 
+  
   # if condition input not as string, convert to string
   cond <- substitute(cond)
   if (!typeof(cond)=="language") {cond <- parse(text=cond)}
@@ -309,14 +309,14 @@ dataCheck<- function(data, data_old=NULL, cond, text="", varname=NULL, threshold
   
   #If not threshold is provided, default threshold is 50
   if (is.null(threshold)) {threshold <- 50 } 
-
+  
   # if not text is provided, use condition.
   if (text == "") {
     text <- as.character(cond)
   }
   
   
-# Extract the records  
+  # Extract the records  
   # isolate records matching cond in the first dataset
   Records <- subset(data,eval(cond),varname)
   NbCond <- nrow(Records) # get count
