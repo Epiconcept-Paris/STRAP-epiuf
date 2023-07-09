@@ -19,3 +19,8 @@ library loading function which ask for confirmation before installing library
 loadLib("utils")
 
 }
+\seealso{
+For more details see the help vignette: \cr
+\code{vignette("epiuf_package", package = "epiuf")} \cr
+\href{"../doc/epiuf_package.html"}{epiuf_package}
+}

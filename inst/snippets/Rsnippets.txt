@@ -1,0 +1,39 @@
+snippet epihead
+	#' Project Name : 
+	#' Script Name  : 
+	#' GitHub repo  : 
+	#' Summary      : 
+	#' Date created : 
+	#' Author       : 
+	#' Date reviewed: 
+	#' Reviewed by  : 
+	
+	#' Description -------------------------------------------------------------
+	#' 
+	
+	#' Changes Log -------------------------------------------------------------
+	#' 
+	
+	# START of SCRIPT  --------------------------------------------------------
+	
+	
+	# END of SCRIPT  ----------------------------------------------------------
+
+snippet todo
+	# TODO : ${1:todo} ----
+
+snippet roxy
+	#' Title
+	#' 
+	#' Description
+	#' 
+	#' @param
+	#' @returns
+	#' @export
+	#' @author STRAP team \email{strap@epiconcept.fr}
+	#' @seealso
+	#' For more details see the link below to access the vignette:
+	#' \href{../doc/epiuf_package.html}{\code{vignette("epiuf_package")}}
+	#'
+	#' @examples
+	

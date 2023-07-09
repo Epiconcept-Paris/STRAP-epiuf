@@ -2,7 +2,7 @@
 % Please edit documentation in R/dataCheck.R
 \name{countIf}
 \alias{countIf}
-\title{Simple count of records satisfying  a conditional expression}
+\title{Count Number of Records}
 \usage{
 countIf(data, cond = NULL)
 }
@@ -12,7 +12,7 @@ countIf(data, cond = NULL)
 \item{cond}{A logical expression}
 }
 \value{
-A number of records
+Number of records
 }
 \description{
 Simple count of records satisfying  a conditional expression
@@ -20,7 +20,7 @@ Simple count of records satisfying  a conditional expression
 \examples{
 
 df <- data.frame(Id = 1:4 ,
-                    Vaccs = c("pfizer"," ", "pfizer", "moderna"))
-nb <- countIf(df,Vaccs=='pfizer')
-nb <- countIf(df)
+                 Vaccs = c("pfizer"," ", "pfizer", "moderna"))
+countIf(df)               
+countIf(df,Vaccs=='pfizer')
 }

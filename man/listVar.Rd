@@ -4,7 +4,7 @@
 \alias{listVar}
 \title{listVar}
 \usage{
-listVar(dataset, pattern, regex = FALSE)
+listVar(dataset, pattern, regex = FALSE, strict = FALSE)
 }
 \arguments{
 \item{dataset}{A dataset to explore}
@@ -12,6 +12,8 @@ listVar(dataset, pattern, regex = FALSE)
 \item{pattern}{Pattern representing varname}
 
 \item{regex}{Should the pattern be used as regex expression or use classical "joker" ? and *}
+
+\item{strict}{If FALSE, the default, look for any column name containing the pattern}
 }
 \value{
 list of the variables matching the pattern

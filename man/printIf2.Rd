@@ -2,9 +2,7 @@
 % Please edit documentation in R/dataCheck.R
 \name{printIf2}
 \alias{printIf2}
-\title{printIf2
-Prints the caption, count and list of IDs meeting the specified condition in
-rmd bullet point format. Aim is to replace printIf.}
+\title{printIf2}
 \usage{
 printIf2(
   data,
@@ -35,9 +33,7 @@ printIf2(
 Message to print as list
 }
 \description{
-printIf2
-Prints the caption, count and list of IDs meeting the specified condition in
-rmd bullet point format. Aim is to replace printIf.
+Prints the list of IDs meeting the specified condition
 }
 \examples{
 df <- data.frame(ID = 1:4, Vaccs = c("pfizer"," ", "pfizer", "moderna"))

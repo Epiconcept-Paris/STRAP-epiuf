@@ -7,23 +7,24 @@
 printVar(dataset, pattern, regex = FALSE)
 }
 \arguments{
-\item{dataset}{A data.frame}
+\item{dataset}{A data.frame containing the variable to be listed}
 
 \item{pattern}{A pattern for varname in the dataframe see \code{regex}}
 
-\item{regex}{Should the pattern be used as regex expression or use classical "joker" ? and *}
+\item{regex}{Should the pattern be used as regex expression or use classical "joker" ? and * , the default}
 }
 \value{
 A data frame of 10 rows with selected columns
 }
 \description{
-printVar
+Function used to quickly print/list a serie of variable (similar names like vaccdate, vacctype, vaccbrand )
 }
 \examples{
  data <- data.frame(Id = 1:4 ,  
                    vaccage = c(34,45, 50,22 ),
                    symp = c("Y","Y","N","N"),
                    vaccboost=c("N","Y","N","Y"))
-printVar(data,"symp")
-printVar(data,"vac*")                    
+printVar(data,"symp") 
+printVar(data,"vac*") 
+                  
 }

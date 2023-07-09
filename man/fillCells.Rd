@@ -12,6 +12,9 @@ fillCells(
   names = FALSE,
   colnames = FALSE,
   rownames = FALSE,
+  style = NULL,
+  styleRowsIndex = NULL,
+  styleColsIndex = NULL,
   wb = NULL
 )
 }
@@ -31,6 +34,12 @@ if contain a data.frame, the dataframe is pasted at the position}
 
 \item{rownames}{if TRUE row names of the dataframe are displayed}
 
+\item{style}{An optional style created with createXlsxStyle}
+
+\item{styleRowsIndex}{Numeric vector of the rown index where to apply the style}
+
+\item{styleColsIndex}{Numeric vector of the column index where to apply the style}
+
 \item{wb}{An optional wb if not already opened}
 }
 \value{
@@ -40,13 +49,31 @@ nothing
 fillCells
 }
 \examples{
+
+# Creating an empty workbook
 wb <- openxlsx::createWorkbook()
 sheetname <- "First Sheet"
 openxlsx::addWorksheet(wb, sheetName = sheetname)
 num <- 3
 denum <- 10
-fillCells(sheetname,1,1, num,denum , wb=wb )
+fillCells(sheetname, 1, 1, num, denum , wb = wb)
 mat <- data.frame(Id = 1:3 , Vaccs = c("1", "3", "6"))
-fillCells(sheetname,1,1, mat ,wb=wb )
+fillCells(sheetname, 3, 1, mat, wb = wb)
+
+# Writing a data frame in the workbook using a style to apply for a set of rows and columns
+alertStyle <- createXlsxStyle(textDecoration = "Bold", fontColour = "red")
+fillCells(wb = wb, 
+          onesheet = sheetname, 
+          line = 7, 
+          col = 2, 
+          iris, 
+          style = alertStyle, 
+          styleRowsIndex = which(iris$Sepal.Length<5),
+          styleColsIndex = 1:4)
+          
+# Saving the Excelfile
+\dontrun{
+saveXlsx(filename = "test.xlsx", wb = wb)
+}
 
 }

@@ -163,7 +163,7 @@ descBy <- function(data, vars, labels=NULL, by = NULL){
     data.subset <- data[,c(vars,by)]
     
     # Check if by is a factor
-    if(class(data[,by]) != "factor"){
+    if( ! is.factor(data[,by])){
       stop(by, " is not a factor")
     }
     

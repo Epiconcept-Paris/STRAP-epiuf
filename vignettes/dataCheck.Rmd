@@ -57,11 +57,11 @@ countIf(df1, A=="b")
 
 ```
 
-```{r listiftest}
+```{r listiftest, eval = TRUE}
 listIf(data=df1, varname="Id", cond = A=="b")
 listIf(data=df1, varname="Id", cond = A=="b", na.rm=TRUE)
 
-listIf(data=df1, varname="Id", cond = A=="b", data_old=df2)
+listIf(data=df1, varname="Id", cond = A=="b")
 
 listIf(df1,  "Idcheck", A=="b")
 listIf(df1, "Idcheck")
@@ -70,20 +70,19 @@ listIf(df1, "Id", collapse=TRUE, na.rm=TRUE)
 ```
 
 ```{r printIf2tests}
-printIf2(data=df1, cond = A=="b", text = "B's in df1 only", varname="Id")
+# printIf2(data=df1, cond = A=="b", text = "B's in df1 only", varname="Id")
 # output is 7 and 2
-printIf2(data=df1, data_old=df2, cond = A=="b",text = "B's in df1 and df2", varname = "Id")
+# printIf2(data=df1, data_old=df2, cond = A=="b",text = "B's in df1 and df2", varname = "Id")
 # output is 7 in both, 2 in df1 only
-
-printIf2(data=df1, cond = A=="b", text = "B's in df1 only", varname="Id")
 ```
 
-```{r tests2}
-dataCheck(data=df1, cond = "A==\"b\"&B==\"mouse\"", text = "B's and mice in df1 only", varname="Id")
+```{r tests2, eval=TRUE}
+dataCheck(data=df1, cond = A=="b"&B=="mouse", text = "B's and mice in df1 only", varname="Id")
 # output should be null
 dataCheck(data=df1, data_old=df2, cond = A=="b"&B=="mouse", text = "B's and mice in df1 and df2", varname = "Id")
 # output should be null
 
 dataCheck(data=df1, data_old=df2, cond = A=="b"&B=="horse", text = "B's and horses in df1 and df2", varname = "Id")
 # output should be 7 from both.
+
 ```

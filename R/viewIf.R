@@ -19,27 +19,43 @@
 
 # START of SCRIPT  --------------------------------------------------------
 
-#' @title  List head of data.frame allowing to select column to view
+#' @title List selected column with an optional condition
+#' 
+#' @description List head or tail of a data.frame allowing to select column to be viewed and an optional condition to select 
+#' rows to be displayed.
+#' 
+#' `viewIf` allow to quickly display some column of a dataframe satisfiyng a condition. It can be used during
+#'  data exploration or after a recoding to verify the result
+#'  When a condition is given, viewIf return all rows for which the condition is TRUE plus all rows with NA 
+#' 
 #'
-#' @param data The dataset to explore
-#' @param ... variable name(s) to include in view
-#' @param cond A logical condition to select records
-#' @param nline Number of rows to show (default to n) If negative then number of row from the end
+#' @param data The dataframe to explore
+#' @param ... variable name(s) to include in view, as character
+#' @param cond A logical condition to select records which will be evaluated into data, given as character 
+#' string. The condition should be passed between quote : cond="mycondition". 
+#' @param nline Number of rows to show (default to 10) If nline is negative then `viewIf` display nline rows
+#'  from the end (similar to tail function) 
 #'
-#' @return invisibly, the resulting selection
+#' @return the resulting selection of n rows for the given list of column
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' view(data ,age,case)
-#' view(data, ,case, nline=5)
-#' view(data, age,case, nline= -10)
-#' }
+#' data <- data.frame(id = 1:10,
+#'                    case = c(rep(1,3), rep(0,7)),
+#'                    vacc = sample(c(0,1), replace = TRUE, size = 10),
+#'                    ill = sample(c(0,1), replace = TRUE, size = 10))
+#' data[8,2]<-NA                    
+#' viewIf(data ,case,vacc)
+#' viewIf(data, ,case,vacc, nline=3)
+#' viewIf(data,case,ill, nline= -3)
+#' viewIf(data,case,ill,cond="vacc==1" )
+#'  
 
 viewIf <- function(data,...,cond=NULL,nline=10) {
   r <- as.list(match.call())
   n <- names(r)
-  cond <- substitute(cond)
+  if(is.null(cond)) cond<-TRUE 
+  else cond <- substitute(cond)
   if (!typeof(cond)=="language") {cond <- parse(text=cond)}
   
   imatch <-pmatch(c("nline","data","cond"),n, nomatch = 0)
@@ -58,17 +74,19 @@ viewIf <- function(data,...,cond=NULL,nline=10) {
       red("column ",colname," is not in dataset ")
     }
   }
+  res <- as.data.frame(data[with(data,eval(cond)),c])
+  # res <- na.omit(res)
   if (nline > 0) {
-    res <- data[with(data,eval(cond)),]
-    res <- as.data.frame(res[1:nline,c])
+    if(nline > nrow(res)) nline<-nrow(res)
+    res <- as.data.frame(res[1:nline,])
   } else {
     l <- nrow(data)
-    nline <- l + nline
-    res <- data[with(data,eval(cond)),]
-    res <- as.data.frame(res[nline:l,c])
+    nline <- l + nline -1
+    if(abs(nline) > nrow(res)) nline<- -nrow(res)
+    res <- as.data.frame(res[nline:l,])
   }
-  utils::View(res)
-  invisible(res)
+  if(ncol(res)==1) colnames(res)<-colname
+  return(res)
 }
 
 

@@ -2,12 +2,12 @@
 % Please edit documentation in R/utils.R
 \name{cleanNames}
 \alias{cleanNames}
-\title{cleanNames}
+\title{Clean names by removing special char and accented}
 \usage{
 cleanNames(name, chr = "")
 }
 \arguments{
-\item{name}{A string to clean by removing non ascii char and accents}
+\item{name}{A string to clean by removing non ascii char}
 
 \item{chr}{A chr used to replace non ascii character}
 }
@@ -15,7 +15,10 @@ cleanNames(name, chr = "")
 the cleaned string
 }
 \description{
-cleanNames
+cleanNames can be used to obtain valid column names by removing non ascii char.
+All invalid characters would be replaced by chr, an optional
+character, if provided otherwise they are removed
+In the same time, all accented character are replaced by a simple equivalent char
 }
 \examples{
 x <- "ÁbcdêãçoàúüEssai/=+$67"
