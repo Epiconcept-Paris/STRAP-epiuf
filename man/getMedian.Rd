@@ -4,12 +4,12 @@
 \alias{getMedian}
 \title{getMedian}
 \usage{
-getMedian(x, ...)
+getMedian(...)
 }
 \arguments{
-\item{x}{numeric, logical, date vector}
-
 \item{...}{potentially further arguments for \code{stats::median()}}
+
+\item{x}{numeric, logical, date vector}
 }
 \value{
 single numeric, logical, date median value

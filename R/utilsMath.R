@@ -207,11 +207,11 @@ getMean <- function(...) {
 #' getMedian(c(NA, 1:9))
 #' getMedian(c(NA, NA))
 #' 
-getMedian <- function(x, ...) {
+getMedian <- function(...) {
   
   # If all = NA, returns NA
-  if (!all(is.na(x))) {
-    result <- median(x, na.rm = TRUE, ...)
+  if (!all(is.na(c(...)))) {
+    result <- median(c(...), na.rm = TRUE)
   } else {
     result <- NA
   }

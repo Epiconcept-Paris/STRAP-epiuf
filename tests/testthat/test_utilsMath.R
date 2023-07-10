@@ -78,16 +78,16 @@ testthat::test_that("getMedian", {
   # Testing float
   expect_equal(getMedian(seq(123, 5, length.out = 200)), 64)
   #Testing with NA and NULL
-  expect_equal(getMedian(c(1:12, NA, NA, NULL, 33:24, NA)), 11.5)
+  expect_equal(getMedian(1:12, NA, NA, NULL, 33:24, NA), 11.5)
   # Testing logical
-  expect_equal(getMedian(c(TRUE, NA, TRUE, FALSE)), TRUE)
+  expect_equal(getMedian(TRUE, NA, TRUE, FALSE), TRUE)
   # Testing dates
   expect_equal(getMedian(seq(as.Date("2023-01-01"), 
                            as.Date("2023-12-31"), 
                            by = "week")), as.Date("2023-07-02"))
   # Testing characters
   expect_warning(getMedian(month.name))
-  expect_warning(getMedian(c(LETTERS, NA, month.abb)))
+  expect_warning(getMedian(LETTERS, NA, month.abb))
   # Testing full of NA
   expect_equal(getMedian(rep(NA, 3896)), NA)
   expect_equal(getMedian(rep(NaN, 4)), NA)
