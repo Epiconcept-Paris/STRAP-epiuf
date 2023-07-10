@@ -49,20 +49,21 @@ testthat::test_that("getMin", {
 testthat::test_that("getMean", {
   # Testing numeric
   expect_equal(getMean(1:25), 13)
+  expect_equal(getMean(1,7,1), 3)
   expect_equal(getMean(seq(123, 5, by = -2)), 64)
   # Testing float
   expect_equal(getMean(seq(123, 5, length.out = 200)), 64)
   #Testing with NA and NULL
-  expect_equal(getMean(c(1:12, NA, NA, NULL, 33:24, NA)), 16.5)
+  expect_equal(getMean(1:12, NA, NA, NULL, 33:24, NA), 16.5)
   # Testing logical
-  expect_equal(getMean(c(TRUE, NA, TRUE, FALSE)), 2/3)
+  expect_equal(getMean(TRUE, NA, TRUE, FALSE), 2/3)
   # Testing dates
   expect_equal(getMean(seq(as.Date("2023-01-01"), 
                           as.Date("2023-12-31"), 
                           by = "week")), as.Date("2023-07-02"))
   # Testing characters
   expect_warning(getMean(month.name))
-  expect_warning(getMean(c(LETTERS, NA, month.abb)))
+  expect_warning(getMean(LETTERS, NA, month.abb))
   # Testing full of NA
   expect_equal(getMean(rep(NA, 3896)), NA)
   expect_equal(getMean(rep(NaN, 4)), NA)

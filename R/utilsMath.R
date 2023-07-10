@@ -159,11 +159,11 @@ getMin <- function(...) {
 #' getMean(c(NA, 1:9))
 #' getMean(c(NA, NA))
 #' 
-getMean <- function(x, ...) {
+getMean <- function(...) {
   
   # If all = NA, returns NA
-  if (!all(is.na(x))) {
-    result <- mean(x, na.rm = TRUE, ...)
+  if (!all(is.na(c(...)))) {
+    result <- mean(c(...), na.rm = TRUE)
   } else {
     result <- NA
   }

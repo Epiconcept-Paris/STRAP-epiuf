@@ -4,12 +4,12 @@
 \alias{getMean}
 \title{getMean}
 \usage{
-getMean(x, ...)
+getMean(...)
 }
 \arguments{
-\item{x}{numeric, logical, date vector}
-
 \item{...}{further arguments passed to \code{base::mean()} or from other methods}
+
+\item{x}{numeric, logical, date vector}
 }
 \value{
 single numeric, logical, date mean value
