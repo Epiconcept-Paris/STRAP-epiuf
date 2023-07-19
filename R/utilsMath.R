@@ -129,8 +129,7 @@ getMin <- function(...) {
 #' 
 #' Get the arithmetic mean value from a vector skipping NA values. If all values are NA, returns NA.
 #' 
-#' @param x numeric, logical, date vector
-#' @param ... further arguments passed to `base::mean()` or from other methods
+#' @param ... numeric, logical, date vector
 #' 
 #' @returns single numeric, logical, date mean value
 #' 
@@ -178,8 +177,7 @@ getMean <- function(...) {
 #' 
 #' Get the median value from a vector skipping NA values. If all values are NA, returns NA.
 #' 
-#' @param x numeric, logical, date vector
-#' @param ... potentially further arguments for `stats::median()`
+#' @param ...  numeric, logical, date vector
 #' 
 #' @returns single numeric, logical, date median value
 #' 
