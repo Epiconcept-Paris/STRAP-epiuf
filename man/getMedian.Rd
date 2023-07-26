@@ -7,9 +7,7 @@
 getMedian(...)
 }
 \arguments{
-\item{...}{potentially further arguments for \code{stats::median()}}
-
-\item{x}{numeric, logical, date vector}
+\item{...}{numeric, logical, date vector}
 }
 \value{
 single numeric, logical, date median value

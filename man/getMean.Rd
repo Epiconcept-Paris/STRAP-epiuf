@@ -7,9 +7,7 @@
 getMean(...)
 }
 \arguments{
-\item{...}{further arguments passed to \code{base::mean()} or from other methods}
-
-\item{x}{numeric, logical, date vector}
+\item{...}{numeric, logical, date vector}
 }
 \value{
 single numeric, logical, date mean value
