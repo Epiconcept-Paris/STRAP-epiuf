@@ -28,7 +28,7 @@
 moyenne <- function(x){
   # x <-  na.omit(x)
   # sum(x)/length(x)
-  stop("The function moyenne has been depreciated and will be deleted from the Epiuf package.\nPlease use base function mean()")
+  stop("The function moyenne has been depreciated and will be deleted from the Epiuf package.\nPlease use the function epiuf::getMean()")
 }
 
 
