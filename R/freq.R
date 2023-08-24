@@ -224,6 +224,7 @@ fmtpval <-function(pvalue,digits) {
   res
 }
 
+
 tab_line <- function(ncol, tot = FALSE, first=FIRST) {
   l1 <- replicate(LINE, first + 1)
   l2 <- replicate(LINE, (ncol - 1) * (COL + 2))
@@ -232,7 +233,7 @@ tab_line <- function(ncol, tot = FALSE, first=FIRST) {
   cat(l1, CROSS, l2, l3, l4, "\n", sep = "")
 }
 
-tab_row <- function(rname, line, deci=0, tot = FALSE, coldeci=NULL, indic=NULL, first=FIRST) {
+tab_row <- function(rname, line, deci=0, tot = FALSE, perc = FALSE, coldeci=NULL, indic=NULL, first=FIRST) {
   l <- length(line)
   if (is.null(coldeci)) {coldeci[1:l] <- FALSE}
   cat(lpad(rname, first))
@@ -253,7 +254,16 @@ tab_row <- function(rname, line, deci=0, tot = FALSE, coldeci=NULL, indic=NULL, 
   }
   ndigit <- ifelse(coldeci[l],deci,0)
   cat(lpad(line[[l]], COL, ndigit ))
+  
+  if (!tot & perc) {
+    if (!is.null(indic)) {
+      cat("",indic)
+    } else {
+      cat("",SEP)
+    }
+  }
   cat("\n")
+  
 }
 
 
@@ -275,6 +285,7 @@ outputtable <-
            title = "Frequency distribution",
            rowperc = NULL,
            colperc=NULL,
+           totperc=NULL,
            coldeci=NULL,
            first=FIRST)  {
     catret(title)
@@ -283,6 +294,9 @@ outputtable <-
     nline <- dim(table)[1]
     coln <- colnames(table)
     rown <- rownames(table)
+    
+    if ( ! is.null(colperc) & totrow ) { colperc <- cbind(colperc, c(rep("",nrow(colperc)-1),100))} # add extra row to be able to format table output properly
+    
     
     if (is.null(coldeci)) {
       coldeci[1:ncol] <- FALSE
@@ -296,7 +310,7 @@ outputtable <-
     # rows title and columns names
     name <- names(dimnames(table))[1]
     if (is.null(name))  name <- ""
-    tab_row(name, coln, deci, totcol, coldeci,first=first)
+    tab_row(name, coln, deci, totcol, perc = FALSE, coldeci,first=first)
     
     # separator line
     tab_line(ncol, totcol,first=first)
@@ -309,12 +323,15 @@ outputtable <-
     totline <- nline
     if (totrow) {totline <- nline - 1}
     for (i in (1:(totline))) {
-      tab_row(rown[i], table[i, ], deci, totcol,coldeci,first=first)
+      tab_row(rown[i], table[i, ], deci, totcol,perc = FALSE, coldeci,first=first)
+      if ( ! is.null(totperc) ) {
+        tab_row("", totperc[i, ], deci, totcol,perc = TRUE, percdeci,indic="O",first=first)
+      }
       if ( ! is.null(rowperc) ) {
-        tab_row("", rowperc[i, ], deci, totcol,percdeci,indic=">",first=first)
+        tab_row("", rowperc[i, ], deci, totcol,perc = TRUE,percdeci,indic=">",first=first)
       }
       if ( ! is.null(colperc) ) {
-        tab_row("", colperc[i, ], deci, totcol,percdeci,indic="V",first=first)
+        tab_row("", colperc[i, ], deci, totcol,perc = TRUE,percdeci,indic="V",first=first)
       }
     }
     
@@ -322,12 +339,16 @@ outputtable <-
     tab_line(ncol, totcol,first=first)
     # Totals row
     if (totrow) {
-      tab_row(rown[nline], table[nline, ], deci, totcol, coldeci,first=first)
+      tab_row(rown[nline], table[nline, ], deci, totcol, perc = FALSE, coldeci,first=first)
+      if ( ! is.null(totperc) ) {
+        tab_row("", totperc[nline, ], deci, totcol,perc = FALSE,percdeci,indic="O",first=first)
+      }
       if ( ! is.null(colperc) ) {
-        tab_row("", colperc[nline, ], deci, totcol,percdeci,indic="V",first=first)
+        tab_row("", colperc[nline, ], deci, totcol,perc = FALSE, percdeci,indic="V",first=first)
       }
     }
   }
+
 
 
 
@@ -399,7 +420,9 @@ outputtable <-
 #'                    vacc = sample(c(0,1,2), replace = TRUE, size = 10))
 
 #'
-epitable <- function(data,out,exp,epiorder=TRUE,missing=FALSE,row=FALSE,col=FALSE,fisher=TRUE,total=TRUE)  {
+
+
+epitable <- function(data,out,exp,epiorder=TRUE,missing=FALSE,row=FALSE,col=FALSE,tout = FALSE, fisher=TRUE,total=TRUE)  {
   r <- try(class(data),TRUE)
   if ( ! inherits(r, "try-error")) {
     if ("data.frame" %in% r ) {
@@ -408,23 +431,23 @@ epitable <- function(data,out,exp,epiorder=TRUE,missing=FALSE,row=FALSE,col=FALS
       out <- parse(text=substitute(out))
       out <-  eval(out,data) 
       exp <- parse(text=substitute(exp))
-      exp <-  eval(exp,data) 
+      exp <-  eval(exp,data)
     } else { 
       stop(paste("data must be a dataframe")) 
     }
-  }    
-    #   if (class(out)=="character" & length(out)==1 ) {
-    #   var.out <- out
-    #   y  <- getvar(x) 
-    # } else {
-    #   var.name <- deparse(substitute(x))
-    #   y <- x 
-    # }
+  }
+  #   if (class(out)=="character" & length(out)==1 ) {
+  #   var.out <- out
+  #   y  <- getvar(x) 
+  # } else {
+  #   var.name <- deparse(substitute(x))
+  #   y <- x 
+  # }
   # } else {
   #   var.name <- deparse(substitute(x))
   #   y <- getvar(var.name)
   # } 
-    
+  
   # r <- as.list(match.call())
   # expdata <- getvar(r$exp)
   # expdata.name <- as.character(substitute(exp)) # getvarname()
@@ -458,32 +481,54 @@ epitable <- function(data,out,exp,epiorder=TRUE,missing=FALSE,row=FALSE,col=FALS
     }
     # calculations
     r <- table(exp,out,useNA=ifelse(missing,"ifany","no"))
+    if(missing){
+      colnames(r)[which(is.na(colnames(r)))] <- "Missing"
+      rownames(r)[which(is.na(rownames(r)))] <- "Missing"
+    }
+    # make a table with no missing so can run a fishers yet still output missing
+    r_nomiss <- table(exp,out,useNA="no") 
     # to suppress the chisq warning if table is more than 2*2
     options("warn"=-1)
-    t <- chisq.test(r)
+    t <- chisq.test(r) # best to run chi square with the missing listed or not??
     options("warn"=0)
     # check size of result table
-    bin <- (dim(r)[1]==2 & dim(r)[2]==2)
+    bin <- (dim(r_nomiss)[1]==2 & dim(r_nomiss)[2]==2)
     if (bin & fisher) {
-      f <- fisher.test(r)$p.value
+      f <- fisher.test(r_nomiss)$p.value
     } else {fisher <- FALSE}
-    proprow <- NULL
+    proprow <- NULL # Why do you have these here?
     propcol <- NULL
+    proptot <- NULL
     if (row) {
       proprow <- round(prop.table(r,1)*100, digits = 2)
-      proprow <- cbind(proprow,100)
+      if(total){
+        proprow <- cbind(proprow,100)
+        colnames(proprow) <- c(colnames(proprow)[1:(length(colnames(proprow))-1)], "Total")
+      }
     }
     if (col) {
       propcol <- round(prop.table(r,2)*100, digits = 2)
-      propcol <- cbind(propcol,"")
-      propcol <- rbind(propcol,100)
+      if(total){
+        #propcol <- cbind(propcol,"") # why this line?
+        propcol <- rbind(propcol,100)
+        rownames(propcol) <- c(rownames(propcol)[1:(length(rownames(propcol))-1)], "Total")
+      }
+    }
+    if (tout){
+      proptot <- round(prop.table(r)*100, digits = 2)
+      if(total){
+        proptot <- rbind(proptot,sapply(1:ncol(proptot), function(x) sum(proptot[,x])))
+        proptot <- cbind(proptot,sapply(1:nrow(proptot), function(x) sum(proptot[x,])))
+        colnames(proptot) <- c(colnames(proptot)[1:(length(colnames(proptot))-1)], "Total")
+        rownames(proptot) <- c(rownames(proptot)[1:(length(rownames(proptot))-1)], "Total")
+      }
     }
     
     if(total) {
-    m <- margin.table(r,1)
-    r <- cbind(r,Total = m)
-    m <- margin.table(r,2)
-    r <- rbind(r,Total = m)
+      m <- margin.table(r,1)
+      r <- cbind(r,Total = m)
+      m <- margin.table(r,2)
+      r <- rbind(r,Total = m)
     }
     # must be done after all structure changes
     names(dimnames(r))  <- c(exp.name,out.name)
@@ -492,17 +537,19 @@ epitable <- function(data,out,exp,epiorder=TRUE,missing=FALSE,row=FALSE,col=FALS
     
     title <- paste("Tabulation of",out.name,"by",exp.name)
     
-    outputtable(r, deci=1, totcol=total, totrow = total, title=title, rowperc = proprow , colperc = propcol )
+    outputtable(r, deci=1, totcol=total, totrow = total, title=title, rowperc = proprow , colperc = propcol , totperc=proptot)
     
     # construct the return list
     result <- list()
     result$table <- r
     result$rowperc <- proprow
     result$colperc <- propcol
+    result$totperc <- proptot
     
     result$chisq <- t$statistic[[1]]
     result$chisq.p <- t$p.value
-    result$fischer <- t$p.value
+    #result$fischer <- t$p.value # why use chi squared here and not fisher?
+    result$fischer <- ifelse(fisher, f, "Fischers not done") # suggest this alernative to avoid confusion that fishers was done when it wasnt
     result$missing <- mis
     
     # print stat result for interactive mode
@@ -686,7 +733,7 @@ epiorder <- function(var,
     #   cat("** ",colname," **")
     #   cat(" Reordered with labels: ")
     #   catret(levels(coldata))
-      
+    
     # }
     # exp <- paste0(substitute(var),"<- coldata")
     # r <- try(evalq(parse(text = exp), envir = df, enclos = .GlobalEnv),TRUE)
