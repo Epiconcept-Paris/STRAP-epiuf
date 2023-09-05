@@ -204,7 +204,7 @@ outputtable <-
     if (totrow) {
       tab_row(rown[nline], table[nline, ], deci, totcol, perc = FALSE, coldeci,first=first)
       if ( ! is.null(totperc) ) {
-        tab_row("", totperc[nline, ], deci, totcol,perc = FALSE,percdeci,indic="O",first=first)
+        tab_row("", totperc[nline, ], deci, totcol,perc = FALSE,percdeci,indic="X",first=first)
       }
       if ( ! is.null(colperc) ) {
         tab_row("", colperc[nline, ], deci, totcol,perc = FALSE, percdeci,indic="V",first=first)
