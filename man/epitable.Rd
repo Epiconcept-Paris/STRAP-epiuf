@@ -12,6 +12,7 @@ epitable(
   missing = FALSE,
   row = FALSE,
   col = FALSE,
+  perc = FALSE,
   fisher = TRUE,
   total = TRUE
 )
@@ -32,6 +33,8 @@ A summary output of number of missing values is added at the end}
 \item{row}{"Row percentages"}
 
 \item{col}{"Col percentages"}
+
+\item{perc}{"Table percentages"}
 
 \item{fisher}{TRUE by default, display the fisher exact probability.
 If table is larger than 2*2 then Fisher is not calculated}
@@ -77,6 +80,7 @@ result$table
 data <- data.frame(id = 1:10,
                    cases = c(rep(1,3), rep(0,7)),
                    vacc = sample(c(0,1,2), replace = TRUE, size = 10))
+epitable(data,cases,vacc,perc=TRUE)
 
 }
 \references{

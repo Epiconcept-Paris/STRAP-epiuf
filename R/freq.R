@@ -382,6 +382,7 @@ outputtable <-
 #'   A summary output of number of missing values is added at the end
 #' @param row  "Row percentages"
 #' @param col  "Col percentages"
+#' @param perc "Table percentages"
 #' @param fisher TRUE by default, display the fisher exact probability.
 #' If table is larger than 2*2 then Fisher is not calculated
 #' @param total Default TRUE , display marginal total
@@ -418,11 +419,11 @@ outputtable <-
 #' data <- data.frame(id = 1:10,
 #'                    cases = c(rep(1,3), rep(0,7)),
 #'                    vacc = sample(c(0,1,2), replace = TRUE, size = 10))
-
+#' epitable(data,cases,vacc,perc=TRUE)
 #'
 
 
-epitable <- function(data,out,exp,epiorder=TRUE,missing=FALSE,row=FALSE,col=FALSE,tout = FALSE, fisher=TRUE,total=TRUE)  {
+epitable <- function(data,out,exp,epiorder=TRUE,missing=FALSE,row=FALSE,col=FALSE,perc = FALSE, fisher=TRUE,total=TRUE)  {
   r <- try(class(data),TRUE)
   if ( ! inherits(r, "try-error")) {
     if ("data.frame" %in% r ) {
@@ -514,7 +515,7 @@ epitable <- function(data,out,exp,epiorder=TRUE,missing=FALSE,row=FALSE,col=FALS
         rownames(propcol) <- c(rownames(propcol)[1:(length(rownames(propcol))-1)], "Total")
       }
     }
-    if (tout){
+    if (perc){
       proptot <- round(prop.table(r)*100, digits = 2)
       if(total){
         proptot <- rbind(proptot,sapply(1:ncol(proptot), function(x) sum(proptot[,x])))
