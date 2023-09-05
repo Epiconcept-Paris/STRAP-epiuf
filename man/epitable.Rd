@@ -2,7 +2,7 @@
 % Please edit documentation in R/freq.R
 \name{epitable}
 \alias{epitable}
-\title{Cross tabulation ( 2by2 table).}
+\title{Cross tabulation}
 \usage{
 epitable(
   data,
@@ -42,24 +42,37 @@ If table is larger than 2*2 then Fisher is not calculated}
 \item{total}{Default TRUE , display marginal total}
 }
 \value{
-An array containing  values of \code{
-table : The resulting table
-rowperc : The optional row percentage
-colperc : The optional col percentage  
-chisq : Chi Square value
-p : Estimated probability of this distribution
-fischer : Exact probaility
-missing : Number of missing values
+An array containing  values of
 
-}
+\code{table} : The resulting table
+
+\code{rowperc} : The optional row percentage
+
+\code{colperc} : The optional col percentage
+
+\code{chisq} : Chi Square value
+
+\code{p} : Estimated probability of this distribution
+
+\code{fischer} : Exact probability
+
+\code{missing} : Number of missing values
 }
 \description{
-\code{epitable} Display a cross tabulation of two variables optionnaly with
-row or col percentages. Chi Square with associated p.value are calculated.
+Display a cross tabulation of two variables optionally with percentages
+(global perc or row or col percentages).
+
+Chi Square with associated p.value are calculated. (optionally fisher)
+
+Missing are counted and can optionally be included in the table
+
 If table contain binary variable, then epiorder function is apply on the two variable
 to get a resulting table compatible with usual epidemiology interpretation.
 0/1 variables are transformed into Yes/No and Yes is displayed before No
 Exposed Cases appear on upper left part of the table.
+}
+\details{
+EPITABLE
 }
 \examples{
 data <- data.frame(id = 1:10,
@@ -68,14 +81,15 @@ data <- data.frame(id = 1:10,
 data[8,2]<-NA                    
 table(data$cases, data$vacc, useNA = "always")
 result <- epitable(data,cases,vacc)
-epitable(data,cases,vacc,epiorder=FALSE)
+result$table
+result$missing
+result$chisq
+result$fisher
 
+epitable(data,cases,vacc,epiorder=FALSE)
 epitable(data,"cases","vacc") 
 epitable(data,out=cases,exp=vacc,missing=TRUE) 
 epitable(data,out=cases,exp=vacc,row=TRUE) 
-
-table <- result
-result$table
 
 data <- data.frame(id = 1:10,
                    cases = c(rep(1,3), rep(0,7)),

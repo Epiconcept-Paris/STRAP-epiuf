@@ -325,7 +325,7 @@ outputtable <-
     for (i in (1:(totline))) {
       tab_row(rown[i], table[i, ], deci, totcol,perc = FALSE, coldeci,first=first)
       if ( ! is.null(totperc) ) {
-        tab_row("", totperc[i, ], deci, totcol,perc = TRUE, percdeci,indic="O",first=first)
+        tab_row("", totperc[i, ], deci, totcol,perc = TRUE, percdeci,indic="X",first=first)
       }
       if ( ! is.null(rowperc) ) {
         tab_row("", rowperc[i, ], deci, totcol,perc = TRUE,percdeci,indic=">",first=first)
@@ -351,18 +351,20 @@ outputtable <-
 
 
 
-
-# epifield documentation for RData using roxygen2
-#' @title
-#' Cross tabulation ( 2by2 table).
+#' EPITABLE
+#' @title Cross tabulation
 #' @description
-#' \code{epitable} Display a cross tabulation of two variables optionnaly with
-#'  row or col percentages. Chi Square with associated p.value are calculated.
+#'  Display a cross tabulation of two variables optionally with percentages 
+#'  (global perc or row or col percentages). 
+#'  
+#'  Chi Square with associated p.value are calculated. (optionally fisher)
+#'  
+#'  Missing are counted and can optionally be included in the table
+#'  
 #'  If table contain binary variable, then epiorder function is apply on the two variable
 #'  to get a resulting table compatible with usual epidemiology interpretation.
 #'  0/1 variables are transformed into Yes/No and Yes is displayed before No
 #'  Exposed Cases appear on upper left part of the table.
-#'
 #'
 #' @name epitable
 #'
@@ -373,6 +375,7 @@ outputtable <-
 #' @seealso \code{\link{freq}} for frequency distributions
 #' @importFrom stats chisq.test fisher.test
 #' @export
+#'
 #' @param data The dataframe to be analysed
 #' @param out  "Outcome" as numbers, factors or text
 #' @param exp  "Exposure" as numbers, factors or text. short syntax is available
@@ -388,17 +391,23 @@ outputtable <-
 #' @param total Default TRUE , display marginal total
 #' 
 #' 
-#' @return An array containing  values of \code{
-#' table : The resulting table
-#' rowperc : The optional row percentage
-#' colperc : The optional col percentage  
-#' chisq : Chi Square value
-#' p : Estimated probability of this distribution
-#' fischer : Exact probaility
-#' missing : Number of missing values
-
+#' @return An array containing  values of 
 #' 
-#' }   
+#' \code{table} : The resulting table
+#' 
+#' \code{rowperc} : The optional row percentage
+#' 
+#' \code{colperc} : The optional col percentage  
+#' 
+#' \code{chisq} : Chi Square value
+#' 
+#' \code{p} : Estimated probability of this distribution
+#' 
+#' \code{fischer} : Exact probability
+#' 
+#' \code{missing} : Number of missing values
+#' 
+#'    
 #' 
 #' @examples
 #' data <- data.frame(id = 1:10,
@@ -407,22 +416,21 @@ outputtable <-
 #' data[8,2]<-NA                    
 #' table(data$cases, data$vacc, useNA = "always")
 #' result <- epitable(data,cases,vacc)
-#' epitable(data,cases,vacc,epiorder=FALSE)
+#' result$table
+#' result$missing
+#' result$chisq
+#' result$fisher
 #' 
+#' epitable(data,cases,vacc,epiorder=FALSE)
 #' epitable(data,"cases","vacc") 
 #' epitable(data,out=cases,exp=vacc,missing=TRUE) 
 #' epitable(data,out=cases,exp=vacc,row=TRUE) 
-#' 
-#' table <- result
-#' result$table
 #' 
 #' data <- data.frame(id = 1:10,
 #'                    cases = c(rep(1,3), rep(0,7)),
 #'                    vacc = sample(c(0,1,2), replace = TRUE, size = 10))
 #' epitable(data,cases,vacc,perc=TRUE)
 #'
-
-
 epitable <- function(data,out,exp,epiorder=TRUE,missing=FALSE,row=FALSE,col=FALSE,perc = FALSE, fisher=TRUE,total=TRUE)  {
   r <- try(class(data),TRUE)
   if ( ! inherits(r, "try-error")) {
