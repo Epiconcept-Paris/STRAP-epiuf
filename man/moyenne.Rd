@@ -2,15 +2,7 @@
 % Please edit documentation in R/to_drop.R
 \name{moyenne}
 \alias{moyenne}
-\title{Project Name : epiuf package
-Script Name  : to_drop
-GitHub repo  :
-Summary      :
-Date created : 2023-08-02
-Author       : Lore Merdrignac
-Date reviewed:
-Reviewed by  :
-Description -------------------------------------------------------------}
+\title{moyenne d’un vecteur >> Obsolete replaced by getMean}
 \usage{
 moyenne(x)
 }
@@ -21,10 +13,5 @@ moyenne(x)
 la fonction renvoie la moyenne d'un vecteur
 }
 \description{
-Changes Log -------------------------------------------------------------
-}
-\details{
-moyenne d’un vecteur >> Obsolete replaced by getMean
-
 Une fonction pour faire une moyenne en enlevant les valeurs manquantes
 }

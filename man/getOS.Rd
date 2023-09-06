@@ -2,22 +2,7 @@
 % Please edit documentation in R/importSnippets.R
 \name{getOS}
 \alias{getOS}
-\title{Project Name : epiuf
-Script Name  : snippets.R
-GitHub repo  : STRAP-epiuf
-Summary      :
-Date created : 2023-06-01
-Author       : Lore Merdrignac
-Date reviewed:
-Reviewed by  : GD
-Description -------------------------------------------------------------
-Use importSnippets() function to add epiuf snippets into RStudio
-Only missing snippets are imported, existing are not modified then
-you should erase existing to ensure importation of latest version
-
-Borrowed and adapted from
-https://stackoverflow.com/questions/62220596/can-r-packages-add-code-snippets-to-users-snippet-files
-Changes Log -------------------------------------------------------------}
+\title{getOS}
 \usage{
 getOS()
 }
@@ -25,9 +10,6 @@ getOS()
 character string naming the operator system in use
 }
 \description{
-getOS
-}
-\details{
 Returns the user OS in lower case
 }
 \examples{

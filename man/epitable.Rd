@@ -20,26 +20,29 @@ epitable(
 \arguments{
 \item{data}{The dataframe to be analysed}
 
-\item{out}{"Outcome" as numbers, factors or text}
+\item{out}{"Outcome", variable or dataframe column name (character string) representing the outcome.
+Will be displayed in columns in the cross tabulation. Numeric, factors or text formats are supported.}
 
-\item{exp}{"Exposure" as numbers, factors or text. short syntax is available
-see help(epifield)}
+\item{exp}{"Exposure" variable or dataframe column name (character string) representing the exposure.
+Will be displayed in rows in the cross tabulation. Numeric, factors or text formats are supported.
+Short syntax is available.}
 
-\item{epiorder}{Should data be reordered to respect epi tables , default to TRUE}
+\item{epiorder}{Boolean. Should data be reordered to respect epi tables? Default to TRUE.
+(i.e., Yes/No)}
 
-\item{missing}{Boolean if FALSE, missing are not included in the table.
+\item{missing}{Boolean. If FALSE, missing are not included in the table.
 A summary output of number of missing values is added at the end}
 
-\item{row}{"Row percentages"}
+\item{row}{"Row percentages", boolean. If TRUE, percentages by row are displayed.}
 
-\item{col}{"Col percentages"}
+\item{col}{"Col percentages", boolean. If TRUE, percentages by column are displayed.}
 
-\item{perc}{"Table percentages"}
+\item{perc}{"Table percentages", boolean. If TRUE, percentages by cell are displayed.}
 
-\item{fisher}{TRUE by default, display the fisher exact probability.
-If table is larger than 2*2 then Fisher is not calculated}
+\item{fisher}{Boolean. If TRUE, display the fisher exact probability. Default to TRUE.
+If the cross tabulation is larger than 2*2, then Fisher is not calculated.}
 
-\item{total}{Default TRUE , display marginal total}
+\item{total}{Boolean. If TRUE, display marginal total. Default to TRUE.}
 }
 \value{
 An array containing  values of
