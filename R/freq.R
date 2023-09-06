@@ -240,18 +240,21 @@ outputtable <-
 #' @export
 #'
 #' @param data The dataframe to be analysed
-#' @param out  "Outcome" as numbers, factors or text
-#' @param exp  "Exposure" as numbers, factors or text. short syntax is available
-#' see help(epifield)
-#' @param epiorder Should data be reordered to respect epi tables , default to TRUE
-#' @param missing Boolean if FALSE, missing are not included in the table.
-#'   A summary output of number of missing values is added at the end
-#' @param row  "Row percentages"
-#' @param col  "Col percentages"
-#' @param perc "Table percentages"
-#' @param fisher TRUE by default, display the fisher exact probability.
-#' If table is larger than 2*2 then Fisher is not calculated
-#' @param total Default TRUE , display marginal total
+#' @param out  "Outcome", variable or dataframe column name (character string) representing the outcome.
+#' Will be displayed in columns in the cross tabulation. Numeric, factors or text formats are supported.
+#' @param exp  "Exposure" variable or dataframe column name (character string) representing the exposure.
+#' Will be displayed in rows in the cross tabulation. Numeric, factors or text formats are supported. 
+#' Short syntax is available.
+#' @param epiorder Boolean. Should data be reordered to respect epi tables? Default to TRUE.
+#' (i.e., Yes/No) 
+#' @param missing Boolean. If FALSE, missing are not included in the table.
+#'  A summary output of number of missing values is added at the end
+#' @param row  "Row percentages", boolean. If TRUE, percentages by row are displayed.
+#' @param col  "Col percentages", boolean. If TRUE, percentages by column are displayed.
+#' @param perc "Table percentages", boolean. If TRUE, percentages by cell are displayed.
+#' @param fisher Boolean. If TRUE, display the fisher exact probability. Default to TRUE.
+#' If the cross tabulation is larger than 2*2, then Fisher is not calculated.
+#' @param total Boolean. If TRUE, display marginal total. Default to TRUE.
 #' 
 #' 
 #' @return An array containing  values of 
