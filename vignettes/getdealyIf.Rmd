@@ -33,3 +33,64 @@ rand_tbl <- tibble::as_tibble(data.frame(
 rand_tbl$delayDate1Date2 <- getDelayIf(rand_tbl, date1, date2)
 ```
 
+Test when used within other functions:
+```{r, eval=FALSE}
+# Create 2 dummy data sets with dates and ids----
+df <- data.frame(date1 = c("2023-01-01", "2023-01-02", "2023-01-03", "2023-01-04")
+                 , date2 = c("2023-02-01", "2023-02-02", "2023-04-03", "2023-03-04")
+                 , id = c("a", "b", "c", "d"))
+
+df2 <- data.frame(date1 = c("2023-01-01", "2023-01-02", "2023-01-03")
+                  , date2 = c("2023-02-01", "2023-02-02", "2023-04-03")
+                  , id = c("a", "b", "c"))
+
+df$date1 <- as.Date(df$date1)
+df$date2 <- as.Date(df$date2)
+df2$date1 <- as.Date(df2$date1)
+df2$date2 <- as.Date(df2$date2)
+
+
+# Situation 1: use within a with() function----
+# This works fine (no with())
+df$test <- ifelse(getDelayIf(df, date1, date2)>40, 1, 0) 
+
+#This also works fine (not using getDelayIf so that can use with())
+df$test2 <- with(df, ifelse(!is.na(date1) & !is.na(date2) & date2-date1>40, 1, 0)) 
+
+# This does not work as data must be specified within getDelayIf 
+# It would be useful if the getDelayIf could be designed such that it can be used in this setting.
+#df$test <- with(df, ifelse(getDelayIf(FirstDateName = date1, SecondDateName = date2)>40, 1, 0)) 
+
+
+# Situation 2: using within subset()----
+# This works, not using getDelayIf -> retrieve 2 rows as expected
+df_test <- subset(df,!is.na(date1) & !is.na(date2) & date2-date1>40 )
+# This also works, though it seems ineficient to specify df twice
+df_test2 <- subset(df,getDelayIf(df, date1, date2)>40)
+
+# This does not work, as must specify df in getDelayIf.
+#df_test2 <- subset(df,getDelayIf(date1, date2)>40)
+
+# Situation 2: use within printDataCheck when 2 data sets are being assessed----
+# printDataCheck parses a condition through subset() for each of data and data_old in turn.
+# As the same condition is used for both data sets, no specific dataset can be listed in the condition.
+
+# Create example data checks, one using getDelayIf, the other not
+check <- list("!is.na(date1) & !is.na(date2) & getDelayIf(df, date1, date2)>40" = "date difference greater than 40 days"
+              ,"!is.na(date1) & !is.na(date2) & date2-date1>40" = "test date difference greater than 40 days")
+ 
+# Run in printDataCheck:
+#This produces the expected output, but results in a warning
+#as have to specify one data set in getDelayIf
+#BUT the printDataCheck is running the condition on both df AND df2
+
+printDataCheck(data=df, data_old=df2, parameters = check, varname = "id", header = "Testing getDelayIf")
+
+#Warning message:
+#In !is.na(date1) & !is.na(date2) & getDelayIf(df, date1, date2) >  :
+#  longer object length is not a multiple of shorter object length
+
+# Conclusion: 
+# It would be useful if the getDelayIf could be designed such that it can be used in these settings WITHOUT the need to specify the data.
+
+```
