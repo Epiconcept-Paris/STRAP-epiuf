@@ -260,7 +260,9 @@ outputtable <-
 #' 
 #' \code{rowperc} : The optional row percentage
 #' 
-#' \code{colperc} : The optional col percentage  
+#' \code{colperc} : The optional col percentage 
+#' 
+#' \code{totperc} : The optional percentage 
 #' 
 #' \code{chisq} : Chi Square value
 #' 

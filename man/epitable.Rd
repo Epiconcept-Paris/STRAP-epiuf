@@ -50,6 +50,8 @@ An array containing  values of
 
 \code{colperc} : The optional col percentage
 
+\code{totperc} : The optional percentage
+
 \code{chisq} : Chi Square value
 
 \code{p} : Estimated probability of this distribution
