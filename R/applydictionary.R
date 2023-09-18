@@ -65,35 +65,55 @@ openDictionary <-  function(filename) {
   # need more checks to verify that sheet exists with good name ! 
   if (file.exists(filename)) {
     epidictionaryfiles_env$datafilename <- filename
-    data <- readData(filename,sheet="dictionary")
-    epidictionaryfiles_env$data <- data
-    # we need to update structure if needed
-    epidictionaryfiles_env$data <- updateDataset(epidictionaryfiles_env$data,getNewDictionaryLine("dictionary"))
-    
-    
-    # if multivarname is a variable which contain char, we use content of multivarname
-    tryCatch(
-      epidictionaryfiles_env$dicos <- readData(filename,sheet="dicos")
-      , error = function(c) { 
-        epidictionaryfiles_env$dicos <- getNewDictionaryLine("dicos")
-        }
-    )
-    epidictionaryfiles_env$dicos <- updateDataset(epidictionaryfiles_env$dicos,getNewDictionaryLine("dicos"))
-    
-    tryCatch(
-        epidictionaryfiles_env$actions <- readData(filename,sheet="actions")
-      , error = function(c) { 
-        epidictionaryfiles_env$actions <- getNewDictionaryLine("actions")
+    ## PR_CLZ: Create an if to add a warning message in case the sheet names don't match or do not exist
+    # Verify if there are 3 sheets with the correct names
+    data <- openXlsx(filename)
+    if(all(names(data)==c("dictionary","dicos","actions"))){
+    ## END_PR_CLZ   
+      data <- readData(filename,sheet="dictionary")
+      epidictionaryfiles_env$data <- data
+      
+      ## PR_CLZ: Check if the dictionary updated is blank (which means that it is empty in terms of content)
+      if( length(names(data))==0 ){
+        catret(red("Blank dictionary sheet. Please, check."))
+      }else{
+      ## END_PR_CLZ: In case it is not, run the rest of the code 
+        # we need to update structure if needed
+        epidictionaryfiles_env$data <- updateDataset(epidictionaryfiles_env$data,getNewDictionaryLine("dictionary"))
+        
+        # if multivarname is a variable which contain char, we use content of multivarname
+        tryCatch(
+          epidictionaryfiles_env$dicos <- readData(filename,sheet="dicos")
+          , error = function(c) { 
+            epidictionaryfiles_env$dicos <- getNewDictionaryLine("dicos")
+          }
+        )
+        epidictionaryfiles_env$dicos <- updateDataset(epidictionaryfiles_env$dicos,getNewDictionaryLine("dicos"))
+        
+        tryCatch(
+          epidictionaryfiles_env$actions <- readData(filename,sheet="actions")
+          , error = function(c) { 
+            epidictionaryfiles_env$actions <- getNewDictionaryLine("actions")
+          }
+        )
+        
+        epidictionaryfiles_env$actions <- updateDataset(epidictionaryfiles_env$actions,getNewDictionaryLine("actions"))
+
       }
-    )
+
+    ## PR_CLZ: add a warning message
+    } else {
+      catret(red("Sheet in ",filename," not correct: dictionary, dicos and actions sheets needed."))
+        
+    }
+    ## END_PR_CLZ 
+   } else {   # datadictionary doesn't exist we have to create it
+      red("Datadictionary ",filename," not found. Empty dictionary created")
+      # we need to create the 3 data sheet
+      createDictionary()
+   }
+
     
-    epidictionaryfiles_env$actions <- updateDataset(epidictionaryfiles_env$actions,getNewDictionaryLine("actions"))
-    
-  } else {   # datadictionary doesn't exist we have to create it
-    red("Datadictionary ",filename," not found. Empty dictionary created")
-    # we need to create the 3 data sheet
-    createDictionary()
-  }
 }
 
 
