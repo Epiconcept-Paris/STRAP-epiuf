@@ -67,7 +67,7 @@ openDictionary <-  function(filename) {
     epidictionaryfiles_env$datafilename <- filename
     ## PR_CLZ: Create an if to add a warning message in case the sheet names don't match or do not exist
     # Verify if there are 3 sheets with the correct names
-    data <- openXlsx(filename)
+    data <- openxlsx::loadWorkbook(filename)
     if(all(names(data)==c("dictionary","dicos","actions"))){
     ## END_PR_CLZ   
       data <- readData(filename,sheet="dictionary")
