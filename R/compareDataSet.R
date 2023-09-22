@@ -95,7 +95,9 @@ updateDataset <- function(data, modele) {
       data[data.add[i]] <- NA
     }
     ## PR_CLZ: Add a message warning the user about the columns created
-    catret(paste0("Column(s) ",paste0("'",data.add,"'",collapse = ","), " created automatically as blank in dictionary sheet"))
+    catret("")
+    red(paste0("Column(s) ",paste0("'",data.add,"'",collapse = ","), " created automatically as blank in dictionary sheet"))
+    catret("\n")
   }
   return(data)
 }

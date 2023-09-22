@@ -103,12 +103,17 @@ openDictionary <-  function(filename) {
 
     ## PR_CLZ: add a warning message
     } else {
+      catret("")
       catret(red("Sheet in ",filename," not correct: dictionary, dicos and actions sheets needed."))
-        
+      catret("\n")  
     }
     ## END_PR_CLZ 
    } else {   # datadictionary doesn't exist we have to create it
+     ## PR_CLZ: add a line before and after the red warning
+      catret("")
       red("Datadictionary ",filename," not found. Empty dictionary created")
+      catret("\n")  
+      ## END_PR_CLZ 
       # we need to create the 3 data sheet
       createDictionary()
    }
@@ -342,7 +347,11 @@ getDico <- function(diconame) {
   ds <-  subset(ds,ds$dico == diconame)
   if (length(ds)==0) {
     ds <- NA
+    ## PR_CLZ : add line before and after
+    catret("")
     red("Dico",diconame,"not found")
+    catret("\n")
+    ## END_PR_CLZ 
   }  
   return(ds) 
 }
