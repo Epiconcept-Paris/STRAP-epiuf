@@ -65,19 +65,29 @@ openDictionary <-  function(filename) {
   # need more checks to verify that sheet exists with good name ! 
   if (file.exists(filename)) {
     epidictionaryfiles_env$datafilename <- filename
-    ## PR_CLZ: Create an if to add a warning message in case the sheet names don't match or do not exist
-    # Verify if there are 3 sheets with the correct names
-    data <- openxlsx::loadWorkbook(filename)
-    if(all(names(data)==c("dictionary","dicos","actions"))){
-    ## END_PR_CLZ   
-      data <- readData(filename,sheet="dictionary")
-      epidictionaryfiles_env$data <- data
+## PR_CLZ: Create an if to add a warning message in case the sheet names don't match or do not exist
+    sheet_names <- openxlsx::getSheetNames(filename)
+    
+    # Check if the modele sheets are found in the excel
+    if(all(c("dictionary","dicos","actions")%in%sheet_names)){
       
-      ## PR_CLZ: Check if the dictionary updated is blank (which means that it is empty in terms of content)
-      if( length(names(data))==0 ){
-        catret(red("Blank dictionary sheet. Please, check."))
-      }else{
-      ## END_PR_CLZ: In case it is not, run the rest of the code 
+      sheet1 <- readData(filename, sheet = "dictionary",verbose = F) # sheet dictionary
+      sheet2 <- readData(filename, sheet = "dicos",verbose = F)      # sheet dictionary
+      sheet3 <- readData(filename, sheet = "actions",verbose = F)    # sheet actions
+      which_blank <- sapply(list(sheet1,sheet2,sheet3), function(x) all(is.na(x)))
+      
+      # Check if all sheet are not completely blank
+      if(all(!which_blank)){
+        
+        # Check if any of the sheets lacks of any essential column
+        if(!all(c("source_name","generic_name","type","dico","unknowns")%in%names(sheet1))){ warning("Sheet 'dictionary' not correct: ",paste0(c("source_name","generic_name","type","dico","unknowns"),collapse = ",") ," cols needed.") }
+        if(!all(c("dico_name","label","code")%in%names(sheet2))){ warning("Sheet 'dicos' not correct: ",paste0(c("dico_name","label","code"),collapse = ",") ," cols needed.") }
+        if(!all(c("variable","action_group","parameters")%in%names(sheet3))){ warning("Sheet 'actions' not correct: ",paste0(c("variable","action_group","parameters"),collapse = ",") ," cols needed.") }
+## END_PR_CLZ 
+        
+        data <- readData(filename,sheet="dictionary")
+        epidictionaryfiles_env$data <- data
+      
         # we need to update structure if needed
         epidictionaryfiles_env$data <- updateDataset(epidictionaryfiles_env$data,getNewDictionaryLine("dictionary"))
         
@@ -98,22 +108,20 @@ openDictionary <-  function(filename) {
         )
         
         epidictionaryfiles_env$actions <- updateDataset(epidictionaryfiles_env$actions,getNewDictionaryLine("actions"))
-
+## PR_CLZ: add a warning messages
+        } else{
+          # Print a warning with the blank sheet(s)
+          warning("Sheet ",paste0(c("dictionary","dicos","actions")[which_blank],collapse = ",")," completely blank")
+        }
+      
+      } else { 
+        warning("Sheet in ",filename," not correct: dictionary, dicos and actions sheets needed.")
+        catret("\n")  
       }
-
-    ## PR_CLZ: add a warning message
-    } else {
-      catret("")
-      catret(red("Sheet in ",filename," not correct: dictionary, dicos and actions sheets needed."))
-      catret("\n")  
-    }
-    ## END_PR_CLZ 
    } else {   # datadictionary doesn't exist we have to create it
-     ## PR_CLZ: add a line before and after the red warning
       catret("")
-      red("Datadictionary ",filename," not found. Empty dictionary created")
-      catret("\n")  
-      ## END_PR_CLZ 
+      warning("Datadictionary ",filename," not found. Empty dictionary created\n")
+## END_PR_CLZ 
       # we need to create the 3 data sheet
       createDictionary()
    }
