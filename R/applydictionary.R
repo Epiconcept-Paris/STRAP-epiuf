@@ -115,7 +115,7 @@ openDictionary <-  function(filename) {
         }
       
       } else { 
-        warning("Sheet in ",filename," not correct: dictionary, dicos and actions sheets needed.")
+        warning("Sheet ",c("dictionary","dicos","actions")[!(c("dictionary","dicos","actions")%in%sheet_names)]," not found")
         catret("\n")  
       }
    } else {   # datadictionary doesn't exist we have to create it
