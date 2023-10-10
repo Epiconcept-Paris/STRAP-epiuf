@@ -14,7 +14,8 @@ nothing
 }
 \description{
 catret is a wrapper for cat(...,"newline").
-
+}
+\details{
 catret concatenate all provided entry and
 output the result to the console, then out a carriage return to make any further cat
 function to start on the next line.

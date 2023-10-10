@@ -22,12 +22,12 @@ list of the variables matching the pattern
 listVar
 }
 \examples{
-data <- data.frame(Id = 1:4 ,  
+data <- data.frame(Id = 1:4 ,
                    vaccage = c(34,45, 50,22 ),
                    symp = c("Y","Y","N","N"),
                    vaccboost=c("N","Y","N","Y"))
 listVar(data,"symp")
-listVar(data,"vac*")                    
-                   
+listVar(data,"vac*")
+
 
 }
