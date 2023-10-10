@@ -482,12 +482,15 @@ blue <- function(...) {
 #'
 #' @examples
 #' li <- list("one","two","three")
-#' addSep(li,",")
+#' addSep(li,"-")
+#' addSep(li,", ")
 addSep <- function(li,c) {
-  sep <- function(x)  paste(x, c)
+  sep <- function(x)  paste0(x,c)
   li2 <- lapply(li,sep)
+  # We keep the last item (no need of sep)
   l <- length(li)
   li2[l] <- li[l]
+  li2 <- paste(li2, collapse="")
   li2
 }
 

@@ -21,5 +21,6 @@ transform a list into a string of separated values
 }
 \examples{
 li <- list("one","two","three")
-addSep(li,",")
+addSep(li,"-")
+addSep(li,", ")
 }
