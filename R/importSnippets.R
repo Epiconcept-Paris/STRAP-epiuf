@@ -1,22 +1,22 @@
-#' Project Name : epiuf
-#' Script Name  : snippets.R
-#' GitHub repo  : STRAP-epiuf
-#' Summary      : 
-#' Date created : 2023-06-01
-#' Author       : Lore Merdrignac
-#' Date reviewed:
-#' Reviewed by  : GD
+# Project Name : epiuf
+# Script Name  : snippets.R
+# GitHub repo  : STRAP-epiuf
+# Summary      : 
+# Date created : 2023-06-01
+# Author       : Lore Merdrignac
+# Date reviewed:
+# Reviewed by  : GD
 
-#' Description -------------------------------------------------------------
-#' Use importSnippets() function to add epiuf snippets into RStudio
-#' Only missing snippets are imported, existing are not modified then 
-#' you should erase existing to ensure importation of latest version
-#'  
-#' Borrowed and adapted from 
-#' https://stackoverflow.com/questions/62220596/can-r-packages-add-code-snippets-to-users-snippet-files
+# Description -------------------------------------------------------------
+# Use importSnippets() function to add epiuf snippets into RStudio
+# Only missing snippets are imported, existing are not modified then 
+# you should erase existing to ensure importation of latest version
+#  
+# Borrowed and adapted from 
+# https://stackoverflow.com/questions/62220596/can-r-packages-add-code-snippets-to-users-snippet-files
 
-#' Changes Log -------------------------------------------------------------
-#' 
+# Changes Log -------------------------------------------------------------
+# 
 
 # START of SCRIPT  --------------------------------------------------------
 
