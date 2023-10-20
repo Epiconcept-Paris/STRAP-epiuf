@@ -474,8 +474,8 @@ blue <- function(...) {
 #' transform a list into a string of separated values
 #'
 #'
-#' @param li A list of values
-#' @param c A separator
+#' @param charlist A list of character values to be concatened with c separator
+#' @param sep A separator string, default ", "
 #'
 #' @return A string representing the list as separated values
 #' @export
@@ -483,13 +483,13 @@ blue <- function(...) {
 #' @examples
 #' li <- list("one","two","three")
 #' addSep(li,"-")
-#' addSep(li,", ")
-addSep <- function(li,c) {
-  sep <- function(x)  paste0(x,c)
-  li2 <- lapply(li,sep)
+#' addSep(li)
+addSep <- function(charlist,sep = ", ") {
+  sepf <- function(x)  paste0(x,sep)
+  li2 <- lapply(charlist,sepf)
   # We keep the last item (no need of sep)
-  l <- length(li)
-  li2[l] <- li[l]
+  l <- length(charlist)
+  li2[l] <- charlist[l]
   li2 <- paste(li2, collapse="")
   li2
 }
