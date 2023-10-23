@@ -5,12 +5,12 @@
 \title{addSep
 transform a list into a string of separated values}
 \usage{
-addSep(li, c)
+addSep(charlist, sep = ", ")
 }
 \arguments{
-\item{li}{A list of values}
+\item{charlist}{A list of character values to be concatened with c separator}
 
-\item{c}{A separator}
+\item{sep}{A separator string, default ", "}
 }
 \value{
 A string representing the list as separated values
@@ -22,5 +22,5 @@ transform a list into a string of separated values
 \examples{
 li <- list("one","two","three")
 addSep(li,"-")
-addSep(li,", ")
+addSep(li)
 }
