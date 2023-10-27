@@ -137,33 +137,36 @@ catret  <- function(...) {
 }
 
 
-#' count how many char
+
+#' Count the Occurrences of a Pattern in Text
 #'
-#' Count the number of a specified char into a text using reg expr
-#' If pattern is a single character or a suite of character, then charcount return
-#' the number of occurrence of pattern into "tosearch"
+#' Counts the number of times a specified pattern appears in a given text string or vector of strings.
+#' If the pattern is a single character or a sequence of characters, the function returns
+#' the number of occurrences of the pattern in "stosearch".
 #'
-#' If pattern is a regular expression, charCount return the number of time this regular
-#' expression is verified into "tosearch" string
-#' Verify regular expression syntax for specific exptression like . which should
-#' be escaped by \\ : \\.
+#' When the pattern is a regular expression, the function returns the number of times the expression
+#' matches in "stosearch". 
+#' For specific regex patterns like ".", you should escape it: e.g., charCount("\\.txt", c("test.txt", "sample.txt")).
 #'
-#' @seealso [nchar()]
-#' @param pattern "The character or pattern to search for
-#' @param stosearch The string to search in
+#' @param pattern Character. The pattern to search for within the text string(s).
+#' @param stosearch Character. The text string(s) in which to search for the pattern.
+#' @param ignore.case Logical. If TRUE, the search is case-insensitive. Default is FALSE.
+#' 
+#' @return Integer. The total count of occurrences of the pattern in the text string(s).
 #'
-#' @return number of match
 #' @export
-#'
 #' @examples
-#' nb <- charCount("/", "test/essai/try")
-#' nb <- charCount("^t", "test/essai/try")
-#' nb <- charCount(".t", "test/essai/try")
+#' charCount("a", "banana")  # Returns 3 (three 'a's in "banana")
+#' charCount("a", c("banana", "apple"))  # Returns 4 
+#' charCount("\\d", "13ab2c")  # Returns 3 (three digits in "13ab2c")
+#' charCount("\\.txt", c("test.txt", "sample.txt"))
 #'
+#' @seealso \code{\link[nchar]{nchar}}
 #'
-charCount <- function(pattern, stosearch) {
+charCount <- function(pattern, stosearch,ignore.case=FALSE) {
   # pattern <- glob2rx(pattern)
-  lengths(regmatches(stosearch, gregexpr(pattern, stosearch)))
+  result <- lengths(regmatches(stosearch, gregexpr(pattern, stosearch,ignore.case)))
+  sum(result)
   # length(attr(gregexpr(pattern,stosearch)[[1]],
   #            "match.length")[attr(gregexpr(pattern,stosearch)[[1]], "match.length")>0])
 }

@@ -5,20 +5,20 @@
 \title{Find and Replace Text in Files in a Directory or File List}
 \usage{
 filesFindReplace(
-  directory,
-  oldtext,
-  newtext,
+  filename,
+  pattern,
+  replacement,
   wholeword = FALSE,
   ignore.case = FALSE,
   listonly = FALSE
 )
 }
 \arguments{
-\item{directory}{Character or character vector. The path of the directory, a single file, or a list of files.}
+\item{filename}{Character or character vector. The path of the directory, a single file, or a list of files.}
 
-\item{oldtext}{Character vector. A vector of patterns to search for in the files.}
+\item{pattern}{Character vector. A vector of patterns to search for in the files.}
 
-\item{newtext}{Character vector. A vector of replacements for the patterns found.}
+\item{replacement}{Character vector. A vector of replacements for the patterns found.}
 
 \item{wholeword}{Logical. If TRUE, only whole words will be replaced. Defaults to FALSE.}
 
@@ -47,5 +47,5 @@ filesFindReplace(c("file1.txt", "file2.csv"), "oldText", "newText")
 }
 }
 \seealso{
-\code{\link{fileFindReplace}}, \code{\link{xlsxFindReplace},\code{\link{txtFindReplace} }
+\code{\link{fileFindReplace}}, \code{\link{xlsxFindReplace}},\code{\link{txtFindReplace} }
 }

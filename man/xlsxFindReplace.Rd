@@ -4,18 +4,28 @@
 \alias{xlsxFindReplace}
 \title{Find and Replace Text in an Excel File}
 \usage{
-xlsxFindReplace(xlsxName, oldname, newname, word = FALSE, ignore.case = TRUE)
+xlsxFindReplace(
+  xlsxName,
+  pattern,
+  replacement,
+  word = FALSE,
+  ignore.case = TRUE,
+  listonly = FALSE
+)
 }
 \arguments{
 \item{xlsxName}{The name (including path) of the Excel (.xlsx) file to modify.}
 
-\item{oldname}{The text to search for in the Excel file.}
+\item{pattern}{The text to search for in the Excel file.}
 
-\item{newname}{The text that will replace \code{oldname}.}
+\item{replacement}{The text that will replace \code{oldname}.}
 
 \item{word}{Logical, if TRUE only whole words will be replaced.}
 
 \item{ignore.case}{Logical, if TRUE the function ignores case.}
+
+\item{listonly}{Logical. If TRUE, the function only lists the files that would be modified without actually
+modifying them. Defaults to FALSE.}
 }
 \value{
 No return value; the function modifies the Excel file in-place and prints a message indicating the modified file.

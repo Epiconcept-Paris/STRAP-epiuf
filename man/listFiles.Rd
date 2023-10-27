@@ -2,7 +2,7 @@
 % Please edit documentation in R/utilsFiles.R
 \name{listFiles}
 \alias{listFiles}
-\title{listFiles}
+\title{Enhanced File Listing with Support for Wildcard Patterns}
 \usage{
 listFiles(
   path = ".",
@@ -13,24 +13,27 @@ listFiles(
 )
 }
 \arguments{
-\item{path}{Path to search for files  "." mean current directory}
+\item{path}{Character. The path where to look for the files. Defaults to the current directory.}
 
-\item{pattern}{Pattern of files to be listed}
+\item{pattern}{Character. The pattern to match the files against. Supports both glob and regex patterns. Defaults to "*".}
 
-\item{fullnames}{Should the function return full name with path or only file name}
+\item{fullnames}{Logical. Whether to return full names including the path. Defaults to FALSE.}
 
-\item{recursive}{If TRUE sub directories are explored (fullnames set to TRUE)}
+\item{recursive}{Logical. Whether to list files recursively. Defaults to FALSE.}
 
-\item{regex}{If FALSE, the default, the pattern is considered as global pattern
-with only standard * and ? jokers}
+\item{regex}{Logical. Whether the provided pattern is a regex pattern. Defaults to FALSE.}
 }
 \value{
-Character list of found files
+Character vector. A vector of file names that match the criteria.
 }
 \description{
-listFiles
+This function is a wrapper around \code{list.files} from base R, providing additional options
+such as automatic conversion from glob to regex patterns, this function supports direct use of standard
+directory patterns like "*" and "?" for matching files. Full names is enabled automatically when recursive search is activated.
 }
 \examples{
-listFiles(path = ".", pattern = "*.doc")
-
+\dontrun{
+listFiles(path = "path/to/directory", pattern = "*.txt")
+listFiles(path = "path/to/directory", pattern = "file[0-9]\\\\.txt", regex = TRUE)
+}
 }

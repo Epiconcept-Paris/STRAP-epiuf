@@ -9,8 +9,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(epiuf)
@@ -20,13 +18,11 @@ file3 <- "temp_text3.R"
 
 ```
 
-
-
 ```{r prepFiles, echo=FALSE}
 lines <- c(
 "# test script for findAndReplace",
 "# word to be replaced : oldword",
-"#",
+"#  old_word",
 "#  oldword --  oldword)")
 
 writeLines(lines, file1)
@@ -34,21 +30,24 @@ writeLines(lines, file2)
 writeLines(lines, file3)
 ```
 
+**listFiles** is a simplified version of list.files which accept jokers (fullpath is automaticaly set with recursive flag)
 
 ```{r listFiles}
 listFiles(pattern="temp_*.R")
-listFiles("R")
+listFiles("R","c*")
 ```
 
+**filesFindReplace** is a generic function to make batch replacement You can call this function for one file, a list of files, a directory, a pattern to filter files or any combination of previous option.
 
 ```{r replaceinFiles}
-  filesFindReplace(c(file1,file2),oldtext="oldword",newtext = "newword",listonly=TRUE)
+  filesFindReplace(c(file1,file2),pattern="oldword",replacement = "newword",listonly=TRUE)
+
+  filesFindReplace(file3,pattern=c("oldword","old_word"),replacement = "newword",listonly=TRUE)
  
-  filesFindReplace(file1,oldtext="oldword",newtext = "newword")
+  filesFindReplace(file1,pattern="oldword",replacement = "newword")
   cat(readLines(file1),sep="\n")
  
 ```
-
 
 ```{r cleaning, echo=FALSE }
 if(file.exists(file1)) r <- file.remove(file1)
@@ -56,4 +55,3 @@ if(file.exists(file2)) r <- file.remove(file2)
 if(file.exists(file3)) r <- file.remove(file3)
 
 ```
-

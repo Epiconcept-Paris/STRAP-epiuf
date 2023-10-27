@@ -9,7 +9,8 @@ fileFindReplace(
   pattern,
   replacement,
   wholeword = TRUE,
-  ignore.case = FALSE
+  ignore.case = FALSE,
+  listonly = FALSE
 )
 }
 \arguments{
@@ -22,6 +23,9 @@ fileFindReplace(
 \item{wholeword}{Logical. If TRUE, only whole words will be replaced. Defaults to TRUE.}
 
 \item{ignore.case}{Logical. If TRUE, the function performs a case-insensitive search. Defaults to FALSE.}
+
+\item{listonly}{Logical. If TRUE, instead of modifying the files, a summary of the changes that would be made
+is displayed.. This is used to check changes before applying them. Defaults to FALSE.}
 }
 \value{
 NULL. The function modifies the file in-place.
