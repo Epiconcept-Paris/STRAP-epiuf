@@ -2,19 +2,22 @@
 % Please edit documentation in R/utilsFiles.R
 \name{fileName}
 \alias{fileName}
-\title{fileName}
+\title{Extract File Base Name Without Extension}
 \usage{
 fileName(text)
 }
 \arguments{
-\item{text}{A file name}
+\item{text}{Character. The full path or URL of the file.}
 }
 \value{
-the filename without path or extension
+Character. The base name of the file without the extension.
 }
 \description{
-fileName
+This function takes a file path or URL and returns the base name of the file without the extension.
 }
 \examples{
-fileName("briths.rds")
+\dontrun{
+fileName("path/to/file.txt")
+fileName("https://example.com/file.csv")
+}
 }

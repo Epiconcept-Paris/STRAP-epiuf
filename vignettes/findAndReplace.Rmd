@@ -1,0 +1,59 @@
+---
+title: "findAndReplace"
+author: "epi-gde"
+date: "2023-10-20"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{findAndReplace}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(epiuf)
+file1 <- "temp_text1.R"
+file2 <- "temp_text2.R"
+file3 <- "temp_text3.R"
+
+```
+
+
+
+```{r prepFiles, echo=FALSE}
+lines <- c(
+"# test script for findAndReplace",
+"# word to be replaced : oldword",
+"#",
+"#  oldword --  oldword)")
+
+writeLines(lines, file1)
+writeLines(lines, file2)
+writeLines(lines, file3)
+```
+
+
+```{r listFiles}
+listFiles(pattern="temp_*.R")
+listFiles("R")
+```
+
+
+```{r replaceinFiles}
+  filesFindReplace(c(file1,file2),oldtext="oldword",newtext = "newword",listonly=TRUE)
+ 
+  filesFindReplace(file1,oldtext="oldword",newtext = "newword")
+  cat(readLines(file1),sep="\n")
+ 
+```
+
+
+```{r cleaning, echo=FALSE }
+if(file.exists(file1)) r <- file.remove(file1)
+if(file.exists(file2)) r <- file.remove(file2)
+if(file.exists(file3)) r <- file.remove(file3)
+
+```
+

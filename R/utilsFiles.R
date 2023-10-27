@@ -67,16 +67,19 @@ fileExt <- function(text) {
   ext
 }
 
-# the file name whithout extension
-#' fileName
+#' Extract File Base Name Without Extension
 #'
-#' @param text A file name
+#' This function takes a file path or URL and returns the base name of the file without the extension.
 #'
-#' @return the filename without path or extension
+#' @param text Character. The full path or URL of the file.
+#'
+#' @return Character. The base name of the file without the extension.
 #' @export
-#'
 #' @examples
-#' fileName("briths.rds")
+#' \dontrun{
+#' fileName("path/to/file.txt")
+#' fileName("https://example.com/file.csv")
+#' }
 fileName <- function(text) {
   name <- basename(text)
   x <- strsplit(name, "\\.")
@@ -141,22 +144,68 @@ replaceStr <- function(intext, old, new, word=FALSE, ignore.case = TRUE ) {
 #' Find and Replace Text in a File
 #'
 #' This function reads a file and replaces specified patterns with given replacements.
-#' The function can work with multiple patterns and replacements, and can also perform case-sensitive or case-insensitive searches.
+#' The function can work with multiple patterns and replacements, and can also perform 
+#' case-sensitive or case-insensitive searches.
 #'
-#' @param filename The name of the file to modify.
-#' @param pattern A vector of patterns to search for in the file.
-#' @param replacement A vector of replacements for the patterns found.
-#' @param wholeword Logical, if TRUE only whole words will be replaced.
-#' @param ignore.case Logical, if TRUE the function ignores case.
+#' @param filename Character. The name of the file to modify.
+#' @param pattern Character vector. A vector of patterns to search for in the file.
+#' @param replacement Character vector. A vector of replacements for the patterns found.
+#' @param wholeword Logical. If TRUE, only whole words will be replaced. Defaults to TRUE.
+#' @param ignore.case Logical. If TRUE, the function performs a case-insensitive search. Defaults to FALSE.
 #'
-#' @return No return value; the function modifies the file in-place.
+#' @return NULL. The function modifies the file in-place.
 #' @export
 #' @examples
 #' \dontrun{
 #' fileFindReplace("example.txt", "oldText", "newText")
 #' fileFindReplace("example.txt", c("oldText1", "oldText2"), "newText")
 #' }
-fileFindReplace <- function(filename, pattern, replacement,wholeword = TRUE, ignore.case=FALSE) {
+#' @seealso 
+#' \code{\link{txtFindReplace}}, \code{\link{xlsxFindReplace}}
+fileFindReplace <-
+  function(filename,
+           pattern,
+           replacement,
+           wholeword = TRUE,
+           ignore.case = FALSE) {
+    ext <- tolower(fileExt(filename))
+    name <- fileName(filename)
+    if (file.exists(filename)) {
+      # file exists.. let's go
+      if (ext %in% c("csv","r", "txt"))  {
+          txtFindReplace(filename, pattern ,replacement,wholeword , ignore.case)
+      }
+      if (ext %in% c("xlsx"))  {
+        xlsxFindReplace(filename, pattern, replacement,wholeword , ignore.case)
+      }
+    }
+    
+  }
+
+
+#' Find and Replace Text in a Text File
+#'
+#' This function reads a text file and replaces specified patterns with given replacements.
+#' It allows for multiple patterns and replacements, and can perform case-sensitive or 
+#' case-insensitive searches. It can also match whole words.
+#'
+#' @param filename Character. The name of the file to modify.
+#' @param pattern Character vector. A vector of patterns to search for in the file.
+#' @param replacement Character vector. A vector of replacements for the patterns found.
+#' @param wholeword Logical. If TRUE, only whole words will be replaced. Defaults to TRUE.
+#' @param ignore.case Logical. If TRUE, the function performs a case-insensitive search. Defaults to FALSE.
+#'
+#' @return NULL. The function modifies the text file in-place and prints the number of changes made.
+#' @export
+#' @examples
+#' \dontrun{
+#' txtFindReplace("example.txt", "oldText", "newText")
+#' txtFindReplace("example.txt", c("oldText1", "oldText2"), "newText")
+#' }
+#' @seealso 
+#' \code{\link{fileFindReplace}}, \code{\link{xlsxFindReplace}}
+
+txtFindReplace <- function(filename, pattern, replacement,wholeword = TRUE, ignore.case=FALSE) {
   FileContents <- readLines(filename,warn = FALSE)
   for (i in 1:length(pattern)) {
     SearchedWord <- pattern[i]
@@ -172,61 +221,75 @@ fileFindReplace <- function(filename, pattern, replacement,wholeword = TRUE, ign
   cat("File ",filename," ",length(result)," Changes")
 }
 
-
-#' Batch Find and Replace in R Scripts within a Directory
+#' Find and Replace Text in Files in a Directory or File List
 #'
-#' This function finds and replaces specified text in all R scripts (.R or .r) within a given directory.
+#' This function searches for specified patterns in files within a directory or a given list of files
+#' and replaces them with given text. While optimized for R scripts, the function call fileFindReplace function 
+#' that can work on any text-based files or xlsx Files.
 #' 
-#' @param directory The directory where R scripts are located.
-#' @param oldtext The text to search for in R scripts.
-#' @param newtext The text that will replace `oldtext`.
-#' @param wholeword Logical, if TRUE only whole words will be replaced.
-#' @param ignore.case Logical, if TRUE the function ignores case.
+#' The function supports case-sensitive or case-insensitive searches and can either perform the replacements
+#' or just list the files that would be modified.
 #'
-#' @return No return value; the function modifies the files in-place.
+#' @param directory Character or character vector. The path of the directory, a single file, or a list of files.
+#' @param oldtext Character vector. A vector of patterns to search for in the files.
+#' @param newtext Character vector. A vector of replacements for the patterns found.
+#' @param wholeword Logical. If TRUE, only whole words will be replaced. Defaults to FALSE.
+#' @param ignore.case Logical. If TRUE, the function performs a case-insensitive search. Defaults to FALSE.
+#' @param listonly Logical. If TRUE, the function only lists the files that would be modified without actually
+#'  modifying them. Defaults to FALSE.
+#'
+#' @return NULL. The function modifies the files in-place, or lists them if \code{listonly = TRUE}.
 #' @export
 #' @examples
 #' \dontrun{
-#' globalFileReplace("./myRScripts/", "oldFunc", "newFunc")
+#' filesFindReplace("path/to/directory", "oldText", "newText")
+#' filesFindReplace("path/to/file.txt", "oldText", "newText")
+#' filesFindReplace(c("file1.txt", "file2.csv"), "oldText", "newText")
 #' }
+#' @seealso 
+#' \code{\link{fileFindReplace}}, \code{\link{xlsxFindReplace},\code{\link{txtFindReplace} }
 
-globalFileReplace <- function(directory,oldtext,newtext,wholeword,ignore.case=FALSE) {
-  RScripts <- list.files(path = directory, pattern = "\\.R$",ignore.case = TRUE)
-  for (RScript in RScripts ) {
-    fileFindReplace(RScript, oldtext, newtext,wholeword = TRUE, ignore.case)
+filesFindReplace <- function(directory,oldtext,newtext,wholeword = FALSE,ignore.case=FALSE,listonly=FALSE) {
+    # We have only one then we can see what it is 
+    if(length(directory)==1)
+    { 
+      # this file exists ?
+      if(file.exists(directory)) {
+         # Is it a directory ?
+         if(file.info(directory)[["isdir"]] )
+         {
+             RScripts <- list.files(path = directory, pattern = "\\.R$",ignore.case = TRUE)
+         }   
+          # if not a directory, may be a simple file ?
+         else  {
+            # we can run FindReplace on that one ! 
+            if(!listonly) {
+               fileFindReplace(directory, oldtext, newtext,wholeword, ignore.case)
+            }
+            print(paste("Modified file: ", directory))
+            # and we clear current RScripts
+            RScripts <- NA
+         }
+      }   
+      # may be a pattern ? 
+      else {
+        # we try to retrieve a list of files (with R by default)
+        RScripts <- list.files(path = directory, pattern = "\\.R$",ignore.case = TRUE)
+      }
+    }   
+  # We have more than one then each should be tested recursively 
+  else RScripts <- directory
+  
+  # Now what do we have ?
+  if (length(RScripts)>0 ) {
+    for (RScript in RScripts) {
+      if(! is.na(RScript)) 
+         filesFindReplace(RScript, oldtext, newtext, wholeword, ignore.case)
+    }
   }
+  
 }
 
-#' Batch Find and Replace in Excel Files within a Directory
-#'
-#' This function performs a find and replace operation for specified text across all Excel (.xlsx) files in a given directory.
-#' You can specify whether to replace only whole words and whether to perform case-sensitive or case-insensitive replacements.
-#'
-#' @param dir_path The directory path where Excel (.xlsx) files are located.
-#' @param oldname The text to search for in the Excel files.
-#' @param newname The text that will replace `oldname`.
-#' @param word Logical, if TRUE only whole words will be replaced.
-#' @param ignore.case Logical, if TRUE the function ignores case.
-#'
-#' @return No return value; the function prints a message indicating that all files have been modified.
-#' @export
-#' @examples
-#' \dontrun{
-#' replaceInExcelAll("./excelFiles/", "oldText", "newText")
-#' }
-replaceInExcelAll <- function(dir_path, oldname, newname, word=FALSE, ignore.case = TRUE) {
-  
-  # List all Excel files in the directory
-  excelFiles <- list.files(path = dir_path, pattern = "\\.xlsx$")
-  
-  # Loop through each Excel file
-  for (file in excelFiles) {
-    # Full path to the file
-    fullPath <- paste0(dir_path, "/", file)
-    xlsxFindReplace(fullPath,oldname,newname,word,ignore.case)
-  }
-  print("All files have been modified.")
-}
 
 #' Find and Replace Text in an Excel File
 #'
@@ -267,7 +330,6 @@ xlsxFindReplace <- function(xlsxName, oldname, newname, word=FALSE, ignore.case 
     writeData(wb, sheet = i, df)
   }
   saveWorkbook(wb, xlsxName, overwrite = TRUE)
-  print(paste("Modified file:", xlsxName))
 }
 
 
