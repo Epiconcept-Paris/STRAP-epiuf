@@ -161,7 +161,7 @@ catret  <- function(...) {
 #' charCount("\\d", "13ab2c")  # Returns 3 (three digits in "13ab2c")
 #' charCount("\\.txt", c("test.txt", "sample.txt"))
 #'
-#' @seealso \code{\link[nchar]{nchar}}
+#' @seealso \code{\link{nchar}}
 #'
 charCount <- function(pattern, stosearch,ignore.case=FALSE) {
   # pattern <- glob2rx(pattern)

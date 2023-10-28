@@ -28,7 +28,7 @@ txtFindReplace(
 modifying them. Defaults to FALSE.}
 }
 \value{
-NULL. The function modifies the text file in-place and prints the number of changes made.
+NULL. The function modifies the text file in-place and prints the exact number of changes made.
 }
 \description{
 This function reads a text file and replaces specified patterns with given replacements.

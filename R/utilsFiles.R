@@ -162,7 +162,7 @@ replaceStr <- function(intext, pattern, replacement, word=FALSE, ignore.case = T
 #' @param filename Character. The name of the file to modify.
 #' @param pattern Character vector. A vector of patterns to search for in the file.
 #' @param replacement Character vector. A vector of replacements for the patterns found.
-#' @param wholeword Logical. If TRUE, only whole words will be replaced. Defaults to TRUE.
+#' @param word Logical. If TRUE, only whole words will be replaced. Defaults to TRUE.
 #' @param ignore.case Logical. If TRUE, the function performs a case-insensitive search. Defaults to FALSE.
 #' @param listonly Logical. If TRUE, instead of modifying the files, a summary of the changes that would be made 
 #' is displayed.. This is used to check changes before applying them. Defaults to FALSE.
@@ -180,7 +180,7 @@ fileFindReplace <-
   function(filename,
            pattern,
            replacement,
-           wholeword = TRUE,
+           word = TRUE,
            ignore.case = FALSE,
            listonly=FALSE) {
     ext <- tolower(fileExt(filename))
@@ -188,10 +188,10 @@ fileFindReplace <-
     if (file.exists(filename)) {
       # file exists.. let's go
       if (ext %in% c("csv","r", "txt"))  {
-          txtFindReplace(filename, pattern ,replacement,wholeword , ignore.case, listonly)
+          txtFindReplace(filename, pattern ,replacement,word , ignore.case, listonly)
       }
       if (ext %in% c("xlsx"))  {
-        xlsxFindReplace(filename, pattern, replacement,wholeword , ignore.case, listonly)
+        xlsxFindReplace(filename, pattern, replacement,word , ignore.case, listonly)
       }
     }
     
@@ -207,7 +207,7 @@ fileFindReplace <-
 #' @param filename Character. The name of the file to modify.
 #' @param pattern Character vector. A vector of patterns to search for in the file.
 #' @param replacement Character vector. A vector of replacements for the patterns found.
-#' @param wholeword Logical. If TRUE, only whole words will be replaced. Defaults to TRUE.
+#' @param word Logical. If TRUE, only whole words will be replaced. Defaults to TRUE.
 #' @param ignore.case Logical. If TRUE, the function performs a case-insensitive search. Defaults to FALSE.
 #' @param listonly Logical. If TRUE, the function only lists the files that would be modified without actually
 #'  modifying them. Defaults to FALSE.
@@ -222,7 +222,7 @@ fileFindReplace <-
 #' @seealso 
 #' \code{\link{fileFindReplace}}, \code{\link{xlsxFindReplace}}
 
-txtFindReplace <- function(filename, pattern, replacement,wholeword = TRUE, ignore.case=FALSE, listonly = FALSE) {
+txtFindReplace <- function(filename, pattern, replacement,word = TRUE, ignore.case=FALSE, listonly = FALSE) {
   FileContents <- readLines(filename,warn = FALSE)
   result <- 0
   for (i in 1:length(pattern)) {
@@ -230,7 +230,7 @@ txtFindReplace <- function(filename, pattern, replacement,wholeword = TRUE, igno
     # we allow multiple searched text for on only replacement 
     ReplaceWord <- ifelse((length(replacement<= i)),replacement[i],replacement[1])
     # if whole word we past regex mark for word only
-    if(wholeword) SearchedWord <- paste0("\\b",SearchedWord,"\\b")
+    if(word) SearchedWord <- paste0("\\b",SearchedWord,"\\b")
     # result <- grep(x = FileContents, pattern = SearchedWord,ignore.case)
     result <- result + charCount(pattern = SearchedWord,FileContents,ignore.case)
     FileContents <- gsub(x = FileContents, pattern = SearchedWord,replacement = ReplaceWord,ignore.case)
@@ -269,7 +269,7 @@ txtFindReplace <- function(filename, pattern, replacement,wholeword = TRUE, igno
 #' @seealso 
 #' \code{\link{fileFindReplace}}, \code{\link{xlsxFindReplace}},\code{\link{txtFindReplace} }
 
-filesFindReplace <- function(filename,pattern,replacement,wholeword = FALSE,ignore.case=FALSE,listonly=FALSE) {
+filesFindReplace <- function(filename,pattern,replacement,word = FALSE,ignore.case=FALSE,listonly=FALSE) {
     # We have only one then we can see what it is 
     if(length(filename)==1)
     { 
@@ -283,7 +283,7 @@ filesFindReplace <- function(filename,pattern,replacement,wholeword = FALSE,igno
           # if not a directory, may be a simple file ?
          else  {
             # we can run FindReplace on that one ! 
-           fileFindReplace(filename, pattern, replacement,wholeword, ignore.case, listonly)
+           fileFindReplace(filename, pattern, replacement,word, ignore.case, listonly)
             # and we clear current RScripts
             RScripts <- NA
          }
@@ -301,7 +301,7 @@ filesFindReplace <- function(filename,pattern,replacement,wholeword = FALSE,igno
   if (length(RScripts)>0 ) {
     for (RScript in RScripts) {
       if(! is.na(RScript)) 
-         filesFindReplace(RScript, pattern, replacement, wholeword, ignore.case,listonly)
+         filesFindReplace(RScript, pattern, replacement, word, ignore.case,listonly)
     }
   }
   
@@ -334,22 +334,25 @@ xlsxFindReplace <- function(xlsxName, pattern, replacement, word=FALSE, ignore.c
   # Number of sheets in the Excel file
   num_sheets <- length(names(wb))
   result<-0
-  if(word) pattern <- paste0("\\b",pattern,"\\b")
-  
-  # Loop through each sheet
-  for (i in 1:num_sheets) {
-    # Read the sheet into a data frame
-    df <- openxlsx::read.xlsx(xlsxName, sheet = i)
+  for (i in 1:length(pattern)) {
+    SearchedWord <- pattern[i]
+    if(word) SearchedWord <- paste0("\\b",SearchedWord,"\\b")
     
-    # Replace 'oldname' with 'newname' in all cells
-    df[] <- lapply(df, function(col) {
-      replaceStr(col, pattern, replacement, ignore.case)
-      result <- result+charCount(pattern,col,ignore.case)
-    })
-    
-    # Write the modified data frame back to the same sheet
-    # write.xlsx(df, full_path, sheet = i, overwriteSheet = TRUE)
-    writeData(wb, sheet = i, df)
+    # Loop through each sheet
+    for (i in 1:num_sheets) {
+      # Read the sheet into a data frame
+      df <- openxlsx::read.xlsx(xlsxName, sheet = i)
+      
+      # Replace 'oldname' with 'newname' in all cells
+      df[] <- lapply(df, function(col) {
+        replaceStr(col, SearchedWord, replacement, ignore.case)
+        result <- result+charCount(SearchedWord,col,ignore.case)
+      })
+      
+      # Write the modified data frame back to the same sheet
+      # write.xlsx(df, full_path, sheet = i, overwriteSheet = TRUE)
+      writeData(wb, sheet = i, df)
+    }  
   }
   saveWorkbook(wb, xlsxName, overwrite = TRUE)
   # and a message is displayed with number of changes 

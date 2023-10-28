@@ -46,6 +46,9 @@ listFiles("R","c*")
  
   filesFindReplace(file1,pattern="oldword",replacement = "newword")
   cat(readLines(file1),sep="\n")
+  
+  file4 <- externalFile("testrename.xlsx")
+  filesFindReplace(file4,"patient","subject",word=TRUE, ignore.case = TRUE, listonly=TRUE)
  
 ```
 
