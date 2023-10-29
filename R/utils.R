@@ -165,11 +165,31 @@ catret  <- function(...) {
 #'
 charCount <- function(pattern, stosearch,ignore.case=FALSE) {
   # pattern <- glob2rx(pattern)
-  result <- lengths(regmatches(stosearch, gregexpr(pattern, stosearch,ignore.case)))
-  sum(result)
+  # result <- lengths(regmatches(stosearch, gregexpr(pattern, stosearch,ignore.case)))
+  # sum(result)
+  if (length(stosearch) == 0 || (length(pattern)==1 && nchar(pattern) ==0) ) 
+    return(0)
+  else {
+    count_positive <- function(x)
+      sum(x > 0)
+    result <- gregexpr(pattern, stosearch, ignore.case)
+    sum(sapply(result, count_positive))
+   }
   # length(attr(gregexpr(pattern,stosearch)[[1]],
   #            "match.length")[attr(gregexpr(pattern,stosearch)[[1]], "match.length")>0])
 }
+
+# Your list structure, which I'll call 'res'
+res <- list(c(-1), c(-1), c(-1), c(2301), c(206, 321, 342, 1064, 1101, 5951, 5976, 6034, 6084, 6138, 6170, 6236), c(-1))
+
+# Count the number of positive values
+count_positive <- function(x) sum(x > 0)
+total_positive <- sum(sapply(res, count_positive))
+
+# Print the total number of positive values
+print(total_positive)
+
+
 
 #' split a character string into word and return word x
 #'
