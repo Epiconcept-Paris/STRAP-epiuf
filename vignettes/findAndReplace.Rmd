@@ -72,9 +72,11 @@ listFiles("R","c*")
   cat(readLines(file1),sep="\n")
   
   file4 <- externalFile("testrename.xlsx")
-  filesFindReplace(file4,"patient","subject",word=TRUE, ignore.case = TRUE, listonly=TRUE)
-  filesFindReplace(file4,"patient","subject",word=TRUE, ignore.case = TRUE)
-  
+  file5 <- "temp.xlsx"
+  file.copy(file4,file5)
+  filesFindReplace(file5,"patient","subject",word=TRUE, ignore.case = TRUE, listonly=TRUE)
+  filesFindReplace(file5,"patient","subject",word=TRUE, ignore.case = TRUE)
+  filesFindReplace(file5,"patient","subject",word=TRUE, ignore.case = TRUE, listonly=TRUE)
  
 ```
 
@@ -82,5 +84,6 @@ listFiles("R","c*")
 if(file.exists(file1)) r <- file.remove(file1)
 if(file.exists(file2)) r <- file.remove(file2)
 if(file.exists(file3)) r <- file.remove(file3)
+if(file.exists(file5)) r <- file.remove(file5)
 
 ```
