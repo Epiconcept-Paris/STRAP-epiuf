@@ -18,6 +18,30 @@ file3 <- "temp_text3.R"
 
 ```
 
+
+
+```{r charCount}
+  charCount("c","cancan")
+  charCount("essai"," this is an essai" )
+  charCount("c","ccc" )
+  charCount("ce",c("cacec","ceci" ))
+  df <- data.frame(c("cacececi","ceci" ,"non","ace"))
+  charCount("ce",df)
+  charCount("\\bce\\b",df)
+  df <- data.frame(c("ca cece ci","ce ci" ,"non","a ce"))
+  charCount("\\bce\\b",df)
+  df <- data.frame(c("ca cece ci","ce ci" ,"non","a ce"),c("ca cececi","ce ci" ,"non","ace"))
+  charCount("\\bce\\b",df)
+  charCount("","essai")
+  charCount("e","")
+  charCount("\\.","21.15.98")
+  
+  
+```
+
+
+
+
 ```{r prepFiles, echo=FALSE}
 lines <- c(
 "# test script for findAndReplace",
@@ -49,6 +73,8 @@ listFiles("R","c*")
   
   file4 <- externalFile("testrename.xlsx")
   filesFindReplace(file4,"patient","subject",word=TRUE, ignore.case = TRUE, listonly=TRUE)
+  filesFindReplace(file4,"patient","subject",word=TRUE, ignore.case = TRUE)
+  
  
 ```
 

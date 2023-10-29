@@ -253,7 +253,7 @@ txtFindReplace <- function(filename, pattern, replacement,word = TRUE, ignore.ca
 #' @param filename Character or character vector. The path of the directory, a single file, or a list of files.
 #' @param pattern Character vector. A vector of patterns to search for in the files.
 #' @param replacement Character vector. A vector of replacements for the patterns found.
-#' @param wholeword Logical. If TRUE, only whole words will be replaced. Defaults to FALSE.
+#' @param word Logical. If TRUE, only whole words will be replaced. Defaults to FALSE.
 #' @param ignore.case Logical. If TRUE, the function performs a case-insensitive search. Defaults to FALSE.
 #' @param listonly Logical. If TRUE, the function only lists the files that would be modified without actually
 #'  modifying them. Defaults to FALSE.
@@ -343,18 +343,19 @@ xlsxFindReplace <- function(xlsxName, pattern, replacement, word=FALSE, ignore.c
       # Read the sheet into a data frame
       df <- openxlsx::read.xlsx(xlsxName, sheet = i)
       
+      result <- result + charCount(SearchedWord,df,ignore.case)      
       # Replace 'oldname' with 'newname' in all cells
       df[] <- lapply(df, function(col) {
         replaceStr(col, SearchedWord, replacement, ignore.case)
-        result <- result+charCount(SearchedWord,col,ignore.case)
       })
-      
       # Write the modified data frame back to the same sheet
       # write.xlsx(df, full_path, sheet = i, overwriteSheet = TRUE)
-      writeData(wb, sheet = i, df)
+      openxlsx::writeData(wb, sheet = i, df)
     }  
   }
-  saveWorkbook(wb, xlsxName, overwrite = TRUE)
+  if(!listonly) {
+  openxlsx::saveWorkbook(wb, xlsxName, overwrite = TRUE)
+  }
   # and a message is displayed with number of changes 
   catret("File ",xlsxName," ",result," Changes ")
   

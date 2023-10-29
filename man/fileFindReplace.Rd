@@ -8,7 +8,7 @@ fileFindReplace(
   filename,
   pattern,
   replacement,
-  wholeword = TRUE,
+  word = TRUE,
   ignore.case = FALSE,
   listonly = FALSE
 )
@@ -20,7 +20,7 @@ fileFindReplace(
 
 \item{replacement}{Character vector. A vector of replacements for the patterns found.}
 
-\item{wholeword}{Logical. If TRUE, only whole words will be replaced. Defaults to TRUE.}
+\item{word}{Logical. If TRUE, only whole words will be replaced. Defaults to TRUE.}
 
 \item{ignore.case}{Logical. If TRUE, the function performs a case-insensitive search. Defaults to FALSE.}
 
