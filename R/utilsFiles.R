@@ -115,15 +115,23 @@ fileName <- function(text) {
 
 externalFile <- function(extfile) {
   result <- extfile
+  # Assume it is in working directory / fullname is given
+  # if not , is it external data (while building package from vignette)
+  if (! file.exists(result)) {
+    result <- file.path("../inst/extdata",extfile)
+  }
+  # if not , is it external data (while building package from root working dir)
+  if (! file.exists(result)) {
+    result <- file.path("inst/extdata",extfile)
+  }
+  # if not , is it external data in installed package (if installed)
   if (!file.exists(result) ) {
     result <- system.file("extdata", extfile, package = "epiuf")
     result <- ifelse(result=="",extfile,result)
   }  
-  if (! file.exists(result)) {
-    result <- file.path("../inst/extdata",extfile)
-  }
-  
+  # if nowhere we stop
   stopifnot(file.exists(result))
+  # otherwise we return the path
   return(result)
 } 
 
@@ -342,9 +350,9 @@ xlsxFindReplace <- function(xlsxName, pattern, replacement, word=FALSE, ignore.c
     for (i in 1:num_sheets) {
       # Read the sheet into a data frame
       df <- openxlsx::read.xlsx(xlsxName, sheet = i)
-      
+      # we count how many should be changed 
       result <- result + charCount(SearchedWord,df,ignore.case)      
-      # Replace 'oldname' with 'newname' in all cells
+      # Replace 'SearchedWord' with 'replacement' in all cells
       df[] <- lapply(df, function(col) {
         replaceStr(col, SearchedWord, replacement, ignore.case)
       })
@@ -354,7 +362,7 @@ xlsxFindReplace <- function(xlsxName, pattern, replacement, word=FALSE, ignore.c
     }  
   }
   if(!listonly) {
-  openxlsx::saveWorkbook(wb, xlsxName, overwrite = TRUE)
+     openxlsx::saveWorkbook(wb, xlsxName, overwrite = TRUE)
   }
   # and a message is displayed with number of changes 
   catret("File ",xlsxName," ",result," Changes ")
