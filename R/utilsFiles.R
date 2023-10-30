@@ -243,6 +243,7 @@ txtFindReplace <- function(filename, pattern, replacement,word = TRUE, ignore.ca
   if(!listonly) cat(FileContents, file = filename, sep = "\n")
   # and a message is displayed with number of changes 
   catret("File ",filename," ",result," Changes ")
+  result
 }
 
 #' Find and Replace Text in Files in a Directory or File List
@@ -274,7 +275,7 @@ txtFindReplace <- function(filename, pattern, replacement,word = TRUE, ignore.ca
 #' \code{\link{fileFindReplace}}, \code{\link{xlsxFindReplace}},\code{\link{txtFindReplace} }
 
 filesFindReplace <- function(filename,pattern,replacement,word = FALSE,ignore.case=FALSE,listonly=FALSE) {
-    # We have only one then we can see what it is 
+      # We have only one then we can see what it is 
     if(length(filename)==1)
     { 
       # this file exists ?
@@ -284,7 +285,7 @@ filesFindReplace <- function(filename,pattern,replacement,word = FALSE,ignore.ca
          {
              RScripts <- list.files(path = filename, pattern = "\\.R$",ignore.case = TRUE)
          }   
-          # if not a directory, may be a simple file ?
+          # if not a directory, then a simple file 
          else  {
             # we can run FindReplace on that one ! 
            fileFindReplace(filename, pattern, replacement,word, ignore.case, listonly)
@@ -294,8 +295,8 @@ filesFindReplace <- function(filename,pattern,replacement,word = FALSE,ignore.ca
       }   
       # may be a pattern ? 
       else {
-        # we try to retrieve a list of files (with R by default)
-        RScripts <- list.files(path = filename, pattern = "\\.R$",ignore.case = TRUE)
+        # we try to retrieve a list of files corresponding to filename as a pattern
+        RScripts <- listFiles(path = ".", pattern = filename)
       }
     }   
   # We have more than one then each should be tested recursively 
@@ -308,7 +309,7 @@ filesFindReplace <- function(filename,pattern,replacement,word = FALSE,ignore.ca
          filesFindReplace(RScript, pattern, replacement, word, ignore.case,listonly)
     }
   }
-  
+
 }
 
 
@@ -370,7 +371,7 @@ xlsxFindReplace <-
     }
     # and a message is displayed with number of changes
     catret("File ", xlsxName, " ", result, " Changes ")
-    
+    result
   }
 
 

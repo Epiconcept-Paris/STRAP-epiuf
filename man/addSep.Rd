@@ -2,22 +2,21 @@
 % Please edit documentation in R/utils.R
 \name{addSep}
 \alias{addSep}
-\title{addSep
-transform a list into a string of separated values}
+\title{Add a separator between elements of a character list}
 \usage{
 addSep(charlist, sep = ", ")
 }
 \arguments{
-\item{charlist}{A list of character values to be concatened with c separator}
+\item{charlist}{Character list to which the separator should be added.}
 
-\item{sep}{A separator string, default ", "}
+\item{sep}{The separator string to be added between elements. Default is ", ".}
 }
 \value{
-A string representing the list as separated values
+A single character string where elements from \code{charlist} are separated by \code{sep}.
 }
 \description{
-addSep
-transform a list into a string of separated values
+This function takes a character list and adds a separator string between each element.
+The last element is not followed by a separator.
 }
 \examples{
 li <- list("one","two","three")

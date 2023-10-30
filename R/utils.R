@@ -180,13 +180,19 @@ charCount <- function(pattern, stosearch,ignore.case=FALSE) {
 }
 
 
-#' split a character string into word and return word x
+#' Extract a Specific Word from a Text String or List of Text Strings
 #'
-#' @param tosearch The character string to be searched for
-#' @param item The \code{item} word in the string
-#' @param pattern The sep as a regular expression pattern, default to word separator
+#' This function takes a text string or a list of text strings and extracts a specific word
+#' based on its position, using a given pattern to split the text into words.
 #'
-#' @return the word at \code{item} position in tosearch
+#' @param tosearch The text string or list of text strings from which to extract the word.
+#' @param item The position of the word to extract (1-based index). Default is 1.
+#' @param pattern The pattern used to split the text string into words. 
+#' Default is "\\W+" (one or more non-word characters).
+#'
+#' @return A character string containing the extracted word if `tosearch` is a single string,
+#' or a list of extracted words if `tosearch` is a list of strings.
+#'
 #' @export
 #'
 #' @examples
@@ -201,16 +207,25 @@ getWord <- function(tosearch,item=1,pattern="\\W+") {
   else return(.getWord(tosearch,item,pattern))
 }
 
-.getWord <- function(tosearch,item=1,pattern="\\W+") {
-  word<-regmatches(tosearch,gregexpr(pattern, tosearch),invert = TRUE)
-  word <- word[[1]][word[[1]][]!=""]
-  nword <-length(word)
-  if (nword == 0) return( "" )
-  if(item <= nword) {
-    return(word[item])
+.getWord <- function(tosearch, item=1, pattern="\\W+") {
+  # Use regular expressions to split the input string based on the given pattern
+  word <- regmatches(tosearch, gregexpr(pattern, tosearch), invert = TRUE)
+  
+  # Clean up the list to remove any empty elements
+  word <- word[[1]][word[[1]] != ""]
+  
+  # Get the total number of words
+  nword <- length(word)
+  
+  # Check if there are no words, return an empty string if so
+  if (nword == 0) return("")
+  
+  # Check if the item index is within the range of the word count
+  if (item <= nword) {
+    return(word[item])  # Return the word at the specified position
+  } else {
+    return("")  # Return an empty string if the index is out of range
   }
-  else
-  { return("")}
 }
 
 
@@ -482,14 +497,15 @@ blue <- function(...) {
 }
 
 
-#' addSep
-#' transform a list into a string of separated values
+#' Add a separator between elements of a character list
 #'
+#' This function takes a character list and adds a separator string between each element.
+#' The last element is not followed by a separator.
 #'
-#' @param charlist A list of character values to be concatened with c separator
-#' @param sep A separator string, default ", "
+#' @param charlist Character list to which the separator should be added.
+#' @param sep The separator string to be added between elements. Default is ", ".
 #'
-#' @return A string representing the list as separated values
+#' @return A single character string where elements from `charlist` are separated by `sep`.
 #' @export
 #'
 #' @examples
