@@ -118,11 +118,7 @@ externalFile <- function(extfile) {
   # Assume it is in working directory / fullname is given
   # if not , is it external data (while building package from vignette)
   if (! file.exists(result)) {
-    result <- file.path("../inst/extdata",extfile)
-  }
-  # if not , is it external data (while building package from root working dir)
-  if (! file.exists(result)) {
-    result <- file.path("inst/extdata",extfile)
+    result <- file.path(paste0(getwd(),"/inst/extdata"),extfile)
   }
   # if not , is it external data in installed package (if installed)
   if (!file.exists(result) ) {
@@ -336,38 +332,46 @@ filesFindReplace <- function(filename,pattern,replacement,word = FALSE,ignore.ca
 #' \dontrun{
 #' xlsxFindReplace("example.xlsx", "oldText", "newText")
 #' }
-xlsxFindReplace <- function(xlsxName, pattern, replacement, word=FALSE, ignore.case = TRUE , listonly = FALSE)
-{
-  wb <- loadWorkbook(xlsxName)
-  # Number of sheets in the Excel file
-  num_sheets <- length(names(wb))
-  result<-0
-  for (i in 1:length(pattern)) {
-    SearchedWord <- pattern[i]
-    if(word) SearchedWord <- paste0("\\b",SearchedWord,"\\b")
+xlsxFindReplace <-
+  function(xlsxName,
+           pattern,
+           replacement,
+           word = FALSE,
+           ignore.case = TRUE ,
+           listonly = FALSE)
+  {
+    wb <- loadWorkbook(xlsxName)
+    # Number of sheets in the Excel file
+    num_sheets <- length(names(wb))
+    result <- 0
+    for (i in 1:length(pattern)) {
+      SearchedWord <- pattern[i]
+      if (word)
+        SearchedWord <- paste0("\\b", SearchedWord, "\\b")
+      
+      # Loop through each sheet
+      for (i in 1:num_sheets) {
+        # Read the sheet into a data frame
+        df <- openxlsx::read.xlsx(xlsxName, sheet = i)
+        # we count how many should be changed
+        result <-
+          result + charCount(SearchedWord, df, ignore.case)
+        # Replace 'SearchedWord' with 'replacement' in all cells
+        df[] <- lapply(df, function(col) {
+          replaceStr(col, SearchedWord, replacement, ignore.case)
+        })
+        # Write the modified data frame back to the same sheet
+        # write.xlsx(df, full_path, sheet = i, overwriteSheet = TRUE)
+        openxlsx::writeData(wb, sheet = i, df)
+      }
+    }
+    if (!listonly) {
+      openxlsx::saveWorkbook(wb, xlsxName, overwrite = TRUE)
+    }
+    # and a message is displayed with number of changes
+    catret("File ", xlsxName, " ", result, " Changes ")
     
-    # Loop through each sheet
-    for (i in 1:num_sheets) {
-      # Read the sheet into a data frame
-      df <- openxlsx::read.xlsx(xlsxName, sheet = i)
-      # we count how many should be changed 
-      result <- result + charCount(SearchedWord,df,ignore.case)      
-      # Replace 'SearchedWord' with 'replacement' in all cells
-      df[] <- lapply(df, function(col) {
-        replaceStr(col, SearchedWord, replacement, ignore.case)
-      })
-      # Write the modified data frame back to the same sheet
-      # write.xlsx(df, full_path, sheet = i, overwriteSheet = TRUE)
-      openxlsx::writeData(wb, sheet = i, df)
-    }  
   }
-  if(!listonly) {
-     openxlsx::saveWorkbook(wb, xlsxName, overwrite = TRUE)
-  }
-  # and a message is displayed with number of changes 
-  catret("File ",xlsxName," ",result," Changes ")
-  
-}
 
 
 
