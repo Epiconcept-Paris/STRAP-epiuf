@@ -7,7 +7,7 @@
 elapsedTime(set = FALSE)
 }
 \arguments{
-\item{set}{TRUE to start}
+\item{set}{start the timer if TRUE otherwise return time since last start}
 }
 \value{
 elapsed time
@@ -16,5 +16,5 @@ elapsed time
 elapsedTime
 }
 \examples{
-elapsedTime(TRUE)
+elapsedTime()
 }
