@@ -2,7 +2,7 @@
 % Please edit documentation in R/freq.R
 \name{epitable}
 \alias{epitable}
-\title{Cross tabulation ( 2by2 table).}
+\title{Cross tabulation}
 \usage{
 epitable(
   data,
@@ -12,6 +12,7 @@ epitable(
   missing = FALSE,
   row = FALSE,
   col = FALSE,
+  perc = FALSE,
   fisher = TRUE,
   total = TRUE
 )
@@ -19,44 +20,64 @@ epitable(
 \arguments{
 \item{data}{The dataframe to be analysed}
 
-\item{out}{"Outcome" as numbers, factors or text}
+\item{out}{"Outcome", variable or dataframe column name (character string) representing the outcome.
+Will be displayed in columns in the cross tabulation. Numeric, factors or text formats are supported.}
 
-\item{exp}{"Exposure" as numbers, factors or text. short syntax is available
-see help(epifield)}
+\item{exp}{"Exposure" variable or dataframe column name (character string) representing the exposure.
+Will be displayed in rows in the cross tabulation. Numeric, factors or text formats are supported.
+Short syntax is available.}
 
-\item{epiorder}{Should data be reordered to respect epi tables , default to TRUE}
+\item{epiorder}{Boolean. Should data be reordered to respect epi tables? Default to TRUE.
+(i.e., Yes/No)}
 
-\item{missing}{Boolean if FALSE, missing are not included in the table.
+\item{missing}{Boolean. If FALSE, missing are not included in the table.
 A summary output of number of missing values is added at the end}
 
-\item{row}{"Row percentages"}
+\item{row}{"Row percentages", boolean. If TRUE, percentages by row are displayed.}
 
-\item{col}{"Col percentages"}
+\item{col}{"Col percentages", boolean. If TRUE, percentages by column are displayed.}
 
-\item{fisher}{TRUE by default, display the fisher exact probability.
-If table is larger than 2*2 then Fisher is not calculated}
+\item{perc}{"Table percentages", boolean. If TRUE, percentages by cell are displayed.}
 
-\item{total}{Default TRUE , display marginal total}
+\item{fisher}{Boolean. If TRUE, display the fisher exact probability. Default to TRUE.
+If the cross tabulation is larger than 2*2, then Fisher is not calculated.}
+
+\item{total}{Boolean. If TRUE, display marginal total. Default to TRUE.}
 }
 \value{
-An array containing  values of \code{
-table : The resulting table
-rowperc : The optional row percentage
-colperc : The optional col percentage  
-chisq : Chi Square value
-p : Estimated probability of this distribution
-fischer : Exact probaility
-missing : Number of missing values
+An array containing  values of
 
-}
+\code{table} : The resulting table
+
+\code{rowperc} : The optional row percentage
+
+\code{colperc} : The optional col percentage
+
+\code{totperc} : The optional percentage
+
+\code{chisq} : Chi Square value
+
+\code{p} : Estimated probability of this distribution
+
+\code{fischer} : Exact probability
+
+\code{missing} : Number of missing values
 }
 \description{
-\code{epitable} Display a cross tabulation of two variables optionnaly with
-row or col percentages. Chi Square with associated p.value are calculated.
+Display a cross tabulation of two variables optionally with percentages
+(global perc or row or col percentages).
+
+Chi Square with associated p.value are calculated. (optionally fisher)
+
+Missing are counted and can optionally be included in the table
+
 If table contain binary variable, then epiorder function is apply on the two variable
 to get a resulting table compatible with usual epidemiology interpretation.
 0/1 variables are transformed into Yes/No and Yes is displayed before No
 Exposed Cases appear on upper left part of the table.
+}
+\details{
+EPITABLE
 }
 \examples{
 data <- data.frame(id = 1:10,
@@ -65,18 +86,20 @@ data <- data.frame(id = 1:10,
 data[8,2]<-NA                    
 table(data$cases, data$vacc, useNA = "always")
 result <- epitable(data,cases,vacc)
-epitable(data,cases,vacc,epiorder=FALSE)
+result$table
+result$missing
+result$chisq
+result$fisher
 
+epitable(data,cases,vacc,epiorder=FALSE)
 epitable(data,"cases","vacc") 
 epitable(data,out=cases,exp=vacc,missing=TRUE) 
 epitable(data,out=cases,exp=vacc,row=TRUE) 
 
-table <- result
-result$table
-
 data <- data.frame(id = 1:10,
                    cases = c(rep(1,3), rep(0,7)),
                    vacc = sample(c(0,1,2), replace = TRUE, size = 10))
+epitable(data,cases,vacc,perc=TRUE)
 
 }
 \references{
