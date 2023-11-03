@@ -71,8 +71,7 @@ applyNA <- function(data, varname, searchlist=NULL, join=FALSE){
     }
     numchange <- length(which(grepl(searchlist, data[,varname] )))   # retrieve number of instances which match search list
     
-    data[,varname] <- sapply(X = data[,varname],FUN = function(x)
-      gsub(pattern = searchlist, x = x, replacement = NA,ignore.case = TRUE))  # for variable specified, replace all instances of searchlist with NA
+    data[,varname] <- gsub(pattern = searchlist, x = data[,varname], replacement = NA,ignore.case = TRUE)  # for variable specified, replace all instances of searchlist with NA
     
     catret(paste0(varname, ": ", numchange, " values converted to NA"))            # print number of changes made
     
