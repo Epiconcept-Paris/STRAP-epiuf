@@ -51,13 +51,13 @@ epiutils_env$timer <- Sys.time()
 
 #' elapsedTime
 #'
-#' @param set TRUE to start 
+#' @param set start the timer if TRUE otherwise return time since last start 
 #'
 #' @return elapsed time
 #' @export
 #'
 #' @examples
-#' elapsedTime(TRUE)
+#' elapsedTime()
 elapsedTime <- function(set = FALSE) {
   if(set)
     epiutils_env$timer <- Sys.time()
