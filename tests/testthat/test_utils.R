@@ -8,6 +8,40 @@ test_that("no char count ok", {
   expect_equal(charCount(";","test test"),0)
 })
 
+test_that("Verify that nothing is 0 ", {
+  expect_equal(charCount("","essai"),0)
+  expect_equal(charCount("e",""),0)
+})
+
+  
+test_that("Verify a special character ", {
+  expect_equal(charCount("\\.","21.15.98"),2)
+})
+
+test_that("A string in a vector", {
+expect_equal(charCount("ce",c("cacec","ceci" )),2)
+} )            
+  
+test_that("A string / word in a dataframe", {
+  df <- data.frame(c("cacececi","ceci" ,"non","ace"))
+   expect_equal(charCount("ce",df),4)
+   expect_equal(charCount("\\bce\\b",df),0)
+})   
+
+test_that("A word in a dataframe  (between \b which escaped is \\\\b)", {
+df <- data.frame(c("ca cece ci","ce ci" ,"non","a ce"))
+expect_equal(charCount("\\bce\\b",df),2 ) 
+})
+
+test_that("Adding a separator", {
+   li <- list("one","two")
+   expect_equal(addSep(li,"-"),"one-two")
+   expect_equal(addSep(li),"one, two")
+   expect_equal(addSep(""),"")
+   expect_equal(addSep("one"),"one")
+   
+})
+
 test_that("File ext found", {
   expect_equal(fileExt("tira.dta"),"dta")
 })
