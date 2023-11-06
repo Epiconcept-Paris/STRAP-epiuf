@@ -38,3 +38,21 @@ test_that("Check Dico",{
     
 })
 
+test_that("Collapse Var",{
+  # create example dataset for testing
+  df <- data.frame(checkbox_bar = c("0|2", "1|2|3", "3|1|2", "0", "2", "3", "0|1", "2|3", "")
+                   ,checkbox_comma = c("0,2", "1,2,3", "3,1,2", "0", "2", "3", "0,1", "2,3", "")
+                   ,checkbox_slash = c("0/2", "1/2/3", "3/1/2", "0", "2", "3", "0/1", "2/3", "")
+  )
+  expect_equal(collapseVar(df, checkbox_bar, c(0,1,2,3)),c(0,1,1,0,2,3,0,2,NA))
+  expect_equal(collapseVar(df, checkbox_comma, c(0,1,2,3)),c(0,1,1,0,2,3,0,2,NA))
+  expect_equal(collapseVar(df, checkbox_slash, c(0,1,2,3)),c(0,1,1,0,2,3,0,2,NA))
+  expect_error(collapseVar(df, checkbox_oups, c(0,1,2,3)),label="wrong column name")
+ 
+  expect_equal(collapseVar(df, checkbox_bar, c(0,1,2,3,4)),c(0,1,1,0,2,3,0,2,NA))
+
+  expect_output(collapseVar(df, checkbox_bar, c(0,1,2)),"missing")
+  
+  
+})  
+
