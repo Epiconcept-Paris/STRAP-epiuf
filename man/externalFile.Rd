@@ -15,7 +15,7 @@ Character. The path of the located external file.
 \description{
 This function takes an external file name and searches for its existence across different possible locations.
 It first checks the current working directory, then the package's "extdata" directory, and finally a relative "inst/extdata" path.
-Raises an error if the file cannot be found in any of the locations.
+Stop script with an error if the file cannot be found in any of the locations.
 }
 \examples{
 \dontrun{

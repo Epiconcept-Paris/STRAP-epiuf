@@ -311,7 +311,9 @@ filesFindReplace <- function(filename,pattern,replacement,word = FALSE,ignore.ca
          filesFindReplace(RScript, pattern, replacement, word, ignore.case,listonly)
     }
   }
-
+  if(listonly){
+    warning("While listonly is set to TRUE,changes are counted but not applied")
+  }
 }
 
 

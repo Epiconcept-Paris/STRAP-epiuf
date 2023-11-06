@@ -147,9 +147,7 @@ catret  <- function(...) {
 #' bye("Goodbye, see you later!")
 #' @export
 bye <-function(message) {
-  red(message)
-  catret
-  try(stop(),silent=TRUE)
+  stop(message,call.=FALSE)
 }
 
 
