@@ -100,7 +100,7 @@ fileName <- function(text) {
 #'
 #' This function takes an external file name and searches for its existence across different possible locations.
 #' It first checks the current working directory, then the package's "extdata" directory, and finally a relative "inst/extdata" path.
-#' Raises an error if the file cannot be found in any of the locations.
+#' Stop script with an error if the file cannot be found in any of the locations.
 #'
 #' @param extfile Character. The name of the external file to locate.
 #'
@@ -126,7 +126,9 @@ externalFile <- function(extfile) {
     result <- ifelse(result=="",extfile,result)
   }  
   # if nowhere we stop
-  stopifnot(file.exists(result))
+  if(!file.exists(result)) {
+    bye(paste0("File \"",result,"\" doesn't exists in package external data"))
+  } else 
   # otherwise we return the path
   return(result)
 } 

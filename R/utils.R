@@ -136,6 +136,21 @@ catret  <- function(...) {
   cat(...,"\n")
 }
 
+#' Say goodbye and stop execution
+#'
+#' This function prints a goodbye message provided by the user and then
+#' stop the execution of the R script. 
+#'
+#' @param message A character string to be printed as a goodbye message.
+#' @return No return value, called for side effects.
+#' @examples
+#' bye("Goodbye, see you later!")
+#' @export
+bye <-function(message) {
+  red(message)
+  catret
+  try(stop(),silent=TRUE)
+}
 
 
 #' Count the Occurrences of a Pattern in Text
