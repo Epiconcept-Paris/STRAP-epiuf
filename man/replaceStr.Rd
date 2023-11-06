@@ -4,14 +4,14 @@
 \alias{replaceStr}
 \title{Replace Substring in a Given String}
 \usage{
-replaceStr(intext, pattern, replacement, word = FALSE, ignore.case = TRUE)
+replaceStr(pattern, replacement, intext, word = FALSE, ignore.case = TRUE)
 }
 \arguments{
-\item{intext}{The input text where you want to replace the substring.}
-
 \item{pattern}{The substring that you want to replace.}
 
 \item{replacement}{The new substring that will replace \code{pattern}.}
+
+\item{intext}{The input text where you want to replace the substring.}
 
 \item{word}{Logical, if TRUE only whole words will be replaced.}
 
@@ -25,7 +25,7 @@ This function replaces occurrences of a given substring (\code{pattern}) in a te
 You can also specify if you want to replace only whole words and whether to ignore case.
 }
 \examples{
-replaceStr("Hello world", "world", "everyone")
-replaceStr("Hello world", "WORLD", "everyone", ignore.case = TRUE)
-replaceStr("Hello world", "world", "everyone", word = TRUE)
+replaceStr( "world", "everyone","Hello world")
+replaceStr("WORLD", "everyone","Hello world",  ignore.case = TRUE)
+replaceStr( "world", "everyone","Hello world", word = TRUE)
 }

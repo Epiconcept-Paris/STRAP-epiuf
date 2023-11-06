@@ -136,19 +136,19 @@ externalFile <- function(extfile) {
 #' This function replaces occurrences of a given substring (`pattern`) in a text (`intext`) with a new substring (`replacement`).
 #' You can also specify if you want to replace only whole words and whether to ignore case.
 #'
-#' @param intext The input text where you want to replace the substring.
 #' @param pattern The substring that you want to replace.
 #' @param replacement The new substring that will replace `pattern`.
+#' @param intext The input text where you want to replace the substring.
 #' @param word Logical, if TRUE only whole words will be replaced.
 #' @param ignore.case Logical, if TRUE the function ignores case.
 #'
 #' @return A string with the replaced substrings.
 #' @export
 #' @examples
-#' replaceStr("Hello world", "world", "everyone")
-#' replaceStr("Hello world", "WORLD", "everyone", ignore.case = TRUE)
-#' replaceStr("Hello world", "world", "everyone", word = TRUE)
-replaceStr <- function(intext, pattern, replacement, word=FALSE, ignore.case = TRUE ) {
+#' replaceStr( "world", "everyone","Hello world")
+#' replaceStr("WORLD", "everyone","Hello world",  ignore.case = TRUE)
+#' replaceStr( "world", "everyone","Hello world", word = TRUE)
+replaceStr <- function( pattern, replacement,intext, word=FALSE, ignore.case = TRUE ) {
   if(word) 
   {
     pattern = paste0("\\b",pattern,"\\b")
@@ -359,7 +359,7 @@ xlsxFindReplace <-
           result + charCount(SearchedWord, df, ignore.case)
         # Replace 'SearchedWord' with 'replacement' in all cells
         df[] <- lapply(df, function(col) {
-          replaceStr(col, SearchedWord, replacement, ignore.case)
+          replaceStr( SearchedWord, replacement,col, ignore.case)
         })
         # Write the modified data frame back to the same sheet
         # write.xlsx(df, full_path, sheet = i, overwriteSheet = TRUE)
