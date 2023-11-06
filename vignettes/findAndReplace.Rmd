@@ -1,0 +1,148 @@
+---
+title: "findAndReplace"
+author: "epi-gde"
+date: "2023-10-20"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{findAndReplace}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(epiuf)
+
+```
+
+## **filesFindReplace**
+
+This function allows to find a character, string or word into a file, a
+series of files or a directory (with optional file filter) and to
+replace it by another character, string or word.
+
+R script, text files and csv can be processed as well as xlsx files.
+
+Some functions have been used to build that functionality
+
+The **charCount** function will be used to count changes before applying
+them
+
+```{r charCount}
+  # A single character 
+  charCount("c","cancan")
+  charCount("c","ccc" )
+  # A string in a sentence 
+  charCount("essai"," this is an essai" )
+  # A string in a vector 
+  charCount("ce",c("cacec","ceci" ))
+  # A string in a dataframe 
+  df <- data.frame(c("cacececi","ceci" ,"non","ace"))
+  charCount("ce",df)
+  # A word in a dataframe  (between \b which escaped is \\b)
+  charCount("\\bce\\b",df)
+  df <- data.frame(c("ca cece ci","ce ci" ,"non","a ce"))
+  charCount("\\bce\\b",df)
+  df <- data.frame(c("ca cece ci","ce ci" ,"non","a ce"),c("ca cececi","ce ci" ,"non","ace"))
+  charCount("\\bce\\b",df)
+  # Verify that nothing is 0 
+  charCount("","essai")
+  charCount("e","")
+  # A special character .
+  charCount("\\.","21.15.98")
+  
+  
+```
+
+```{r prepFiles, echo=FALSE}
+# prepare files for tests, this method avoid to store file in the package
+# created files will be delete at the end of the process
+file1 <- "temp_text1.R"
+file2 <- "temp_text2.R"
+file3 <- "temp_text3.R"
+lines <- c(
+"# test script for findAndReplace",
+"# word to be replaced : oldword",
+"#  old_word",
+"#  oldword --  oldword)")
+
+writeLines(lines, file1)
+writeLines(lines, file2)
+writeLines(lines, file3)
+```
+
+**listFiles** is a simplified version of list.files which accept jokers
+of global search \* for any character and ? for one character (fullpath
+is automaticaly set with recursive flag)
+
+```{r listFiles}
+listFiles(pattern="temp_*.R")
+listFiles("R","c*")
+```
+
+**externalFile** is used for test and vignettes. In the package, you can
+add some data/files These are stored in a specific directory attached to
+the package like :
+"/Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/library/epiuf/extdata/testrename.xlsx"
+But while you are building the package, the file is into inst/extdata.
+Retrieving that file could be tricky from vignettes or test depending
+your knit directory. externalFile while always return the right path
+either in build mode or library mode, and whathever is your knit
+directory
+
+externalFile("testrename.xlsx")
+"/Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/library/epiuf/extdata/testrename.xlsx"
+
+externalFile("testrename.xlsx") "/Users/gedeonz/Dev/R
+Sources/STRAP-epiuf/inst/extdata/testrename.xlsx"
+
+**filesFindReplace** is a generic function to make batch replacement You
+can call this function for one file, a list of files, a directory, a
+pattern to filter files or any combination of previous option. In
+addition you can replace a list of pattern by one single replacement The
+listonly parameters allow to check how many changes will be done.
+
+```{r replaceinFiles}
+  # replace in 2 files (count only)
+  filesFindReplace(c(file1,file2),pattern="oldword",replacement = "newword",listonly=TRUE)
+  # replace 2 pattern at a time (count only) 
+  filesFindReplace(file3,pattern=c("oldword","old_word"),replacement = "newword",listonly=TRUE)
+  # replace by modifying the original file
+  filesFindReplace(file1,pattern="oldword",replacement = "newword")
+  cat(readLines(file1),sep="\n")
+  # replace in a directory or use a file filter
+  filesFindReplace("temp_*.R",pattern="oldword",replacement = "newword")
+  
+```
+
+**filesFindReplace** work on text files (R, txt, csv ...) and xlsx
+files.
+
+```{r replaceinxlsxFiles}
+  # we use a file stored in packages data 
+  file4 <- externalFile("testrename.xlsx")
+  file5 <- "temp.xlsx"
+  # In ordre to not modify the original file, we copy it to a temporary file which will be deleted at the end
+  file.copy(file4,file5)
+  # Count the number of occurrence in file
+  filesFindReplace(file5,"patient","subject",word=TRUE, ignore.case = TRUE, listonly=TRUE)
+  # Replace in file
+  filesFindReplace(file5,"patient","subject",word=TRUE, ignore.case = TRUE)
+  # Number of occurrence should be 0 after changes 
+  filesFindReplace(file5,"patient","subject",word=TRUE, ignore.case = TRUE, listonly=TRUE)
+  # we can manage more than one file filter 
+  filesFindReplace(c("temp_*.R","temp*.xlsx"),pattern="oldword",replacement = "newword", listonly = TRUE)
+
+ 
+```
+
+```{r cleaning, echo=FALSE }
+if(file.exists(file1)) r <- file.remove(file1)
+if(file.exists(file2)) r <- file.remove(file2)
+if(file.exists(file3)) r <- file.remove(file3)
+if(file.exists(file5)) r <- file.remove(file5)
+
+```

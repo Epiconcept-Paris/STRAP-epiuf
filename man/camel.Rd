@@ -23,5 +23,4 @@ all columns name into a standard notation
 \examples{
 test <- "snake_case"
 camel(test)
-
 }
