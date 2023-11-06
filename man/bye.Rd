@@ -17,5 +17,7 @@ This function prints a goodbye message provided by the user and then
 stop the execution of the R script.
 }
 \examples{
+\dontrun{
 bye("Goodbye, see you later!")
+}
 }

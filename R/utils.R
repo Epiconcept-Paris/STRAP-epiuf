@@ -144,7 +144,9 @@ catret  <- function(...) {
 #' @param message A character string to be printed as a goodbye message.
 #' @return No return value, called for side effects.
 #' @examples
+#' \dontrun{
 #' bye("Goodbye, see you later!")
+#' }
 #' @export
 bye <-function(message) {
   stop(message,call.=FALSE)
