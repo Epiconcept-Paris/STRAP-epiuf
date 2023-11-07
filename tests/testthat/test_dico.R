@@ -56,3 +56,19 @@ test_that("Collapse Var",{
   
 })  
 
+test_that("Expand Var",{
+  # create example dataset for testing
+  
+data <- data.frame(Id = 1:4 , 
+                   Vaccs = c("pfizer,moderna"," ", "pfizer", "moderna"))
+brand <- list("pfizer"="pfizer",
+              "moderna"="moderna"
+              )
+data <-  expandVar(data,Vaccs,brand)
+
+expect_match(names(data)[4],"Vaccs_moderna")
+expect_equal(data[1,4],1)
+expect_equal(data[3,4],0)
+expect_equal(data[4,4],1)
+
+}) 
