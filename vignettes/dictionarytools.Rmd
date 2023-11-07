@@ -5,13 +5,15 @@ date: "1/31/2022"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{dictionarytools}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: inline
 ---
 
 
 ```{r setup}
-knitr::opts_chunk$set(echo = TRUE, include = TRUE)
+knitr::opts_chunk$set(echo = TRUE, results = "asis")
 library(epiuf)
 
 ```
@@ -22,11 +24,11 @@ This is a first rename function which use a data dictionary.
 
 ```{r dico3}
 
-cur <- data.frame(cur1=c(1,2,3),cur2=c(2,3,4),cur3=c(4,5,6),cur6=c(6,7,8))
+cur <- data.frame(source1=c(1,2,3),source2=c(2,3,4),source3=c(4,5,6),source6=c(6,7,8))
 
 dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA),
-                  source_name=c("cur1","cur2","cur3",NA,NA,"cur6"),
-                  type=c("numeric","numeric","numeric","character","character",NA))
+                  source_name=c("source1","source2","source3",NA,NA,"source6"),
+                  type=c("numeric","numeric","character","numeric","character",NA))
 
 
 new <- applyDictionary(dictionary=dic,data=cur)
@@ -37,7 +39,7 @@ new <- applyDictionary(dictionary=dic,data=cur)
 
 This is a test of the data dictionary. duplicate are not allowed in variable list
 
-```{r dicodup}
+```{r dicodup }
 
 cur <- data.frame(cur1=c(1,2,3),cur2=c(2,3,4),cur3=c(4,5,6),cur6=c(6,7,8))
 
@@ -86,7 +88,7 @@ new <- applyDictionary(dic,cur,keepextra = TRUE)
 
 Complex version which mix everything
 
-```{r dico5, ECHO = FALSE}
+```{r dico5}
 
 cur <- data.frame(cur1=c(1,2,3),cur2=c(2,3,4),cur4=c(4,5,6),cur6=c(6,7,8))
 
