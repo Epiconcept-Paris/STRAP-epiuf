@@ -2,13 +2,25 @@
 % Please edit documentation in R/applydictionary.R
 \name{createDictionary}
 \alias{createDictionary}
-\title{createDictionary}
+\title{Create a new dictionary environment with default entries}
 \usage{
-createDictionary()
+createDictionary(filename = "")
+}
+\arguments{
+\item{filename}{Optional; a character string providing the name of the file to be associated with
+the dictionary. Defaults to an empty string.}
 }
 \value{
-An empty dictionnary
+Does not return a value; called for side effects of setting up the dictionary environment.
 }
 \description{
-createDictionary
+This function initializes a new dictionary environment for epidemiological data management.
+It sets up the environment with default dictionary entries. The environment contains separate
+entries for the dictionary data, dicos, and actions, each initialized with a line from a
+corresponding 'getNewDictionaryLine' function.
+}
+\examples{
+# Create a new dictionary with default settings
+createDictionary()
+
 }

@@ -582,12 +582,23 @@ applyDictionary <- function( dictionary=NULL, data, verbose=TRUE, keepextra = FA
 }
 
 
-#' createDictionary
+#' Create a new dictionary environment with default entries
 #'
-#' @return An empty dictionnary
+#' This function initializes a new dictionary environment for epidemiological data management.
+#' It sets up the environment with default dictionary entries. The environment contains separate
+#' entries for the dictionary data, dicos, and actions, each initialized with a line from a
+#' corresponding 'getNewDictionaryLine' function.
+#'
+#' @param filename Optional; a character string providing the name of the file to be associated with
+#'   the dictionary. Defaults to an empty string.
+#'
+#' @return Does not return a value; called for side effects of setting up the dictionary environment.
+#'
+#' @examples
+#' # Create a new dictionary with default settings
+#' createDictionary()
+#' 
 #' @export
-#'
-#'  
 createDictionary <- function(filename="") {
   # base 
   epidictionaryfiles_env$datafilename <- filename
