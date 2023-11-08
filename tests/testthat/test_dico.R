@@ -82,3 +82,15 @@ expect_equal(data2[4,4],1)
 
 
 }) 
+
+test_that("Base dico function",{
+  file1 <- externalFile("genericdictionary.xlsx")
+  openDictionary(file1)
+  val <- getAnyDictionaryValue("gen4",searchcolumn = "generic_name",value="description")
+  expect_equal(val,"Binary variable")
+  val <- getAnyDictionaryValue("gen12",searchcolumn = "generic_name",value="description")
+  expect_equal(val,NA,label="Missing variable should give NA")
+  expect_warning(val <- getAnyDictionaryValue("gen4",searchcolumn = "badname",value="description"))
+  expect_equal(val,NA,label="Wrong parameters should give NA")
+  
+}) 
