@@ -64,11 +64,21 @@ data <- data.frame(Id = 1:4 ,
 brand <- list("pfizer"="pfizer",
               "moderna"="moderna"
               )
-data <-  expandVar(data,Vaccs,brand)
+data2 <-  expandVar(data,Vaccs,brand)
 
-expect_match(names(data)[4],"Vaccs_moderna")
-expect_equal(data[1,4],1)
-expect_equal(data[3,4],0)
-expect_equal(data[4,4],1)
+expect_match(names(data2)[4],"Vaccs_moderna")
+expect_equal(data2[1,4],1)
+expect_equal(data2[3,4],0)
+expect_equal(data2[4,4],1)
+
+file1 <- externalFile("genericdictionary.xlsx")
+openDictionary(file1)
+data2 <- expandVarAll(data)
+
+expect_match(names(data2)[4],"Vaccs_moderna")
+expect_equal(data2[1,4],1)
+expect_equal(data2[3,4],0)
+expect_equal(data2[4,4],1)
+
 
 }) 

@@ -5,8 +5,8 @@
 # Summary      : developement of expandVarAll function
 # Date created : 02/06/2022
 # Author       : JHD
-# Date reviewed:
-# Reviewed by  :
+# Date reviewed: 08/11/2023
+# Reviewed by  : GDE
 
 # Description --------------------------------------------------------------
 
@@ -40,7 +40,6 @@
 #' expandVarAll(data = data)
 #' }
 expandVarAll <- function(data, action=NULL){
-  
   
   if(is.null(action)){
     getDictionaryActions()

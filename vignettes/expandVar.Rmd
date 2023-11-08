@@ -61,3 +61,20 @@ data <-  expandVar(data,Vaccs,brand)
 
 head(data)
 ```
+
+
+```{r usingdico }
+
+
+data <- data.frame(Id = 1:4 , 
+                   Vaccs = c("pfizer,moderna"," ", "pfizer", "moderna"))
+file1 <- externalFile("genericdictionary.xlsx")
+openDictionary(file1)
+data <- expandVarAll(data)
+
+head(data)
+```
+
+
+
+

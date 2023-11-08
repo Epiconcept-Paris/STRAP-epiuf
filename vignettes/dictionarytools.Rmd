@@ -52,7 +52,7 @@ new <- applyDictionary(dictionary=dic,data=source)
 
 ```
 
-## Verify Nothing to do 
+## Verify Nothing to do
 
 This is a first rename function which use a data dictionary.
 
