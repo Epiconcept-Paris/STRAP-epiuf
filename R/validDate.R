@@ -24,9 +24,10 @@
 #' and transform it into a standard R date format. 
 #' If the format cannot be automatically determined, you can provide a format string as a parameter.
 #'
-#' @param datevar A character array to be converted into a Date array.
+#' @param datevar A character vector to be converted into a Date vector.
 #' @param format An optional format string to use instead of the automatic system. Useful for complex formats.
-#' @param dropFuture Logical value. If TRUE and the year is ambiguous, it will be placed in the past. Default is TRUE.
+#' @param dropFuture Logical value. If TRUE and a 2 digit year in the futur (greater than system date), 
+#'    it will be placed in the past by substrating one century . Default is TRUE.
 #' 
 #' @returns A Date object or a vector of Date objects in standard R date format.
 #' 

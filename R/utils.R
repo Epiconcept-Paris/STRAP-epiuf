@@ -2,54 +2,54 @@
 # Project Name : STRAP Project
 # Script Name  : utils.R
 # GitHub repo  : https://github.com/Epiconcept-Paris/STRAP-epiuf
-# Summary      : Utilities and general functions 
+# Summary      : Utilities and general functions
 # Date created : 01/01/2022
 # Author       : Gilles DESVE
 # Date reviewed: 15/01/2023
 # Reviewed by  : Gilles DESVE
 
 # Description --------------------------------------------------------------
-#' Set of utility functions used widely in the epiuf package 
-#' 
+#' Set of utility functions used widely in the epiuf package
+#'
 
 
 # Changes Log --------------------------------------------------------------
-# 
+#
 
 # START of SCRIPT  --------------------------------------------------------
 
 
 #' Transform snake_case into CamelCase
-#' 
+#'
 #' Camel can be used to transform snake_case notation into a CamelCase notation.
 #' You can use it on string, string list or string vector. This could be usefull to transform
-#' all columns name into a standard notation    
-#' 
-#' @param x : A string containing "snake_case" or a string list or a vector of strings 
+#' all columns name into a standard notation
 #'
-#' @return x with any occurrence transformed in to a CamelCase  
-#' @export  
+#' @param x : A string containing "snake_case" or a string list or a vector of strings
+#'
+#' @return x with any occurrence transformed in to a CamelCase
+#' @export
 #'
 #' @examples
 #' test <- "snake_case"
 #' camel(test)
-#' 
-camel <- function(x){        
+
+camel <- function(x){
   capit <- function(x) paste0(toupper(substring(x, 1, 1)), substring(x, 2, nchar(x)))
   sapply(strsplit(x, "_"), function(x) paste(capit(x), collapse=""))
 }
 
 #' Clean names by removing special char and accented
-#' 
-#' cleanNames can be used to obtain valid column names by removing non ascii char. 
-#' All invalid characters would be replaced by chr, an optional 
-#' character, if provided otherwise they are removed 
-#' In the same time, all accented character are replaced by a simple equivalent char 
 #'
-#' @param name A string to clean by removing non ascii char 
-#' @param chr A chr used to replace non ascii character  
+#' cleanNames can be used to obtain valid column names by removing non ascii char.
+#' All invalid characters would be replaced by chr, an optional
+#' character, if provided otherwise they are removed
+#' In the same time, all accented character are replaced by a simple equivalent char
 #'
-#' @return the cleaned string 
+#' @param name A string to clean by removing non ascii char
+#' @param chr A chr used to replace non ascii character
+#'
+#' @return the cleaned string
 #' @export
 #'
 #' @examples
@@ -57,13 +57,13 @@ camel <- function(x){
 #' cleanNames(x)  # no libraries needed
 
 cleanNames <-  function(name,chr="") {
-  # will remove all punctuation defined as  "a1~!@#$%^&*(){}_+:\"<>?,./;'[]-=" 
+  # will remove all punctuation defined as  "a1~!@#$%^&*(){}_+:\"<>?,./;'[]-="
   # if you want to keep only non accent alpha numeric use : [^a-zA-Z0-9] or [^[:alnum:]]
-  # here we use iconv to transform accent char to simple ascii 
-  
-  name <- iconv(name, from="", to="ASCII//TRANSLIT") # will replace  accented with ascii 
+  # here we use iconv to transform accent char to simple ascii
+
+  name <- iconv(name, from="", to="ASCII//TRANSLIT") # will replace  accented with ascii
   gsub("[[:punct:]]", chr, name)  # no libraries needed
-  
+
 }
 
 # x <- "ÁbcdêãçoàúüEssai/=+$67"
@@ -72,15 +72,15 @@ cleanNames <-  function(name,chr="") {
 
 
 #' Change the name of a data.frame column
-#' 
-#' Simple function to rename a column in a data.frame
-#' The rename is done "in place", no need to reassign the data.frame 
-#' A message is printed to confirm the change
-#' 
-#' Data.frame and column names are passed to the function as symbols (without "")
-#' 
 #'
-#' @param data A data frame passed to the function 
+#' Simple function to rename a column in a data.frame
+#' The rename is done "in place", no need to reassign the data.frame
+#' A message is printed to confirm the change
+#'
+#' Data.frame and column names are passed to the function as symbols (without "")
+#'
+#'
+#' @param data A data frame passed to the function
 #' @param oldname Name of the column/variable to rename
 #' @param newname New name to apply
 #'
@@ -105,7 +105,7 @@ rename <- function(data, oldname, newname) {
     lname[lname==oldname] <-  newname
     names(data)<-lname
     push.data(dfname,data)
-    
+
     bold(oldname)
     cat(" renamed as ")
     bold(newname)
@@ -117,12 +117,12 @@ rename <- function(data, oldname, newname) {
 #' Output to the console and go next line
 #'
 #'
-#' catret is a wrapper for cat(...,"newline"). 
-#'  
-#' catret concatenate all provided entry and 
+#' catret is a wrapper for cat(...,"newline").
+#'
+#' catret concatenate all provided entry and
 #' output the result to the console, then out a carriage return to make any further cat
 #' function to start on the next line.
-#'     
+#'
 #' @param ... list of values to be concatenated for console output
 #'
 #' @return  nothing
@@ -130,51 +130,84 @@ rename <- function(data, oldname, newname) {
 #'
 #' @examples
 #' {cat("un ");catret("test");cat("second")}
-#' 
-#' 
+#'
+#'
 catret  <- function(...) {
   cat(...,"\n")
 }
 
-
-#' count how many char 
+#' Say goodbye and stop execution
 #'
-#' Count the number of a specified char into a text using reg expr
-#' If pattern is a single character or a suite of character, then charcount return
-#' the number of occurrence of pattern into "tosearch" 
-#' 
-#' If pattern is a regular expression, charCount return the number of time this regular 
-#' expression is verified into "tosearch" string 
-#' Verify regular expression syntax for specific exptression like . which should
-#' be escaped by \\ : \\. 
-#' 
-#' @seealso [nchar()]
-#' @param pattern "The character or pattern to search for
-#' @param stosearch The string to search in 
+#' This function prints a goodbye message provided by the user and then
+#' stop the execution of the R script. 
 #'
-#' @return number of match
-#' @export
-#'
+#' @param message A character string to be printed as a goodbye message.
+#' @return No return value, called for side effects.
 #' @examples
-#' nb <- charCount("/", "test/essai/try")
-#' nb <- charCount("^t", "test/essai/try")
-#' nb <- charCount(".t", "test/essai/try")
+#' \dontrun{
+#' bye("Goodbye, see you later!")
+#' }
+#' @export
+bye <-function(message) {
+  stop(message,call.=FALSE)
+}
+
+
+#' Count the Occurrences of a Pattern in Text
+#'
+#' Counts the number of times a specified pattern appears in a given text string or vector of strings.
+#' If the pattern is a single character or a sequence of characters, the function returns
+#' the number of occurrences of the pattern in "stosearch".
+#'
+#' When the pattern is a regular expression, the function returns the number of times the expression
+#' matches in "stosearch". 
+#' For specific regex patterns like ".", you should escape it: e.g., charCount("\\.txt", c("test.txt", "sample.txt")).
+#'
+#' @param pattern Character. The pattern to search for within the text string(s).
+#' @param stosearch Character. The text string(s) in which to search for the pattern.
+#' @param ignore.case Logical. If TRUE, the search is case-insensitive. Default is FALSE.
 #' 
-#' 
-charCount <- function(pattern, stosearch) {
+#' @return Integer. The total count of occurrences of the pattern in the text string(s).
+#'
+#' @export
+#' @examples
+#' charCount("a", "banana")  # Returns 3 (three 'a's in "banana")
+#' charCount("a", c("banana", "apple"))  # Returns 4 
+#' charCount("\\d", "13ab2c")  # Returns 3 (three digits in "13ab2c")
+#' charCount("\\.txt", c("test.txt", "sample.txt"))
+#'
+#' @seealso \code{\link{nchar}}
+#'
+charCount <- function(pattern, stosearch,ignore.case=FALSE) {
   # pattern <- glob2rx(pattern)
-  lengths(regmatches(stosearch, gregexpr(pattern, stosearch)))
+  # result <- lengths(regmatches(stosearch, gregexpr(pattern, stosearch,ignore.case)))
+  # sum(result)
+  if (length(stosearch) == 0 || (length(pattern)==1 && nchar(pattern) ==0) ) 
+    return(0)
+  else {
+    count_positive <- function(x)
+      sum(x > 0)
+    result <- gregexpr(pattern, stosearch, ignore.case)
+    sum(sapply(result, count_positive))
+   }
   # length(attr(gregexpr(pattern,stosearch)[[1]],
   #            "match.length")[attr(gregexpr(pattern,stosearch)[[1]], "match.length")>0])
 }
 
-#' split a character string into word and return word x
+
+#' Extract a Specific Word from a Text String or List of Text Strings
 #'
-#' @param tosearch The character string to be searched for
-#' @param item The \code{item} word in the string 
-#' @param pattern The sep as a regular expression pattern, default to word separator
+#' This function takes a text string or a list of text strings and extracts a specific word
+#' based on its position, using a given pattern to split the text into words.
 #'
-#' @return the word at \code{item} position in tosearch 
+#' @param tosearch The text string or list of text strings from which to extract the word.
+#' @param item The position of the word to extract (1-based index). Default is 1.
+#' @param pattern The pattern used to split the text string into words. 
+#' Default is "\\W+" (one or more non-word characters).
+#'
+#' @return A character string containing the extracted word if `tosearch` is a single string,
+#' or a list of extracted words if `tosearch` is a list of strings.
+#'
 #' @export
 #'
 #' @examples
@@ -187,26 +220,35 @@ getWord <- function(tosearch,item=1,pattern="\\W+") {
       return(res)
    }
   else return(.getWord(tosearch,item,pattern))
-}  
+}
 
-.getWord <- function(tosearch,item=1,pattern="\\W+") {
-  word<-regmatches(tosearch,gregexpr(pattern, tosearch),invert = TRUE)
-  word <- word[[1]][word[[1]][]!=""]
-  nword <-length(word)
-  if (nword == 0) return( "" )
-  if(item <= nword) {
-    return(word[item])
+.getWord <- function(tosearch, item=1, pattern="\\W+") {
+  # Use regular expressions to split the input string based on the given pattern
+  word <- regmatches(tosearch, gregexpr(pattern, tosearch), invert = TRUE)
+  
+  # Clean up the list to remove any empty elements
+  word <- word[[1]][word[[1]] != ""]
+  
+  # Get the total number of words
+  nword <- length(word)
+  
+  # Check if there are no words, return an empty string if so
+  if (nword == 0) return("")
+  
+  # Check if the item index is within the range of the word count
+  if (item <= nword) {
+    return(word[item])  # Return the word at the specified position
+  } else {
+    return("")  # Return an empty string if the index is out of range
   }
-  else 
-  { return("")}
 }
 
 
 #' Extract x right characters of a string
 #'
-#' This function allow to extract the x last character of a string 
+#' This function allow to extract the x last character of a string
 #' (Character are counted from the end)
-#' It could be used to extract the last part of a string 
+#' It could be used to extract the last part of a string
 #' To retrieve extension of a file use \code{fileExt} instead
 #'
 #' @param text Text to extract from
@@ -217,7 +259,7 @@ getWord <- function(tosearch,item=1,pattern="\\W+") {
 #' @examples
 #' right("dummy_example",7)
 #' right("data_completed_2022",4)
-#' 
+#'
 #'
 right = function (text, num_char) {
   substr(text, nchar(text) - (num_char - 1), nchar(text))
@@ -225,11 +267,11 @@ right = function (text, num_char) {
 
 
 #' Extract x left character of a string
-#' 
+#'
 #' This function allows to extract the x first character of a string
 #' (Character are counted from the beginning)
 #'
-#' @param text Text to extract from 
+#' @param text Text to extract from
 #' @param num_char number of char to extract
 #'
 #' @return  \code{num_char} extracted characters from left side
@@ -237,17 +279,17 @@ right = function (text, num_char) {
 #'
 #' @examples
 #' left("dummy_test",5)
-#' 
+#'
 left = function (text, num_char) {
   substr(text, 1, num_char)
 }
 
 #' Extract the midlle of a string
-#' 
-#' Extract \code{num_char} character of a string, starting from the \code{start_num}
-#' character   
 #'
-#' @param text Text to extract from 
+#' Extract \code{num_char} character of a string, starting from the \code{start_num}
+#' character
+#'
+#' @param text Text to extract from
 #' @param start_num start of extraction
 #' @param num_char number of char to extract
 #'
@@ -256,29 +298,29 @@ left = function (text, num_char) {
 #'
 #' @examples
 #' mid("dummy_test_2002",7,4)
-#' 
+#'
 mid <- function(text, start_num, num_char) {
   substr(text, start_num, start_num + num_char - 1)
 }
 
 #' Retrieve the position of a char in a string
-#' 
+#'
 #' pos is used to find the position of a specific char or pattern into a string
-#' If pattern is a single character, the first position of this character in the searched 
-#' string is returned 
+#' If pattern is a single character, the first position of this character in the searched
+#' string is returned
 #' If pattern is a regular expression, the result is 0 if the expression is not verified
-#' or the position of the first pattern in the string \code{stosearch} 
-#' 
+#' or the position of the first pattern in the string \code{stosearch}
+#'
 #'
 #' @param pattern A pattern to search in stosearch
-#' @param stosearch A character string 
+#' @param stosearch A character string
 #'
 #' @return Position of pattern in stosearch
 #' @export
 #'
 #' @examples
 #' pos("/","test/string")
-#' 
+#'
 pos <- function(pattern, stosearch) {
   r <- regexpr(pattern, stosearch)
   ifelse(r < 0,0,r)
@@ -289,12 +331,12 @@ pos <- function(pattern, stosearch) {
 #' @param char Character to replicate
 #' @param ntime Number of replication
 #'
-#' @return \code{char} replicated \code{ntime} 
+#' @return \code{char} replicated \code{ntime}
 #' @export
 #'
 #' @examples
 #' replichar("-",60)
-#' 
+#'
 replichar <- function(char, ntime) {
   ntime <- max(ntime,0)
   paste(rep(char, ntime), collapse = "")
@@ -303,12 +345,12 @@ replichar <- function(char, ntime) {
 
 #' lpad
 #'      Used to display value with a fixed width format
-#'      format value according to width and digit is value is a number 
+#'      format value according to width and digit is value is a number
 #'
 #' @param value A value to format
 #' @param width The expected width
 #' @param digit The number of digit
-#' @param char Char used to pad left 
+#' @param char Char used to pad left
 #'
 #' @return The formated value
 #' @export
@@ -355,7 +397,7 @@ askinput <- function(message,answers) {
 }
 
 #' yesno
-#' 
+#'
 #' Dispkay a prompt and wait for a Yes/No answer
 #'
 #' @param message The prompt to display before the Yes/No choice
@@ -364,22 +406,22 @@ askinput <- function(message,answers) {
 #' @importFrom utils askYesNo
 #' @export
 #'
-#' 
+#'
 yesno <- function(message) {
   askYesNo(msg = message,
            default = NA,
            prompts = "yes/no/cancel")
 }
 
-#' confirm 
+#' confirm
 #' Confirmation dialog box
 #'
 #' @param message The prompt to display before confirmation
-#' 
+#'
 #' @return logical True if answer is "Yes"
 #' @export
 #'
-#' 
+#'
 confirm <- function(message="") {
   askinput(paste(message," (Press Y and [enter] to confirm) : "), c("Y", "y") )
 }
@@ -401,10 +443,10 @@ bold <- function(...) {
   } else if (knitr::is_html_output()) {
     r <-  paste0('<span style="font-weight:bold;">',...,'</span>')
     cat(mark(r))
-  } else {cat(...)}         
+  } else {cat(...)}
 }
 
-#' italic  
+#' italic
 #'
 #' @param ... values to be outputted in italic
 #'
@@ -419,8 +461,8 @@ italic <- function(...) {
   } else if (knitr::is_html_output()) {
     r <-  paste0('<span style="font-style:italic;">',...,'</span>')
     cat(mark(r))
-  } else { cat(...)}         
-  
+  } else { cat(...)}
+
 }
 
 #' red
@@ -429,7 +471,7 @@ italic <- function(...) {
 #'
 #' @return nothing
 #' @export
-#' 
+#'
 #'
 #' @examples
 #' red("text in red")
@@ -440,17 +482,17 @@ red <- function(...) {
     r <-  paste0('<span style="color:red;">',...,'</span>')
     cat(mark(r))
   } else {
-    cat(...) 
-    }     
+    cat(...)
+    }
 }
 
 
 #' blue
-#' 
+#'
 #' Send text colored in blue to the console
-#' 
+#'
 #' red, blue, italic and bold functions are used to decor text outputted to the console
-#' syntax is similar to \code{cat()} syntax 
+#' syntax is similar to \code{cat()} syntax
 #'
 #' @param ... list of values to be outputted in blue
 #'
@@ -465,29 +507,33 @@ blue <- function(...) {
   } else if (knitr::is_html_output()) {
     r <- paste0('<span style="color:blue;">',...,'</span>')
     cat(mark(r))
-  } else {cat(...)}     
-  
-}
-                                                                    
+  } else {cat(...)}
 
-#' addSep
-#' transform a list into a string of separated values
+}
+
+
+#' Add a separator between elements of a character list
 #'
+#' This function takes a character list and adds a separator string between each element.
+#' The last element is not followed by a separator.
 #'
-#' @param li A list of values
-#' @param c A separator
+#' @param charlist Character list to which the separator should be added.
+#' @param sep The separator string to be added between elements. Default is ", ".
 #'
-#' @return A string representing the list as separated values
+#' @return A single character string where elements from `charlist` are separated by `sep`.
 #' @export
 #'
 #' @examples
 #' li <- list("one","two","three")
-#' addSep(li,",")
-addSep <- function(li,c) {
-  sep <- function(x)  paste(x, c)
-  li2 <- lapply(li,sep)
-  l <- length(li)
-  li2[l] <- li[l]
+#' addSep(li,"-")
+#' addSep(li)
+addSep <- function(charlist,sep = ", ") {
+  sepf <- function(x)  paste0(x,sep)
+  li2 <- lapply(charlist,sepf)
+  # We keep the last item (no need of sep)
+  l <- length(charlist)
+  li2[l] <- charlist[l]
+  li2 <- paste(li2, collapse="")
   li2
 }
 
@@ -509,8 +555,8 @@ addSep <- function(li,c) {
 #' @export
 #' @importFrom utils ls.str
 #' @param what an object name, a Keyword (vars, functions, all) or a pattern
-#'             Object name can be passed for evaluation, pattern has to be quotted 
-#'              
+#'             Object name can be passed for evaluation, pattern has to be quotted
+#'
 #' @param noask to clear whithout confirmation. Useful when running from a script
 #' @author Gilles Desve
 #' @references Based on: \emph{Epi6} and \emph{Stata} functionnality, available at \url{https://github.com/}.
@@ -584,21 +630,21 @@ clear <- function(what="all", noask = FALSE) {
 #'
 #' @param dataset A dataset to explore
 #' @param pattern Pattern representing varname
-#' @param regex  Should the pattern be used as regex expression or use classical "joker" ? and * 
-#' @param strict If FALSE, the default, look for any column name containing the pattern  
+#' @param regex  Should the pattern be used as regex expression or use classical "joker" ? and *
+#' @param strict If FALSE, the default, look for any column name containing the pattern
 #'
-#' @return list of the variables matching the pattern   
+#' @return list of the variables matching the pattern
 #' @export
 #'
 #' @examples
-#' data <- data.frame(Id = 1:4 ,  
+#' data <- data.frame(Id = 1:4 ,
 #'                    vaccage = c(34,45, 50,22 ),
 #'                    symp = c("Y","Y","N","N"),
 #'                    vaccboost=c("N","Y","N","Y"))
 #'listVar(data,"symp")
-#'listVar(data,"vac*")                    
-#'                    
-#' 
+#'listVar(data,"vac*")
+#'
+#'
 listVar <- function(dataset,pattern,regex=FALSE, strict=FALSE) {
   savedpattern <-pattern
   if (!regex){pattern <- glob2rx(pattern)}
@@ -613,25 +659,25 @@ listVar <- function(dataset,pattern,regex=FALSE, strict=FALSE) {
   names(dataset)[lvar==TRUE]
 }
 
-#' printVar  
-#' 
-#' Function used to quickly print/list a serie of variable (similar names like vaccdate, vacctype, vaccbrand ) 
+#' printVar
 #'
-#' @param dataset A data.frame containing the variable to be listed 
-#' @param pattern A pattern for varname in the dataframe see \code{regex}  
-#' @param regex Should the pattern be used as regex expression or use classical "joker" ? and * , the default 
+#' Function used to quickly print/list a serie of variable (similar names like vaccdate, vacctype, vaccbrand )
 #'
-#' @return  A data frame of 10 rows with selected columns 
+#' @param dataset A data.frame containing the variable to be listed
+#' @param pattern A pattern for varname in the dataframe see \code{regex}
+#' @param regex Should the pattern be used as regex expression or use classical "joker" ? and * , the default
+#'
+#' @return  A data frame of 10 rows with selected columns
 #' @export
 #'
 #' @examples
-#'  data <- data.frame(Id = 1:4 ,  
+#'  data <- data.frame(Id = 1:4 ,
 #'                    vaccage = c(34,45, 50,22 ),
 #'                    symp = c("Y","Y","N","N"),
 #'                    vaccboost=c("N","Y","N","Y"))
-#'printVar(data,"symp") 
-#'printVar(data,"vac*") 
-#'                   
+#'printVar(data,"symp")
+#'printVar(data,"vac*")
+#'
 printVar <- function(dataset,pattern,regex=FALSE) {
   lvar <- listVar(dataset,pattern,regex)
   ldata <- as.data.frame(dataset[,lvar])
@@ -643,12 +689,12 @@ printVar <- function(dataset,pattern,regex=FALSE) {
 #' dropVar
 #'
 #' @param data A dataset
-#' @param varname A column to remove 
+#' @param varname A column to remove
 #'
-#' @return The dataset 
+#' @return The dataset
 #' @export
 #'
-#' 
+#'
 dropVar <- function(data , varname) {
   dfname <- as.character(substitute(data))
   r <- as.list(match.call())
@@ -670,7 +716,7 @@ dropVar <- function(data , varname) {
 #' push.data is used to update globalEnv from function
 #'
 #' @param name Name of an object to be created or replaced in global env
-#' @param object any object 
+#' @param object any object
 #'
 #' @return nothing
 #' @export
@@ -687,13 +733,13 @@ push.data <- function(name,object) {
 #'    exists look only in GlobalEnv and parent, is.var will search from current and parent until global but not in base
 #' @param what An object name to find
 #'
-#' @return TRUE if found 
+#' @return TRUE if found
 #' @export
 #' @importFrom utils glob2rx
 #'
 #' @examples
 #' isVar(test)
-#' 
+#'
 isVar <- function(what="") {
   lsfound <- FALSE
   r <- try(mode(what),TRUE)
@@ -804,7 +850,7 @@ getdata <- function() {
 #' @examples
 #' getvar()
 getvar <- function(what = NULL) {
-  
+
   # first, if what is missing we return previous one
   if (missing(what)) {
     return(getEpiOption("last_var"))
@@ -843,16 +889,16 @@ getvar <- function(what = NULL) {
              }
       )
       iscol <-  TRUE
-    }  
+    }
     # got it, we save the name
-    
+
     # epif_env$last_var <- varname
     # epif_env$last_varname <- varname
     # if ( (l <-pos("\\$",varname)) > 0) {
     #   epif_env$last_varname <- substring(varname,l+1)
     #   epif_env$last_df <- substr(varname,1,l-1)
   }
-  
+
   # just create an expression with content
   ex <- parse(text=varname)
   # we can test isVar

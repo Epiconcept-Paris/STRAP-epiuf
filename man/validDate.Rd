@@ -7,11 +7,12 @@
 validDate(datevar, format = NULL, dropFuture = TRUE)
 }
 \arguments{
-\item{datevar}{A character array to be converted into a Date array.}
+\item{datevar}{A character vector to be converted into a Date vector.}
 
 \item{format}{An optional format string to use instead of the automatic system. Useful for complex formats.}
 
-\item{dropFuture}{Logical value. If TRUE and the year is ambiguous, it will be placed in the past. Default is TRUE.}
+\item{dropFuture}{Logical value. If TRUE and a 2 digit year in the futur (greater than system date),
+it will be placed in the past by substrating one century . Default is TRUE.}
 }
 \value{
 A Date object or a vector of Date objects in standard R date format.
