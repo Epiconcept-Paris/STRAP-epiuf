@@ -5,107 +5,111 @@ date: "1/31/2022"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{dictionarytools}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: inline
 ---
 
-
 ```{r setup}
-knitr::opts_chunk$set(echo = TRUE, include = TRUE)
+knitr::opts_chunk$set(echo = TRUE, results = "asis")
 library(epiuf)
 
 ```
 
-## R Markdown
+## Update source to dictionary generic structure
 
 This is a first rename function which use a data dictionary.
 
 ```{r dico3}
 
-cur <- data.frame(cur1=c(1,2,3),cur2=c(2,3,4),cur3=c(4,5,6),cur6=c(6,7,8))
+source <- data.frame(source1=c(1,2,3),source2=c(2,3,4),source3=c(4,5,6),source6=c(6,7,8))
 
 dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA),
-                  source_name=c("cur1","cur2","cur3",NA,NA,"cur6"),
-                  type=c("numeric","numeric","numeric","character","character",NA))
+                  source_name=c("source1","source2","source3",NA,NA,"source6"),
+                  type=c("numeric","numeric","character","numeric","character",NA))
 
 
-new <- applyDictionary(dictionary=dic,data=cur)
+new <- applyDictionary(dictionary=dic,data=source)
 
 
 ```
 
+## Test for error (duplicated variable name in dico)
 
-This is a test of the data dictionary. duplicate are not allowed in variable list
+This is a test of the data dictionary. duplicated names are not allowed in the dictionnary generic variable list
 
-```{r dicodup}
+```{r dicodup }
 
-cur <- data.frame(cur1=c(1,2,3),cur2=c(2,3,4),cur3=c(4,5,6),cur6=c(6,7,8))
+source <- data.frame(source1=c(1,2,3),source2=c(2,3,4),source3=c(4,5,6),source6=c(6,7,8))
 
 dic <- data.frame(generic_name=c("gen1","gen1","gen3","gen4","gen5",NA),
-                  source_name=c("cur1","cur2","cur3",NA,NA,"cur6"),
+                  source_name=c("source1","source2","source3",NA,NA,"source6"),
                   type=c("numeric","numeric","numeric","character","character",NA))
 
-new <- applyDictionary(dictionary=dic,data=cur)
+new <- applyDictionary(dictionary=dic,data=source)
 
 
 ```
 
+## Verify Nothing to do
 
 This is a first rename function which use a data dictionary.
 
 ```{r nothingtodo }
 
-cur <- data.frame(cur1=c(1,2,3),cur2=c(2,3,4),cur3=c(4,5,6))
+source <- data.frame(source1=c(1,2,3),source2=c(2,3,4),source3=c(4,5,6))
 
-dic <- data.frame(generic_name=c("cur1","cur2","cur3"),
-                  source_name=c("cur1","cur2","cur3"),
+dic <- data.frame(generic_name=c("source1","source2","source3"),
+                  source_name=c("source1","source2","source3"),
                   type=c("numeric","numeric","numeric"))
 
-new <- applyDictionary(dictionary=dic,data=cur)
+new <- applyDictionary(dictionary=dic,data=source)
 
 
 ```
 
-
-We can keep Extra variables 
+## Keep Extra variables in updated data
 
 ```{r dico4}
 
-cur <- data.frame(cur1=c(1,2,3),cur2=c(2,3,4),cur3=c(4,5,6),cur4=c(5,6,7), cur6=c(6,7,8))
+source <- data.frame(source1=c(1,2,3),source2=c(2,3,4),source3=c(4,5,6),source4=c(5,6,7), source6=c(6,7,8))
 
 dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA),
-                  source_name=c("cur1","cur2","cur3",NA,NA,"cur6"),
+                  source_name=c("source1","source2","source3",NA,NA,"source6"),
                   type=c("numeric","numeric","numeric","character","character",NA))
 
 
-new <- applyDictionary(dic,cur,keepextra = TRUE)
+new <- applyDictionary(dic,source,keepextra = TRUE)
 
 
 ```
 
+## Complex version which mix everything
 
-Complex version which mix everything
+```{r dico5}
 
-```{r dico5, ECHO = FALSE}
-
-cur <- data.frame(cur1=c(1,2,3),cur2=c(2,3,4),cur4=c(4,5,6),cur6=c(6,7,8))
+source <- data.frame(source1=c(1,2,3),source2=c(2,3,4),source4=c(4,5,6),source6=c(6,7,8))
 
 dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA,NA),
-                  source_name=c("cur1","cur2","cur3","",NA,"cur6",NA),
+                  source_name=c("source1","source2","source3","",NA,"source6",NA),
                   type=c("numeric","numeric","numeric","character"," ","character",NA))
 
 
-new <- applyDictionary(dic,cur)
+new <- applyDictionary(dic,source)
 
 ```
-Utility function for dico 
 
-Retrieve values from dico by name 
+------------------------------------------------------------------------
+
+## Utility function for dico
+
+## Retrieve values from dico by name
 
 ```{r dico6, ECHO = FALSE}
 
 dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA,NA),
-                  source_name=c("cur1","cur2","cur3","",NA,"cur6",NA),
+                  source_name=c("source1","source2","source3","",NA,"source6",NA),
                   type=c("numeric","numeric","numeric","character"," ","character",NA),
                   unknowns=c("","8","UNK","","","",""))
 
@@ -118,12 +122,13 @@ val <- getDictionaryValue("gen3","unknowns")
 print(val)
 
 ```
-Retrieve the dico dataset 
+
+## Retrieve the dico dataset
 
 ```{r dico7, ECHO = FALSE}
 
 dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA,NA),
-                  source_name=c("cur1","cur2","cur3","",NA,"cur6",NA),
+                  source_name=c("source1","source2","source3","",NA,"source6",NA),
                   type=c("numeric","numeric","numeric","character"," ","character",NA)
                   )
 
@@ -134,12 +139,12 @@ print(retrieved)
 
 ```
 
-Manage dico  
+## Manage dico
 
 ```{r dico8, ECHO = FALSE}
 
 dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA,NA),
-                  source_name=c("cur1","cur2","cur3","",NA,"cur6",NA),
+                  source_name=c("source1","source2","source3","",NA,"source6",NA),
                   type=c("numeric","numeric","numeric","character"," ","character",NA),
                   unknowns=c("","8","UNK","","","","")
                   )
@@ -152,7 +157,8 @@ if (file.exists(FileName)) {print("Dictionary successfully saved")}
 
 
 ```
-Manage dico open file   
+
+## Manage dico open file
 
 ```{r dico9, ECHO = FALSE}
 
@@ -166,12 +172,12 @@ file.remove(FileName)
 
 ```
 
-Manage dico  
+## Manage dico
 
 ```{r dico10, ECHO = FALSE}
 
 dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA,NA),
-                  source_name=c("cur1","cur2","cur3","",NA,"cur6",NA),
+                  source_name=c("source1","source2","source3","",NA,"source6",NA),
                   type=c("numeric","numeric","numeric","character"," ","character",NA),
                   unknowns=c("","8","UNK","","","","")
                   )
@@ -184,12 +190,10 @@ print(OneLine)
 
 ```
 
-
-
 ```{r dicovalue, ECHO = FALSE}
 
 dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA,NA),
-                  source_name=c("cur1","cur2","cur3","",NA,"cur6",NA),
+                  source_name=c("source1","source2","source3","",NA,"source6",NA),
                   type=c("numeric","numeric","numeric","character"," ","character",NA),
                   unknowns=c("","8","UNK","","","","")
                   )
@@ -201,6 +205,3 @@ getDictionaryValue("gen9","unknowns")
 tryCatch(getDictionaryValue("gen3","unknows"))
 
 ```
-
-
-

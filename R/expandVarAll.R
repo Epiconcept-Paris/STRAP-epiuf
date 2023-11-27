@@ -5,8 +5,8 @@
 # Summary      : developement of expandVarAll function
 # Date created : 02/06/2022
 # Author       : JHD
-# Date reviewed:
-# Reviewed by  :
+# Date reviewed: 08/11/2023
+# Reviewed by  : GDE
 
 # Description --------------------------------------------------------------
 
@@ -19,14 +19,31 @@
 # START of SCRIPT  --------------------------------------------------------
 
 
-#' expandVarAll
+#' Expand all variables in a dataset based on predefined actions
 #'
-#' @param data dataframe to be processed, the dico must be loaded 
+#' This function automates the expansion of variables in a dataset according to
+#' a set of predefined actions. If no action is specified, it retrieves the
+#' dictionary of actions. It identifies all variables within the dataset that
+#' have been tagged for expansion and applies the expansion action to each.
 #'
-#' @return data.frame
+#' @param data A data frame containing the variables to be expanded.
+#' @param action Optional; an action or set of actions to apply for expanding the variables.
+#'   If `NULL`, the function will attempt to retrieve the dictionary of actions.
+#'
+#' @return Returns the modified data frame with the specified variables expanded.
+#'
 #' @export
-#'
-expandVarAll <- function(data){
+#' 
+#' @examples
+#' \dontrun{
+#' # Assuming 'data' is a data frame and 'action' is defined or NULL to use default actions
+#' expandVarAll(data = data)
+#' }
+expandVarAll <- function(data, action=NULL){
+  
+  if(is.null(action)){
+    getDictionaryActions()
+  }
   
   expandActionGroup <- getActionGroup("expand")$variable # get list of all variables tagged for an action
   
