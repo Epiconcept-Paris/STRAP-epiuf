@@ -2,36 +2,37 @@
 % Please edit documentation in R/utils.R
 \name{charCount}
 \alias{charCount}
-\title{count how many char}
+\title{Count the Occurrences of a Pattern in Text}
 \usage{
-charCount(pattern, stosearch)
+charCount(pattern, stosearch, ignore.case = FALSE)
 }
 \arguments{
-\item{pattern}{"The character or pattern to search for}
+\item{pattern}{Character. The pattern to search for within the text string(s).}
 
-\item{stosearch}{The string to search in}
+\item{stosearch}{Character. The text string(s) in which to search for the pattern.}
+
+\item{ignore.case}{Logical. If TRUE, the search is case-insensitive. Default is FALSE.}
 }
 \value{
-number of match
+Integer. The total count of occurrences of the pattern in the text string(s).
 }
 \description{
-Count the number of a specified char into a text using reg expr
-If pattern is a single character or a suite of character, then charcount return
-the number of occurrence of pattern into "tosearch"
+Counts the number of times a specified pattern appears in a given text string or vector of strings.
+If the pattern is a single character or a sequence of characters, the function returns
+the number of occurrences of the pattern in "stosearch".
 }
 \details{
-If pattern is a regular expression, charCount return the number of time this regular
-expression is verified into "tosearch" string
-Verify regular expression syntax for specific exptression like . which should
-be escaped by \\ : \\.
+When the pattern is a regular expression, the function returns the number of times the expression
+matches in "stosearch".
+For specific regex patterns like ".", you should escape it: e.g., charCount("\\.txt", c("test.txt", "sample.txt")).
 }
 \examples{
-nb <- charCount("/", "test/essai/try")
-nb <- charCount("^t", "test/essai/try")
-nb <- charCount(".t", "test/essai/try")
-
+charCount("a", "banana")  # Returns 3 (three 'a's in "banana")
+charCount("a", c("banana", "apple"))  # Returns 4 
+charCount("\\\\d", "13ab2c")  # Returns 3 (three digits in "13ab2c")
+charCount("\\\\.txt", c("test.txt", "sample.txt"))
 
 }
 \seealso{
-\code{\link[=nchar]{nchar()}}
+\code{\link{nchar}}
 }
