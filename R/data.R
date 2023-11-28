@@ -19,7 +19,6 @@
 #' 
 "RefSite"
 
-
 #' Dummy dataset
 #'
 #' Dataframe with commun epidemiological variables to use for tests
