@@ -25,5 +25,6 @@ throughout reports. Additional information is available in columns
 \code{LocationName},
 \code{LocationType},
 and \code{CountryISO2Code}
+Original Excel spreadsheet \code{suggestion1_RefLocation.xlsx} available on GoogleDrive.
 }
 \keyword{datasets}
