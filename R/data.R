@@ -18,3 +18,24 @@
 #' }
 #' 
 "RefSite"
+
+
+#' Dummy dataset
+#'
+#' Dataframe with commun epidemiological variables to use for tests
+#'
+#' @format A data frame with 100 observations on 8 variables.
+#' \describe{
+#'   \item{id}{Identifier}
+#'   \item{country}{Country (Albania,Croatia,Italy,Poland)}
+#'   \item{countrycode}{Code associated to a location}
+#'   \item{countryid}{CountryISO2Code}
+#'   \item{age}{Age}
+#'   \item{enrolmentdate}{Date of enrolment in the study}
+#'   \item{covvaccbr}{Brand of the Covid vaccine (Pfizer, Moderna, Astra Zeneca)}
+#'   \item{vaccdate}{date of the Covid vaccine}
+#'   \item{case}{If infection (0=no, 1=yes)}
+#'   \item{datepos}{Date of infection}
+#' }
+#' 
+"DummyData"
