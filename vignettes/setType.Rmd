@@ -1,0 +1,84 @@
+---
+title: "setType"
+author: "JHD"
+date: "28/11/2023"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{setType}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(epiuf)
+
+```
+
+setType changes the listed variable into the type specified.
+setTypeAll uses the dictionary to set the types of all the variables in the dataset. This function must ONLY be used on already cleaned data!!
+
+```{r testdata}
+
+# create example dataset for testing
+df_clean <- data.frame(date_var = c("2023-11-20", "2023-11-22","2023-11-20", "2023-11-22", "2023-11-20", "2023-11-22", "2023-11-20", "2023-11-22", NA_character_)
+                 ,number_var = c(0,1,2,3,0,1,2,3,NA_real_)
+                 ,character_var = c("apple","pear","nd","pear","apple","apple","","pear",NA_character_)
+)
+
+df_messy <- data.frame(date_var = c("2023-11-20", "","20/11/2023", "2023-11-22", "2023-11-20", "2023-11-22", "2023-11-20", "2023-11-22", NA_character_)
+                 ,number_var = c(0,"1",2,"3",0,"pear",3,"apple",NA_real_)
+                 ,character_var = c("apple",1,"nd","pear","apple","apple","","pear",NA_character_)
+)
+
+```
+
+
+## Test on each type for correct data
+```{r tests2}
+df_clean$date_var_new <- setType(df_clean, date_var, type = "date")
+catret("Class of date_var_new = ", class(df_clean$date_var_new))
+print(tab(date_var, date_var_new, data=df_clean))
+catret()
+df_clean$number_var_new_numeric <- setType(df_clean, number_var, type = "numeric")
+catret("Class of number_var_new_numeric = ", class(df_clean$number_var_new_numeric))
+print(tab(number_var, number_var_new_numeric, data=df_clean))
+catret()
+df_clean$number_var_new_factor <- setType(df_clean, number_var, type = "factor")
+catret("Class of number_var_new_factor = ", class(df_clean$number_var_new_factor))
+print(tab(number_var, number_var_new_factor, data=df_clean))
+catret()
+df_clean$character_var_new <- setType(df_clean, character_var, type = "character")
+catret("Class of character_var_new = ", class(df_clean$character_var_new))
+print(tab(character_var, character_var_new, data=df_clean))
+
+``` 
+
+Expected output: new variables identical to original, class as stated in variable name
+
+
+## Test on each type for messy data
+```{r tests2}
+df_messy$date_var_new <- setType(df_messy, date_var, type = "date")
+catret("Class of date_var_new = ", class(df_messy$date_var_new))
+print(tab(date_var, date_var_new, data=df_messy))
+catret()
+df_messy$date_var_new2 <- setType(df_messy, date_var, type = "date", dateformat = "%Y/%m/%d")
+catret("Class of date_var_new2 = ", class(df_messy$date_var_new2))
+print(tab(date_var, date_var_new2, data=df_messy))
+catret()
+df_messy$number_var_new_numeric <- setType(df_messy, number_var, type = "numeric")
+catret("Class of number_var_new_numeric = ", class(df_messy$number_var_new_numeric))
+print(tab(number_var, number_var_new_numeric, data=df_messy))
+catret()
+df_messy$number_var_new_factor <- setType(df_messy, number_var, type = "factor")
+catret("Class of number_var_new_factor = ", class(df_messy$number_var_new_factor))
+print(tab(number_var, number_var_new_factor, data=df_messy))
+catret()
+df_messy$character_var_new <- setType(df_messy, character_var, type = "character")
+catret("Class of character_var_new = ", class(df_messy$character_var_new))
+print(tab(character_var, character_var_new, data=df_messy))
+
+``` 
+Expected outcome: "Warning: NAs introduced by coercion" and those not fitting the pattern are NA, class matches that of the name.

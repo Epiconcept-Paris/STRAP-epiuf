@@ -21,7 +21,8 @@
 # START of SCRIPT  --------------------------------------------------------
 
 #' setTypeAll
-#' Uses dictionary to define the class for each variable.
+# Function to set data types for all variables in a dataset based on a given dictionary.
+# If no dictionary is provided, it retrieves a default dictionary from the global environment.
 #' 
 #' @param data The dataset
 #' @param dictionary The epiuf dictionary
@@ -36,25 +37,27 @@
 #' 
 setTypeAll <- function(data, dictionary=NULL){
   
-  if(is.null(dictionary)){          # retrieve dictionary from global environment if none specified
+  # Use the custom dictionary if provided, otherwise retrieve the default dictionary
+  
+  if(is.null(dictionary)){       
     ds <- getDictionary()
   }else{
     ds <- dictionary
   }
   
-  dicoVar <- intersect(colnames(data), ds$generic_name) # Isolate all varnames that are in the dictionary
+  # Find variables in dataset that are also present in the dictionary
+  relevantVariables <- intersect(colnames(data), ds$generic_name) 
   
-  ## This is the slow looping method also used in applyNAAll 
-  ## - thus any improvements to applyNAAll will need to be put here too!
-  
-  for (i in dicoVar){
-    tp <- getDictionaryValue(i, "type") # retrieve list of type if present. (NA if none given)
+  # Loop through each relevant variable to set its type
+  for (variable in relevantVariables){
+    typeInfo <- getDictionaryValue(variable, "type") # retrieve list of type if present. (NA if none given)
     
-    if (!is.na(tp)){ # if type provided, then set variable to be this type
-      data[,i] <- setType(data, i, tp)
+    # If type information is available, update the variable type in the dataset
+    if (!is.na(typeInfo)){
+      data[,variable] <- setType(data, variable, typeInfo)
     }
   }
-  # return the dataset
+  # Return the modified dataset
   return(data)
 }
 
