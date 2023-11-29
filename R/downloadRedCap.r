@@ -18,7 +18,7 @@
 #' # Begin the download process using another function
 #' accessREDCap(country)
 #' }
-accessREDCap <- function(password,country,file_path=NULL) {
+downloadRedCap <- function(password,country,file_path=NULL) {
   yearDate <- format(Sys.Date(), "%Y")
   month_number <- format(Sys.Date(), "%m")
   # The URL we are requesting data from
