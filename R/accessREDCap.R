@@ -1,21 +1,57 @@
-#' Access REDCap data using a keyring for the API password
+#' Access REDCap data for country
 #'
-#' This function, 'accessREDCap', prompts the user to enter a country code, or project name, that corresponds to a
-#' REDCap project. The project name should also be the keyring_ID holding the relevant REDCap API password.
-#' If the keyring_ID exists, the password is retrieved and used to query the API.
-#' If it does not exist, the user is prompted to enter the password, which is saved as a keyring and used to query the API.
-#' Finally, the user is prompted to enter a file path where the returned data frame will be saved.
+#' This function checks for an existing secret key and file path for the specified country.
+#' If these exist, the function will proceed to download REDCap data.
+#' If not, the user will be prompted to create the necessary credentials.
 #'
-#' @return (Invisible) The location where the returned data frame is saved.
+#' @param country A character string representing the country for which REDCap data will be accessed.
+#'
+#' @return If a secret key and file path exist, this function will proceed to call `downloadRedCap()` with the appropriate arguments.
+#'         Otherwise, it will prompt the user to create a secret key or file path, or to continue with the download without them.
+#' 
+#' @seealso \code{\link{downloadRedCap}} for downloading REDCap data.
+#' @seealso \code{\link{CreateOrGrabKeyring}} for creating or getting a keyring.
+#' @seealso \code{\link{setOrGetFilePath}} for setting or getting a file path.
+#'
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' accessREDCap()
+#' # Request data for a fictional country 'DB'
+#' accessREDCap("DB")
 #' }
-accessREDCap <- function() {
-  country <- readline("Please type the country code of the REDCap project you'd like to access. Note:
-           this must also be the keyring_ID holding the relevant REDCap API password.")
-  password <- createOrUpdateKeyring(country)
-  downloadRedCap(password)
+accessREDCap <- function(country) {
+  password <- CreateOrGrabKeyring(country)
+  
+  country_filepathfull <- paste0(country,"_pathkeyfull")
+  country_filepathpartial <- paste0(country,"_pathkeypart")
+  
+  if(country_filepathfull %in% keyring::keyring_list()$keyring){
+    country_filepath <- country_filepathfull
+    keyring::keyring_unlock(keyring = country_filepath, password = country)
+    file_path <- keyring::key_get(country, keyring = country_filepath)
+    
+    downloadRedCap(password,country,file_path)
+    
+  } else if(country_filepathpartial %in% keyring::keyring_list()$keyring){
+    country_filepath <- country_filepathpartial
+    yearDate <- format(Sys.Date(), "%Y")
+    month_number <- format(Sys.Date(), "%m")
+    
+    keyring::keyring_unlock(keyring = country_filepath, password = country)
+    file_path <- keyring::key_get(country, keyring = country_filepath)
+    file_path <- pathToFile("SOURCES", paste0(file_path,"/", yearDate ," ", month_number))
+    
+    downloadRedCap(password,country,file_path)
+    
+  } else {
+    print("A file path, within which the downloaded data will be placed, has not been set for this country yet.") 
+    store_file <- readline("Would you like to set one now? It may save time in future. Type (Y)es or (N)o.")
+    if(tolower(store_file)=="y"|tolower(store_file)=="yes"){
+      setOrGetFilePath(country)
+      accessREDCap(country)
+    } else {
+      downloadRedCap(password,country)
+    }
+  }
 }

@@ -1,8 +1,11 @@
 #' Download REDCap Data
 #'
-#' This function downloads REDCap data from a specified project and saves it as a CSV file.
+#' This function downloads REDCap data from a specified project and saves it as a CSV file. If no file path has previously been set,
+#' it defaults to the working directory of the user
 #'
 #' @param password A character string representing the API token for the desired REDCap project.
+#' @param country A character string representing the country/project
+#' @param file_path A character string representing the desired file path in which the downloaded data will be saved.
 #' 
 #' @return A CSV file containing the REDCap data.
 #' @export
@@ -10,14 +13,14 @@
 #' @examples
 #' \dontrun{
 #' # Please provide your own API token to use this example
-#' # If you haven't already, you can set and retrieve password for REDCap using the accessREDCap() function. Run this function or visit it's vignette in epiuf for more information.
-#' api_token <- "your_api_token_here"
+#' # If you haven't already, you can set and retrieve password for REDCap using the CreateOrGrabKeyring() function. Run this function or visit it's vignette in epiuf for more information.
 #' 
-#' # Download REDCap data using the specified API token
-#' downloadRedCap(api_token)
+#' # Begin the download process using another function
+#' accessREDCap(country)
 #' }
-downloadRedCap <- function(password) {
-  
+accessREDCap <- function(password,country,file_path=NULL) {
+  yearDate <- format(Sys.Date(), "%Y")
+  month_number <- format(Sys.Date(), "%m")
   # The URL we are requesting data from
   url <- "https://extranet.who.int/edcrc/api/"
   
@@ -44,9 +47,18 @@ downloadRedCap <- function(password) {
   print(REDCapExtract)
   
   # Prompt user for the file path within which they'd like to save the file
-  dataLocation <- readline(prompt = "Paste the file path within which you'd like to save this file")
-  fileName <- paste0(dataLocation, Sys.Date(), "_", strftime(Sys.time(), "%H%M"), ".csv")
+  if(is.null(file_path)){
+    file_name <- paste0(country,"_",Sys.Date(),"_",strftime(Sys.time(), "%H%M"),".csv")
+    location <- paste0(getwd(),"/",file_name)
+    print("No file path set. Saving in working directory:")
+    print(location)
+  } else {
+    file_name <- paste0(country,"_",Sys.Date(),"_",strftime(Sys.time(), "%H%M"),".csv")
+    location <- paste0(file_path,file_name)
+  }
   
   # Download the r dataframe to CSV
-  write.csv(REDCapExtract, fileName, row.names=FALSE)
+  write.csv(REDCapExtract, location, row.names=FALSE)
+  
+  print(paste("File downloaded:", location))
 }
