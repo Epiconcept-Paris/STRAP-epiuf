@@ -19,7 +19,7 @@ CreateOrGrabKeyring <- function(keyring_id) {
   } else {
     print("Keyring not found. Beginning the process of creating a new keyring starting with the API secret value to be stored.")
     secret <- readline("Enter the actual API key/secret to be stored: ")
-    keyring::keyring_create(key_id,password = passcode)
+    keyring::keyring_create(key_id,password = keyring_id)
     keyring::key_set_with_value(keyring_id, keyring = key_id,password = secret)
     password <- keyring::key_get(keyring_id, keyring = key_id)
   }
