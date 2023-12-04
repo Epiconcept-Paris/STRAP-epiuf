@@ -6,6 +6,7 @@
 #' \code{LocationName},
 #' \code{LocationType},
 #' and \code{CountryISO2Code}
+#' Original Excel spreadsheet \code{suggestion1_RefLocation.xlsx} available on GoogleDrive.
 #'
 #' @format A data frame with 40 rows and 5 variables:
 #' \describe{
