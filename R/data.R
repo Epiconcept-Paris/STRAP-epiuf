@@ -27,14 +27,14 @@
 #' \describe{
 #'   \item{id}{Identifier}
 #'   \item{country}{Country (Albania,Croatia,Italy,Poland)}
-#'   \item{countrycode}{Code associated to a location}
-#'   \item{countryid}{CountryISO2Code}
+#'   \item{CountryCode}{Code associated to a location}
+#'   \item{CountryId}{CountryISO2Code}
 #'   \item{age}{Age}
-#'   \item{enrolmentdate}{Date of enrolment in the study}
-#'   \item{covvaccbr}{Brand of the Covid vaccine (Pfizer, Moderna, Astra Zeneca)}
-#'   \item{vaccdate}{date of the Covid vaccine}
+#'   \item{EnrolmentDate}{Date of enrolment in the study}
+#'   \item{CovVaccBr}{Brand of the Covid vaccine (Pfizer, Moderna, Astra Zeneca)}
+#'   \item{VaccDate}{date of the Covid vaccine}
 #'   \item{case}{If infection (0=no, 1=yes)}
-#'   \item{datepos}{Date of infection}
+#'   \item{DatePos}{Date of infection}
 #' }
 #' 
 "DummyData"
