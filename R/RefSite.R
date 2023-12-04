@@ -15,18 +15,23 @@
 
 # START of SCRIPT  --------------------------------------------------------
 
-#' Get the ID code corresponding to the country or study site label
+#' Get the ID code corresponding to the site Label or LocationName
 #' 
-#' @param Label Character string to search among the "Label" column from epiuf::RefSite reference table
-#' @param LocationName Character string to search among the "LocationName" column from epiuf::RefSite reference table
+#' Get the ID code corresponding to the country/study site label from \code{epiuf::RefSite} reference table
+#' 
+#' @param Label Character string to search in the \code{"Label"} column from \code{epiuf::RefSite} reference table
+#' @param LocationName Character string to search in the \code{"LocationName"} column from \code{epiuf::RefSite} reference table
 #' 
 #' @returns Character string or a data frame if multiple answers
 #' 
 #' @export
-#' @author STRAP team \email{strap@epiconcept.fr}
+#' @author Lore Merdrignac \email{l.merdrignac@epiconcept.fr}
 #' @seealso
-#' For more details see the link below to access the vignette:
-#' \href{../doc/epiuf_package.html}{\code{vignette("epiuf_package")}}
+#' \itemize{
+#'  \item \code{\link{getRefSiteLabel}}
+#'  \item \code{\link{getRefSiteLocName}}
+#' }
+#' For more details see the corresponding vignette: \code{vignette("RefSite")}
 #'
 #' @examples
 #' \dontrun{
@@ -80,17 +85,22 @@ getRefSiteID <- function(Label, LocationName) {
 }
 
 
-#' Get the label corresponding to the ID code of the country or study site label
+#' Get the Label corresponding to the site ID
 #' 
-#' @param ID Character string to search among the "ID" column from epiuf::RefSite reference table
+#' Get the Label corresponding to the ID code of the country/study site from \code{epiuf::RefSite} reference table
+#' 
+#' @param ID Character string to search in the \code{"ID"} column from \code{epiuf::RefSite} reference table
 #' 
 #' @returns Character string or a data frame if multiple answers
 #' 
 #' @export
-#' @author STRAP team \email{strap@epiconcept.fr}
+#' @author Lore Merdrignac \email{l.merdrignac@epiconcept.fr}
 #' @seealso
-#' For more details see the link below to access the vignette:
-#' \href{../doc/epiuf_package.html}{\code{vignette("epiuf_package")}}
+#' \itemize{
+#'  \item \code{\link{getRefSiteLocName}}
+#'  \item \code{\link{getRefSiteID}}
+#' }
+#' For more details see the corresponding vignette: \code{vignette("RefSite")}
 #'
 #' @examples
 #' \dontrun{
@@ -131,6 +141,65 @@ getRefSiteLabel <- function(ID) {
   }
   
 }
+
+
+#' Get the LocationName corresponding to the site ID
+#' 
+#' Get the LocationName corresponding to the ID code of the country/study site from \code{epiuf::RefSite} reference table
+#' 
+#' @param ID Character string to search in the \code{"ID"} column from \code{epiuf::RefSite} reference table
+#' 
+#' @returns Character string or a data frame if multiple answers
+#' 
+#' @export
+#' @author Lore Merdrignac \email{l.merdrignac@epiconcept.fr}
+#' @seealso
+#' \itemize{
+#'  \item \code{\link{getRefSiteLabel}}
+#'  \item \code{\link{getRefSiteID}}
+#' }
+#' For more details see the corresponding vignette: \code{vignette("RefSite")}
+#'
+#' @examples
+#' \dontrun{
+#' getRefSiteLocName()
+#' }
+#' getRefSiteLocName(ID = "SI")
+#' getRefSiteLocName(ID = "UK")
+#' \dontrun{
+#' getRefSiteLocName(ID = "es")
+#' }
+#' 
+getRefSiteLocName <- function(ID) {
+  
+  # Initialising the refsite dataframe
+  refsite <- epiuf::RefSite
+  
+  if(missing(ID)) {
+    stop("Please provide getRefSiteLocName() with ID to search for")
+  }
+  
+  # Search based on ID
+  if(!missing(ID)) {
+    results <- unique(refsite[refsite$ID %in% ID, ])
+  }
+  
+  if(nrow(results) == 1) {
+    return(results$LocationName)
+  }
+  
+  if(nrow(results) > 1) {
+    warning("Several rows in RefSite match your search.")
+    return(results)
+  }
+  
+  if(nrow(results) == 0) {
+    warning("Sorry but no rows in RefSite match your search.")
+    return(NA)
+  }
+  
+}
+
 
 
 
