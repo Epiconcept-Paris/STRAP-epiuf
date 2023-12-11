@@ -2,20 +2,33 @@
 % Please edit documentation in R/collapseVar.R
 \name{collapseVar}
 \alias{collapseVar}
-\title{collapseVar}
+\title{Collapse a variable in a dataset according to a hierarchy}
 \usage{
 collapseVar(data, varname, hierarchy)
 }
 \arguments{
-\item{data}{The dataset}
+\item{data}{A data frame containing the variable to be collapsed.}
 
-\item{varname}{Name of variable}
+\item{varname}{The name of the variable to collapse. This can be a character string
+denoting the variable name or the variable itself.}
 
-\item{hierarchy}{ordered list to use in collapse}
+\item{hierarchy}{A numeric vector representing the hierarchy in which to collapse the variable.
+Values in \code{varname} will be replaced according to the order of this hierarchy.}
 }
 \value{
-The variable collapsed and warnings if not possible
+Returns the modified variable as a numeric vector if the collapse is complete.
+If the collapse is not run due to missing elements in the hierarchy, it returns the
+original variable.
 }
 \description{
-collapseVar
+This function collapses a variable within a dataset based on a given hierarchy.
+It replaces values in the variable by matching them with elements in the hierarchy.
+If the variable contains elements not in the hierarchy, a warning is issued.
+}
+\examples{
+\dontrun{
+# Assuming 'data' is a data frame and 'hierarchy' is a numeric vector
+collapseVar(data = data, varname = "someVar", hierarchy = c(1, 2, 3))
+}
+
 }

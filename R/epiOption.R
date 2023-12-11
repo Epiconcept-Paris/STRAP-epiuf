@@ -46,6 +46,26 @@ epiutils_env$stat_digits <- 2
 # The current selection applied to the current dataframe
 epiutils_env$select <- ""
 
+epiutils_env$timer <- Sys.time()
+
+
+#' elapsedTime
+#'
+#' @param set start the timer if TRUE otherwise return time since last start 
+#'
+#' @return elapsed time
+#' @export
+#'
+#' @examples
+#' elapsedTime()
+elapsedTime <- function(set = FALSE) {
+  if(set)
+    epiutils_env$timer <- Sys.time()
+  else
+    (Sys.time() - epiutils_env$timer)
+}
+
+
 #' getEpiOption
 #'
 #' retrieve an epiutils package option or parameter

@@ -20,29 +20,24 @@ library(epiuf)
 
 To expand a variable containing more than one value into new individual variables with Y/N values
 The list of expected values must be passed as parameters together with the name of the new variable to be created 
-The format of the list is  
+The format of the list is :
+```{r eval=FALSE}
     list("value1"="variable_name1",    
-       "value2"="variable_name2"    
+         "value2"="variable_name2"    
        )    
+```
 
 
 Example :
 ```{r data}
 testvac <- data.frame(Id = 1:3 , 
-                      Vaccs = c("1|2|3", "5", "6|1"))
+                      Vaccs = c("1|2|3", "2", "3|1"))
 
 
-InfoSource <- list("0" = "vacccard",
-                   "1" = "registry",
-                   "2" = "hospnotes",
-                   "3" = "gpnotes",
-                   "4" = "pharmnotes",
-                   "5" = "patient",
-                   "6" = "family",
-                   "7" = "dnk",
-                   "9" = "oth",
-                   "10" = "insurance") 
-
+InfoSource <- list("1" = "vacccard",
+                   "2" = "registry",
+                   "3" = "hospnotes",
+                   "9" = "oth") 
 
   df <- expandVar(data = testvac, varname =Vaccs, valueslist= InfoSource) 
 head(df)
@@ -50,7 +45,7 @@ head(df)
 
 ```
 
-## Another example 
+## Another example with label comma separated
 
 
 ```{r usage }
@@ -58,11 +53,28 @@ head(df)
 
 data <- data.frame(Id = 1:4 , 
                    Vaccs = c("pfizer,moderna"," ", "pfizer", "moderna"))
-brand <- list("pfizer"="pfizer",
-              "moderna"="moderna"
+brand <- list("pfizer"="PFIZER",
+              "moderna"="MODERNA"
               )
 
 data <-  expandVar(data,Vaccs,brand)
 
-knitr::kable(data)
+head(data)
 ```
+
+
+```{r usingdico }
+
+
+data <- data.frame(Id = 1:4 , 
+                   Vaccs = c("pfizer,moderna"," ", "pfizer", "moderna"))
+file1 <- externalFile("genericdictionary.xlsx")
+openDictionary(file1)
+data <- expandVarAll(data)
+
+head(data)
+```
+
+
+
+

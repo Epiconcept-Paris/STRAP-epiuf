@@ -65,35 +65,72 @@ openDictionary <-  function(filename) {
   # need more checks to verify that sheet exists with good name ! 
   if (file.exists(filename)) {
     epidictionaryfiles_env$datafilename <- filename
-    data <- readData(filename,sheet="dictionary")
-    epidictionaryfiles_env$data <- data
-    # we need to update structure if needed
-    epidictionaryfiles_env$data <- updateDataset(epidictionaryfiles_env$data,getNewDictionaryLine("dictionary"))
+    # Create an if to add a warning message in case the sheet names don't match or do not exist
+    sheet_names <- openxlsx::getSheetNames(filename)
     
-    
-    # if multivarname is a variable which contain char, we use content of multivarname
-    tryCatch(
-      epidictionaryfiles_env$dicos <- readData(filename,sheet="dicos")
-      , error = function(c) { 
-        epidictionaryfiles_env$dicos <- getNewDictionaryLine("dicos")
-        }
-    )
-    epidictionaryfiles_env$dicos <- updateDataset(epidictionaryfiles_env$dicos,getNewDictionaryLine("dicos"))
-    
-    tryCatch(
-        epidictionaryfiles_env$actions <- readData(filename,sheet="actions")
-      , error = function(c) { 
-        epidictionaryfiles_env$actions <- getNewDictionaryLine("actions")
+    # Check if the modele sheets are found in the excel
+    if ("dictionary" %in% sheet_names) {
+      sheet1 <- readData(filename, sheet = "dictionary", verbose = F) # sheet dictionary
+      if(all(is.na(sheet1))) warning("dictionary sheet is blank")
+      if (!all(c("source_name", "generic_name", "type", "dico", "unknowns") %in%
+               names(sheet1))) {
+        warning("Sheet 'dictionary' not correct: ",
+                paste0(c("source_name", "generic_name", "type", "dico", "unknowns"),collapse = ",") ,
+                " cols needed.")
       }
-    )
+
+      epidictionaryfiles_env$data <- sheet1
+      epidictionaryfiles_env$data <- updateDataset(epidictionaryfiles_env$data,getNewDictionaryLine("dictionary"))
+    } else {
+      warning("Sheet dictionary not found")
+      catret("\n")
+    }
+      
+    if ("dicos" %in% sheet_names) {
+      sheet2 <- readData(filename, sheet = "dicos", verbose = F)      # sheet dicos
+      
+      # test column names are correct
+      if (!all(c("dico_name", "label", "code") %in% names(sheet2))) {
+        warning("Sheet 'dicos' not correct: ",paste0(c("dico_name", "label", "code"), collapse = ",") ,
+                " cols needed.")
+      }
+      # test if sheet is all blank 
+      if(all(is.na(sheet2))) warning("dicos sheet is blank")
+      
+      epidictionaryfiles_env$dicos <- sheet2
+      epidictionaryfiles_env$dicos <- updateDataset(epidictionaryfiles_env$dicos,getNewDictionaryLine("dicos"))
+
+    } else {
+      warning("Sheet dicos not found")
+      catret("\n")
+    }
     
-    epidictionaryfiles_env$actions <- updateDataset(epidictionaryfiles_env$actions,getNewDictionaryLine("actions"))
+    if ("actions" %in% sheet_names) {
+      sheet3 <- readData(filename, sheet = "actions", verbose = F)    # sheet actions
+      
+      if (!all(c("variable", "action_group", "parameters") %in% names(sheet3))) {
+        warning("Sheet 'actions' not correct: ",
+                paste0(c("variable", "action_group", "parameters"), collapse = ",") ,
+                " cols needed.")
+      }
+      if(all(is.na(sheet3))) warning("actions sheet is blank")
+      
+      epidictionaryfiles_env$actions <- sheet3
+      epidictionaryfiles_env$actions <- updateDataset(epidictionaryfiles_env$actions,getNewDictionaryLine("actions"))
+
+    } else {
+      warning("Sheet actions not found")
+      catret("\n")
+    }
+
+   } else {   # datadictionary doesn't exist we have to create it
+      catret("")
+      warning("Datadictionary ",filename," not found. Empty dictionary created\n")
+      # we need to create the 3 data sheet
+      createDictionary()
+   }
+
     
-  } else {   # datadictionary doesn't exist we have to create it
-    red("Datadictionary ",filename," not found. Empty dictionary created")
-    # we need to create the 3 data sheet
-    createDictionary()
-  }
 }
 
 
@@ -206,7 +243,7 @@ getDicos <- function() {
 #'
 #'  
 setDicos <- function(dic) {
-  epidictionaryfiles_env$dicos <- dic
+  epidictionaryfiles_env$dicos <- updateDataset(dic,getNewDictionaryLine("dicos"))
 }
 
 #' getDictionaryActions
@@ -266,29 +303,48 @@ getDictionaryValue <- function(varname, valuename=c("type","dico","unknowns")) {
   return(value)
 }
 
-#' Title
+#' Retrieve values from a dictionary based on variable name and specified columns
 #'
-#' @param varname The varname to search (into the search column)
-#' @param search The column name which will be searched for varname
-#' @param value The column name of the value to retrieve 
+#' This function searches a dictionary for a given variable name and returns the corresponding
+#' values from specified dictionary columns. It issues a warning if the search column or the
+#' value column is not present in the dictionary.
 #'
-#' @return One value 
+#' This function is advanced and you should usually use getDicoOfVar or getVarAction 
+#'
+#' @param varname The variable name to search for in the dictionary.
+#' @param searchcolumn A character vector specifying which column(s) to search in the dictionary.
+#'   Defaults to c("source_name", "generic_name").
+#' @param value A character vector specifying which column(s) to return values from.
+#'   Defaults to c("source_name", "generic_name", "dico", "type", "unknowns").
+#'
+#' @return Returns the subset of the dictionary that matches the search criteria or `NA` if no
+#'   matches are found or if the search/value columns are not in the dictionary.
 #' @export
-#'
+#' 
 #' @examples
-#' \dontrun{getAnyDictionaryValue("varname",search="source_name",value="dico")}
+#' # Assuming 'getDictionary' is a function that returns a data frame and 'varname' is a known variable
+#' getAnyDictionaryValue(varname = "exampleVar")
+#' \dontrun{getAnyDictionaryValue("varname",searchcolumn="source_name",value="dico")}
 getAnyDictionaryValue <- function(varname,
-                                  search = c("source_name","generic_name","dico","type","unknowns"), 
-                                  value=c("source_name","generic_name","dico","type","unknowns")) {
+                                  searchcolumn = c("source_name","generic_name"), 
+                                  value=c("source_name","generic_name","dico","type","unknowns","description","comments")) {
   ds <- getDictionary()
   result <-  NA
+  # if dictionary is not empty
   if (nrow(ds)>0) {
-    paramok <- (search%in%names(ds))
-    paramok2 <- (value%in%names(ds))
-    if (paramok & paramok2) {
-      result <- subset(ds,ds[,search] == varname)[,value]
-      if (length(result)==0) result <- NA
-    } else warning(search, "or", value," is not allowed as a dico column")    
+    
+    if( ! searchcolumn%in%names(ds)){
+      warning(searchcolumn," is not allowed as a dico column")   
+      return(result) 
+    }
+    
+    if(! value%in%names(ds)) {
+      warning(value," is not allowed as a dico column")   
+    return(result) 
+    } 
+    # looks for varname in searchcolumn and return content of value
+    result <- subset(ds,ds[,searchcolumn] == varname)[,value]
+    if (length(result)==0) result <- NA
   }  
   return(result)
 }
@@ -322,7 +378,11 @@ getDico <- function(diconame) {
   ds <-  subset(ds,ds$dico == diconame)
   if (length(ds)==0) {
     ds <- NA
+    ## PR_CLZ : add line before and after
+    catret("")
     red("Dico",diconame,"not found")
+    catret("\n")
+    ## END_PR_CLZ 
   }  
   return(ds) 
 }
@@ -361,7 +421,8 @@ getVarAction <- function(variablename,actiontag) {
 #'  
 getVarActionParameters <- function(variablename,actiontag) {
   ds <- getVarAction(variablename,actiontag)
-  ds <- ifelse(nrow(ds)>0, ds$parameters, NA)
+  # ds <- ifelse(nrow(ds)>0, ds$parameters, NA)
+  ds <- ds$parameters
   return(ds)
 }  
 
@@ -521,14 +582,26 @@ applyDictionary <- function( dictionary=NULL, data, verbose=TRUE, keepextra = FA
 }
 
 
-#' createDictionary
+#' Create a new dictionary environment with default entries
 #'
-#' @return An empty dictionnary
+#' This function initializes a new dictionary environment for epidemiological data management.
+#' It sets up the environment with default dictionary entries. The environment contains separate
+#' entries for the dictionary data, dicos, and actions, each initialized with a line from a
+#' corresponding 'getNewDictionaryLine' function.
+#'
+#' @param filename Optional; a character string providing the name of the file to be associated with
+#'   the dictionary. Defaults to an empty string.
+#'
+#' @return Does not return a value; called for side effects of setting up the dictionary environment.
+#'
+#' @examples
+#' # Create a new dictionary with default settings
+#' createDictionary()
+#' 
 #' @export
-#'
-#'  
-createDictionary <- function() {
+createDictionary <- function(filename="") {
   # base 
+  epidictionaryfiles_env$datafilename <- filename
   epidictionaryfiles_env$data <- getNewDictionaryLine("dictionary")
   epidictionaryfiles_env$dicos <- getNewDictionaryLine("dicos")
   epidictionaryfiles_env$actions <- getNewDictionaryLine("actions")

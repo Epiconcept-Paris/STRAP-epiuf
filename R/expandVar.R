@@ -25,10 +25,17 @@
 
 expandVar <- function(data,varname,valueslist) {
   
-  dataname <- deparse(substitute(data))
-  multivarname <- deparse(substitute(varname))
+  s_op <- deparse(substitute(varname))
+  # if varname is a variable which contain char, we use content of varname
+  tryCatch(
+    if (is.character(varname)) {
+      s_op <- varname
+    }
+    , error = function(c) { }
+  )
+  varname <- s_op
   
-  multivar <- data[[multivarname]]
+  var <- data[[varname]]
   
   MyFun <-  function(x,valtosearch) {
     result  <-  grep(valtosearch,x )
@@ -45,9 +52,9 @@ expandVar <- function(data,varname,valueslist) {
     
     ValToSearch <-  names(valueslist)[iNum]
     ValToGrep <- paste0("\\<",ValToSearch,"\\>")
-    NewCol <- vapply(multivar ,MyFun,valtosearch=ValToGrep,FUN.VALUE=" " )
+    NewCol <- vapply(var ,MyFun,valtosearch=ValToGrep,FUN.VALUE=" " )
     
-    NameVar <- paste0(multivarname,"_",valueslist[[iNum]])
+    NameVar <- paste0(varname,"_",valueslist[[iNum]])
     data[[NameVar]] <- as.numeric(NewCol)
     
   }
