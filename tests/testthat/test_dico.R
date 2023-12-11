@@ -16,10 +16,10 @@ test_that("applyNA", {
   expect_equal(sum(is.na(applyNA(df, NumberVar, c(3,1)))),7)   
   expect_equal(sum(is.na(applyNA(df, NumberVar, "3,1"))),7) 
   
-  # create example dataset for testing
+  # check for ignore.case
   df <- data.frame(CharacterVar = c("unknown", "UNKNOWN")  )
+  expect_equal(sum(is.na(applyNA(df, CharacterVar))),2)
   expect_output(sum(is.na(applyNA(df, CharacterVar))),": 2")
-  
   
 })
 
