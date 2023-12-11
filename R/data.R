@@ -26,15 +26,15 @@
 #'
 #' @format A data frame with 100 observations on 8 variables.
 #' \describe{
-#'   \item{id}{Identifier}
-#'   \item{country}{Country (Albania,Croatia,Italy,Poland)}
+#'   \item{ID}{Identifier}
+#'   \item{Country}{Country (Albania,Croatia,Italy,Poland)}
 #'   \item{CountryCode}{Code associated to a location}
-#'   \item{CountryId}{CountryISO2Code}
-#'   \item{age}{Age}
+#'   \item{CountryID}{CountryISO2Code}
+#'   \item{Age}{Age}
 #'   \item{EnrolmentDate}{Date of enrolment in the study}
 #'   \item{CovVaccBr}{Brand of the Covid vaccine (Pfizer, Moderna, Astra Zeneca)}
 #'   \item{VaccDate}{date of the Covid vaccine}
-#'   \item{case}{If infection (0=no, 1=yes)}
+#'   \item{Case}{If infection (0=no, 1=yes)}
 #'   \item{DatePos}{Date of infection}
 #' }
 #' 

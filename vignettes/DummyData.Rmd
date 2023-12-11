@@ -72,12 +72,11 @@ DummyData <- data.frame(
 # Print the first few rows of the dataset
 head(DummyData)
 
+
+```
+
+```{r, eval = FALSE}
 usethis::use_data(DummyData,overwrite = T)
-
-
-
-
-
 ```
 
 
