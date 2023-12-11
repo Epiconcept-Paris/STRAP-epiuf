@@ -18,6 +18,13 @@ test_that("fileFindReplace", {
   expect_output(filesFindReplace(file1,pattern="oldword",replacement = "newword"),"3")
   # nothing to do after first FindAndReplace
   expect_output(filesFindReplace(file1,pattern="oldword",replacement = "newword"),"0")
+
+  #we restore file for next tests
+  writeLines(lines, file1)
+  expect_output(filesFindReplace(file1,pattern=c("oldword","script"),replacement = c("newword","text")),"4")
+  lines2 <- readLines(file1)
+  expect_equal(charCount("newword",lines2),3)
+  expect_equal(charCount("text",lines2),1)
   
   # cleanup
   if(file.exists(file1)) r <- file.remove(file1) 
