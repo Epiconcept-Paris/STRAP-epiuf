@@ -28,6 +28,8 @@ Imports:
     readxl,
     rstudioapi, 
     shiny, 
+    httr,
+    keyring,
     utils
 Suggests: 
     knitr,

@@ -27,7 +27,7 @@ accessREDCap("DB")
 \seealso{
 \code{\link{downloadRedCap}} for downloading REDCap data.
 
-\code{\link{CreateOrGrabKeyring}} for creating or getting a keyring.
+\code{\link{grabKeyring}} for creating or getting a keyring.
 
 \code{\link{setOrGetFilePath}} for setting or getting a file path.
 }

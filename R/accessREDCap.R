@@ -10,7 +10,7 @@
 #'         Otherwise, it will prompt the user to create a secret key or file path, or to continue with the download without them.
 #' 
 #' @seealso \code{\link{downloadRedCap}} for downloading REDCap data.
-#' @seealso \code{\link{CreateOrGrabKeyring}} for creating or getting a keyring.
+#' @seealso \code{\link{grabKeyring}} for creating or getting a keyring.
 #' @seealso \code{\link{setOrGetFilePath}} for setting or getting a file path.
 #'
 #' @export
@@ -21,7 +21,7 @@
 #' accessREDCap("DB")
 #' }
 accessREDCap <- function(country) {
-  password <- CreateOrGrabKeyring(country)
+  password <- grabKeyring(country)
   
   country_filepathfull <- paste0(country,"_pathkeyfull")
   country_filepathpartial <- paste0(country,"_pathkeypart")

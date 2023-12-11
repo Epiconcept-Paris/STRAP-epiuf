@@ -9,11 +9,14 @@
 #' 
 #' @return A CSV file containing the REDCap data.
 #' @export
-#'
+#' @importFrom utils write.csv
+#' @importFrom httr POST 
 #' @examples
 #' \dontrun{
 #' # Please provide your own API token to use this example
-#' # If you haven't already, you can set and retrieve password for REDCap using the CreateOrGrabKeyring() function. Run this function or visit it's vignette in epiuf for more information.
+#' # If you haven't already, you can set and retrieve password for REDCap using
+#' # the createKeyring() or grabKeyring function. 
+#' # Run this function or visit it's vignette in epiuf for more information.
 #' 
 #' # Begin the download process using another function
 #' accessREDCap(country)
