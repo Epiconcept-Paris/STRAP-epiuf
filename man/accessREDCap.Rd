@@ -4,10 +4,12 @@
 \alias{accessREDCap}
 \title{Access REDCap data for country}
 \usage{
-accessREDCap(country)
+accessREDCap(country, filepath = NULL)
 }
 \arguments{
 \item{country}{A character string representing the country for which REDCap data will be accessed.}
+
+\item{filepath}{Directory where extracted file should be saved}
 }
 \value{
 If a secret key and file path exist, this function will proceed to call \code{downloadRedCap()} with the appropriate arguments.

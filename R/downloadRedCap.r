@@ -5,7 +5,7 @@
 #'
 #' @param password A character string representing the API token for the desired REDCap project.
 #' @param country A character string representing the country/project
-#' @param file_path A character string representing the desired file path in which the downloaded data will be saved.
+#' @param filepath A character string representing the desired file path in which the downloaded data will be saved.
 #' 
 #' @return A CSV file containing the REDCap data.
 #' @export
@@ -21,9 +21,7 @@
 #' # Begin the download process using another function
 #' accessREDCap(country)
 #' }
-downloadRedCap <- function(password,country,file_path=NULL) {
-  yearDate <- format(Sys.Date(), "%Y")
-  month_number <- format(Sys.Date(), "%m")
+downloadRedCap <- function(password,country,filepath=NULL) {
   # The URL we are requesting data from
   url <- "https://extranet.who.int/edcrc/api/"
   
@@ -50,16 +48,10 @@ downloadRedCap <- function(password,country,file_path=NULL) {
   print(REDCapExtract)
   
   # Prompt user for the file path within which they'd like to save the file
-  if(is.null(file_path)){
-    file_name <- paste0(country,"_",Sys.Date(),"_",strftime(Sys.time(), "%H%M"),".csv")
-    location <- paste0(getwd(),"/",file_name)
-    print("No file path set. Saving in working directory:")
-    print(location)
-  } else {
-    file_name <- paste0(country,"_",Sys.Date(),"_",strftime(Sys.time(), "%H%M"),".csv")
-    location <- paste0(file_path,file_name)
-  }
-  
+  filename <- paste0(country,"_",Sys.Date(),"_",strftime(Sys.time(), "%H%M"),".csv") 
+  # we should use setPath/getPath here
+  if(is.null(filepath)) filepath <- getwd()
+  location <- file.path(filepath,filename)
   # Download the r dataframe to CSV
   write.csv(REDCapExtract, location, row.names=FALSE)
   

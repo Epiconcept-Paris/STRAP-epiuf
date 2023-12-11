@@ -52,8 +52,8 @@ setOrGetFilePath <- function(country){
     } else if(file_procedure == 3){
       countrypath_key <- paste0(country,"_pathkeypart")
     }
-    keyring::keyring_create(countrypath_key,password = country)
-    keyring::key_set_with_value(country, keyring = countrypath_key,password = file_path)
-    file_path <- keyring::key_get(country, keyring = countrypath_key)
+    if(existsKeyring(countrypath_key))
+    modifyKeyring(countrypath_key,secret = file_path)
+    else createKeyring(countrypath_key,secret = file_path)
   } 
 }

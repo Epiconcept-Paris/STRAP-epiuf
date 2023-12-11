@@ -4,14 +4,14 @@
 \alias{downloadRedCap}
 \title{Download REDCap Data}
 \usage{
-downloadRedCap(password, country, file_path = NULL)
+downloadRedCap(password, country, filepath = NULL)
 }
 \arguments{
 \item{password}{A character string representing the API token for the desired REDCap project.}
 
 \item{country}{A character string representing the country/project}
 
-\item{file_path}{A character string representing the desired file path in which the downloaded data will be saved.}
+\item{filepath}{A character string representing the desired file path in which the downloaded data will be saved.}
 }
 \value{
 A CSV file containing the REDCap data.
