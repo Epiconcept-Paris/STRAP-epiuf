@@ -2,10 +2,10 @@ library(epiuf)
 
 test_that("create Modify Keyring", {
   # besure that test not exists
-  try(keyring::deleteKeyring("test_package"),silent=TRUE)
+  try(epiuf::deleteKeyring("test_package"), silent = TRUE)
 
   expect_equal(createKeyring("test_package","testsecret"),"testsecret")
-  expect_output(createKeyring("test_package","testsecret"),"Keyring Exist")
+  expect_warning(createKeyring("test_package","testsecret"))
   expect_equal(modifyKeyring("test_package","testpassword"),"testpassword")
 
   # verify that _epiufkeyring postfix is added correctly
@@ -34,13 +34,13 @@ test_that("delete Keyring", {
   expect_warning(deleteKeyring("none"))
   # we create an entry for deletion
   createKeyring("test_package","testsecret")
-  expect_output(deleteKeyring("test_package"),"Secret deleted")
+  expect_message(deleteKeyring("test_package"),"Secret deleted")
   
   createKeyring("test_package_epiuf","testsecret")
   createKeyring("deux_package_epiuf","deuxsecret")
   #verify output is correct
-  expect_output(deleteKeyring("test_package_epiuf"),"Secret")
-  expect_output(deleteKeyring("deux_package_epiuf"),"Secret")
+  expect_message(deleteKeyring("test_package_epiuf"),"Secret") #LMC 2023-12-21: Is that normal to output "Secret deleted" twice?
+  expect_message(deleteKeyring("deux_package_epiuf"),"Secret")
   # verify it is deleted
   expect_equal(length(listKeyring("_package_epiuf")),0)
 })

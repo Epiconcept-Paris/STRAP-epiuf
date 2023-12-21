@@ -21,12 +21,14 @@
 #' # Request data for a fictional country 'DB'
 #' accessREDCap("DB")
 #' }
-accessREDCap <- function(country,filepath=NULL) {
-  if(existsKeyring(country))
-  password <- grabKeyring(country)
-  else stop("No keyring defined")
+accessREDCap <- function(country, filepath = NULL) {
+  if(existsKeyring(country)) {
+    password <- grabKeyring(country)
+  } else {
+    stop("No keyring defined")
+  }
   
-  downloadRedCap(password,country,filepath)
+  downloadRedCap(password, country, filepath)
   
   # country_filepathfull <- paste0(country,"_pathkeyfull")
   # country_filepathpartial <- paste0(country,"_pathkeypart")

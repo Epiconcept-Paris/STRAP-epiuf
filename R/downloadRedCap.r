@@ -21,23 +21,23 @@
 #' # Begin the download process using another function
 #' accessREDCap(country)
 #' }
-downloadRedCap <- function(password,country,filepath=NULL) {
+downloadRedCap <- function(password, country, filepath = NULL) {
   # The URL we are requesting data from
   url <- "https://extranet.who.int/edcrc/api/"
   
   # Parameters for the request
-  formData <- list(token=password,
-                   content='record',
-                   action='export',
-                   format='csv',
-                   type='flat',
-                   csvDelimiter='',
-                   rawOrLabel='raw',
-                   rawOrLabelHeaders='raw',
-                   exportCheckboxLabel='true',
-                   exportSurveyFields='true',
-                   exportDataAccessGroups='true',
-                   returnFormat='csv'
+  formData <- list(token = password,
+                   content = 'record',
+                   action = 'export',
+                   format = 'csv',
+                   type = 'flat',
+                   csvDelimiter = '',
+                   rawOrLabel = 'raw',
+                   rawOrLabelHeaders = 'raw',
+                   exportCheckboxLabel = 'true',
+                   exportSurveyFields = 'true',
+                   exportDataAccessGroups = 'true',
+                   returnFormat = 'csv'
   )
   
   # Make the request using httr and POST method
@@ -48,12 +48,12 @@ downloadRedCap <- function(password,country,filepath=NULL) {
   print(REDCapExtract)
   
   # Prompt user for the file path within which they'd like to save the file
-  filename <- paste0(country,"_",Sys.Date(),"_",strftime(Sys.time(), "%H%M"),".csv") 
+  filename <- paste0(country, "_", Sys.Date(), "_", strftime(Sys.time(), "%H%M"), ".csv") 
   # we should use setPath/getPath here
   if(is.null(filepath)) filepath <- getwd()
   location <- file.path(filepath,filename)
   # Download the r dataframe to CSV
-  write.csv(REDCapExtract, location, row.names=FALSE)
+  write.csv(REDCapExtract, location, row.names = FALSE)
   
-  print(paste("File downloaded:", location))
+  message(paste("File downloaded:", location))
 }
