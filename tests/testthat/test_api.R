@@ -1,8 +1,8 @@
 library(epiuf)
 
 test_that("create Modify Keyring", {
-  # besure that test not exists
-  try(epiuf::deleteKeyring("test_package"), silent = TRUE)
+  # be sure that 'test' does not exists
+  suppressWarnings(epiuf::deleteKeyring("test_package"))
 
   expect_equal(createKeyring("test_package","testsecret"),"testsecret")
   expect_warning(createKeyring("test_package","testsecret"))
@@ -39,7 +39,7 @@ test_that("delete Keyring", {
   createKeyring("test_package_epiuf","testsecret")
   createKeyring("deux_package_epiuf","deuxsecret")
   #verify output is correct
-  expect_message(deleteKeyring("test_package_epiuf"),"Secret") #LMC 2023-12-21: Is that normal to output "Secret deleted" twice?
+  expect_message(deleteKeyring("test_package_epiuf"),"Secret")
   expect_message(deleteKeyring("deux_package_epiuf"),"Secret")
   # verify it is deleted
   expect_equal(length(listKeyring("_package_epiuf")),0)
