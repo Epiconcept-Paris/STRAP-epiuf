@@ -13,7 +13,7 @@ createKeyring(keyring_id, secret = NULL)
 will be visible in your code. This parameters should be used only for tests}
 }
 \value{
-A string with the keyring password.
+A successful message or a warning message if keyring already exists.
 }
 \description{
 This function creates a new secret with a specified keyring ID.

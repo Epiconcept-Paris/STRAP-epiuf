@@ -4,9 +4,9 @@ test_that("create Modify Keyring", {
   # be sure that 'test' does not exists
   suppressWarnings(epiuf::deleteKeyring("test_package"))
 
-  expect_equal(createKeyring("test_package","testsecret"),"testsecret")
+  expect_message(createKeyring("test_package","testsecret"),"Keyring successfully created.")
   expect_warning(createKeyring("test_package","testsecret"))
-  expect_equal(modifyKeyring("test_package","testpassword"),"testpassword")
+  expect_message(modifyKeyring("test_package","testpassword"),"Keyring successfully modified.")
 
   # verify that _epiufkeyring postfix is added correctly
   expect_match(listKeyring("test_package_epiufkeyring"),"test_package")
@@ -16,7 +16,7 @@ test_that("create Modify Keyring", {
 })
 
 test_that("grabing Keyring", {
-  expect_warning(grabKeyring("none"))
+  expect_error(grabKeyring("none"))
   createKeyring("test_package","testpassword")
   expect_equal(grabKeyring("test_package"),"testpassword")
 
@@ -39,8 +39,8 @@ test_that("delete Keyring", {
   createKeyring("test_package_epiuf","testsecret")
   createKeyring("deux_package_epiuf","deuxsecret")
   #verify output is correct
-  expect_message(deleteKeyring("test_package_epiuf"),"Secret")
-  expect_message(deleteKeyring("deux_package_epiuf"),"Secret")
+  expect_message(deleteKeyring("test_package_epiuf"),"Secret deleted")
+  expect_message(deleteKeyring("deux_package_epiuf"),"Secret deleted")
   # verify it is deleted
   expect_equal(length(listKeyring("_package_epiuf")),0)
 })

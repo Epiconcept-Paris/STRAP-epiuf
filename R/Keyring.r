@@ -8,21 +8,24 @@
 #' @param keyring_id A string specifying the keyring ID.
 #' @param secret A secret string to be stored. It is not recommended to use this parameters because in that case your secret 
 #'     will be visible in your code. This parameters should be used only for tests  
-#' @return A string with the keyring password.
+#' @return A successful message or a warning message if keyring already exists.
 #' @export
 #' 
 createKeyring <- function(keyring_id , secret = NULL) {
   if(existsKeyring(keyring_id)) {
-    warning("Keyring Exist. Use modifyKeyring() to change it.")
-    password <- "" 
+    warning("Keyring already exists. Use modifyKeyring() to change it.")
   } else {
-    message("Keyring not found. Beginning the process of creating a new keyring starting with the API secret value to be stored.")
+    message("Keyring not found: beginning the process of creating a new keyring starting with the API secret value to be stored.")
     if(is.null(secret)) {
       secret <- readline("Enter the actual API key/secret to be stored: ")
       }
     password <- storeKeyring(keyring_id, secret)
+    if(password == secret) {
+      message("Keyring successfully created.")
+    } else {
+      stop("Functions keyring::key_set_with_value() and keyring::key_get() do not return the same value in epiuf::storeKeyring().")
+    }
   }
-  return(password) #LMC 2023-12-21: Do we need to return the password or a message coul dbe good enough?
 }
 
 #' Modify an existing keyring
@@ -36,7 +39,7 @@ createKeyring <- function(keyring_id , secret = NULL) {
 #'     will be visible in your code. This parameters should be used only for tests  
 #' @importFrom keyring keyring_list
 #' @importFrom keyring key_delete
-#' @return A string with the keyring password or an empty string if keyring is not found.
+#' @return A successful message or an error message if keyring is not found.
 #' @export
 modifyKeyring <- function(keyring_id, secret = NULL) {
   if(existsKeyring(keyring_id)) {
@@ -46,11 +49,14 @@ modifyKeyring <- function(keyring_id, secret = NULL) {
       }
     keyring::key_delete(epiufKeyring(keyring_id))
     password <- storeKeyring(keyring_id, secret)
+    if(password == secret) {
+      message("Keyring successfully modified.")
+    } else {
+      stop("Functions keyring::key_set_with_value() and keyring::key_get() do not return the same value in epiuf::storeKeyring().")
+    }
   } else {
-    warning("Keyring not found.")
-    password <- ""
+    stop("Keyring not found.")
   }
-  return(password)
 }
 
 #' Retrieve password from a keyring
@@ -59,7 +65,7 @@ modifyKeyring <- function(keyring_id, secret = NULL) {
 #' If the keyring does not exist, it issues a warning.
 #'
 #' @param keyring_id A string specifying the keyring ID.
-#' @return A string with the keyring password or an empty string if keyring is not found.
+#' @return A string with the keyring password or an error message if keyring is not found.
 #' @importFrom keyring key_get
 #' 
 #' @export
@@ -67,8 +73,7 @@ grabKeyring <- function(keyring_id) {
   if(existsKeyring(keyring_id)) {
     password <- keyring::key_get(epiufKeyring(keyring_id))
   } else {
-    warning("Keyring not found.")
-    password <- ""
+    stop("Keyring not found.")
   }
   return(password)
 }
@@ -91,7 +96,7 @@ deleteKeyring <- function(keyring_id) {
     keyring::key_delete(epiufKeyring(keyring_id))
     message("Secret deleted")
   } else {
-    warning("That keyring wasn't found")
+    warning("Keyring not found")
   }
 }
 
@@ -112,7 +117,7 @@ deleteKeyringAll <- function() {
       keyring::key_delete(keys[i])
     } 
   }  
-  message(catret(num,"Secret deleted"))
+  message(catret(num,"Secret(s) deleted"))
 }
 
 #' List specific keyrings

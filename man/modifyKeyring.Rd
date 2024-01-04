@@ -13,7 +13,7 @@ modifyKeyring(keyring_id, secret = NULL)
 will be visible in your code. This parameters should be used only for tests}
 }
 \value{
-A string with the keyring password or an empty string if keyring is not found.
+A successful message or an error message if keyring is not found.
 }
 \description{
 This function modifies an existing keyring identified by the keyring ID.
