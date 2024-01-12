@@ -1,4 +1,4 @@
-# STRAP-epiuf
+# STRAP-epiuf v0.5.1.0
 Utility function package  for STRAP  
   
 can be installed current code as a library with :

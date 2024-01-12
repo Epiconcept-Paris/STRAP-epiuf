@@ -1,0 +1,34 @@
+---
+title: "RefSite"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{RefSite}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r , setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(epiuf)
+```
+
+## Dataset : RefSite 
+
+This document show how RefSite was built
+
+```{r, eval = FALSE, echo = TRUE}
+
+# Importing the original Excel spreadsheet "suggestion1_RefLocation.xlsx" available on GoogleDrive
+RefSite <- read_excel("/TechEpi workflow/In Progress/data examples/Reference country table dataset/suggestion1_RefLocation.xlsx")
+
+# Converting tible into data frame
+RefSite <- as.data.frame(RefSite)
+
+# Include the dataframe into the epiuf package
+usethis::use_data(RefSite, overwrite = TRUE)
+
+# Print the first few rows of the dataset
+head(RefSite)
+
+
+```
