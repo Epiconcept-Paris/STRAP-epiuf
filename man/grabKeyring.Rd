@@ -10,7 +10,7 @@ grabKeyring(keyring_id)
 \item{keyring_id}{A string specifying the keyring ID.}
 }
 \value{
-A string with the keyring password or an empty string if keyring is not found.
+A string with the keyring password or an error message if keyring is not found.
 }
 \description{
 This function retrieves the password from a specified keyring.
