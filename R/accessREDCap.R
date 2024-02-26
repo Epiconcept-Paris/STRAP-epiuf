@@ -7,10 +7,10 @@
 #' @param country A character string representing the country for which REDCap data will be accessed.
 #' @param filepath Directory where extracted file should be saved
 #'
-#' @return If a secret key and file path exist, this function will proceed to call `downloadRedCap()` with the appropriate arguments.
+#' @return If a secret key and file path exist, this function will proceed to call `downloadREDCap()` with the appropriate arguments.
 #'         Otherwise, it will prompt the user to create a secret key or file path, or to continue with the download without them.
 #' 
-#' @seealso \code{\link{downloadRedCap}} for downloading REDCap data.
+#' @seealso \code{\link{downloadREDCap}} for downloading REDCap data.
 #' @seealso \code{\link{grabKeyring}} for creating or getting a keyring.
 #' @seealso \code{\link{setOrGetFilePath}} for setting or getting a file path.
 #'
@@ -28,7 +28,7 @@ accessREDCap <- function(country, filepath = NULL) {
     stop("No keyring defined")
   }
   
-  downloadRedCap(password, country, filepath)
+  downloadREDCap(password, country, filepath)
   
   # country_filepathfull <- paste0(country,"_pathkeyfull")
   # country_filepathpartial <- paste0(country,"_pathkeypart")
@@ -36,7 +36,7 @@ accessREDCap <- function(country, filepath = NULL) {
   # if(existsKeyring(country_filepathfull)){
   #   country_filepath <- country_filepathfull
   #   file_path <- grabKeyring(country_filepath)
-  #   downloadRedCap(password,country,file_path)
+  #   downloadREDCap(password,country,file_path)
   #   
   # } else if(existsKeyring(country_filepathpartial)){
   #   country_filepath <- country_filepathpartial
@@ -44,7 +44,7 @@ accessREDCap <- function(country, filepath = NULL) {
   #   month_number <- format(Sys.Date(), "%m")
   #   file_path <- grabKeyring(country_filepath)
   #   file_path <- pathToFile("SOURCES", paste0(file_path,"/", yearDate ," ", month_number))
-  #   downloadRedCap(password,country,file_path)
+  #   downloadREDCap(password,country,file_path)
   #   
   # } else {
   #   print("A file path, within which the downloaded data will be placed, has not been set for this country yet.") 
@@ -53,7 +53,7 @@ accessREDCap <- function(country, filepath = NULL) {
   #     setOrGetFilePath(country)
   #     accessREDCap(country)
   #   } else {
-  #     downloadRedCap(password,country)
+  #     downloadREDCap(password,country)
   #   }
   # }
 }

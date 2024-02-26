@@ -21,7 +21,7 @@
 #' # Begin the download process using another function
 #' accessREDCap(country)
 #' }
-downloadRedCap <- function(password, country, filepath = NULL) {
+downloadREDCap <- function(password, country, filepath = NULL) {
   # The URL we are requesting data from
   url <- "https://extranet.who.int/edcrc/api/"
   

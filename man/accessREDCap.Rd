@@ -12,7 +12,7 @@ accessREDCap(country, filepath = NULL)
 \item{filepath}{Directory where extracted file should be saved}
 }
 \value{
-If a secret key and file path exist, this function will proceed to call \code{downloadRedCap()} with the appropriate arguments.
+If a secret key and file path exist, this function will proceed to call \code{downloadREDCap()} with the appropriate arguments.
 Otherwise, it will prompt the user to create a secret key or file path, or to continue with the download without them.
 }
 \description{
@@ -27,7 +27,7 @@ accessREDCap("DB")
 }
 }
 \seealso{
-\code{\link{downloadRedCap}} for downloading REDCap data.
+\code{\link{downloadREDCap}} for downloading REDCap data.
 
 \code{\link{grabKeyring}} for creating or getting a keyring.
 
