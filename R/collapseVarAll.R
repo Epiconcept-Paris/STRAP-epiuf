@@ -46,7 +46,7 @@ collapseVarAll <- function(data, action=NULL){
   if(is.null(action)){
     ds <- getDictionaryActions()
   }else{
-    df <- action
+    ds <- action
   }
   
   collapseActionGroup <- getActionGroup("collapse", action=ds)$variable # get list of all variables taged for an action

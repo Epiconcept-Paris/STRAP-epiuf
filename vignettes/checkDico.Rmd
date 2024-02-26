@@ -46,7 +46,7 @@ dico2 <- data.frame(dico_name = "check"
 
 
 ## Test correct dico numbers 
-```{r tests2}
+```{r tests1}
 checkDico(df, checkbox_var, c(0,1,2,3))
 checkDico(df, number_var, c(0,1,2,3))
 checkDico(df, character_var, c(0,1,2,3))
@@ -56,7 +56,7 @@ Expected output: nothing
 
 
 ## Test extra dico numbers 
-```{r tests3}
+```{r tests2}
 checkDico(df, checkbox_var, c(0,1,2,3,4))
 checkDico(df, number_var, c(0,1,2,3,4))
 checkDico(df, character_var, c(0,1,2,3,4))
@@ -66,7 +66,7 @@ Expected output: nothing
 
 
 ## Test missing dico numbers 
-```{r tests1}
+```{r tests3}
 checkDico(df, checkbox_var, c(0,1,2))
 checkDico(df, number_var, c(0,1,2))
 checkDico(df, character_var, c(0,1,2))
@@ -86,7 +86,7 @@ number_var matches dico
 character_var matches dico 
 
 ## Test running on whole data using diciontary and dico with less numbers than present
-```{r tests4}
+```{r tests5}
 checkDicoAll(df,dictionary=dictionary, dicos=dico2)
 ```
 Expected output:

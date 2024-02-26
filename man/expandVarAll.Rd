@@ -4,7 +4,7 @@
 \alias{expandVarAll}
 \title{expandVarAll}
 \usage{
-expandVarAll(data)
+expandVarAll(data, action = NULL)
 }
 \arguments{
 \item{data}{dataframe to be processed, the dico must be loaded}

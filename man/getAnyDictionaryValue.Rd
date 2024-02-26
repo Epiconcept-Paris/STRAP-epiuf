@@ -7,7 +7,8 @@
 getAnyDictionaryValue(
   varname,
   search = c("source_name", "generic_name", "dico", "type", "unknowns"),
-  value = c("source_name", "generic_name", "dico", "type", "unknowns")
+  value = c("source_name", "generic_name", "dico", "type", "unknowns"),
+  dictionary = NULL
 )
 }
 \arguments{
@@ -16,6 +17,8 @@ getAnyDictionaryValue(
 \item{search}{The column name which will be searched for varname}
 
 \item{value}{The column name of the value to retrieve}
+
+\item{dictionary}{Optional: specify object to use as dictionary}
 }
 \value{
 One value

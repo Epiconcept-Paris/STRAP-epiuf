@@ -4,10 +4,12 @@
 \alias{getDico}
 \title{getDico}
 \usage{
-getDico(diconame)
+getDico(diconame, dico = NULL)
 }
 \arguments{
 \item{diconame}{The name of one dico from the dicos structure}
+
+\item{dico}{Optional: specify object to use as dico sheet}
 }
 \value{
 A datset containing one dico (list of code/labels)

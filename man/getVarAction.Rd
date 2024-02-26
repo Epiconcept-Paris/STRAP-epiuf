@@ -4,12 +4,14 @@
 \alias{getVarAction}
 \title{getVarAction}
 \usage{
-getVarAction(variablename, actiontag)
+getVarAction(variablename, actiontag, action = NULL)
 }
 \arguments{
 \item{variablename}{The variable for which we want to retrieve the the associated action}
 
 \item{actiontag}{The name of the action group to retrieve}
+
+\item{action}{Optional: specify object to use as action sheet}
 }
 \value{
 A dataset of var actions records for the variable

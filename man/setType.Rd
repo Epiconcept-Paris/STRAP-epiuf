@@ -6,7 +6,12 @@
 Transforms a column in a dataset to the defined class (character, date, factor,
 numeric)}
 \usage{
-setType(data, varname, type = c("character", "date", "factor", "numeric"))
+setType(
+  data,
+  varname,
+  type = c("character", "date", "factor", "numeric"),
+  dateformat = NULL
+)
 }
 \arguments{
 \item{data}{The dataset}
@@ -14,6 +19,8 @@ setType(data, varname, type = c("character", "date", "factor", "numeric"))
 \item{varname}{The var}
 
 \item{type}{The desired type}
+
+\item{dateformat}{Optional:The format of the date variable}
 }
 \value{
 variable

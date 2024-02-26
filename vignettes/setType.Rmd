@@ -45,7 +45,7 @@ dictionary <- data.frame(source_name = colnames(df_clean)
 
 
 ## Test on each type for correct data
-```{r tests2}
+```{r tests1}
 df_clean$date_var_new <- setType(df_clean, date_var, type = "date")
 catret("Class of date_var_new = ", class(df_clean$date_var_new))
 print(tab(date_var, date_var_new, data=df_clean))
@@ -81,7 +81,7 @@ df_messy$number_var_new_numeric <- setType(df_messy, number_var, type = "numeric
 catret("Class of number_var_new_numeric = ", class(df_messy$number_var_new_numeric))
 print(tab(number_var, number_var_new_numeric, data=df_messy))
 catret()
-df_messy$number_var_new_factor <- setType(df_messy, number_var, type = "factor")
+df_messy$number_var_new_factor <- setType(df_messy, "number_var", type = "factor")
 catret("Class of number_var_new_factor = ", class(df_messy$number_var_new_factor))
 print(tab(number_var, number_var_new_factor, data=df_messy))
 catret()

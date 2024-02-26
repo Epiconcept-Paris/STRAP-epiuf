@@ -30,6 +30,7 @@
 #' @param data The dataset
 #' @param varname The var 
 #' @param type The desired type
+#' @param dateformat Optional:The format of the date variable
 #'
 #' @return variable
 #' @export
@@ -53,7 +54,6 @@ setType <- function(data, varname, type=c("character", "date", "factor", "numeri
   
   # Extract number of missing inputs
   orig_missing <- nrow(data[is.na(data[,varname]),])
-  
 
   withCallingHandlers({ # Capture warning to add count of those changed to NA when this warning is given
   # set variable to assigned type
@@ -68,7 +68,7 @@ if(type=="character"){
       data[,varname] <- as.Date(data[,varname], format = dateformat)
     } 
   
-  if(type=="factor"|type=="numeric"){ 
+  if(type=="numeric"|type=="factor"){ 
     data[,varname] <- as.numeric(data[,varname])
   } ## Will factor variables always be numeric?
   
@@ -78,16 +78,21 @@ if(type=="character"){
     if(type=="date" & new_missing>0){ # as.Date does not give this warning, thus must force
       warning("NAs introduced by coercion")
     }
-    
-    
-  },warning = function(w, num_na = new_missing){
+  
+  },warning = function(w){
     if(conditionMessage(w)=="NAs introduced by coercion"){
-    message("Warning: ",varname," ",num_na , " ",conditionMessage(w))
     }else{message("Warning: ",varname," ",conditionMessage(w))} # if warning is of a different sort, then display
     invokeRestart("muffleWarning")
   })
   
-  catret(varname, " converted to class ", type)
+
+  newtype <- class(data[,varname])
+  message(varname, " converted to class ", newtype)
+  
+  new_missing <- nrow(data[is.na(data[,varname]),]) - orig_missing 
+  if( new_missing>0){
+    message("Warning: ",varname," ",new_missing , " NAs introduced by coercion")
+  }
   
   return(data[,varname])
   ## Return variable to follow format of other functions in epiuf

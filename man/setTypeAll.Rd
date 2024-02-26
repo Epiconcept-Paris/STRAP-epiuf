@@ -2,8 +2,7 @@
 % Please edit documentation in R/setTypeAll.R
 \name{setTypeAll}
 \alias{setTypeAll}
-\title{setTypeAll
-Uses dictionary to define the class for each variable.}
+\title{setTypeAll}
 \usage{
 setTypeAll(data, dictionary = NULL)
 }
@@ -17,7 +16,6 @@ data frame
 }
 \description{
 setTypeAll
-Uses dictionary to define the class for each variable.
 }
 \examples{
  \dontrun{
