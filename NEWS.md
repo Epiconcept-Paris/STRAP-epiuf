@@ -1,3 +1,34 @@
+# epiuf 0.5.1.1 (2024-02-26)
+
+## New features
+
+-   Set of functions to automate the process of data extraction from REDCap, using REDCap API and 'keyring' R package to securely handle secrets (issue #65)
+    -   accessREDCap
+    -   downloadREDCap
+    -   createKeyring / modifyKeyring / deleteKeyring / deleteKeyringAll
+    -   existsKeyring
+    -   grabKeyring
+    -   listKeyring
+    -   setOrGetFilePath
+
+# epiuf 0.5.1.0 (2023-12-19)
+
+## New features
+
+-   epiuf::RefSite data frame: correspondence table with country/site labels and code (e.g., Serbia \>\> RS)
+-   epiuf::DummyData data frame: dummy dataset with random case based data (VE TND study design style) useful for testing
+-   Set of new functions 'FindAndReplace' to search for a specific pattern in files and replace it if necessary
+
+## Improvements
+
+-   Optimisation of applyNAAll function (issue #101)
+
+## Minor improvements and bug fixes
+
+-   Bug fixed in opendictionary (issue #103)
+-   Improvement getDelayIf (issue #102)
+-   Improvements in dictionary functions (issue #96)
+
 # epiuf 0.5.0.1 (2023-09-06)
 
 ## Minor improvements
@@ -5,7 +36,6 @@
 -   epitable:
     -   All combinations of TRUE and FALSE inputs for arguments 'col', 'row', 'total' and 'missing' now work
     -   Option 'perc' added that enables to output percentages from the whole data
-
 
 # epiuf 0.5.0.0 (02-08-2023)
 
