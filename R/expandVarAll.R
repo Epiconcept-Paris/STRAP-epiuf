@@ -26,16 +26,22 @@
 #' @return data.frame
 #' @export
 #'
-expandVarAll <- function(data){
+expandVarAll <- function(data, action = NULL){
   
-  expandActionGroup <- getActionGroup("expand")$variable # get list of all variables tagged for an action
+  if(is.null(action)){
+    ds <- getDictionaryActions()
+  }else{
+    ds <- action
+  }
+  
+  expandActionGroup <- getActionGroup("expand", action=ds)$variable # get list of all variables tagged for an action
   
   expandVars <- intersect(colnames(data), expandActionGroup) # Isolate all varnames associated with collapse action
   
   # loop through order of codes, searching for matches, and replacing when find.
   for (i in expandVars) {
     
-    InfoSource <- eval(parse(text = getVarActionParameters(i, "expand")))   # get list input for expanding variables
+    InfoSource <- eval(parse(text = getVarActionParameters(i, "expand", action=ds)))   # get list input for expanding variables
     
     data <- expandVar(data = data, varname = i, valueslist = InfoSource)
     

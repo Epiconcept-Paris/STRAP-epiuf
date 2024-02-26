@@ -29,6 +29,10 @@ df <- data.frame(checkbox_bar = c("0|2", "1|2|3", "3|1|2", "0", "2", "3", "0|1",
                  ,checkbox_slash = c("0/2", "1/2/3", "3/1/2", "0", "2", "3", "0/1", "2/3", "")
 )
 
+action <- data.frame(variable = colnames(df)
+                   ,action_group = rep("collapse", ncol(df))
+                   ,parameters =  rep("c(0,1,2,3)", ncol(df))
+)
 ```
 
 
@@ -56,3 +60,10 @@ df$test <- collapseVar(df, checkbox_bar, c(0,2))
 ``` 
 Expected outcome:
 Warning: input order list incomplete, missing 1 3
+
+# Test collapsing using action group for reference
+```{r tests4}
+df1 <- collapseVarAll(df, action=action)
+``` 
+Expected outcome for each variable:
+0  1  1  0  2  3  0  2 NA

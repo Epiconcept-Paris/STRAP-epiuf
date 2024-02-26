@@ -79,6 +79,7 @@ if(type=="character"){
       warning("NAs introduced by coercion")
     }
     
+    
   },warning = function(w, num_na = new_missing){
     if(conditionMessage(w)=="NAs introduced by coercion"){
     message("Warning: ",varname," ",num_na , " ",conditionMessage(w))
@@ -86,6 +87,7 @@ if(type=="character"){
     invokeRestart("muffleWarning")
   })
   
+  catret(varname, " converted to class ", type)
   
   return(data[,varname])
   ## Return variable to follow format of other functions in epiuf

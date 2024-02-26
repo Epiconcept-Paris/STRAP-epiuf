@@ -50,7 +50,7 @@ setTypeAll <- function(data, dictionary=NULL){
   
   # Loop through each relevant variable to set its type
   for (variable in relevantVariables){
-    typeInfo <- getDictionaryValue(variable, "type") # retrieve list of type if present. (NA if none given)
+    typeInfo <- getDictionaryValue(variable, "type", dictionary = ds) # retrieve list of type if present. (NA if none given)
     
     # If type information is available, update the variable type in the dataset
     if (!is.na(typeInfo)){

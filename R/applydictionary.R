@@ -285,13 +285,20 @@ setDictionaryActions <- function(actions) {
 #'
 #' @param varname The varname for which we will retrieve content of one column from dictionary
 #' @param valuename Name of the coulumn to retrieve from dictionary
-#'
+#' @param dictionary Optional: specify object to use as dictionary
+#' 
 #' @return A single value
 #' @export
 #'
 #'  
-getDictionaryValue <- function(varname, valuename=c("type","dico","unknowns")) {
-  ds <- getDictionary()
+getDictionaryValue <- function(varname, valuename=c("type","dico","unknowns"), dictionary = NULL) {
+  
+  if(is.null(dictionary)){       
+    ds <- getDictionary()
+  }else{
+    ds <- dictionary
+  }
+  
   value <-  NA
   if (nrow(ds)>0) {
      paramok <- (valuename%in%names(ds))
@@ -308,6 +315,7 @@ getDictionaryValue <- function(varname, valuename=c("type","dico","unknowns")) {
 #' @param varname The varname to search (into the search column)
 #' @param search The column name which will be searched for varname
 #' @param value The column name of the value to retrieve 
+#' @param dictionary Optional: specify object to use as dictionary
 #'
 #' @return One value 
 #' @export
@@ -316,8 +324,14 @@ getDictionaryValue <- function(varname, valuename=c("type","dico","unknowns")) {
 #' \dontrun{getAnyDictionaryValue("varname",search="source_name",value="dico")}
 getAnyDictionaryValue <- function(varname,
                                   search = c("source_name","generic_name","dico","type","unknowns"), 
-                                  value=c("source_name","generic_name","dico","type","unknowns")) {
-  ds <- getDictionary()
+                                  value=c("source_name","generic_name","dico","type","unknowns"),
+                                  dictionary = NULL) {
+  if(is.null(dictionary)){       
+    ds <- getDictionary()
+  }else{
+    ds <- dictionary
+  }
+  
   result <-  NA
   if (nrow(ds)>0) {
     paramok <- (search%in%names(ds))
@@ -333,15 +347,17 @@ getAnyDictionaryValue <- function(varname,
 #' getDicoOfVar
 #'
 #' @param varname The variable for which we want to retrieve the name of the associated dico
+#' @param dictionary Optional: specify object to use as dictionary
+#' @param dico Optional: specify object to use as dico sheet
 #'
 #' @return The name of the dico associated with the variable
 #' @export
 #'
 #'  
-getDicoOfVar <- function(varname) {
-   diconame <- getDictionaryValue(varname,"dico")
+getDicoOfVar <- function(varname, dictionary = NULL, dico = NULL) {
+   diconame <- getDictionaryValue(varname,"dico", dictionary = dictionary)
    if (!is.na(diconame)){
-     dic <- getDico(diconame)
+     dic <- getDico(diconame, dico = dico)
    } else cat("No dico associated with",varname)
    return(dic)
 }
@@ -349,13 +365,19 @@ getDicoOfVar <- function(varname) {
 #' getDico
 #'
 #' @param diconame The name of one dico from the dicos structure
+#' @param dico Optional: specify object to use as dico sheet
 #'
 #' @return A datset containing one dico (list of code/labels)
 #' @export
 #'
 #'  
-getDico <- function(diconame) {
-  ds <- getDicos()
+getDico <- function(diconame, dico = NULL) {
+  if(is.null(dico)){       
+    ds <- getDicos()
+  }else{
+    ds <- dico
+  }
+  
   ds <-  subset(ds,ds$dico == diconame)
   if (length(ds)==0) {
     ds <- NA
@@ -373,18 +395,24 @@ getDico <- function(diconame) {
 #'
 #' @param variablename The variable for which we want to retrieve the the associated action
 #' @param actiontag The name of the action group to retrieve
+#' @param action Optional: specify object to use as action sheet
 #'
 #' @return A dataset of var actions records for the variable 
 #' @export
 #'
 #'  
-getVarAction <- function(variablename,actiontag) {
-  ds <- getDictionaryActions()
+getVarAction <- function(variablename,actiontag, action = NULL) {
+  if(is.null(action)){       
+    ds <- getDictionaryActions()
+  }else{
+    ds <- action
+  }
+  
 # GDE check to be added for wrong action name
     ds <-  subset(ds,ds$variable == variablename & ds$action_group == actiontag )
     if (length(ds)==0) {
       ds <- NA
-      if (is.na(getActionGroup(actiontag))){
+      if (is.na(getActionGroup(actiontag, action = ds))){
         red(actiontag,"is not found as a valid actiontag ")
       }
     }  
@@ -395,13 +423,14 @@ getVarAction <- function(variablename,actiontag) {
 #'
 #' @param variablename The variable for which we want to retrieve the the associated action parameters
 #' @param actiontag Name of the action group 
+#' @param action Optional: specify object to use as action sheet
 #'
 #' @return The parameters associated to the variable action
 #' @export
 #'
 #'  
-getVarActionParameters <- function(variablename,actiontag) {
-  ds <- getVarAction(variablename,actiontag)
+getVarActionParameters <- function(variablename,actiontag, action = NULL) {
+  ds <- getVarAction(variablename,actiontag, action = action)
   ds <- ifelse(nrow(ds)>0, ds$parameters, NA)
   return(ds)
 }  
@@ -409,13 +438,18 @@ getVarActionParameters <- function(variablename,actiontag) {
 #' getActionGroup
 #'
 #' @param actiontag Name of the action group to retrieve
+#' @param action Optional: specify object to use as action sheet
 #'
 #' @return dataset containing all the variables with actions of type actionname
 #' @export
 #'
 #'  
-getActionGroup <- function(actiontag) {
-  ds <- getDictionaryActions()
+getActionGroup <- function(actiontag, action = NULL) {
+  if(is.null(action)){       
+    ds <- getDictionaryActions()
+  }else{
+    ds <- action
+  }
   ds <-  subset(ds, ds$action_group == actiontag )
   ds <- if(nrow(ds)>0){
     return(ds)}else{
