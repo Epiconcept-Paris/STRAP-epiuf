@@ -7,7 +7,7 @@
 #' @param country A character string representing the country/project
 #' @param filepath A character string representing the desired file path in which the downloaded data will be saved.
 #' 
-#' @return A CSV file containing the REDCap data.
+#' @return A CSV file containing the imported REDCap data.
 #' @export
 #' @importFrom utils write.csv
 #' @importFrom httr POST 

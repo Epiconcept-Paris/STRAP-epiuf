@@ -14,7 +14,7 @@ downloadREDCap(password, country, filepath = NULL)
 \item{filepath}{A character string representing the desired file path in which the downloaded data will be saved.}
 }
 \value{
-A CSV file containing the REDCap data.
+A CSV file containing the imported REDCap data.
 }
 \description{
 This function downloads REDCap data from a specified project and saves it as a CSV file. If no file path has previously been set,
