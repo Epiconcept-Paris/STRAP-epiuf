@@ -28,7 +28,7 @@ filesFindReplace(
 modifying them. Defaults to FALSE.}
 }
 \value{
-NULL. The function modifies the files in-place, or lists them if \code{listonly = TRUE}.
+Returns list: names of files assessed = number of changes. The function modifies the files in-place, or lists them if \code{listonly = TRUE}.
 }
 \description{
 This function searches for specified patterns in files within a directory or a given list of files
