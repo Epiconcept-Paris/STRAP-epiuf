@@ -28,7 +28,7 @@ fileFindReplace(
 is displayed.. This is used to check changes before applying them. Defaults to FALSE.}
 }
 \value{
-NULL. The function modifies the file in-place.
+Returns list: name of file assessed = number of changes. The function modifies the file in-place.
 }
 \description{
 This function reads a file and replaces specified patterns with given replacements.
