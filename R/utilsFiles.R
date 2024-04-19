@@ -391,43 +391,6 @@ xlsxFindReplace <-
   }
 
 
-#' Get list of all filepaths and subsidiaries within a directory
-#'
-#' This function starts with a given folder and returns the filepaths of all files
-#' in all the folders. You can specify specific folders to ignore, and specific filetypes
-#' to find. 
-#' 
-#' @param directory The filepath where you want to search.
-#' @param filetypes The types of file you want to list (optional) (input is eg. c("R", "Rmd").
-#' @param ignore.these The names of any folders you wish to ignore.
-
-#'
-#' @return Returns list of complete filepaths
-#' @export
-#' @examples
-#' \dontrun{
-#' allpaths <- getAllFilepaths(getwd(),filetypes = c("R","Rmd","txt"), ignore.these = c(".git", ".gitignore",".Rproj.user"))
-#' }
-getAllFilepaths <- function(directory, filetypes = NULL, ignore.these=NULL){
-  dirs <- list.dirs(directory)
-  if(!is.null(ignore.these)){
-    ig1 <- paste0("/",ignore.these,"/")
-    ig2 <- paste0("/",ignore.these,"$")
-    ig <- paste0(c(ig1,ig2), collapse="|")
-    dirs <- dirs[!grepl(ig, dirs)]
-  }
-  mylist <- c()
-  for(d in dirs){
-    mylist<- c(mylist, list.files(d,full.names=T))
-  }
-  mylist <- setdiff(mylist, dirs)
-  if(!is.null(filetypes)){
-    ft <- paste0(".",filetypes, "$")
-    ft <- paste0(ft, collapse="|")
-    mylist <- mylist[grepl(ft, mylist)]
-  }
-  return(mylist)
-}
 
 # END of SCRIPT  --------------------------------------------------------
 
