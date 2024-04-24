@@ -283,10 +283,10 @@ createXlsxStyle <- function(...) {
 fillimage <- function(onesheet, image, line, col, wide = 7, high = 4, unit = "in", spec.dpi = 300, wb = NULL) {
   
   # Convert the column label to integer
-  if (is.character(col)) {col <- openxlsx::col2int(col)}
+  if (is.character(col)){col <- openxlsx::col2int(col)}
   
   # If any workbook is specified 
-  if (is.null(wb)){wb <- epixlsx_env$report}   # COMMENT by MML: I can't find the epixlsx_env 
+  if (is.null(wb)){wb <- epixlsx_env$report}
   
   # If image is already saved somewhere, use openxlsx::insertImage() to add it to the Excel file
   if (is.character(image)) {
