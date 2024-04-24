@@ -263,10 +263,10 @@ createXlsxStyle <- function(...) {
 
 #' fillimage
 #'
-#' @param onesheet A sheet object from xlsx package
-#' @param image The filename of a previously saved image 
+#' @param onesheet A sheet object from openXlsx package
+#' @param image The filename of a previously saved image or the name of the image in the current R environment
 #' @param line The line where to paste the image
-#' @param col The col where to paste the image
+#' @param col The column where to paste the image
 #' @param wide Size of the image 
 #' @param high Size of the image
 #' @param unit For wide and high, default is "in" (Inch) 
@@ -278,20 +278,33 @@ createXlsxStyle <- function(...) {
 #' @export
 #'
 #' @examples 
-#' \dontrun{ fillimage(onesheet = cells,image = graphname,line=2, col = 2, wb=template) }
+#' \dontrun{ fillimage(onesheet = cells, image = graphname, line = 2, col = 2, wb = template) }
 #' 
-fillimage <- function(onesheet,image,line,col, wide=7, high=4 , unit = "in", spec.dpi=300, wb = NULL) {
+fillimage <- function(onesheet, image, line, col, wide = 7, high = 4, unit = "in", spec.dpi = 300, wb = NULL) {
   
-  if (is.character(col)){
-    col <- openxlsx::col2int(col)
+  # Convert the column label to integer
+  if (is.character(col)) {col <- openxlsx::col2int(col)}
+  
+  # If any workbook is specified 
+  if (is.null(wb)){wb <- epixlsx_env$report}   # COMMENT by MML: I can't find the epixlsx_env 
+  
+  # If image is already saved somewhere, use openxlsx::insertImage() to add it to the Excel file
+  if (is.character(image)) {
+    
+    openxlsx::insertImage(wb, onesheet, file = image, width = wide, height = high,
+                          startCol = col, startRow = line, units = unit, dpi = spec.dpi)
+    
+    # Else if image is in the current R environment, use openxlsx::insertPlot() to add it to the Excel file
+  } else {
+    
+    # Display image
+    print(image)
+    
+    # Insert image into Excel file
+    openxlsx::insertPlot(wb, onesheet, width = wide, height = high,
+                         startCol = col, startRow = line, units = unit, dpi = spec.dpi)
+    
   }
-  
-  if (is.null(wb)) wb <- epixlsx_env$report
-  
-  openxlsx::insertImage( wb , onesheet, file = image, width = wide, height=high
-                         , startCol = col, startRow = line, units=unit, dpi=spec.dpi)
-  
-  
 }
 
 
