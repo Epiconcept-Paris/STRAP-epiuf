@@ -264,12 +264,13 @@ createXlsxStyle <- function(...) {
 #' fillimage
 #'
 #' @param onesheet A sheet object from openXlsx package
-#' @param image The filename of a previously saved image or the name of the image in the current R environment
+#' @param image The filename of a previously saved image ( jpeg, bmp, png) 
+#' or the name of the image in the current R environment
 #' @param line The line where to paste the image
 #' @param col The column where to paste the image
-#' @param wide Size of the image 
-#' @param high Size of the image
-#' @param unit For wide and high, default is "in" (Inch) 
+#' @param wide Size of the image (in unit)
+#' @param high Size of the image (in unit)
+#' @param unit For wide and high, default is "in" (Inch) "cm" or "px" 
 #' @param spec.dpi 300 by default
 #' @param wb  An optional wb if not already opened
 #'  

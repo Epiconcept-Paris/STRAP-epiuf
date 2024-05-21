@@ -17,19 +17,20 @@ fillimage(
 )
 }
 \arguments{
-\item{onesheet}{A sheet object from xlsx package}
+\item{onesheet}{A sheet object from openXlsx package}
 
-\item{image}{The filename of a previously saved image}
+\item{image}{The filename of a previously saved image ( jpeg, bmp, png)
+or the name of the image in the current R environment}
 
 \item{line}{The line where to paste the image}
 
-\item{col}{The col where to paste the image}
+\item{col}{The column where to paste the image}
 
-\item{wide}{Size of the image}
+\item{wide}{Size of the image (in unit)}
 
-\item{high}{Size of the image}
+\item{high}{Size of the image (in unit)}
 
-\item{unit}{For wide and high, default is "in" (Inch)}
+\item{unit}{For wide and high, default is "in" (Inch) "cm" or "px"}
 
 \item{spec.dpi}{300 by default}
 
@@ -42,6 +43,6 @@ Nothing
 fillimage
 }
 \examples{
-\dontrun{ fillimage(onesheet = cells,image = graphname,line=2, col = 2, wb=template) }
+\dontrun{ fillimage(onesheet = cells, image = graphname, line = 2, col = 2, wb = template) }
 
 }

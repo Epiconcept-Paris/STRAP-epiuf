@@ -90,7 +90,10 @@ formatCells(cells, 17, 1, myStyle)
 
 ```
 
-
+```{r image}
+ image_file <- externalFile("image_xlsx.png")
+ fillimage(onesheet = cells, image = image_file, line = 20, col = 2)
+```
 
 
 ```{r matrice}
