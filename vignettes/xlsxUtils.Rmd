@@ -90,9 +90,22 @@ formatCells(cells, 17, 1, myStyle)
 
 ```
 
+You can insert an image in your workbook using an existing PNG, JPEG, BMP file.
+
 ```{r image}
  image_file <- externalFile("image_xlsx.png")
- fillimage(onesheet = cells, image = image_file, line = 20, col = 2)
+ fillImage(onesheet = cells, image = image_file, line = 20, col = 2)
+```
+
+Or you can insert the current plot that you have just produced with `ggplot2`.
+
+```{r ggplot, eval=FALSE}
+image_gg <- ggplot(Orange, aes(x = age, y = circumference, colour = as.factor(Tree))) +
+  geom_point() + 
+  geom_line() +
+  labs(colour = "Tree") + 
+  theme_minimal()
+fillImage(onesheet = cells, image = image_gg, line = 40, col = 2)
 ```
 
 
