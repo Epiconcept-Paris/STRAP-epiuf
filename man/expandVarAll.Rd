@@ -8,6 +8,8 @@ expandVarAll(data, action = NULL)
 }
 \arguments{
 \item{data}{dataframe to be processed, the dico must be loaded}
+
+\item{action}{optional specific dictionary for action}
 }
 \value{
 data.frame

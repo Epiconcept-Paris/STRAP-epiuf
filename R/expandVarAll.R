@@ -22,7 +22,7 @@
 #' expandVarAll
 #'
 #' @param data dataframe to be processed, the dico must be loaded 
-#'
+#' @param action optional specific dictionary for action 
 #' @return data.frame
 #' @export
 #'
@@ -34,14 +34,14 @@ expandVarAll <- function(data, action = NULL){
     ds <- action
   }
   
-  expandActionGroup <- getActionGroup("expand", action=ds)$variable # get list of all variables tagged for an action
+  expandActionGroup <- getActionGroup(actiontag ="expand", action)$variable # get list of all variables tagged for an action
   
   expandVars <- intersect(colnames(data), expandActionGroup) # Isolate all varnames associated with collapse action
   
   # loop through order of codes, searching for matches, and replacing when find.
   for (i in expandVars) {
     
-    InfoSource <- eval(parse(text = getVarActionParameters(i, "expand", action=ds)))   # get list input for expanding variables
+    InfoSource <- eval(parse(text = getVarActionParameters(i, actiontag="expand", action=ds)))   # get list input for expanding variables
     
     data <- expandVar(data = data, varname = i, valueslist = InfoSource)
     
