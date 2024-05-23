@@ -116,6 +116,11 @@ listonly parameters allow to check how many changes will be done.
   # replace in a directory or use a file filter
   filesFindReplace("temp_*.R",pattern="oldword",replacement = "newword")
   
+   writeLines(lines, file1)
+   # replace several pattern by several replacement at same time
+  filesFindReplace(file1,pattern=c("oldword","script"),replacement = c("newword","text"))
+  cat(readLines(file1),sep="\n")
+  
 ```
 
 **filesFindReplace** work on text files (R, txt, csv ...) and xlsx

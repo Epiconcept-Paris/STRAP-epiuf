@@ -22,19 +22,24 @@
 
 # START of SCRIPT  --------------------------------------------------------
 
-
-
-#' Title
+#' Read Data from Various File Types
 #'
-#' @param filename Name of the file to read/import
-#' @param factorise Should character value be factorised, default = FALSE
-#' @param lowercase Should variable names appear in lower case or as is , default to lowercase
-#' @param label Not used currently
-#' @param sheet Name of the excel sheet to be read
-#' @param verbose Print or not a message when data imported 
-#' @param ... Other parameters passed to the base function
+#' This function reads data from various file types such as CSV, DTA (Stata), REC (EpiInfo), RDA/RDATA, RDS, and Excel files. 
+#' It provides options to factorize, convert column names to lowercase, and add labels to the data.
+#' If no filename is provided, a file dialog will be opened for the user to select a file.
 #'
-#' @return The dataset read from file
+#' @param filename String specifying the path of the file to read. If empty, opens a file dialog.
+#' @param factorise Logical, if TRUE factorizes the data.
+#' @param lowercase Logical, if TRUE converts column names to lowercase.
+#' @param label Optional label to add to the data.
+#' @param sheet Sheet name or index for Excel files (If reading an Excel file)
+#' @param verbose Logical, if TRUE prints details about the loaded file.
+#' @param ... Additional arguments passed to the underlying read functions 
+#' like encoding="latin1".
+#
+#'
+#' @return Returns a data frame of the loaded file, or an error if the file format 
+#' is not supported or the file does not exist.
 #' @export
 #' @importFrom foreign read.epiinfo  
 #' @importFrom haven read_dta        

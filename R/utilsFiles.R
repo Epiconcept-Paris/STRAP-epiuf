@@ -233,7 +233,7 @@ txtFindReplace <- function(filename, pattern, replacement,word = TRUE, ignore.ca
   result <- 0
   for (i in 1:length(pattern)) {
     SearchedWord <- pattern[i]
-    # we allow multiple searched text for on only replacement 
+    # we allow multiple searched text for only one replacement 
     ReplaceWord <- ifelse((length(replacement<= i)),replacement[i],replacement[1])
     # if whole word we past regex mark for word only
     if(word) SearchedWord <- paste0("\\b",SearchedWord,"\\b")
