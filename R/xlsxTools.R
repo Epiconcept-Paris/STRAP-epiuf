@@ -387,14 +387,14 @@ saveXlsx <- function(filename="",wb=NULL)  {
     report <- epixlsx_env$report
   }
   if (is.null(report)) {
-       cat("No Excel file loaded")
+       cat("No Excel file loaded \n")
   }
   else {
     if (filename=="") {
       filename <- epixlsx_env$reportFilename
     }
     openxlsx::saveWorkbook(report, filename, overwrite = TRUE)  ## save to working directory
-    cat("Workbook saved as :",filename)
+    cat("Workbook saved as :", filename, "\n")
   }
 }
 
