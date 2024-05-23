@@ -173,7 +173,7 @@ replaceStr <- function( pattern, replacement,intext, word=FALSE, ignore.case = T
 #' @param listonly Logical. If TRUE, instead of modifying the files, a summary of the changes that would be made 
 #' is displayed.. This is used to check changes before applying them. Defaults to FALSE.
 #'
-#' @return NULL. The function modifies the file in-place.
+#' @return Returns list: name of file assessed = number of changes. The function modifies the file in-place.
 #' @export
 #' @examples
 #' \dontrun{
@@ -193,14 +193,17 @@ fileFindReplace <-
     name <- fileName(filename)
     if (file.exists(filename)) {
       # file exists.. let's go
-      if (ext %in% c("csv","r", "txt"))  {
-          txtFindReplace(filename, pattern ,replacement,word , ignore.case, listonly)
+      if (ext %in% c("csv","r", "txt", "rmd"))  {
+          numch <- txtFindReplace(filename, pattern ,replacement,word , ignore.case, listonly)
       }
       if (ext %in% c("xlsx"))  {
-        xlsxFindReplace(filename, pattern, replacement,word , ignore.case, listonly)
+        numch <- xlsxFindReplace(filename, pattern, replacement,word , ignore.case, listonly)
       }
-    }
+      return(numch)
+
+    }else{numch <- NULL}
     
+    return(numch)
   }
 
 
@@ -218,7 +221,7 @@ fileFindReplace <-
 #' @param listonly Logical. If TRUE, the function only lists the files that would be modified without actually
 #'  modifying them. Defaults to FALSE.
 #'
-#' @return NULL. The function modifies the text file in-place and prints the exact number of changes made.
+#' @return Returns list: name of file assessed = number of changes. The function modifies the text file in-place and prints the exact number of changes made.
 #' @export
 #' @examples
 #' \dontrun{
@@ -245,7 +248,9 @@ txtFindReplace <- function(filename, pattern, replacement,word = TRUE, ignore.ca
   if(!listonly) cat(FileContents, file = filename, sep = "\n")
   # and a message is displayed with number of changes 
   catret("File ",filename," ",result," Changes ")
-  result
+  output <- list(result)
+  names(output) <- filename    
+  return(output)
 }
 
 #' Find and Replace Text in Files in a Directory or File List
@@ -265,7 +270,7 @@ txtFindReplace <- function(filename, pattern, replacement,word = TRUE, ignore.ca
 #' @param listonly Logical. If TRUE, the function only lists the files that would be modified without actually
 #'  modifying them. Defaults to FALSE.
 #'
-#' @return NULL. The function modifies the files in-place, or lists them if \code{listonly = TRUE}.
+#' @return Returns list: names of files assessed = number of changes. The function modifies the files in-place, or lists them if \code{listonly = TRUE}.
 #' @export
 #' @examples
 #' \dontrun{
@@ -278,7 +283,7 @@ txtFindReplace <- function(filename, pattern, replacement,word = TRUE, ignore.ca
 
 filesFindReplace <- function(filename,pattern,replacement,word = FALSE,ignore.case=FALSE,listonly=FALSE) {
       # We have only one then we can see what it is 
-    if(length(filename)==1)
+  if(length(filename)==1)
     { 
       # this file exists ?
       if(file.exists(filename)) {
@@ -290,30 +295,34 @@ filesFindReplace <- function(filename,pattern,replacement,word = FALSE,ignore.ca
           # if not a directory, then a simple file 
          else  {
             # we can run FindReplace on that one ! 
-           fileFindReplace(filename, pattern, replacement,word, ignore.case, listonly)
+           numchanged <- fileFindReplace(filename, pattern, replacement,word, ignore.case, listonly)
             # and we clear current RScripts
             RScripts <- NA
          }
-      }   
+      }
       # may be a pattern ? 
       else {
         # we try to retrieve a list of files corresponding to filename as a pattern
         RScripts <- listFiles(path = ".", pattern = filename)
-      }
+        }
     }   
   # We have more than one then each should be tested recursively 
   else RScripts <- filename
   
   # Now what do we have ?
   if (length(RScripts)>0 ) {
+    listchanges <- list()
     for (RScript in RScripts) {
       if(! is.na(RScript)) 
-         filesFindReplace(RScript, pattern, replacement, word, ignore.case,listonly)
+       numchanged <- fileFindReplace(RScript, pattern, replacement, word, ignore.case,listonly)
+      listchanges <-c(listchanges,numchanged)
     }
-  }
+    }
   if(listonly){
     warning("While listonly is set to TRUE,changes are counted but not applied")
   }
+  return(listchanges)
+  
 }
 
 
@@ -330,7 +339,7 @@ filesFindReplace <- function(filename,pattern,replacement,word = FALSE,ignore.ca
 #' @param listonly Logical. If TRUE, the function only lists the files that would be modified without actually
 #'  modifying them. Defaults to FALSE.
 #'
-#' @return No return value; the function modifies the Excel file in-place and prints a message indicating the modified file.
+#' @return Returns list: name of file assessed = number of changes; the function modifies the Excel file in-place and prints a message indicating the modified file.
 #' @export
 #' @importFrom openxlsx read.xlsx
 #' @examples
@@ -376,8 +385,10 @@ xlsxFindReplace <-
     # and a message is displayed with number of changes
     catret("File ", xlsxName, " ", result, " Changes ")
     result
+    output <- list(result)
+    names(output) <- xlsxName    
+    return(output)
   }
-
 
 
 

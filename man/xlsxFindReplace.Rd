@@ -28,7 +28,7 @@ xlsxFindReplace(
 modifying them. Defaults to FALSE.}
 }
 \value{
-No return value; the function modifies the Excel file in-place and prints a message indicating the modified file.
+Returns list: name of file assessed = number of changes; the function modifies the Excel file in-place and prints a message indicating the modified file.
 }
 \description{
 This function reads an Excel file and replaces specified text (\code{oldname}) with a new text (\code{newname}) across all sheets.
