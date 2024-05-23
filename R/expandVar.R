@@ -34,10 +34,9 @@ expandVar <- function(data,varname,valueslist) {
     , error = function(c) { }
   )
   varname <- s_op  
-  
   multivar <- data[[varname]]
-  
-  MyFun <-  function(x,valtosearch) {
+
+    MyFun <-  function(x,valtosearch) {
     result  <-  grep(valtosearch,x )
     if (length(result) == 0) result <-0 else result <- 1
     if (result == 1) {

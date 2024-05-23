@@ -2,18 +2,29 @@
 % Please edit documentation in R/expandVarAll.R
 \name{expandVarAll}
 \alias{expandVarAll}
-\title{expandVarAll}
+\title{Expand all variables in a dataset based on predefined actions}
 \usage{
 expandVarAll(data, action = NULL)
 }
 \arguments{
-\item{data}{dataframe to be processed, the dico must be loaded}
+\item{data}{A data frame containing the variables to be expanded.}
 
-\item{action}{optional specific dictionary for action}
+\item{action}{Optional; an action or set of actions to apply for expanding the variables.
+If \code{NULL}, the function will attempt to retrieve the dictionary of actions.}
 }
 \value{
-data.frame
+Returns the modified data frame with the specified variables expanded.
 }
 \description{
-expandVarAll
+This function automates the expansion of variables in a dataset according to
+a set of predefined actions. If no action is specified, it retrieves the
+dictionary of actions. It identifies all variables within the dataset that
+have been tagged for expansion and applies the expansion action to each.
+}
+\examples{
+\dontrun{
+# Assuming 'data' is a data frame and 'action' is defined or NULL to use default actions
+expandVarAll(data = data)
+}
+
 }

@@ -310,21 +310,39 @@ getDictionaryValue <- function(varname, valuename=c("type","dico","unknowns"), d
   return(value)
 }
 
-#' Title
-#'
+#' Retrieve values from a dictionary based on variable name and specified columns
+#' 
+#' This function searches a dictionary for a given variable name and returns the corresponding
+#' values from specified dictionary columns. It issues a warning if the search column or the
+#' value column is not present in the dictionary.
+#' 
+#' This function is advanced and you should usually use getDicoOfVar or getVarAction 
+#' 
 #' @param varname The varname to search (into the search column)
 #' @param search The column name which will be searched for varname
 #' @param value The column name of the value to retrieve 
 #' @param dictionary Optional: specify object to use as dictionary
 #'
-#' @return One value 
-#' @export
+#' @param varname The variable name to search for in the dictionary.(Into search column)
+#' @param search A character vector specifying which column(s) to search in the dictionary.
+#'   Defaults to c("source_name", "generic_name").
+#' @param value A character vector specifying which column(s) to return values from.
+#'   Defaults to c("source_name", "generic_name", "dico", "type", "unknowns").
+#' @param dictionary Optional: specify object to use as dictionary
 #'
+#' @return Returns the subset of the dictionary that matches the search criteria or `NA` if no
+#'   matches are found or if the search/value columns are not in the dictionary.
+#' @export
+#' 
 #' @examples
+#' # Assuming 'getDictionary' is a function that returns a data frame and 
+#' # 'exampleVar' is a known variable
+#' # getAnyDictionaryValue(varname = "exampleVar")
 #' \dontrun{getAnyDictionaryValue("varname",search="source_name",value="dico")}
+#'
 getAnyDictionaryValue <- function(varname,
-                                  search = c("source_name","generic_name","dico","type","unknowns"), 
-                                  value=c("source_name","generic_name","dico","type","unknowns"),
+                                  search = c("source_name","generic_name"), 
+                                  value=c("source_name", "generic_name","dico","type","unknowns"),
                                   dictionary = NULL) {
   if(is.null(dictionary)){       
     ds <- getDictionary()
@@ -334,12 +352,17 @@ getAnyDictionaryValue <- function(varname,
   
   result <-  NA
   if (nrow(ds)>0) {
-    paramok <- (search%in%names(ds))
-    paramok2 <- (value%in%names(ds))
-    if (paramok & paramok2) {
+    if( ! search%in%names(ds)){
+      warning(search," is not allowed as a dico column")   
+      return(result) 
+    }
+    
+    if(! value%in%names(ds)) {
+      warning(value," is not allowed as a dico column")   
+      return(result) 
+    } 
       result <- subset(ds,ds[,search] == varname)[,value]
       if (length(result)==0) result <- NA
-    } else warning(search, "or", value," is not allowed as a dico column")    
   }  
   return(result)
 }
@@ -412,7 +435,7 @@ getVarAction <- function(variablename,actiontag, action = NULL) {
     ds <-  subset(ds,ds$variable == variablename & ds$action_group == actiontag )
     if (length(ds)==0) {
       ds <- NA
-      if (is.na(getActionGroup(actiontag, action = ds))){
+      if (is.na(getActionGroup(actiontag=actiontag, action = ds))){
         red(actiontag,"is not found as a valid actiontag ")
       }
     }  
@@ -430,7 +453,7 @@ getVarAction <- function(variablename,actiontag, action = NULL) {
 #'
 #'  
 getVarActionParameters <- function(variablename,actiontag, action = NULL) {
-  ds <- getVarAction(variablename,actiontag, action = action)
+  ds <- getVarAction(variablename,actiontag=actiontag, action = action)
   ds <- ifelse(nrow(ds)>0, ds$parameters, NA)
   return(ds)
 }  

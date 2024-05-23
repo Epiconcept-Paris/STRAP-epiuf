@@ -78,7 +78,7 @@
 #' @param varname a string or a string vector which will be compared to another string 
 #'          or a list of strings in order to find similarity or sound like 
 #'          The objective is to automaticaly correct small mistake in wording 
-#' @param CorrectList a string or a list of string from which code{varname} will be searched
+#' @param CorrectList a string or a list of string from which \code{varname} will be searched
 #' @param ErrPerc An acceptable errPerc when comparing string , default to 0.10% 
 #' @param verbose If true a message is issued 
 #'

@@ -2,30 +2,42 @@
 % Please edit documentation in R/applydictionary.R
 \name{getAnyDictionaryValue}
 \alias{getAnyDictionaryValue}
-\title{Title}
+\title{Retrieve values from a dictionary based on variable name and specified columns}
 \usage{
 getAnyDictionaryValue(
   varname,
-  search = c("source_name", "generic_name", "dico", "type", "unknowns"),
+  search = c("source_name", "generic_name"),
   value = c("source_name", "generic_name", "dico", "type", "unknowns"),
   dictionary = NULL
 )
 }
 \arguments{
-\item{varname}{The varname to search (into the search column)}
+\item{varname}{The variable name to search for in the dictionary.(Into search column)}
 
-\item{search}{The column name which will be searched for varname}
+\item{search}{A character vector specifying which column(s) to search in the dictionary.
+Defaults to c("source_name", "generic_name").}
 
-\item{value}{The column name of the value to retrieve}
+\item{value}{A character vector specifying which column(s) to return values from.
+Defaults to c("source_name", "generic_name", "dico", "type", "unknowns").}
 
 \item{dictionary}{Optional: specify object to use as dictionary}
 }
 \value{
-One value
+Returns the subset of the dictionary that matches the search criteria or \code{NA} if no
+matches are found or if the search/value columns are not in the dictionary.
 }
 \description{
-Title
+This function searches a dictionary for a given variable name and returns the corresponding
+values from specified dictionary columns. It issues a warning if the search column or the
+value column is not present in the dictionary.
+}
+\details{
+This function is advanced and you should usually use getDicoOfVar or getVarAction
 }
 \examples{
+# Assuming 'getDictionary' is a function that returns a data frame and 
+# 'exampleVar' is a known variable
+# getAnyDictionaryValue(varname = "exampleVar")
 \dontrun{getAnyDictionaryValue("varname",search="source_name",value="dico")}
+
 }
