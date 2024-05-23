@@ -258,7 +258,7 @@ createXlsxStyle <- function(...) {
 }
 
 
-#' fillImage
+#' addImage
 #' 
 #' Insert either an existing image or the current plot into a worksheet.
 #'
@@ -283,7 +283,7 @@ createXlsxStyle <- function(...) {
 #'
 #' @examples 
 #' \dontrun{ 
-#' fillImage(onesheet = cells, 
+#' addImage(onesheet = cells, 
 #'           image = graphname, 
 #'           line = 2, 
 #'           col = 2, 
@@ -295,7 +295,7 @@ createXlsxStyle <- function(...) {
 #' openXlsx(xls_file)
 #' cells <- openSheet("T2")
 #' image_file <- externalFile("image_xlsx.png")
-#' fillImage(onesheet = cells, image = image_file, line = 20, col = 2)
+#' addImage(onesheet = cells, image = image_file, line = 20, col = 2)
 #' 
 #' # Usage 2: Insert current plot
 #' \dontrun{
@@ -305,18 +305,18 @@ createXlsxStyle <- function(...) {
 #'                    geom_line() +
 #'                    labs(colour = "Tree") + 
 #'                    theme_minimal()
-#' fillImage(onesheet = cells, image = image_gg, line = 20, col = 2)
+#' addImage(onesheet = cells, image = image_gg, line = 20, col = 2)
 #' }
 #'        
-fillImage <-function(onesheet, 
-                     image, 
-                     line, 
-                     col, 
-                     wide = 7, 
-                     high = 4, 
-                     unit = "in", 
-                     spec.dpi = 300, 
-                     wb = NULL) {
+addImage <-function(onesheet, 
+                    image, 
+                    line, 
+                    col, 
+                    wide = 7, 
+                    high = 4, 
+                    unit = "in", 
+                    spec.dpi = 300, 
+                    wb = NULL) {
   
   # Convert the column label to integer
   if (is.character(col)){col <- openxlsx::col2int(col)}
@@ -343,6 +343,56 @@ fillImage <-function(onesheet,
   }
 }
 
+
+#' fillimage (depreciated)
+#' 
+#' Please note that this function will be depreciated. 
+#' Use addImage() instead: addImage(onesheet, image, line, col, wide, high, unit, spec.dpi, wb).
+#' Insert either an existing image or the current plot into a worksheet.
+#'
+#' @param ... Arguments of addImage() function
+#'  
+#' @return Nothing
+#' 
+#' @seealso [epiuf::addImage()]
+#' 
+#' @author Jenny Howard, Marine Maurel
+#'  
+#' @export
+#'
+#' @examples 
+#' \dontrun{ 
+#' addImage(onesheet = cells, 
+#'           image = graphname, 
+#'           line = 2, 
+#'           col = 2, 
+#'           wb = template) 
+#' }
+#' 
+#' # Usage 1: Insert existing image saved as a PNG file
+#' xls_file <- externalFile("excelfile.xlsx")
+#' openXlsx(xls_file)
+#' cells <- openSheet("T2")
+#' image_file <- externalFile("image_xlsx.png")
+#' addImage(onesheet = cells, image = image_file, line = 20, col = 2)
+#' 
+#' # Usage 2: Insert current plot
+#' \dontrun{
+#' image_gg <- ggplot(Orange, 
+#'                    aes(x = age, y = circumference, colour = as.factor(Tree))) +
+#'                    geom_point() + 
+#'                    geom_line() +
+#'                    labs(colour = "Tree") + 
+#'                    theme_minimal()
+#' addImage(onesheet = cells, image = image_gg, line = 20, col = 2)
+#' }
+#'        
+fillimage <-function(...) {
+  
+  message("Please note that this function will be depreciated. Use addImage() instead: addImage(onesheet, image, line, col, wide, high, unit, spec.dpi, wb).")
+  addImage(...)
+  
+}
 
 #' openSheet
 #'
