@@ -493,7 +493,7 @@ saveXlsx <- function(filename="",wb=NULL)  {
       filename <- epixlsx_env$reportFilename
     }
     openxlsx::saveWorkbook(report, filename, overwrite = TRUE)  ## save to working directory
-    cat("Workbook saved as :",filename)
+    cat("Workbook saved as :", filename, "\n")
   }
 }
 
