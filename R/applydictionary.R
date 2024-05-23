@@ -310,6 +310,8 @@ getDictionaryValue <- function(varname, valuename=c("type","dico","unknowns"), d
   return(value)
 }
 
+#' getAnyDictionaryValue
+#' 
 #' Retrieve values from a dictionary based on variable name and specified columns
 #' 
 #' This function searches a dictionary for a given variable name and returns the corresponding
