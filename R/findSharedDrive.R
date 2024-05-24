@@ -1,5 +1,5 @@
 # Project Name : epiuf
-# Script Name  : findDrive.R
+# Script Name  : findSharedDrive.R
 # GitHub repo  : STRAP-epiuf
 # Summary      : 
 # Date created : 2024-05-23
@@ -15,7 +15,7 @@
 # START of SCRIPT  --------------------------------------------------------
 
 
-#' findDrive
+#' findSharedDrive
 #' 
 #' Quick way to find the path to the root Shared Drive (e.g., "G:/Shared drive"). 
 #' It will identify the letter associated to the Drive (e.g., D:, G:, etc) 
@@ -28,27 +28,47 @@
 #' @export
 #' @author STRAP team \email{strap@epiconcept.fr}
 #' @examples
-#' setPath("DRIVE", findDrive())
+#' setPath("DRIVE", findSharedDrive())
 #' getPath("DRIVE")
 #' 
 
-findDrive <- function(message = FALSE) {
+findSharedDrive <- function(message = FALSE) {
   
   # Get the list of drives
-  drives <- system("wmic logicaldisk get caption,description", intern = TRUE)
+  os <- Sys.info()["sysname"]
   
-  # Remove the header line
-  drives <- drives[-1]
+  if (os == 'Windows') {
+    
+    # Windows command to get drives
+    drives <- system("wmic logicaldisk get caption,description", intern = TRUE)
+    # Remove the header line
+    drives <- drives[-1]
+    # Split the drive information into columns
+    drives_data <- strsplit(drives, "\\s+")
+    drives_data <- lapply(drives_data, function(x) x[x != ""])
+    drives_data <- do.call(rbind, drives_data)
+    # Extract the drive letters and names
+    drive_letters <- drives_data[, 1]
+    
+  } else if (os == 'Darwin') {
+    
+    # macOS command to get drives
+    drives <- system("df -h | grep '^/dev/' | awk '{print $1}'", intern = TRUE)
+    # Extract drive letters
+    drive_letters <- drives
+    
+  } else if (os == 'Linux') {
+    
+    # Linux command to get drives
+    drives <- system("lsblk -o NAME,MOUNTPOINT | grep '^sd' | awk '{print $1}'", intern = TRUE)
+    # Extract drive letters
+    drive_letters <- drives
+    
+  } else {
+    stop("Unsupported operating system")
+  }
   
-  # Split the drive information into columns
-  drives_data <- strsplit(drives, "\\s+")
-  drives_data <- lapply(drives_data, function(x) x[x != ""])
-  drives_data <- do.call(rbind, drives_data)
-  
-  # Extract the drive letters and names
-  drive_letters <- drives_data[, 1]
-  drive_names <- drives_data[, 2]
-  
+
   # Initialising the result to return
   result <- NULL
   
