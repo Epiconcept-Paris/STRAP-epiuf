@@ -31,19 +31,25 @@ expandVar <- function(data,varname,valueslist) {
     if (is.character(varname)) {
       s_op <- varname
     }
-    , error = function(c) { }
+    ,
+    error = function(c) {  }
   )
-  varname <- s_op  
+  varname <- s_op
+  
   multivar <- data[[varname]]
-
-    MyFun <-  function(x,valtosearch) {
-    result  <-  grep(valtosearch,x )
-    if (length(result) == 0) result <-0 else result <- 1
+  
+  MyFun <-  function(x, valtosearch) {
+    result  <-  grep(valtosearch, x)
+    if (length(result) == 0)
+      result <- 0
+    else
+      result <- 1
     if (result == 1) {
       return("1")
     }
-    else return("0")
-  } 
+    else
+      return("0")
+  }
   
   iMax <-  length(valueslist)  
   newvarsmade <- c()
