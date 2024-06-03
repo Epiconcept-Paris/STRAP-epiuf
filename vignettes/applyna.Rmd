@@ -26,7 +26,24 @@ df <- data.frame(CharacterVar = c("unknown", "do not know", "other", "dnk", "na"
                  NumberVar = c(1, 2, 3, 4, 1, 2, 3, 4,1, 2, 3, 4, 1, 2)
 )
 
+#Create a dictionary for use in testing
+dictionary1 <- data.frame(source_name = colnames(df)
+                         ,generic_name = colnames(df)
+                         ,type = c("character", "numeric")
+                         ,dico = rep(NA, ncol(df))
+                         ,unknowns = c(NA, 3)
+                         ,description = c("a character variable", "a numeric variable")
+                         ,comments = rep(NA, ncol(df))
+)
 
+dictionary2 <- data.frame(source_name = colnames(df)
+                         ,generic_name = colnames(df)
+                         ,type = c("character", "numeric")
+                         ,dico = rep(NA, ncol(df))
+                         ,unknowns = c("", "2,3")
+                         ,description = c("a character variable", "a numeric variable")
+                         ,comments = rep(NA, ncol(df))
+)
 ```
 
 
@@ -72,3 +89,13 @@ df$test <- applyNA(df, NumberVar, "3,1")         # list of numbers
 
 ```
 
+## Test running on whole data using diciontary and dico
+```{r tests4}
+df1 <- applyNAAll(df,dictionary=dictionary1)
+# CharacterVar 7 conversions
+# NumericVar 3 conversions
+
+df2 <- applyNAAll(df,dictionary=dictionary2)
+# CharacterVar 7 conversions
+# NumericVar 7 conversions
+``` 

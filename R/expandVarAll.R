@@ -5,8 +5,8 @@
 # Summary      : developement of expandVarAll function
 # Date created : 02/06/2022
 # Author       : JHD
-# Date reviewed: 08/11/2023
-# Reviewed by  : GDE
+# Date reviewed:
+# Reviewed by  :
 
 # Description --------------------------------------------------------------
 
@@ -18,9 +18,8 @@
 
 # START of SCRIPT  --------------------------------------------------------
 
-
 #' Expand all variables in a dataset based on predefined actions
-#'
+#' 
 #' This function automates the expansion of variables in a dataset according to
 #' a set of predefined actions. If no action is specified, it retrieves the
 #' dictionary of actions. It identifies all variables within the dataset that
@@ -39,23 +38,25 @@
 #' # Assuming 'data' is a data frame and 'action' is defined or NULL to use default actions
 #' expandVarAll(data = data)
 #' }
-expandVarAll <- function(data, action=NULL){
+#'
+expandVarAll <- function(data, action = NULL){
   
   if(is.null(action)){
-    getDictionaryActions()
+    ds <- getDictionaryActions()
+  }else{
+    ds <- action
   }
   
-  expandActionGroup <- getActionGroup("expand")$variable # get list of all variables tagged for an action
+  expandActionGroup <- getActionGroup(actiontag ="expand", action)$variable # get list of all variables tagged for an action
   
   expandVars <- intersect(colnames(data), expandActionGroup) # Isolate all varnames associated with collapse action
   
   # loop through order of codes, searching for matches, and replacing when find.
   for (i in expandVars) {
     
-    InfoSource <- eval(parse(text = getVarActionParameters(i, "expand")))   # get list input for expanding variables
+    InfoSource <- eval(parse(text = getVarActionParameters(i, actiontag="expand", action=ds)))   # get list input for expanding variables
     
     data <- expandVar(data = data, varname = i, valueslist = InfoSource)
-    
   }
   
   return(data)

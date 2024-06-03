@@ -44,17 +44,19 @@
 collapseVarAll <- function(data, action=NULL){
   
   if(is.null(action)){
-    getDictionaryActions()
+    ds <- getDictionaryActions()
+  }else{
+    ds <- action
   }
   
-  collapseActionGroup <- getActionGroup("collapse")$variable # get list of all variables taged for an action
+  collapseActionGroup <- getActionGroup("collapse", action=ds)$variable # get list of all variables taged for an action
 
   collapseVars <- intersect(colnames(data), collapseActionGroup) # Isolate all varnames associated with collapse action
 
 # loop through order of codes, searching for matches, and replacing when find.
 for (i in collapseVars) {
   
-  CodeOrder <- eval(parse(text = getVarActionParameters(i, "collapse")))         # get collapse code hierachy list for each variable
+  CodeOrder <- eval(parse(text = getVarActionParameters(i, "collapse", action=ds)))         # get collapse code hierachy list for each variable
 
   data[,i] <- collapseVar(data = data, varname = i, hierarchy = CodeOrder)
 

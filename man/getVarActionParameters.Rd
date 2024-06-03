@@ -4,12 +4,14 @@
 \alias{getVarActionParameters}
 \title{getVarActionParameters}
 \usage{
-getVarActionParameters(variablename, actiontag)
+getVarActionParameters(variablename, actiontag, action = NULL)
 }
 \arguments{
 \item{variablename}{The variable for which we want to retrieve the the associated action parameters}
 
 \item{actiontag}{Name of the action group}
+
+\item{action}{Optional: specify object to use as action sheet}
 }
 \value{
 The parameters associated to the variable action
