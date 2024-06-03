@@ -34,6 +34,9 @@ in turn as specified by the dictionary_root_filename and filetags. Once opened i
 performs a grep search for the searchterm in the source_name and the generic_name
 colunms and lists all matching variablenames in a table.
 }
+\examples{
+\dontrun{ whoSendsThis("covaccin",c("country","other"),"c:/root_dico_dir","diconameroot") }
+}
 \seealso{
 For more details see the link below to access the vignette:
 \href{../doc/epiuf_package.html}{\code{vignette("epiuf_package")}}
