@@ -42,13 +42,14 @@
 #' @param dictionary_root_filename root filename for all the dictionaries that wish to search through, which change only by the filetag at the end
 #' @returns data.frame
 #' @export
+#' 
 #' @author STRAP team \email{strap@epiconcept.fr}
 #' @seealso
 #' For more details see the link below to access the vignette:
 #' \href{../doc/epiuf_package.html}{\code{vignette("epiuf_package")}}
 #'
 #' @examples
-#' 
+#' \dontrun{ whoSendsThis("covaccin",c("country","other"),"c:/root_dico_dir","diconameroot") }
 whoSendsThis <- function(searchterm
                          , filetags
                          , dictionary_location
