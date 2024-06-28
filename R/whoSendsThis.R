@@ -61,7 +61,7 @@ whoSendsThis <- function(searchterm
   # for each country
   for (ft in filetags){
     # pull in dictionary
-    openDictionary(paste0(dictionary_location,"/",dictionary_root_filename,ft,".xlsx"))
+    openDictionary(paste0(dictionary_location,"/",dictionary_root_filename,ft,".xlsx"), verbose = TRUE)
     ds <- getDictionary()
     # check source_name
     checkinsourcename <- grep(searchterm, ds$source_name, ignore.case = T)
