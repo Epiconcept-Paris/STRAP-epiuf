@@ -103,10 +103,10 @@ getDelayIf <- function(data, FirstDateName, SecondDateName, ...) {
   
   
   # check that variables format is Date
-  if (!is.Date(data[, FirstDateName])) {
+  if (!epiuf::isDate(data[, FirstDateName])) {
     stop(FirstDateName," is not Date format")
   }
-  if (!is.Date(data[, SecondDateName])) {
+  if (!epiuf::isDate(data[, SecondDateName])) {
     stop(SecondDateName," is not Date format")
   }
   

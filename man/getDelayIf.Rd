@@ -26,7 +26,7 @@ else NA is returned
 }
 \examples{
 \dontrun{
-   getDelayIf(data ,FirstDateName,SecondDateName, SecondDateName > FirstDateName + 14)
+   getDelayIf(data, FirstDateName, SecondDateName, SecondDateName > FirstDateName + 14)
 }
 
 }
