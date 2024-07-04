@@ -11,7 +11,7 @@ verifySpelling(varname, CorrectList, ErrPerc = 0.25, verbose = TRUE)
 or a list of strings in order to find similarity or sound like
 The objective is to automaticaly correct small mistake in wording}
 
-\item{CorrectList}{a string or a list of string from which code{varname} will be searched}
+\item{CorrectList}{a string or a list of string from which \code{varname} will be searched}
 
 \item{ErrPerc}{An acceptable errPerc when comparing string , default to 0.10\%}
 

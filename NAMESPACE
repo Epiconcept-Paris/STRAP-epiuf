@@ -3,6 +3,7 @@
 export(Month)
 export(abrvMonth)
 export(accessREDCap)
+export(addImage)
 export(addSep)
 export(applyDictionary)
 export(applyNA)

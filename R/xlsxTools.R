@@ -156,7 +156,7 @@ fillCells <- function(onesheet,
           # Checking if one of the condition is NULL and replace it with dimension of the object
           if(is.null(styleRowsIndex)) {styleRowsIndex <- 1:nrow(value)}
           if(is.null(styleColsIndex)) {styleColsIndex <- 1:ncol(value)}
-            
+          
           # Adding style at the proper location
           openxlsx::addStyle(wb = wb, 
                              sheet = onesheet, 
@@ -239,12 +239,12 @@ formatCells <- function(onesheet, line, col , style = NULL, wb = NULL, ...)
     col <- openxlsx::col2int(col)
   }
   if (is.null(wb)) wb <- epixlsx_env$report
-    if (! is.null(style)) {
+  if (! is.null(style)) {
     openxlsx::addStyle(wb, onesheet, style, line, col, ...)
   }   
   
 }  
-  
+
 
 #' createXlsxStyle
 #'
@@ -258,42 +258,141 @@ createXlsxStyle <- function(...) {
 }
 
 
-
-
-
-#' fillimage
+#' addImage
+#' 
+#' Insert either an existing image or the current plot into a worksheet.
 #'
-#' @param onesheet A sheet object from xlsx package
-#' @param image The filename of a previously saved image 
+#' @param onesheet A sheet object from openXlsx package
+#' @param image The filename of a previously saved image (format supported: jpeg, bmp, png) 
+#' or the name of the image in the current R environment
 #' @param line The line where to paste the image
-#' @param col The col where to paste the image
-#' @param wide Size of the image 
-#' @param high Size of the image
-#' @param unit For wide and high, default is "in" (Inch) 
+#' @param col The column where to paste the image
+#' @param wide Size of the image (in unit)
+#' @param high Size of the image (in unit)
+#' @param unit For wide and high, default is "in" (Inch) "cm" or "px" 
 #' @param spec.dpi 300 by default
 #' @param wb  An optional wb if not already opened
 #'  
 #' @return Nothing
+#' 
+#' @seealso [openxlsx::insertImage()], [openxlsx::insertPlot()]
+#' 
+#' @author Jenny Howard, Marine Maurel
 #'  
 #' @export
 #'
 #' @examples 
-#' \dontrun{ fillimage(onesheet = cells,image = graphname,line=2, col = 2, wb=template) }
+#' \dontrun{ 
+#' addImage(onesheet = cells, 
+#'           image = graphname, 
+#'           line = 2, 
+#'           col = 2, 
+#'           wb = template) 
+#' }
 #' 
-fillimage <- function(onesheet,image,line,col, wide=7, high=4 , unit = "in", spec.dpi=300, wb = NULL) {
+#' # Usage 1: Insert existing image saved as a PNG file
+#' xls_file <- externalFile("excelfile.xlsx")
+#' openXlsx(xls_file)
+#' cells <- openSheet("T2")
+#' image_file <- externalFile("image_xlsx.png")
+#' addImage(onesheet = cells, image = image_file, line = 20, col = 2)
+#' 
+#' # Usage 2: Insert current plot
+#' \dontrun{
+#' image_gg <- ggplot(Orange, 
+#'                    aes(x = age, y = circumference, colour = as.factor(Tree))) +
+#'                    geom_point() + 
+#'                    geom_line() +
+#'                    labs(colour = "Tree") + 
+#'                    theme_minimal()
+#' addImage(onesheet = cells, image = image_gg, line = 20, col = 2)
+#' }
+#'        
+addImage <-function(onesheet, 
+                    image, 
+                    line, 
+                    col, 
+                    wide = 7, 
+                    high = 4, 
+                    unit = "in", 
+                    spec.dpi = 300, 
+                    wb = NULL) {
   
-  if (is.character(col)){
-    col <- openxlsx::col2int(col)
+  # Convert the column label to integer
+  if (is.character(col)){col <- openxlsx::col2int(col)}
+  
+  # If any workbook is specified 
+  if (is.null(wb)){wb <- epixlsx_env$report}
+  
+  # If image is already saved somewhere, use openxlsx::insertImage() to add it to the Excel file
+  if (is.character(image)) {
+    
+    openxlsx::insertImage(wb, onesheet, file = image, width = wide, height = high,
+                          startCol = col, startRow = line, units = unit, dpi = spec.dpi)
+    
+    # Else if image is in the current R environment, use openxlsx::insertPlot() to add it to the Excel file
+  } else {
+    
+    # Display image
+    print(image)
+    
+    # Insert image into Excel file
+    openxlsx::insertPlot(wb, onesheet, width = wide, height = high,
+                         startCol = col, startRow = line, units = unit, dpi = spec.dpi)
+    
   }
-  
-  if (is.null(wb)) wb <- epixlsx_env$report
-  
-  openxlsx::insertImage( wb , onesheet, file = image, width = wide, height=high
-                         , startCol = col, startRow = line, units=unit, dpi=spec.dpi)
-  
-  
 }
 
+
+#' fillimage (depreciated)
+#' 
+#' Please note that this function will be depreciated. 
+#' Use addImage() instead: addImage(onesheet, image, line, col, wide, high, unit, spec.dpi, wb).
+#' Insert either an existing image or the current plot into a worksheet.
+#'
+#' @param ... Arguments of addImage() function
+#'  
+#' @return Nothing
+#' 
+#' @seealso [epiuf::addImage()]
+#' 
+#' @author Jenny Howard, Marine Maurel
+#'  
+#' @export
+#'
+#' @examples 
+#' \dontrun{ 
+#' addImage(onesheet = cells, 
+#'           image = graphname, 
+#'           line = 2, 
+#'           col = 2, 
+#'           wb = template) 
+#' }
+#' 
+#' # Usage 1: Insert existing image saved as a PNG file
+#' xls_file <- externalFile("excelfile.xlsx")
+#' openXlsx(xls_file)
+#' cells <- openSheet("T2")
+#' image_file <- externalFile("image_xlsx.png")
+#' addImage(onesheet = cells, image = image_file, line = 20, col = 2)
+#' 
+#' # Usage 2: Insert current plot
+#' \dontrun{
+#' image_gg <- ggplot(Orange, 
+#'                    aes(x = age, y = circumference, colour = as.factor(Tree))) +
+#'                    geom_point() + 
+#'                    geom_line() +
+#'                    labs(colour = "Tree") + 
+#'                    theme_minimal()
+#' addImage(onesheet = cells, image = image_gg, line = 20, col = 2)
+#' }
+#'        
+fillimage <-function(...) {
+  
+  message("Please note that this function will be depreciated. Use addImage() instead: addImage(onesheet, image, line, col, wide, high, unit, spec.dpi, wb).")
+  addImage(...)
+  
+}
 
 #' openSheet
 #'
@@ -316,14 +415,14 @@ openSheet <- function(sheetname, wb = NULL)  {
   } else { 
     report <- epixlsx_env$report
     if (is.null(epixlsx_env$report)) {
-       cat("Excel file must be loaded before opening a sheet")
+      cat("Excel file must be loaded before opening a sheet")
     } 
   }
   
   sheets <- names(report)  
   if ( !(sheetname %in% sheets)) {
-     warning("Sheet ", sheetname, " doesn't exist in workbook")
-     sheetname <- NULL 
+    warning("Sheet ", sheetname, " doesn't exist in workbook")
+    sheetname <- NULL 
   } 
   sheetname
 }
@@ -381,20 +480,20 @@ openXlsx <- function(filename="") {
 #' 
 saveXlsx <- function(filename="",wb=NULL)  {
   if (! is.null(wb)) {
-     report <- wb
+    report <- wb
   } 
   else { 
     report <- epixlsx_env$report
   }
   if (is.null(report)) {
-       cat("No Excel file loaded")
+    cat("No Excel file loaded")
   }
   else {
     if (filename=="") {
       filename <- epixlsx_env$reportFilename
     }
     openxlsx::saveWorkbook(report, filename, overwrite = TRUE)  ## save to working directory
-    cat("Workbook saved as :",filename)
+    cat("Workbook saved as :", filename, "\n")
   }
 }
 
