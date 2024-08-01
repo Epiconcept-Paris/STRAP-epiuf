@@ -310,4 +310,26 @@ lastDateMonth <- function(month, lc_time = "C"){
 }
 
 
+#' isDate
+#' 
+#' Uses the base function class to asses if an object is a date or not
+#' 
+#' @param date date object or variable that wish to test
+#' @returns logical
+#' @export
+#' @author STRAP team \email{strap@epiconcept.fr}
+#' @seealso
+#' For more details see the link below to access the vignette:
+#' \href{../doc/epiuf_package.html}{\code{vignette("epiuf_package")}}
+#'
+#' @examples
+#' isDate(epiuf::DummyData$EnrolmentDate)
+isDate <- function(date){
+  if(!is.null(date)){
+  output <- class(date) %in% c("Date", "POSIXt")
+  }else{stop("Object doesn't exist")}
+  
+  return(output)
+}
+
 # END of SCRIPT  --------------------------------------------------------

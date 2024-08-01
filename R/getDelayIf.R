@@ -40,7 +40,7 @@
 #'
 #' @examples
 #' \dontrun{
-#'    getDelayIf(data ,FirstDateName,SecondDateName, SecondDateName > FirstDateName + 14)
+#'    getDelayIf(data, FirstDateName, SecondDateName, SecondDateName > FirstDateName + 14)
 #' }
 #' 
 getDelayIf <- function(data, FirstDateName, SecondDateName, ...) {
@@ -95,25 +95,45 @@ getDelayIf <- function(data, FirstDateName, SecondDateName, ...) {
     stop(data, " is not a data frame")
   }
 
-  # we add a delay variable to the dataset (should we ?) 
-  tryCatch(
-    data$temp__delay <- as.numeric(data[, SecondDateName] - data[, FirstDateName])
-    , error = function(c) { stop(FirstDateName," or ",SecondDateName,"  is not a valid date for getDelayIf" )}
-  )
+  # # we add a delay variable to the dataset (should we ?) 
+  # tryCatch(
+  #   data$temp_dellay <- as.numeric(data[, SecondDateName] - data[, FirstDateName])
+  #   , error = function(c) { stop(FirstDateName," or ",SecondDateName,"  is not a valid date for getDelayIf" )}
+  # )
   
   
-  # we loop over condition if one exist
-  if (length(listcond)>0) {
+  # check that variables format is Date
+  if (!epiuf::isDate(data[, FirstDateName])) {
+    stop(FirstDateName," is not Date format")
+  }
+  if (!epiuf::isDate(data[, SecondDateName])) {
+    stop(SecondDateName," is not Date format")
+  }
+  
+  
+  # We loop over condition if one exist 
+  if (length(listcond) > 0) {
+    
     for (i in 1:length(listcond)) {
+      
       onecond = listcond[[1]]
+      
       # we get index of row which meet the condition 
       meet <- which(with(data,eval(onecond)))
-      # delay is NA if the condition is not meet
-      data[ ! meet,"temp__delay"] <- NA
+      
+      # Calculate delay for those meeting the condition
+      data[meet,"temp_delay"] <- as.numeric(data[meet, SecondDateName] - data[meet, FirstDateName])
     }
-  }  
-  result <- data$temp__delay
-  data$temp__delay <- NULL
+  } else{
+    
+    # If there is no condition, we calculate the delay for all
+    data[,"temp_delay"] <- as.numeric(data[, SecondDateName] - data[, FirstDateName])
+    
+  }
+  
+  result <- data$temp_delay
+  
+  data$temp_delay <- NULL
   
   return(result)
 }
