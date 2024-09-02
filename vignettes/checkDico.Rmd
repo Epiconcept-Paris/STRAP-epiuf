@@ -26,11 +26,27 @@ df <- data.frame(checkbox_var = c("0|2", "1|2|3", "3|1|2", "0", "2", "3", "0|1",
                  ,character_var = c("0","1","nd","3","","1","2","3",NA_character_)
 )
 
+#Create a dictionary for use in testing
+dictionary <- data.frame(source_name = colnames(df)
+                         ,generic_name = colnames(df)
+                         ,type = rep("factor", ncol(df))
+                         ,dico = rep("check", ncol(df))
+                         ,unknowns = rep(NA, ncol(df))
+                         ,description = c("a checkbox variable", "a numeric variable", "a character variable")
+                         ,comments = rep(NA, ncol(df))
+)
+
+dico1 <- data.frame(dico_name = "check"
+                   ,label = c("no", "yes", "maybe","sometimes")
+                   ,code = c(0, 1, 2, 3))
+dico2 <- data.frame(dico_name = "check"
+                   ,label = c("no", "yes", "maybe")
+                   ,code = c(0, 1, 2))
 ```
 
 
 ## Test correct dico numbers 
-```{r tests2}
+```{r tests1}
 checkDico(df, checkbox_var, c(0,1,2,3))
 checkDico(df, number_var, c(0,1,2,3))
 checkDico(df, character_var, c(0,1,2,3))
@@ -40,7 +56,7 @@ Expected output: nothing
 
 
 ## Test extra dico numbers 
-```{r tests3}
+```{r tests2}
 checkDico(df, checkbox_var, c(0,1,2,3,4))
 checkDico(df, number_var, c(0,1,2,3,4))
 checkDico(df, character_var, c(0,1,2,3,4))
@@ -50,7 +66,7 @@ Expected output: nothing
 
 
 ## Test missing dico numbers 
-```{r tests1}
+```{r tests3}
 checkDico(df, checkbox_var, c(0,1,2))
 checkDico(df, number_var, c(0,1,2))
 checkDico(df, character_var, c(0,1,2))
@@ -58,3 +74,23 @@ checkDico(df, character_var, c(0,1,2))
 
 Expected output: 
 [variable name] contains: 0 1 2 3 , Code is: 0 1 2
+
+## Test running on whole data using diciontary and dico
+```{r tests4}
+checkDicoAll(df,dictionary=dictionary, dicos=dico1)
+``` 
+Expected output:
+Comparison of codes used by variable and dico:
+checkbox_var matches dico 
+number_var matches dico 
+character_var matches dico 
+
+## Test running on whole data using diciontary and dico with less numbers than present
+```{r tests5}
+checkDicoAll(df,dictionary=dictionary, dicos=dico2)
+```
+Expected output:
+Comparison of codes used by variable and dico:
+checkbox_var contains: 0|2 1|2|3 3|1|2 0 2 3 0|1 2|3 NA , Code is: 0 1 2 
+number_var contains: 0 1 2 3 NA , Code is: 0 1 2 
+character_var contains: 0 1 nd 3  2 NA , Code is: 0 1 2 

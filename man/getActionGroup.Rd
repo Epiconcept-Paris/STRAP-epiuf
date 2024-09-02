@@ -4,10 +4,12 @@
 \alias{getActionGroup}
 \title{getActionGroup}
 \usage{
-getActionGroup(actiontag)
+getActionGroup(actiontag, action = NULL)
 }
 \arguments{
 \item{actiontag}{Name of the action group to retrieve}
+
+\item{action}{Optional: specify object to use as action sheet}
 }
 \value{
 dataset containing all the variables with actions of type actionname

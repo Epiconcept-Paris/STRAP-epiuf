@@ -4,10 +4,14 @@
 \alias{getDicoOfVar}
 \title{getDicoOfVar}
 \usage{
-getDicoOfVar(varname)
+getDicoOfVar(varname, dictionary = NULL, dico = NULL)
 }
 \arguments{
 \item{varname}{The variable for which we want to retrieve the name of the associated dico}
+
+\item{dictionary}{Optional: specify object to use as dictionary}
+
+\item{dico}{Optional: specify object to use as dico sheet}
 }
 \value{
 The name of the dico associated with the variable

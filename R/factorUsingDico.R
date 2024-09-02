@@ -48,10 +48,10 @@ factorUsingDico <- function(data, dictionary=NULL, dicos=NULL) {
 dicoVar <- intersect(colnames(data), dictionary$generic_name) # Isolate all varnames that are in the dictionary
   
   for (i in dicoVar){
-    diconame <- getDictionaryValue(i, "dico") # output, if dico not present, need standard output - like NA
+    diconame <- getDictionaryValue(i, "dico",dictionary = dictionary) # output, if dico not present, need standard output - like NA
     
   if (!is.na(diconame)){
-    dicopairs <- getDico(diconame)
+    dicopairs <- getDico(diconame, dico = dicos)
     
     data[,i] <- factorUsing(data,i, dicopairs$code, dicopairs$label)
   }else{
@@ -60,8 +60,5 @@ dicoVar <- intersect(colnames(data), dictionary$generic_name) # Isolate all varn
   }
   return(data)
 }
-
-df2 <- factorUsingDico(df)
-
 # END of SCRIPT  --------------------------------------------------------
   

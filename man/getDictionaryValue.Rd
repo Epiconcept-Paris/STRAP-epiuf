@@ -4,12 +4,18 @@
 \alias{getDictionaryValue}
 \title{getDictionaryValue}
 \usage{
-getDictionaryValue(varname, valuename = c("type", "dico", "unknowns"))
+getDictionaryValue(
+  varname,
+  valuename = c("type", "dico", "unknowns"),
+  dictionary = NULL
+)
 }
 \arguments{
 \item{varname}{The varname for which we will retrieve content of one column from dictionary}
 
 \item{valuename}{Name of the coulumn to retrieve from dictionary}
+
+\item{dictionary}{Optional: specify object to use as dictionary}
 }
 \value{
 A single value

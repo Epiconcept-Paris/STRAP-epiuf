@@ -37,15 +37,15 @@
 checkDicoAll <- function(data, dictionary=NULL, dicos=NULL) {
   
   if(is.null(dictionary)){          # retrieve dictionary from global environment if none specified
-    dictionary <- getDictionary()
+    ds <- getDictionary()
   }else{
-    dictionary <- dictionary
+    ds <- dictionary
   }
   
   if(is.null(dicos)){          # retrieve dico from global environment if none specified
-    dicos <- getDicos()
+    dic <- getDicos()
   }else {
-    dicos <- dicos
+    dic <- dicos
   }
   
   # Pint header message
@@ -54,13 +54,13 @@ checkDicoAll <- function(data, dictionary=NULL, dicos=NULL) {
   bold("Comparison of codes used by variable and dico:")
   catret()
 
-  dicoVar <- intersect(colnames(data), dictionary$generic_name) # Isolate all varnames that are in the dictionary
+  dicoVar <- intersect(colnames(data), ds$generic_name) # Isolate all varnames that are in the dictionary
   
   for (i in dicoVar){
-    diconame <- getDictionaryValue(i, "dico") # output, if dico not present, need standard output - like NA
+    diconame <- getDictionaryValue(i, "dico", dictionary=ds) # output, if dico not present, need standard output - like NA
 
     if (!is.na(diconame)){
-      dicopairs <- getDico(diconame)
+      dicopairs <- getDico(diconame, dico=dic)
       checkDico(data, i, dicopairs$code)
     }else{
       cat()

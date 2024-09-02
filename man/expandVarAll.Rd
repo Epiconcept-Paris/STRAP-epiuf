@@ -26,4 +26,5 @@ have been tagged for expansion and applies the expansion action to each.
 # Assuming 'data' is a data frame and 'action' is defined or NULL to use default actions
 expandVarAll(data = data)
 }
+
 }

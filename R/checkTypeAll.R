@@ -39,9 +39,9 @@
 checkTypeAll <- function(data, dictionary=NULL, flag=NULL) {
   
   if(is.null(dictionary)){          # retrieve dictionary from global environment if none specified
-    dictionary <- getDictionary()
+    ds <- getDictionary()
   }else{
-    dictionary <- dictionary
+    ds <- dictionary
   }
   
   # Pint header message
@@ -50,11 +50,11 @@ checkTypeAll <- function(data, dictionary=NULL, flag=NULL) {
   bold("Comparison of variable type in dataset and in the dictionary:")
   catret()
   
-  typeVar <- intersect(colnames(data), dictionary$generic_name) # Isolate all varnames that are in the dictionary
+  typeVar <- intersect(colnames(data), ds$generic_name) # Isolate all varnames that are in the dictionary
   
   if(is.null(flag)){ # if flag is null, print all comparisons
   for (i in typeVar){
-    typename <- getDictionaryValue(i, "type") # output, if type not present, need standard output - like NA
+    typename <- getDictionaryValue(i, "type", dictionary = ds) # output, if type not present, need standard output - like NA
     
     if (!is.na(typename)){
       checkType(data, i, typename)
@@ -64,7 +64,7 @@ checkTypeAll <- function(data, dictionary=NULL, flag=NULL) {
   }
   }else{
     for (i in typeVar){
-      typename <- getDictionaryValue(i, "type") # output, if type not present, need standard output - like NA
+      typename <- getDictionaryValue(i, "type", dictionary = ds) # output, if type not present, need standard output - like NA
       vartype <- class(data[,i])
       
       if (!is.na(typename)&(typename==flag|vartype==flag)){ # for only the type of variable flagged show output
