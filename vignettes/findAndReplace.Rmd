@@ -107,18 +107,18 @@ listonly parameters allow to check how many changes will be done.
 
 ```{r replaceinFiles}
   # replace in 2 files (count only)
-  filesFindReplace(c(file1,file2),pattern="oldword",replacement = "newword",listonly=TRUE)
+  listchanged <- filesFindReplace(c(file1,file2),pattern="oldword",replacement = "newword",listonly=TRUE)
   # replace 2 pattern at a time (count only) 
-  filesFindReplace(file3,pattern=c("oldword","old_word"),replacement = "newword",listonly=TRUE)
+   listchanged <- filesFindReplace(file3,pattern=c("oldword","old_word"),replacement = "newword",listonly=TRUE)
   # replace by modifying the original file
-  filesFindReplace(file1,pattern="oldword",replacement = "newword")
+   listchanged <- filesFindReplace(file1,pattern="oldword",replacement = "newword")
   cat(readLines(file1),sep="\n")
   # replace in a directory or use a file filter
-  filesFindReplace("temp_*.R",pattern="oldword",replacement = "newword")
+   listchanged <- filesFindReplace("temp_*.R",pattern="oldword",replacement = "newword")
   
    writeLines(lines, file1)
    # replace several pattern by several replacement at same time
-  filesFindReplace(file1,pattern=c("oldword","script"),replacement = c("newword","text"))
+   listchanged <- filesFindReplace(file1,pattern=c("oldword","script"),replacement = c("newword","text"))
   cat(readLines(file1),sep="\n")
   
 ```
