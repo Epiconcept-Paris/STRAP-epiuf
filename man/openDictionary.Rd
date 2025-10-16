@@ -7,7 +7,7 @@
 openDictionary(filename)
 }
 \arguments{
-\item{filename}{The file (xls) containing a dictionary. The dictionary will be loaded}
+\item{filename}{Character string, path to the file (xls) containing a dictionary. The dictionary will be loaded.}
 }
 \value{
 Nothing

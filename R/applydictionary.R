@@ -55,7 +55,7 @@ getDictionary <- function() {
 
 #' openDictionary
 #'
-#' @param filename The file (xls) containing a dictionary. The dictionary will be loaded
+#' @param filename Character string, path to the file (xls) containing a dictionary. The dictionary will be loaded.
 #'
 #' @return Nothing
 #' @export
