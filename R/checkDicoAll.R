@@ -26,7 +26,9 @@
 
 #' checkDicoAll
 #'
-#' @param data Dataset to process
+#'Compares a data.frame to the contents of an optional dictionary. Flags a warning if the dictionary contains numbers not specified in the data.frame. 
+#'
+#' @param data Dataset to process (data.frame)
 #' @param dictionary An optional dictionary (epiuf strucure see \link{getDictionary}) 
 #' @param dicos A Dico structure containing code and labels  
 #'

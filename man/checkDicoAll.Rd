@@ -7,7 +7,7 @@
 checkDicoAll(data, dictionary = NULL, dicos = NULL)
 }
 \arguments{
-\item{data}{Dataset to process}
+\item{data}{Dataset to process (data.frame)}
 
 \item{dictionary}{An optional dictionary (epiuf strucure see \link{getDictionary})}
 
@@ -17,5 +17,5 @@ checkDicoAll(data, dictionary = NULL, dicos = NULL)
 text outputs
 }
 \description{
-checkDicoAll
+Compares a data.frame to the contents of an optional dictionary. Flags a warning if the dictionary contains numbers not specified in the data.frame.
 }
