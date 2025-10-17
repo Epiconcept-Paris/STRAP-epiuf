@@ -9,13 +9,13 @@ pathToFile(pathname, filename)
 \arguments{
 \item{pathname}{Label for saved path}
 
-\item{filename}{Name of the file to retreive, may contain subdir}
+\item{filename}{Name of the file to retrieve, may contain subdir}
 }
 \value{
 the full name of the file
 }
 \description{
-construct an absolute path to a file using file name and saved/labeled path
+Constructs an absolute path to a file (e.g a folder) using a previously set saved path name (see setPath) and the file name.
 }
 \examples{
 pathToFile("data","cleanedrecords.csv")

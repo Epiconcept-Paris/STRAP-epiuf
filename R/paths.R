@@ -154,10 +154,11 @@ sourceFile <- function(pathname, filename )  {
 
 #' pathToFile
 #' 
-#' construct an absolute path to a file using file name and saved/labeled path
+#' Constructs an absolute path to a file (e.g a folder) using a previously set saved path name (see setPath) and the file name.
+#' 
 #'
 #' @param pathname Label for saved path
-#' @param filename Name of the file to retreive, may contain subdir 
+#' @param filename Name of the file to retrieve, may contain subdir 
 #'
 #' @return the full name of the file 
 #' @export
@@ -176,5 +177,6 @@ pathToFile <- function(pathname, filename) {
   return(r)
 }
 
+#'@seealso setPath()
 
 # END of SCRIPT  --------------------------------------------------------
