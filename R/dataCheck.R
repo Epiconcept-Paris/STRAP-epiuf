@@ -143,21 +143,21 @@ listIf <- function(data, varname=NULL, cond=NULL, collapse=FALSE,na.rm = FALSE){
 
 #' printIf
 #' 
-#' Prints the list of IDs meeting the specified condition
+#' Prints specified text when a certain condition is met. 
 #'  
-#' @param data  A dataframe to look for condition  
-#' @param cond  A condition to check  
-#' @param text The message to print (if empty the condition is used)
-#' @param threshold Cutoff number for ID reporting, as number
-#' @param varname Column name of ID to print
-#' @param na.rm Remove missing ID in the list to print, by default is False
+#' @param data  A dataframe to look for the condition (data.frame). 
+#' @param cond  The condition to check.  
+#' @param text The message to print (if empty the condition is used).
+#' @param threshold Cutoff number of outputs meeting this condition.
+#' @param varname Column name of output to print. 
+#' @param na.rm Remove missing output values in the list to print, by default is False.
 #'
 #' @return Message to print as list 
 #' @export 
 #'
 #' @examples
 #' df <- data.frame(ID = 1:4, Vaccs = c("pfizer"," ", "pfizer", "moderna"))
-#' printIf(data = df, cond = Vaccs == "pfizer", threshold = 30, text = "Pfizer vaccin", varname = "ID")
+#' printIf(data = df, cond = Vaccs == "pfizer", threshold = 30, text = "Pfizer vaccine", varname = "ID")
 
 printIf<- function(data,  cond, text = "", threshold = NULL , varname = "id", na.rm = FALSE){
   

@@ -7,25 +7,25 @@
 printIf(data, cond, text = "", threshold = NULL, varname = "id", na.rm = FALSE)
 }
 \arguments{
-\item{data}{A dataframe to look for condition}
+\item{data}{A dataframe to look for the condition (data.frame).}
 
-\item{cond}{A condition to check}
+\item{cond}{The condition to check.}
 
-\item{text}{The message to print (if empty the condition is used)}
+\item{text}{The message to print (if empty the condition is used).}
 
-\item{threshold}{Cutoff number for ID reporting, as number}
+\item{threshold}{Cutoff number of outputs meeting this condition.}
 
-\item{varname}{Column name of ID to print}
+\item{varname}{Column name of output to print.}
 
-\item{na.rm}{Remove missing ID in the list to print, by default is False}
+\item{na.rm}{Remove missing output values in the list to print, by default is False.}
 }
 \value{
 Message to print as list
 }
 \description{
-Prints the list of IDs meeting the specified condition
+Prints specified text when a certain condition is met.
 }
 \examples{
 df <- data.frame(ID = 1:4, Vaccs = c("pfizer"," ", "pfizer", "moderna"))
-printIf(data = df, cond = Vaccs == "pfizer", threshold = 30, text = "Pfizer vaccin", varname = "ID")
+printIf(data = df, cond = Vaccs == "pfizer", threshold = 30, text = "Pfizer vaccine", varname = "ID")
 }
