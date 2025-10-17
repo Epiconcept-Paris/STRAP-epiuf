@@ -7,19 +7,31 @@
 applyDictionary(dictionary = NULL, data, verbose = TRUE, keepextra = FALSE)
 }
 \arguments{
-\item{dictionary}{A dictionary (passed as dataframe)}
+\item{dictionary}{A dictionary (passed as data.frame)}
 
-\item{data}{A dataset to transform to generic}
+\item{data}{A dataset to transform to generic structure of the dictionary (data.frame)}
 
-\item{verbose}{Should we have feedback}
+\item{verbose}{Feedback regarding matching of the two}
 
-\item{keepextra}{if TRUE, extra variables existing in data but not in generic dictionary are keep
+\item{keepextra}{if TRUE, extra variables existing in data but not in generic dictionary are kept
 in the returned dataset. Then this generic dataset is no longer generic because it may contain
-non generic variables}
+non generic variables.}
 }
 \value{
 A data set
 }
 \description{
-applyDictionary
+Updates dataset to the dictionary generic structure.
+}
+\examples{
+# The output will be a dataset with columns renamed to match that of the dictionary. 
+
+source <- data.frame(source1=c(1,2,3),source2=c(2,3,4),source3=c(4,5,6),source6=c(6,7,8))
+
+dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA),
+ source_name=c("source1","source2","source3",NA,NA,"source6"),
+ type=c("numeric","numeric","character","numeric","character",NA))
+
+new <- applyDictionary(dictionary=dic,data=source)
+
 }
