@@ -13,5 +13,12 @@ openDictionary(filename)
 Nothing
 }
 \description{
-openDictionary
+Imports a dictionary into the environment.
+}
+\examples{
+# example code
+ 
+ file1 <- externalFile("genericdictionary.xlsx")
+ dictionary <- openDictionary(file1)
+
 }

@@ -55,11 +55,20 @@ getDictionary <- function() {
 
 #' openDictionary
 #'
+#'Imports a dictionary into the environment.  
+#'
 #' @param filename Character string, path to the file (xls) containing a dictionary. The dictionary will be loaded.
 #'
 #' @return Nothing
+#' 
+#' @examples
+#' # example code
+#'  
+#'  file1 <- externalFile("genericdictionary.xlsx")
+#'  dictionary <- openDictionary(file1)
+#' 
 #' @export
-#'
+#' 
 
 openDictionary <-  function(filename) {
   # need more checks to verify that sheet exists with good name ! 
