@@ -22,12 +22,16 @@
 
 
 #' applyNAAll
+#' 
+#' Recode certain variables in a dataset to NA using either the default dictionary or a specified dictionary. 
+#' 
 #'
-#' @param data The dataset where to applyNA for each variable using the dictionnary
+#' @param data The dataset where to applyNA for each variable using the dictionnary (data.frame)
 #' @param dictionary an optional dictionary (epiuf strucure see \link{getDictionary})
 #' @param join Should default NA value added to those from dictionary 
 #'
 #' @return data.frame and printed output
+#' 
 #' @export
 #'
 #' 
@@ -54,6 +58,8 @@ applyNAAll <- function(data, dictionary=NULL, join=TRUE){
   }
   return(data)
 }
+
+
 
 
 # END of SCRIPT  --------------------------------------------------------

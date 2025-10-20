@@ -7,7 +7,7 @@
 applyNAAll(data, dictionary = NULL, join = TRUE)
 }
 \arguments{
-\item{data}{The dataset where to applyNA for each variable using the dictionnary}
+\item{data}{The dataset where to applyNA for each variable using the dictionnary (data.frame)}
 
 \item{dictionary}{an optional dictionary (epiuf strucure see \link{getDictionary})}
 
@@ -17,5 +17,5 @@ applyNAAll(data, dictionary = NULL, join = TRUE)
 data.frame and printed output
 }
 \description{
-applyNAAll
+Recode certain variables in a dataset to NA using either the default dictionary or a specified dictionary.
 }
