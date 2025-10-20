@@ -21,22 +21,30 @@
 
 # START of SCRIPT  --------------------------------------------------------
 
-#' Count Number of Records
+#' Countif
 #' 
-#' Simple count of records satisfying  a conditional expression
+#' Simple count of records satisfying  a conditional expression.
 #'
-#' @param data The dataset where records should be counted 
-#' @param cond A logical expression 
+#' @param data The dataset where records should be counted (data.frame) 
+#' @param cond A logical expression (e.g Vaccs == 'pfizer')
 #'
 #' @return Number of records
 #' @export
 #'
 #' @examples
 #' 
+#' # Count records with one condition 
 #' df <- data.frame(Id = 1:4 ,
-#'                  Vaccs = c("pfizer"," ", "pfizer", "moderna"))
-#' countIf(df)               
+#'                  Vaccs = c("pfizer"," ", "pfizer", "moderna"),
+#'                  Age <- c(25, 30, 45, 50),
+#'                  Dose <- c(1, 2, 1, 2))
+#'
 #' countIf(df,Vaccs=='pfizer')
+#' 
+#' # Count records with two conditions 
+#' 
+#' countIf(df,Vaccs=='pfizer' & Dose == '2')
+#' 
 
 countIf <- function(data, cond = NULL) {
   

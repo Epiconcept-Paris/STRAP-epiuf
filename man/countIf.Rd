@@ -2,25 +2,33 @@
 % Please edit documentation in R/dataCheck.R
 \name{countIf}
 \alias{countIf}
-\title{Count Number of Records}
+\title{Countif}
 \usage{
 countIf(data, cond = NULL)
 }
 \arguments{
-\item{data}{The dataset where records should be counted}
+\item{data}{The dataset where records should be counted (data.frame)}
 
-\item{cond}{A logical expression}
+\item{cond}{A logical expression (e.g Vaccs == 'pfizer')}
 }
 \value{
 Number of records
 }
 \description{
-Simple count of records satisfying  a conditional expression
+Simple count of records satisfying  a conditional expression.
 }
 \examples{
 
+# Count records with one condition 
 df <- data.frame(Id = 1:4 ,
-                 Vaccs = c("pfizer"," ", "pfizer", "moderna"))
-countIf(df)               
+                 Vaccs = c("pfizer"," ", "pfizer", "moderna"),
+                 Age <- c(25, 30, 45, 50),
+                 Dose <- c(1, 2, 1, 2))
+
 countIf(df,Vaccs=='pfizer')
+
+# Count records with two conditions 
+
+countIf(df,Vaccs=='pfizer' & Dose == '2')
+
 }
