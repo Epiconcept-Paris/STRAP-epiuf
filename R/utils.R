@@ -114,23 +114,30 @@ rename <- function(data, oldname, newname) {
 
 
 
-#' Output to the console and go next line
+#' Catret
+#' 
+#' Catret concatenates the provided entry and prints the result in the console. Any text function (e.g. catret or cat) used after catret will be printed on a new line.  
+#' 
 #'
+#' Catret is a wrapper for the base function 'cat'. It takes any number of arguments. 
 #'
-#' catret is a wrapper for cat(...,"newline").
+#' @param ... A list of values to be concatenated for console output. Direct text should be written in "" and seperated using ','. See examples. 
 #'
-#' catret concatenate all provided entry and
-#' output the result to the console, then out a carriage return to make any further cat
-#' function to start on the next line.
-#'
-#' @param ... list of values to be concatenated for console output
-#'
-#' @return  nothing
+#' @return  Text in the console.
 #' @export
 #'
 #' @examples
-#' {cat("un ");catret("test");cat("second")}
+#' # Simple text 
+#' catret("A line of simple text")
+#' 
+#' # Printing text and a value found in the environment
+#' site <- 'ES'
+#' catret("The site", site, "has a large population")
 #'
+#' # Example of catret printing the next function on a new line 
+#' {catret("elephant"); catret("cow"); cat("dog")}
+#'
+#' @seealso cat()
 #'
 catret  <- function(...) {
   cat(...,"\n")
