@@ -31,5 +31,5 @@ catret("The site", site, "has a large population")
 
 }
 \seealso{
-cat()
+\code{\link[=cat]{cat()}}
 }

@@ -137,7 +137,7 @@ rename <- function(data, oldname, newname) {
 #' # Example of catret printing the next function on a new line 
 #' {catret("elephant"); catret("cow"); cat("dog")}
 #'
-#' @seealso cat()
+#' @seealso [cat()]
 #'
 catret  <- function(...) {
   cat(...,"\n")
