@@ -2,7 +2,7 @@
 % Please edit documentation in R/freq.R
 \name{freq}
 \alias{freq}
-\title{Frequency distribution.}
+\title{freq}
 \usage{
 freq(x, y = NULL, missing = FALSE, quietly = FALSE)
 }
@@ -11,20 +11,30 @@ freq(x, y = NULL, missing = FALSE, quietly = FALSE)
 
 \item{y}{As numbers, factors or text.}
 
-\item{missing}{If false then missing values are not included in the table
-A summary output of number of missing values is added at the end}
+\item{missing}{If FALSE, then missing values are not included in the table. A summary output of number of missing values is added at the end.}
 
 \item{quietly}{No output, only return value}
 }
 \value{
-An array containing  values of \code{...}   \code{}
+An array containing values.
 }
 \description{
-\code{freq} Display a frequency distribution.
-#'
+This function is used to display a frequency distribution.
 }
 \examples{
-freq(c(3,1,2,2,5))
+
+# Create an example data frame
+set.seed(42)
+
+df <- data.frame(
+Gender = sample(c("Male", "Female"), 30, replace = TRUE),
+Department = sample(c("HR", "Finance", "IT", "Marketing"), 30, replace = TRUE),
+Satisfaction = sample(c("Low", "Medium", "High"), 30, replace = TRUE)
+)
+
+# Create frequency distribution table 
+freq(df$Gender)
+
 
 
 }

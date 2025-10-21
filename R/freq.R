@@ -1,27 +1,51 @@
 # epifield documentation for RData using roxygen2
-#' @title
-#' Frequency distribution.
+#' 
+#' 
+#' 
+#' 
+#' @title freq
+#' 
 #' @description
-#' \code{freq} Display a frequency distribution.
-#' #'
+#' This function is used to display a frequency distribution.
+#' 
 #'
 #' @name freq
+#'
+
+#' @export
+#' @param x As numbers, factors or text.
+#' @param y As numbers, factors or text.
+#' @param missing If FALSE, then missing values are not included in the table. A summary output of number of missing values is added at the end.
+#' @param quietly No output, only return value
+#' @return An array containing values. 
 #'
 #' @author Gilles Desve
 #' @references Based on: \emph{Epi6} and \emph{Stata} functionnality,
 #' available at \url{https://github.com/}.
 #'
 #' @seealso \code{\link{table}} for 2by2 tables
-#' @export
-#' @param x As numbers, factors or text.
-#' @param y As numbers, factors or text.
-#' @param missing If false then missing values are not included in the table
-#'   A summary output of number of missing values is added at the end
-#' @param quietly No output, only return value
-#' @return An array containing  values of \code{...}   \code{}
+#'
+#'
 #'
 #' @examples
-#' freq(c(3,1,2,2,5))
+#' 
+#' # Create an example data frame
+#' set.seed(42)
+#' 
+#' df <- data.frame(
+#' Gender = sample(c("Male", "Female"), 30, replace = TRUE),
+#' Department = sample(c("HR", "Finance", "IT", "Marketing"), 30, replace = TRUE),
+#' Satisfaction = sample(c("Low", "Medium", "High"), 30, replace = TRUE)
+#' )
+#' 
+#' # Create frequency distribution table 
+#' freq(df$Gender)
+#' 
+
+
+
+
+
 #'
 #'
 freq <- function(x,y=NULL,missing=FALSE,quietly = FALSE) {
