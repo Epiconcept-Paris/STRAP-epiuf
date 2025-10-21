@@ -2,7 +2,7 @@
 % Please edit documentation in R/readData.R
 \name{readData}
 \alias{readData}
-\title{Read Data from Various File Types}
+\title{readData}
 \usage{
 readData(
   filename = "",
@@ -15,7 +15,7 @@ readData(
 )
 }
 \arguments{
-\item{filename}{String specifying the path of the file to read. If empty, opens a file dialog.}
+\item{filename}{String specifying the path of the file to read, written in "". If empty, opens a file dialog.}
 
 \item{factorise}{Logical, if TRUE factorizes the data.}
 
@@ -40,6 +40,8 @@ It provides options to factorize, convert column names to lowercase, and add lab
 If no filename is provided, a file dialog will be opened for the user to select a file.
 }
 \examples{
+
+# Load the data set 'flucases'
 readData("flucases.csv")
 
 

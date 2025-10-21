@@ -22,13 +22,13 @@
 
 # START of SCRIPT  --------------------------------------------------------
 
-#' Read Data from Various File Types
+#' readData
 #'
 #' This function reads data from various file types such as CSV, DTA (Stata), REC (EpiInfo), RDA/RDATA, RDS, and Excel files. 
 #' It provides options to factorize, convert column names to lowercase, and add labels to the data.
 #' If no filename is provided, a file dialog will be opened for the user to select a file.
 #'
-#' @param filename String specifying the path of the file to read. If empty, opens a file dialog.
+#' @param filename String specifying the path of the file to read, written in "". If empty, opens a file dialog.
 #' @param factorise Logical, if TRUE factorizes the data.
 #' @param lowercase Logical, if TRUE converts column names to lowercase.
 #' @param label Optional label to add to the data.
@@ -46,6 +46,8 @@
 #' @importFrom readxl read_excel     
 #'
 #' @examples
+#' 
+#' # Load the data set 'flucases'
 #' readData("flucases.csv")
 #' 
 #' 
