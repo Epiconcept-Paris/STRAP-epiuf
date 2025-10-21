@@ -464,14 +464,18 @@ openXlsx <- function(filename="") {
 }
 
 
-#' saveXlsx 
-#'        This function save the current workbook as filename  
+
+#' @title saveXlsx 
+#'        
+#' @description
+#' This function saves the current workbook as a filename.   
 #'
-#' @param wb A optional workbook created or opened by xlsx
-#'                 If not specified, the last workbook loaded with loadXlsx will be used
-#' @param filename An optional filename (if empty the current filename will be used )
+#' @param filename Specify an optional filename (xlsx). If empty the current name of the workbook will be used.
 #'
-#' @return nothing
+#' @param wb An optional workbook created or opened by xlsx. 
+#' If not specified, the last workbook loaded with openXlsx will be used.
+#'
+#' @return Saved file
 #' @export
 #' @importFrom openxlsx saveWorkbook
 #'
@@ -493,6 +497,8 @@ openXlsx <- function(filename="") {
 #' \dontrun{
 #' saveXlsx(filename = "test.xlsx", wb = wb)
 #' }
+#' 
+#' @seealso [openXlsx()]
 #' 
 saveXlsx <- function(filename="",wb=NULL)  {
   if (! is.null(wb)) {

@@ -2,23 +2,21 @@
 % Please edit documentation in R/xlsxTools.R
 \name{saveXlsx}
 \alias{saveXlsx}
-\title{saveXlsx
-This function save the current workbook as filename}
+\title{saveXlsx}
 \usage{
 saveXlsx(filename = "", wb = NULL)
 }
 \arguments{
-\item{filename}{An optional filename (if empty the current filename will be used )}
+\item{filename}{Specify an optional filename (xlsx). If empty the current name of the workbook will be used.}
 
-\item{wb}{A optional workbook created or opened by xlsx
-If not specified, the last workbook loaded with loadXlsx will be used}
+\item{wb}{An optional workbook created or opened by xlsx.
+If not specified, the last workbook loaded with openXlsx will be used.}
 }
 \value{
-nothing
+Saved file
 }
 \description{
-saveXlsx
-This function save the current workbook as filename
+This function saves the current workbook as a filename.
 }
 \examples{
 
@@ -39,4 +37,7 @@ fillCells(wb = wb,
 saveXlsx(filename = "test.xlsx", wb = wb)
 }
 
+}
+\seealso{
+\code{\link[=openXlsx]{openXlsx()}}
 }
