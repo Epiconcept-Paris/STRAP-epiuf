@@ -25,23 +25,32 @@
 
 #' getDelayIf
 #' 
-#' return the delay between two date with condition
-#' if condition are validated then the delay in days from date one to date two is returned 
-#' else NA is returned  
+#' This function returns the delay between two dates with a condition.
+#' If the condition is validated then the delay in days from date one to date two is returned, 
+#' else NA is returned.  
 #'
-#' @param data The dataset containing the values
-#' @param FirstDateName The first date 
-#' @param SecondDateName The second date
-#' @param ... one or more logical condition to validate. If one of the condition is not TRUE, 
-#'            NA is returned instead of the calculated delay 
+#' @param data The dataset containing the values (data.frame).
+#' @param FirstDateName The first date (as.Date).
+#' @param SecondDateName The second date (as.Date).
+#' @param ... One or more logical condition to validate. If one of the condition is not TRUE, 
+#'            NA is returned instead of the calculated delay. 
 #'
-#' @return a vector of the same length than the passed dataset
+#' @return A vector with the same length of the input dataset.
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#'    getDelayIf(data, FirstDateName, SecondDateName, SecondDateName > FirstDateName + 14)
-#' }
+#' 
+#' # Create a random data frame with two date variables
+#' df <- data.frame(date1 = c("2023-01-01", "2023-01-02", "2023-01-03", "2023-01-04")
+#' ,date2 = c("2023-02-01", "2023-02-02", "2023-04-03", "2023-03-04")
+#' ,id = c("a", "b", "c", "d"))
+#' 
+#' # Convert them to the correct format 
+#' df$date1 <- as.Date(df$date1)
+#' df$date2 <- as.Date(df$date2)
+#' 
+#' # Use the function 
+#' df$test <- ifelse(getDelayIf(df, date1, date2)>40, 1, 0) 
 #' 
 getDelayIf <- function(data, FirstDateName, SecondDateName, ...) {
   
