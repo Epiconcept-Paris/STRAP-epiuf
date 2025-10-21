@@ -24,19 +24,26 @@
 
 #' setPath
 #' 
-#' Set a named path to avoid absolute path in R scripts
+#' Set a named path to avoid absolute path in R scripts. Creates a short cut to folders and files. 
 #'
-#' @param pathname pathname Label 
-#' @param path absolute path to associate with the pathname
-#' @param makedir if "Force" path will be created if it doesn't exist, if "Never" path will not be created and 
+#' @param pathname Pathname label specified in "". 
+#' @param path Path to the desired folder or file that you want linked with the pathname. See function 'pathToFile()'.
+#' @param makedir If "Force" path will be created if it doesn't exist, if "Never" path will not be created and 
 #'                a warning will pop if path is missing. If set to "Ask" a prompt will ask for confirmation before 
-#'                creating the missing directory 
+#'                creating the missing directory. 
 #'
 #' @return Previous defined path 
 #' @export
 #'
+#' @seealso [pathToFile()] and [getPath()]
+#'
 #' @examples
-#' setPath("SOURCES","c:/dev/Rsources", makedir = "Never")
+#' 
+#' # Set a path named 'sources' 
+#' setPath(pathname = "SOURCES", 
+#'     path = "c:/dev/Resources", 
+#'     makedir = "Never")
+#' # Check path is properly set 
 #' getPath("SOURCES")
 #' 
 #' # Setting a name/keyword associated to a specific path
@@ -45,6 +52,8 @@
 #'         makedir = "Never")
 #' # Checking the path is properly set
 #' getPath("DATA")
+#' 
+#' 
 #' 
 setPath <-  function(pathname, path, makedir = c("Ask","Force","Never")) {
   s_op <- deparse(substitute(pathname))
