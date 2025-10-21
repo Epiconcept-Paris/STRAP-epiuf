@@ -396,18 +396,27 @@ fillimage <-function(...) {
 
 #' openSheet
 #'
-#' @param sheetname The name of the sheet to load 
+#'This function is used to get the contents of one sheet from a previously loaded workbook. 
+#'
+#'
+#' @param sheetname The name of the sheet to load. Needs to be specified in "". 
 #' @param wb       A optional workbook created or opened by xlsx.
-#'                 If not specified, the last workbook loaded with openXlsx will be used
+#'                 If not specified, the last workbook loaded with openXlsx will be used.
 #'
 #' @return  Character string of the name of the sheet
 #' @importFrom openxlsx createWorkbook    
 #' @export
 #'
 #' @examples
+#'  
+#'  # Create workbook 
 #'  wb <- openxlsx::createWorkbook()
+#'  
+#'  # Create a worksheet within that workbook
 #'  openxlsx::addWorksheet(wb, sheetName = "First Sheet")
-#'  openSheet("First Sheet",wb)
+#'  
+#'  # Load specified sheet into the environment 
+#'  sheet <- openSheet("First Sheet",wb)
 #' 
 openSheet <- function(sheetname, wb = NULL)  {
   if (! is.null(wb)) {

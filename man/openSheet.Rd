@@ -7,20 +7,26 @@
 openSheet(sheetname, wb = NULL)
 }
 \arguments{
-\item{sheetname}{The name of the sheet to load}
+\item{sheetname}{The name of the sheet to load. Needs to be specified in "".}
 
 \item{wb}{A optional workbook created or opened by xlsx.
-If not specified, the last workbook loaded with openXlsx will be used}
+If not specified, the last workbook loaded with openXlsx will be used.}
 }
 \value{
 Character string of the name of the sheet
 }
 \description{
-openSheet
+This function is used to get the contents of one sheet from a previously loaded workbook.
 }
 \examples{
+ 
+ # Create workbook 
  wb <- openxlsx::createWorkbook()
+ 
+ # Create a worksheet within that workbook
  openxlsx::addWorksheet(wb, sheetName = "First Sheet")
- openSheet("First Sheet",wb)
+ 
+ # Load specified sheet into the environment 
+ sheet <- openSheet("First Sheet",wb)
 
 }
