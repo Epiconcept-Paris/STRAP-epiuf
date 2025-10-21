@@ -10,5 +10,23 @@ getDictionary()
 The current dictionary
 }
 \description{
-getDictionary
+This function loads the most recent dictionary set into the environment.
+}
+\examples{
+# Create an example dataset 
+dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA,NA),
+ source_name=c("source1","source2","source3","",NA,"source6",NA),
+  type=c("numeric","numeric","numeric","character"," ","character",NA)
+  )
+
+# Set the current dictionary 
+ setDictionary(dictionary = dic)
+  
+# Load dictionary into the environment 
+retrieved <- getDictionary()
+
+
+}
+\seealso{
+\code{\link[=setDictionary]{setDictionary()}}
 }

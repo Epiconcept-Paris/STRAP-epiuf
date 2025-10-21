@@ -45,7 +45,26 @@ setDictionary  <- function(dictionary) {
 
 #' getDictionary
 #'
+#' This function loads the most recent dictionary set into the environment. 
+#'
 #' @return The current dictionary
+#' 
+#' @examples
+#' # Create an example dataset 
+#' dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA,NA),
+#'  source_name=c("source1","source2","source3","",NA,"source6",NA),
+#'   type=c("numeric","numeric","numeric","character"," ","character",NA)
+#'   )
+#'
+#' # Set the current dictionary 
+#'  setDictionary(dictionary = dic)
+#'   
+#' # Load dictionary into the environment 
+#' retrieved <- getDictionary()
+#' 
+#' 
+#' @seealso [setDictionary()]
+#' 
 #' @export
 #'
 getDictionary <- function() {
@@ -312,8 +331,9 @@ getDictionaryValue <- function(varname, valuename=c("type","dico","unknowns")) {
   return(value)
 }
 
-#' Retrieve values from a dictionary based on variable name and specified columns
-#'
+#' getAnyDictionaryValue 
+#' 
+#' Retrieve values from a dictionary based on variable name and specified columns.
 #' This function searches a dictionary for a given variable name and returns the corresponding
 #' values from specified dictionary columns. It issues a warning if the search column or the
 #' value column is not present in the dictionary.
@@ -333,7 +353,10 @@ getDictionaryValue <- function(varname, valuename=c("type","dico","unknowns")) {
 #' @examples
 #' # Assuming 'getDictionary' is a function that returns a data frame and 'varname' is a known variable
 #' getAnyDictionaryValue(varname = "exampleVar")
+#' 
 #' \dontrun{getAnyDictionaryValue("varname",searchcolumn="source_name",value="dico")}
+
+
 getAnyDictionaryValue <- function(varname,
                                   searchcolumn = c("source_name","generic_name"), 
                                   value=c("source_name","generic_name","dico","type","unknowns","description","comments")) {
@@ -436,6 +459,8 @@ getVarActionParameters <- function(variablename,actiontag) {
 }  
 
 #' getActionGroup
+#'
+#'
 #'
 #' @param actiontag Name of the action group to retrieve
 #'
