@@ -36,22 +36,25 @@ getWorkbook <- function() {
 
 #' fillCells
 #'
-#' @param onesheet A sheet object from xlsx package
-#' @param line  The line where to paste value 
-#' @param col   The col where to paste value
-#' @param ...   List of N values to paste in col "col" to col+N 
-#'              if contain a data.frame, the dataframe is pasted at the position 
-#' @param names if TRUE column and row names of the dataframe are displayed (overwrite colnames and rownames)
-#' @param colnames if TRUE column names of the dataframe are displayed 
-#' @param rownames if TRUE row names of the dataframe are displayed             
-#' @param style An optional style created with createXlsxStyle   
-#' @param styleRowsIndex Numeric vector of the rown index where to apply the style
-#' @param styleColsIndex Numeric vector of the column index where to apply the style
-#' @param wb An optional wb if not already opened   
+#' This function is used to input values into a row of cells within an excel document. 
+#'
+#'
+#' @param onesheet The sheet in the excel workbook to input the values. 
+#' @param line  The line in the excel sheet where to paste the value. 
+#' @param col   The column where to paste values. 
+#' @param ...   List of N values to paste in col "col" to col+N if contain a data.frame, the dataframe is pasted at the position.
+#' @param names If TRUE, the column and row names of the dataframe are displayed (overwrite colnames and rownames).
+#' @param colnames If TRUE, the column names of the dataframe are displayed. 
+#' @param rownames If TRUE, the row names of the dataframe are displayed.             
+#' @param style An optional style created with createXlsxStyle.   
+#' @param styleRowsIndex Numeric vector of the rown index where to apply the style.
+#' @param styleColsIndex Numeric vector of the column index where to apply the style.
+#' @param wb An optional wb if not already opened.   
 #' @return  nothing
 #' @export
 #' @importFrom openxlsx  writeData col2int 
 #'
+#' @seealso [openSheet()]
 #' @examples
 #' 
 #' # Creating an empty workbook

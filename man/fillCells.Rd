@@ -19,34 +19,33 @@ fillCells(
 )
 }
 \arguments{
-\item{onesheet}{A sheet object from xlsx package}
+\item{onesheet}{The sheet in the excel workbook to input the values.}
 
-\item{line}{The line where to paste value}
+\item{line}{The line in the excel sheet where to paste the value.}
 
-\item{col}{The col where to paste value}
+\item{col}{The column where to paste values.}
 
-\item{...}{List of N values to paste in col "col" to col+N
-if contain a data.frame, the dataframe is pasted at the position}
+\item{...}{List of N values to paste in col "col" to col+N if contain a data.frame, the dataframe is pasted at the position.}
 
-\item{names}{if TRUE column and row names of the dataframe are displayed (overwrite colnames and rownames)}
+\item{names}{If TRUE, the column and row names of the dataframe are displayed (overwrite colnames and rownames).}
 
-\item{colnames}{if TRUE column names of the dataframe are displayed}
+\item{colnames}{If TRUE, the column names of the dataframe are displayed.}
 
-\item{rownames}{if TRUE row names of the dataframe are displayed}
+\item{rownames}{If TRUE, the row names of the dataframe are displayed.}
 
-\item{style}{An optional style created with createXlsxStyle}
+\item{style}{An optional style created with createXlsxStyle.}
 
-\item{styleRowsIndex}{Numeric vector of the rown index where to apply the style}
+\item{styleRowsIndex}{Numeric vector of the rown index where to apply the style.}
 
-\item{styleColsIndex}{Numeric vector of the column index where to apply the style}
+\item{styleColsIndex}{Numeric vector of the column index where to apply the style.}
 
-\item{wb}{An optional wb if not already opened}
+\item{wb}{An optional wb if not already opened.}
 }
 \value{
 nothing
 }
 \description{
-fillCells
+This function is used to input values into a row of cells within an excel document.
 }
 \examples{
 
@@ -76,4 +75,7 @@ fillCells(wb = wb,
 saveXlsx(filename = "test.xlsx", wb = wb)
 }
 
+}
+\seealso{
+\code{\link[=openSheet]{openSheet()}}
 }
