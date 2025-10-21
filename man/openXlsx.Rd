@@ -2,20 +2,25 @@
 % Please edit documentation in R/xlsxTools.R
 \name{openXlsx}
 \alias{openXlsx}
-\title{loadXlsx}
+\title{openXlsx}
 \usage{
 openXlsx(filename = "")
 }
 \arguments{
-\item{filename}{Name of the Excel file}
+\item{filename}{Name of the Excel file specified in "" (xlsx). Or the name of the filepath (see example).}
 }
 \value{
-The wb (which is also saved as internal variable)
+The wb (which is also saved as internal variable).
 }
 \description{
-loadXlsx
+This function loads an excel workbook into the environment.
 }
 \examples{
-cat("to be done")
+
+# Filepath created for the workbook 
+xls_file <- externalFile("excelfile.xlsx")
+
+# Load workbook into the environment 
+wb <- openXlsx(xls_file)
 
 }

@@ -437,16 +437,23 @@ openSheet <- function(sheetname, wb = NULL)  {
 }
 
 
-#' loadXlsx
+#' openXlsx
 #'
-#' @param filename Name of the Excel file
+#' This function loads an excel workbook into the environment. 
 #'
-#' @return The wb (which is also saved as internal variable)
+#' @param filename Name of the Excel file specified in "" (xlsx). Or the name of the filepath (see example). 
+#'
+#' @return The wb (which is also saved as internal variable).
 #' @export
 #' @importFrom openxlsx loadWorkbook
 #'
 #' @examples
-#' cat("to be done")
+#' 
+#' # Filepath created for the workbook 
+#' xls_file <- externalFile("excelfile.xlsx")
+#' 
+#' # Load workbook into the environment 
+#' wb <- openXlsx(xls_file)
 #' 
 openXlsx <- function(filename="") {
   wb <- openxlsx::loadWorkbook(filename)
