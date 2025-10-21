@@ -89,19 +89,38 @@ describe <- function(data.desc){
 
 #' descBy
 #'
-#' Describe numeric variables or categorical variables (must be in factor) according or not to another variable in a table.
+#' The aim of this function is to describe numeric variables or categorical variables (must be in factor) according or not to another variable in a table.
+#' For example: to describe age, sex, vaccination status according to the case or control status.
+#'
 #' 
-#' @param data name of the dataset
-#' @param vars the variables list to describe (numeric or factor)
-#' @param labels labels for the variables list
-#' @param by variable to compare (must be a factor and have at least two categories)
+#' @param data Name of the dataset (data.frame).
+#' @param vars The variables list to describe (numeric or factor).
+#' @param labels Labels for the variables list.
+#' @param by Variable to compare (must be a factor and have at least two categories).
 #' 
-#' @return a descriptive table 
+#' @return A descriptive table. 
 #' @export
 #'
 #' @examples
-#'  descBy(iris, "Sepal.Length", by = "Species") 
-#'
+#'  
+#'  # Create an example dataset 
+#' nbrecords <- 100
+#' 
+#' df <- data.frame(
+#' age = sample(c(0:110,NA), nbrecords, replace = TRUE),
+#' sex = factor(sample(c(0,1,NA), nbrecords, replace = TRUE), levels = c(0,1), labels = c("Female", "Male")),
+#' fluvaccany = factor(sample(c(0,1,NA), nbrecords, replace = TRUE), levels = c(0,1), labels = c("No", "Yes")),
+#' lab_flu = sample(c(0,1), nbrecords, replace = TRUE))
+#' df$agegp4 <- cut(df$age, c(0, 4, 14, 64, max(df$age, na.rm = T)), include.lowest = TRUE, labels = c("0-4", "5-14", "15-64", "65 +"))
+#' 
+#' # Describe the following variables and give them the names specified 
+#' table <- descBy(data = df, 
+#'             vars = c("age", "agegp4", "sex", "fluvaccany"),
+#'             labels = c("Age", "Age in group", "Sex", "Seasonal influenza vaccination"))
+#' 
+#' # Print the resulting table 
+#' kable(table)
+#' 
 #' 
 descBy <- function(data, vars, labels=NULL, by = NULL){
   # Build the simple descriptive table
