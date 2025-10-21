@@ -7,16 +7,32 @@
 getDictionaryValue(varname, valuename = c("type", "dico", "unknowns"))
 }
 \arguments{
-\item{varname}{The varname for which we will retrieve content of one column from dictionary}
+\item{varname}{The varname for which we will retrieve content of one column from the dictionary.}
 
-\item{valuename}{Name of the coulumn to retrieve from dictionary}
+\item{valuename}{Name of the column to retrieve from dictionary.}
 }
 \value{
 A single value
 }
 \description{
-Retrieve the value of one parameters (column) in the dictionary, searching for the generic_name
-usual column values to retrieve are for type, dico, unknowns
-Give an error if column name is incorrect
-Return NA if searched varname is not found
+Retrieve the value of one parameter's (column) in the dictionary, searching for the generic_name.
+Usual column values to retrieve are: type, dico and unknowns.
+An error will occur if the column name is incorrect.
+Return NA if searched varname is not found.
+}
+\examples{
+
+# Create example dataset 
+dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA,NA),
+source_name=c("source1","source2","source3","",NA,"source6",NA),
+type=c("numeric","numeric","numeric","character"," ","character",NA),
+unknowns=c("","8","UNK","","","","")
+)
+
+# Set the dictionary 
+setDictionary(dictionary = dic)
+
+# Use the function
+getDictionaryValue("gen3","unknowns")
+
 }
