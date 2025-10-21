@@ -2,26 +2,32 @@
 
 #' expandVar 
 #' 
-#' explode a variable which contain a list of values into Y/N variables according to the content of the "multi" variable
-#' the list of expected values should be given with the names of the new variables
+#' To expand a variable containing more than one value into new individual variables with Y/N values.
+#' The list of expected values must be passed as parameters together with the name of the new variable to be created.
+#' 
 #'
-#' @param data A dataset which contain a multi-variable
-#' @param varname The name of the multi-variable
-#' @param valueslist List of expected values with names of the variables to be created
+#' @param data A dataset which contains the variable with more than one value (data.frame). 
+#' @param varname The name of the variable. 
+#' @param valueslist List of expected values with names of the variables to be created.
 #'
-#' @return A df with the new variables
+#' @return A dataset with the new columns added.
 #' @export
 #'
 #' @examples
 #' 
+#' # Create an example data frame 
 #' data <- data.frame(Id = 1:4 , 
 #'                     Vaccs = c("pfizer,moderna"," ", "pfizer", "moderna"))
+#'
+#' # Specify the name of the new column and what value the new column represents 
 #' brand <- list("pfizer"="pfizer",
 #'              "moderna"="moderna"
 #'               )
-#' data <-  expandVar(data,Vaccs,brand)
+#' # Use the function
+#' data <-  expandVar(data = data, varname = Vaccs, valueslist = brand)
 #' 
-#' 
+#' # View the changed dataset 
+#' print(data)
 
 expandVar <- function(data,varname,valueslist) {
   
