@@ -7,17 +7,42 @@
 applyNA(data, varname, searchlist = NULL, join = FALSE)
 }
 \arguments{
-\item{data}{Dataset which contain the variable to be processed}
+\item{data}{A dataset which contains the variables to be processed (data.frame).}
 
-\item{varname}{The variable where all kind of UNKNOWNS should be identified and replaced by NA}
+\item{varname}{The variable where all of the 'unknowns' should be identified and replaced by NA.}
 
-\item{searchlist}{An optional list of unknown values}
+\item{searchlist}{An optional list of unknown values.}
 
-\item{join}{False by default, if TRUE, the searchlist will be added to the default list of UNKNOWNS}
+\item{join}{False by default, if TRUE, the 'searchlist' will be added to the default list of 'unknowns'.}
 }
 \value{
-variable with NAs edited and message to confirm, or warning   GDE or data ?
+Variable with the NAs edited and message to confirm, or warning GDE or data ?
 }
 \description{
-Default Unknowns : dnk nd na ne zna unknown do not know
+The aim of this function is to take a variable and set specified values to NA.
+Values to search for can be specified in list, or in a string format.
+A default list is available that is used if no values are specified or that can join to the specified value list.
+
+The default unknowns are: dnk, nd, na, ne, zna, unknown, do not know.
+}
+\examples{
+
+# Create an example dataset for testing 
+df <- data.frame(CharacterVar = 
+      c("unknown", "do not know", "other", "dnk", "na", "nd", "nsp", 
+         "ne zna", "testdnk", "dnktest", "test", "not test", "3", "4"), 
+          NumberVar = c(1, 2, 3, 4, 1, 2, 3, 4,1, 2, 3, 4, 1, 2)
+          )
+
+# Replace 'unknowns' with NA using the default list. Should make 7 conversions             
+df$test <- applyNA(df, CharacterVar)  
+  
+# Replace only the specified 'unknown'. Should make 1 conversion      
+ df$test <- applyNA(df, CharacterVar, "^test$") 
+ 
+# Replace both the specified and default list of 'unknowns'. Should make 8 conversions 
+df$test <- applyNA(df, CharacterVar, "^test$", join=TRUE) 
+
+
+ 
 }
