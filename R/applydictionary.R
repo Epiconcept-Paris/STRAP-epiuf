@@ -460,8 +460,10 @@ getVarAction <- function(variablename,actiontag) {
 
 #' getVarActionParameters
 #'
-#' @param variablename The variable for which we want to retrieve the the associated action parameters
-#' @param actiontag Name of the action group 
+#' This function retrieves the associated action parameter from a variable. 
+#'
+#' @param variablename The variable for which we want to retrieve the the associated action parameters.
+#' @param actiontag Name of the action group specified in "". 
 #'
 #' @return The parameters associated to the variable action
 #' @export

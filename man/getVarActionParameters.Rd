@@ -7,13 +7,13 @@
 getVarActionParameters(variablename, actiontag)
 }
 \arguments{
-\item{variablename}{The variable for which we want to retrieve the the associated action parameters}
+\item{variablename}{The variable for which we want to retrieve the the associated action parameters.}
 
-\item{actiontag}{Name of the action group}
+\item{actiontag}{Name of the action group specified in "".}
 }
 \value{
 The parameters associated to the variable action
 }
 \description{
-getVarActionParameters
+This function retrieves the associated action parameter from a variable.
 }
