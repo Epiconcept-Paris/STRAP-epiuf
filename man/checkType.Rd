@@ -2,28 +2,38 @@
 % Please edit documentation in R/checkType.R
 \name{checkType}
 \alias{checkType}
-\title{checkType
-Gives feedback on whether a variable matches the type specified.}
+\title{checkType}
 \usage{
 checkType(data, varname, type = c("character", "date", "factor", "numeric"))
 }
 \arguments{
-\item{data}{The dataset}
+\item{data}{The dataset (data.frame).}
 
-\item{varname}{The var}
+\item{varname}{The variable to test.}
 
-\item{type}{The expeted type}
+\item{type}{The expected type specified in "".}
 }
 \value{
 report
 }
 \description{
-checkType
 Gives feedback on whether a variable matches the type specified.
 }
 \examples{
-\dontrun{
-   checkType(data,var)
-}
+
+set.seed(123)  # for reproducibility
+
+# Create an example data frame
+df <- data.frame(
+  id = 1:10,
+name = sample(c("Alice", "Bob", "Charlie", "Diana", "Eve"), 10, replace = TRUE),
+age = sample(18:60, 10, replace = TRUE),
+date1 = sample(seq(as.Date("2020-01-01"), as.Date("2022-01-01"), by = "day"), 10)
+)
+
+# Check if the variable 'age' is an integer 
+checkType(data = df,
+         varname = age,
+         type = c('integer'))
 
 }

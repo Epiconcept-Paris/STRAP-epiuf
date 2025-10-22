@@ -23,20 +23,34 @@
 
 
 
-#' checkType
-#' Gives feedback on whether a variable matches the type specified. 
 #' 
-#' @param data The dataset
-#' @param varname The var 
-#' @param type The expeted type
+#' @title checkType
+#'
+#' @description Gives feedback on whether a variable matches the type specified. 
+#' 
+#' @param data The dataset (data.frame).
+#' @param varname The variable to test. 
+#' @param type The expected type specified in "". 
 #'
 #' @return report
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#'    checkType(data,var)
-#' }
+#' 
+#' set.seed(123)  # for reproducibility
+#' 
+#' # Create an example data frame
+#' df <- data.frame(
+#'   id = 1:10,
+#' name = sample(c("Alice", "Bob", "Charlie", "Diana", "Eve"), 10, replace = TRUE),
+#' age = sample(18:60, 10, replace = TRUE),
+#' date1 = sample(seq(as.Date("2020-01-01"), as.Date("2022-01-01"), by = "day"), 10)
+#' )
+#' 
+#' # Check if the variable 'age' is an integer 
+#' checkType(data = df,
+#'          varname = age,
+#'          type = c('integer'))
 #' 
 checkType <- function(data, varname, type=c("character", "date", "factor", "numeric")) {
   
