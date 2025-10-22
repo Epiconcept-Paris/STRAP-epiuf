@@ -54,12 +54,12 @@ calYear <- function(date){
 
 #' isoYear 
 #' 
-#' Extract the ISO year of a date object and return it as numeric
+#' Extract the ISO year of a date object and return it as numeric.
 #'
-#' @param date A date value
+#' @param date A date value (as.date or Sys.date). The date is specified in "". 
 #'
 #' @returns The ISO year of the date value which may be different from the
-#'         calendar Year 
+#'         calendar Year. 
 #'         
 #' @export
 #' 
@@ -67,7 +67,11 @@ calYear <- function(date){
 #' and [base::format()]
 #'
 #' @examples
+#' 
+#' # Extract the ISO year of the current date 
 #' isoYear(Sys.Date())
+#' 
+#' # Extract the ISO year of the specified date
 #' isoYear(as.Date("2019-12-31"))
 #' 
 isoYear <- function (date){

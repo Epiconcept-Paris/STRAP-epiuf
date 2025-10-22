@@ -7,17 +7,21 @@
 isoYear(date)
 }
 \arguments{
-\item{date}{A date value}
+\item{date}{A date value (as.date or Sys.date). The date is specified in "".}
 }
 \value{
 The ISO year of the date value which may be different from the
-calendar Year
+calendar Year.
 }
 \description{
-Extract the ISO year of a date object and return it as numeric
+Extract the ISO year of a date object and return it as numeric.
 }
 \examples{
+
+# Extract the ISO year of the current date 
 isoYear(Sys.Date())
+
+# Extract the ISO year of the specified date
 isoYear(as.Date("2019-12-31"))
 
 }
