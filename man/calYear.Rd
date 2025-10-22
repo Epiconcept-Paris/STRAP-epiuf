@@ -7,16 +7,21 @@
 calYear(date)
 }
 \arguments{
-\item{date}{A date value}
+\item{date}{A date value in the format Sys.Date or as.Date. Specified in "".}
 }
 \value{
-The calendar Year of the date as numeric
+The calendar year of the date as numeric.
 }
 \description{
-Extract the year of a date object and return it as numeric
+Extract the year of a date object returned as numeric.
 }
 \examples{
+
+# The year of the current date 
 calYear(Sys.Date())
+
+# The year of a specified date 
+calYear(as.Date('2023-12-31'))
 
 }
 \seealso{
