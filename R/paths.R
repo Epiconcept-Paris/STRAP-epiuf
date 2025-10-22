@@ -129,21 +129,32 @@ getPath <-  function(pathname) {
 
 #' sourceFile
 #'
-#' sourcefile function is a wrapper for source which will later allow some test and feebacks
-#' sourceFile source a file from the "scripts" path as set by setPath("scripts","absolute path")
 #' 
-#' @param pathname  pathname as label  
-#' @param filename  name of the file to source (if it contain a path, this one will be added to the scripts path)
+#' 'sourceFile()' sources a file from a previously set path and runs it in your script. 
+#' It uses the label of the path (pathname) and the name of the file (filename) of which you want to run. 
+#' This function is a wrapper for 'source()'.
+#' 
+#' 
+#' @param pathname  The label given to a previously specified path. Needs to be written in "".  
+#' @param filename  The name of the file to source (if it contains a path, it will be added to the specified path (pathname).
 #'
 #' @return nothing
 #' @export
 #'
+#' @seealso [setPath()]
 #' @examples
+#' 
+#' ## Not to run - example only 
+#' # Set an example path named 'sources' 
+#' setPath(pathname = "SOURCES", 
+#'        path = "c:/dev/Resources", 
+#'        makedir = "Never")
+#' 
+#' # Create an example file 
 #' file <- tempfile(fileext = ".R")
-#' cat("# comment", file = file, sep = "\n")
-#' setPath("scripts","")
-#' sourceFile("scripts",file)
-#' unlink(file) # tidy up
+#' 
+#' # Source example file from the specified path 
+#' sourceFile("SOURCES",file)
 #' 
 sourceFile <- function(pathname, filename )  {
   s_op <- deparse(substitute(pathname))
