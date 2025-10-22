@@ -436,14 +436,21 @@ confirm <- function(message="") {
 
 #' bold
 #'
-#' @param ... values to be outputted in bold
+#' This function is to make text and values appear in bold. 
+#'
+#' @param ... The text or values to be outputted in bold. Must be specified in "". 
 #'
 #' @return nothing
 #' @export
 #' @import markdown
 #'
 #' @examples
+#' 
+#' # Example use of the function
 #' bold("text in bold")
+#' 
+#' 
+#' 
 bold <- function(...) {
   if (is.null(knitr::opts_knit$get('rmarkdown.pandoc.to'))) { # & is.null(sys.call(-1))) {
     cat("\033[1m",...,"\033[0m",sep="")

@@ -7,14 +7,19 @@
 bold(...)
 }
 \arguments{
-\item{...}{values to be outputted in bold}
+\item{...}{The text or values to be outputted in bold. Must be specified in "".}
 }
 \value{
 nothing
 }
 \description{
-bold
+This function is to make text and values appear in bold.
 }
 \examples{
+
+# Example use of the function
 bold("text in bold")
+
+
+
 }
