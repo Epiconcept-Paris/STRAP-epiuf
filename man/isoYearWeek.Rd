@@ -7,20 +7,27 @@
 isoYearWeek(date, weekformat = NULL)
 }
 \arguments{
-\item{date}{A date Value}
+\item{date}{A date Value (as.date or Sys.date). The date is specified in "".}
 
 \item{weekformat}{A string to represent the week separator. Default is "w".
-May be one or more characters (eg : "-W")}
+It can be changed to be one or more characters (eg : "-w").}
 }
 \value{
-The iso year week of the Date  in YYYYwXX format  (2020w03)
+The ISO year and week of the Date in YYYYwXX format (2020w03).
 }
 \description{
-Returns the ISO year and week in character string format (e.g., 2020w03) of a date object
+Returns the ISO year and week in character string format (e.g., 2020w03) of a date object.
 }
 \examples{
+
+# Extract the ISO year and week of the current date
 isoYearWeek(Sys.Date())
+
+# Extract the ISO year and week of the specified date
 isoYearWeek(as.Date("2020-12-31"))
+
+# Separate the year and week in the output by specifying the 'weekformat' 
+isoYearWeek(as.Date("2020-12-31"), weekformat="-w")
 
 }
 \seealso{
