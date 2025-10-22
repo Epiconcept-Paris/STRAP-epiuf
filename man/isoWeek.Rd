@@ -7,16 +7,20 @@
 isoWeek(date)
 }
 \arguments{
-\item{date}{A date Value}
+\item{date}{A date Value (as.date or Sys.date).}
 }
 \value{
-The iso Week Number
+The iso week number.
 }
 \description{
-Returns the ISO week number in numeric format of a date object
+Returns the ISO week number in numeric format of a date object.
 }
 \examples{
+
+# Get current week of the year
 isoWeek(Sys.Date())
+
+# Get the week of the specified date 
 isoWeek(as.Date("2020-12-31"))
 
 }

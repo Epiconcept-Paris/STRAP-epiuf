@@ -146,18 +146,22 @@ Month <- function(date){
 
 #' isoWeek
 #' 
-#' Returns the ISO week number in numeric format of a date object
+#' Returns the ISO week number in numeric format of a date object.
 #'
-#' @param date A date Value
+#' @param date A date Value (as.date or Sys.date).
 #'
-#' @returns The iso Week Number
+#' @returns The iso week number.
 #' 
 #' @export
 #' 
 #' @seealso [epiuf::isoYear()], [epiuf::isoYearWeek()]  and [base::format()]
 #'
 #' @examples
+#' 
+#' # Get current week of the year
 #' isoWeek(Sys.Date())
+#' 
+#' # Get the week of the specified date 
 #' isoWeek(as.Date("2020-12-31"))
 #' 
 isoWeek <- function(date){
