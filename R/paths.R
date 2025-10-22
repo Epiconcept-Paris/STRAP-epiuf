@@ -96,15 +96,25 @@ setPath <-  function(pathname, path, makedir = c("Ask","Force","Never")) {
 
 #' getPath
 #' 
-#' Retrieve a named Path 
+#' This function retrieves a named Path previously defined in 'setPath()'. 
 #'
-#' @param pathname Path label 
+#' @param pathname Path label specified in "". 
 #'
-#' @return The path saved under pathname label
+#' @return The path saved under pathname label.
 #' @export
 #'
+#' @seealso [setPath()]
+#' 
+#'
 #' @examples
-#' getPath("sources")
+#' 
+#' # First set the path directory and give it a label 
+#' setPath(pathname = "SOURCES", 
+#'     path = "c:/dev/Resources", 
+#'     makedir = "Never"))
+#' 
+#' # Get the file path using the function 
+#' getPath("SOURCES")
 #' 
 #' 
 getPath <-  function(pathname) {

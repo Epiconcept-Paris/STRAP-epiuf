@@ -7,16 +7,26 @@
 getPath(pathname)
 }
 \arguments{
-\item{pathname}{Path label}
+\item{pathname}{Path label specified in "".}
 }
 \value{
-The path saved under pathname label
+The path saved under pathname label.
 }
 \description{
-Retrieve a named Path
+This function retrieves a named Path previously defined in 'setPath()'.
 }
 \examples{
-getPath("sources")
+
+# First set the path directory and give it a label 
+setPath(pathname = "SOURCES", 
+    path = "c:/dev/Resources", 
+    makedir = "Never"))
+
+# Get the file path using the function 
+getPath("SOURCES")
 
 
+}
+\seealso{
+\code{\link[=setPath]{setPath()}}
 }
