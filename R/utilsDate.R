@@ -90,18 +90,24 @@ isoYear <- function (date){
 
 #' abrvMonth 
 #' 
-#' Returns the month in abbreviated format of a date object
+#' Returns the month in an abbreviated format of a date object.
 #'
-#' @param date  A date Value
+#' @param date  A date value in Sys.Date or as.Date format.
 #'
-#' @returns The month of the date in abbreviated format 
+#' @returns The month of the date in abbreviated format. 
 #' 
 #' @export
 #' 
 #' @seealso [epiuf::Month()] and [base::format()]
 #' 
 #' @examples
+#' 
+#' # Example abbreviating the current month today 
 #' abrvMonth(Sys.Date())
+#' 
+#' # Example abbreviating the specified month
+#' abrvMonth(as.Date('2024-11-23'))
+#' 
 #' 
 abrvMonth <- function(date){
   

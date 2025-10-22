@@ -7,16 +7,22 @@
 abrvMonth(date)
 }
 \arguments{
-\item{date}{A date Value}
+\item{date}{A date value in Sys.Date or as.Date format.}
 }
 \value{
-The month of the date in abbreviated format
+The month of the date in abbreviated format.
 }
 \description{
-Returns the month in abbreviated format of a date object
+Returns the month in an abbreviated format of a date object.
 }
 \examples{
+
+# Example abbreviating the current month today 
 abrvMonth(Sys.Date())
+
+# Example abbreviating the specified month
+abrvMonth(as.Date('2024-11-23'))
+
 
 }
 \seealso{
