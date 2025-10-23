@@ -2,30 +2,21 @@
 % Please edit documentation in R/checkTypeAll.R
 \name{checkTypeAll}
 \alias{checkTypeAll}
-\title{checkTypeAll
-Uses dictionary to compare class of each variable to type listed.
-A specific class of interest can be specified with the flag parameter}
+\title{checkTypeAll}
 \usage{
 checkTypeAll(data, dictionary = NULL, flag = NULL)
 }
 \arguments{
-\item{data}{The dataset}
+\item{data}{The dataset (data.frame).}
 
-\item{dictionary}{The epiuf dictionary}
+\item{dictionary}{The epiuf dictionary.}
 
-\item{flag}{A flag}
+\item{flag}{A specific class of interest.}
 }
 \value{
 report
 }
 \description{
-checkTypeAll
-Uses dictionary to compare class of each variable to type listed.
-A specific class of interest can be specified with the flag parameter
-}
-\examples{
- \dontrun{
-   checkTypeAll(data)
-   }
-
+Uses the dictionary to compare the class of each variable to the type listed.
+A specific class of interest can be specified with the flag parameter.
 }

@@ -20,21 +20,18 @@
 
 # START of SCRIPT  --------------------------------------------------------
 
-#' checkTypeAll
-#' Uses dictionary to compare class of each variable to type listed. 
-#' A specific class of interest can be specified with the flag parameter
+#' @title checkTypeAll
 #' 
-#' @param data The dataset
-#' @param dictionary The epiuf dictionary
-#' @param flag A flag 
+#' @description Uses the dictionary to compare the class of each variable to the type listed. 
+#' A specific class of interest can be specified with the flag parameter.
+#' 
+#' @param data The dataset (data.frame).
+#' @param dictionary The epiuf dictionary.
+#' @param flag A specific class of interest. 
 #'
 #' @return report
 #' @export
 #'
-#' @examples
-#'  \dontrun{
-#'    checkTypeAll(data)
-#'    }
 #' 
 checkTypeAll <- function(data, dictionary=NULL, flag=NULL) {
   
