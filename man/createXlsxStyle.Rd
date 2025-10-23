@@ -7,11 +7,22 @@
 createXlsxStyle(...)
 }
 \arguments{
-\item{...}{Parameters for createStyle}
+\item{...}{Parameters for createStyle to chnage factors such as: colour and appearance of values.}
 }
 \value{
-a Style to be used in XLSX
+A style to be used in XLSX.
 }
 \description{
-createXlsxStyle
+This function allows a specific font style to be created and used when printing values or text into excel.
+}
+\examples{
+
+# Create a default style in case a specific style has been set already 
+ myStyle <- createXlsxStyle()
+ 
+# Create two unique styles 
+italicStyle <- createXlsxStyle(textDecoration = "Italic", fontColour = "green")
+alertStyle =  createXlsxStyle(textDecoration = "Bold", fontColour = "red")
+
+
 }
