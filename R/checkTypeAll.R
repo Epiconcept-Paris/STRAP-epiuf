@@ -21,13 +21,14 @@
 # START of SCRIPT  --------------------------------------------------------
 
 #' @title checkTypeAll
-#' 
-#' @description Uses the dictionary to compare the class of each variable to the type listed. 
-#' A specific class of interest can be specified with the flag parameter.
-#' 
+#'
+#' @description Uses the dictionary to compare the class of each variable to the
+#'   type listed. A specific class of interest can be specified with the flag
+#'   parameter.
+#'
 #' @param data The dataset (data.frame).
 #' @param dictionary The epiuf dictionary.
-#' @param flag A specific class of interest. 
+#' @param flag A specific class of interest.
 #'
 #' @return report
 #' @export

@@ -17,6 +17,7 @@ checkTypeAll(data, dictionary = NULL, flag = NULL)
 report
 }
 \description{
-Uses the dictionary to compare the class of each variable to the type listed.
-A specific class of interest can be specified with the flag parameter.
+Uses the dictionary to compare the class of each variable to the
+type listed. A specific class of interest can be specified with the flag
+parameter.
 }
