@@ -415,9 +415,11 @@ getDicoOfVar <- function(varname) {
 
 #' getDico
 #'
+#' This function returns a data set containing one dico (list of code/labels).
+#'
 #' @param diconame The name of one dico from the dicos structure
 #'
-#' @return A datset containing one dico (list of code/labels)
+#' @return A data set containing one dico (list of code/labels)
 #' @export
 #'
 #'  

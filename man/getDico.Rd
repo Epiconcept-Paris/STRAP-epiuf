@@ -10,8 +10,8 @@ getDico(diconame)
 \item{diconame}{The name of one dico from the dicos structure}
 }
 \value{
-A datset containing one dico (list of code/labels)
+A data set containing one dico (list of code/labels)
 }
 \description{
-getDico
+This function returns a data set containing one dico (list of code/labels).
 }
