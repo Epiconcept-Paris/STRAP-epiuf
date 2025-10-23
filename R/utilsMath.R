@@ -74,11 +74,11 @@ getMax <- function(...){
 
 #' getMin
 #' 
-#' Get the minimum value from a vector skipping NA values. If all values are NA, returns NA.
+#' Get the minimum value from a vector skipping NA values. If all values are NA, returns NA. Can be letter, number, date etc. 
 #' 
-#' @param ... numeric or character vector arguments
+#' @param ... Numeric or character vector arguments.
 #' 
-#' @returns single  numeric or character element
+#' @returns A single numeric or character element.
 #' 
 #' @export
 #' 
