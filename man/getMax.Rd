@@ -7,13 +7,13 @@
 getMax(...)
 }
 \arguments{
-\item{...}{numeric or character vector arguments}
+\item{...}{Numeric or character vector arguments.}
 }
 \value{
-single numeric or character element
+Single numeric or character element.
 }
 \description{
-Get the maximum value from a vector skipping NA values. If all values are NA, returns NA.
+Get the maximum value from a vector skipping NA values. If all values are NA, returns NA. Can be letter, number, date etc.
 }
 \examples{
 # Numerics
