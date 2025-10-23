@@ -2,12 +2,12 @@
 % Please edit documentation in R/to_drop.R
 \name{crosstab}
 \alias{crosstab}
-\title{crosstab - outputs a cross table in format data frame  >> Obsolete replaced by epitable}
+\title{crosstab}
 \usage{
 crosstab(data, var1, var2, missing = "always", extra = "None", decimals = 1)
 }
 \arguments{
-\item{data}{The data set to look at}
+\item{data}{The data set to look at (data.frame).}
 
 \item{var1}{Character string, colomn name of the first variable (the rows).
 Must be a 0/1 (numeric) or No/Yes (character) categorical variable (factors not supported yet).}
@@ -15,20 +15,23 @@ Must be a 0/1 (numeric) or No/Yes (character) categorical variable (factors not 
 \item{var2}{Character string, colomn name of the second variable (the columns).
 Must be a 0/1 (numeric) or No/Yes (character) categorical variable (factors not supported yet).}
 
-\item{missing}{takes auguments 'no' to not show missing and 'always' to show missing (as for table())}
+\item{missing}{Takes arguments 'no' to not show missing and 'always' to show missing (as for table()).}
 
 \item{extra}{What extra info you want. Current options "None", "Total" and "Percent". Default is "None". Feel free to add your own!}
 
-\item{decimals}{state how many decimal points you want to list for the output of any calculations. Default is 1}
+\item{decimals}{State how many decimal points you want to list for the output of any calculations. Default is 1.}
 }
 \description{
-crosstab - outputs a cross table in format data frame  >> Obsolete replaced by epitable
+Outputs a cross table in the format data.frame. Obsolete replaced by epitable.
 }
 \examples{
+# Create an example data set
 data <- data.frame(id = 1:10,
                    cases = c(rep(1,3), rep(0,7)),
                    vacc = sample(c(0,1), replace = TRUE, size = 10))
 table(data$cases, data$vacc, useNA = "always")
+
+# Use the function
 crosstab(data, 
          var1 = "cases", 
          var2 = "vacc")
