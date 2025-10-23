@@ -239,12 +239,12 @@ isoYearWeek <- function(date,weekformat=NULL){  # Use base code to extract YEARw
 
 #' countIsoWeeks
 #'
-#' Return the number of weeks between the two dates
+#' Return the number of weeks between two dates.
 #' 
-#' @param date A date Value
-#' @param origin A reference date value in character string format
+#' @param date A date value in the format of either Sys.Date or as.Date. 
+#' @param origin A reference date value in character string format.
 #'
-#' @return the number of weeks between the two dates
+#' @return The number of weeks between the two dates.
 #' 
 #' @export
 #'
@@ -253,7 +253,12 @@ isoYearWeek <- function(date,weekformat=NULL){  # Use base code to extract YEARw
 #' @author Jenny Howard \email{j.howard@epiconcept.fr}
 #' 
 #' @examples
+#' 
+#' # Weeks difference between today's date and another
 #' countIsoWeeks(date = Sys.Date(), origin = "2000-01-01")
+#' 
+#' # Weeks difference between two specified dates 
+#' countIsoWeeks(date = "2021-01-01", origin = "2020-12-10")
 #' 
 countIsoWeeks <- function (date, origin = "2020-10-05"){
   

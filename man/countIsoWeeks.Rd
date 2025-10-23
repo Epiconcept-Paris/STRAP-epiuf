@@ -7,18 +7,23 @@
 countIsoWeeks(date, origin = "2020-10-05")
 }
 \arguments{
-\item{date}{A date Value}
+\item{date}{A date value in the format of either Sys.Date or as.Date.}
 
-\item{origin}{A reference date value in character string format}
+\item{origin}{A reference date value in character string format.}
 }
 \value{
-the number of weeks between the two dates
+The number of weeks between the two dates.
 }
 \description{
-Return the number of weeks between the two dates
+Return the number of weeks between two dates.
 }
 \examples{
+
+# Weeks difference between today's date and another
 countIsoWeeks(date = Sys.Date(), origin = "2000-01-01")
+
+# Weeks difference between two specified dates 
+countIsoWeeks(date = "2021-01-01", origin = "2020-12-10")
 
 }
 \seealso{
