@@ -14,21 +14,47 @@ dataCheck(
 )
 }
 \arguments{
-\item{data}{The dataset}
+\item{data}{The dataset (data.frame).}
 
-\item{data_old}{A previously checked dataset}
+\item{data_old}{A previously checked dataset (data.frame).}
 
-\item{cond}{The logical condition to test}
+\item{cond}{The logical condition to test specified in "".}
 
-\item{text}{The message to prefix the list in case of error}
+\item{text}{The message to prefix the list in case of error specified in "".}
 
 \item{varname}{The ID varname}
 
-\item{threshold}{The max number of ID displayed}
+\item{threshold}{The max number of IDs to display.}
 }
 \value{
 a vector
 }
 \description{
-dataCheck
+Check a data frame for a set of conditions and how many observations satisfy that particular condition.
+}
+\examples{
+
+# Create example data sets 
+df1 <- data.frame(Id = c(1,2,3,4,5,6,7,8,9,10, NA_real_),
+A = c("a", "b", "b", "d", "b","a", "b", "b", "d", "e", "b"),
+B = c("", "dog", "cat", "rabbit", "mole", "dog", "horse", "cat", "", NA_character_, "mouse")
+)
+
+df2 <- data.frame(Id = c(6,7,8,9,10, 11,12,13,14,15, NA_real_),
+ A = c("a", "b", "b", "d", "b","f", "b", "b", "d", "e", "b"), 
+ B = c("dog", "horse", "cat", "", "mouse","mole", "antelope", "antelope", "hamster", "", "mouse")
+ )
+
+# Use the functions 
+
+# Check df1 only - output should be null (NA)
+dataCheck(data=df1, cond = A=="b"&B=="mouse", text = "B's and mice in df1 only", varname="Id")
+
+# Check both df1 and df2 - output should be null (NA)
+dataCheck(data=df1, data_old=df2, cond = A=="b"&B=="mouse", text = "B's and mice in df1 and df2", varname = "Id")
+
+# Check both df1 and df2 - output should be 7 from both 
+dataCheck(data=df1, data_old=df2, cond = A=="b"&B=="horse", text = "B's and horses in df1 and df2", varname = "Id")
+
+
 }
