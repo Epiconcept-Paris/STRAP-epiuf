@@ -7,13 +7,13 @@
 collapseVarAll(data, action = NULL)
 }
 \arguments{
-\item{data}{Dataset to be processed}
+\item{data}{Data set to be processed (data.frame).}
 
-\item{action}{A Dictionary action list structure}
+\item{action}{A Dictionary action (list structure).}
 }
 \value{
-The dataset with collapsed variable
+The dataset with collapsed variable.
 }
 \description{
-collapseVarAll
+Applies a dictionary action to a data set.
 }

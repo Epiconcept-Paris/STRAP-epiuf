@@ -32,12 +32,16 @@
 # 
 
 # START of SCRIPT  --------------------------------------------------------
+#' 
 #' collapseVarAll
 #'
-#' @param data Dataset to be processed
-#' @param action A Dictionary action list structure 
+#' Applies a dictionary action to a data set.
 #'
-#' @return The dataset with collapsed variable
+#'
+#' @param data Data set to be processed (data.frame).
+#' @param action A Dictionary action (list structure). 
+#'
+#' @return The dataset with collapsed variable.
 #' @export
 #'
 
