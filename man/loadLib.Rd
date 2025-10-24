@@ -7,15 +7,17 @@
 loadLib(libname)
 }
 \arguments{
-\item{libname}{Name of the package you want to check for install and load}
+\item{libname}{Name of the package you want to install and load.}
 }
 \value{
-library name if loaded else false
+The library name will print in the console if loaded, else "false".
 }
 \description{
-library loading function which ask for confirmation before installing library
+This function loads a library package and will ask for confirmation before loading.
 }
 \examples{
+
+# Load the package 'utils' 
 loadLib("utils")
 
 }

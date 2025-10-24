@@ -23,22 +23,25 @@
 
 #' loadLib
 #'
-#' library loading function which ask for confirmation before installing library
+#' This function loads a library package and will ask for confirmation before loading. 
+#' 
+#' 
+#' @param libname Name of the package you want to install and load.
+#' 
 #'
 #' @seealso For more details see the help vignette: \cr
 #' \code{vignette("epiuf_package", package = "epiuf")} \cr
 #' \href{"../doc/epiuf_package.html"}{epiuf_package}
 #' 
 #' 
-#' @param libname Name of the package you want to check for install and load
-#'
-#' @return library name if loaded else false
-#' @export
-#' 
+#' @return The library name will print in the console if loaded, else "false".
 #' 
 #' @examples
+#' 
+#' # Load the package 'utils' 
 #' loadLib("utils")
 #' 
+#' @export
 
 loadLib <- function(libname) {
   if (!require(libname, character.only = TRUE)) {
