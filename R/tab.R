@@ -28,9 +28,14 @@
 # Function: 
 #' tab
 #'
-#' @param ...   Variable or vector
-#' @param includeNA Should NA be included in results ?
-#' @param data The dataset which contain the variables
+#' Function to easily output tabs and cross tabs of variables - wrapper for 
+#' the table() function. Requires dply.
+#'
+#'
+#'
+#' @param ...   Variable or vector.
+#' @param includeNA Specify whether NAs should be included in the results or not. 
+#' @param data The dataset which contain the variables (data.frame).
 #'
 #' @return cross table
 #' @export

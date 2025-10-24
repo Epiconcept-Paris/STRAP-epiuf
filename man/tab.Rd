@@ -7,15 +7,16 @@
 tab(..., includeNA = "ifany", data)
 }
 \arguments{
-\item{...}{Variable or vector}
+\item{...}{Variable or vector.}
 
-\item{includeNA}{Should NA be included in results ?}
+\item{includeNA}{Specify whether NAs should be included in the results or not.}
 
-\item{data}{The dataset which contain the variables}
+\item{data}{The dataset which contain the variables (data.frame).}
 }
 \value{
 cross table
 }
 \description{
-tab
+Function to easily output tabs and cross tabs of variables - wrapper for
+the table() function. Requires dply.
 }
