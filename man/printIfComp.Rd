@@ -7,21 +7,21 @@
 printIfComp(data, data_old, cond, text = "", threshold = NULL, varname = "id")
 }
 \arguments{
-\item{data}{The dataset to check}
+\item{data}{The dataset to check (data.frame).}
 
-\item{data_old}{The other dataset which may contain same records}
+\item{data_old}{The other dataset which may contain same records (data.frame).}
 
-\item{cond}{A condition to meet}
+\item{cond}{A condition to meet.}
 
-\item{text}{A message to display if condition is not meet}
+\item{text}{A message to display if the condition is not met.}
 
 \item{threshold}{Something ..}
 
-\item{varname}{The ID variaable to display}
+\item{varname}{The ID variable to display.}
 }
 \value{
-The text to print
+The text to print.
 }
 \description{
-printIfComp
+This function is a small edit to 'printIf()'. It sets an ID designating input.
 }

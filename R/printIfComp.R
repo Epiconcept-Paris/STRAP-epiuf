@@ -23,14 +23,17 @@
 
 #' printIfComp
 #'
-#' @param data The dataset to check 
-#' @param data_old The other dataset which may contain same records
-#' @param cond A condition to meet 
-#' @param text A message to display if condition is not meet
-#' @param threshold Something ..
-#' @param varname The ID variaable to display
+#' This function is a small edit to 'printIf()'. It sets an ID designating input.  
 #'
-#' @return  The text to print
+#' @param data The dataset to check (data.frame).
+#' @param data_old The other dataset which may contain same records (data.frame).
+#' @param cond A condition to meet. 
+#' @param text A message to display if the condition is not met.  
+#' @param threshold Something ..
+#' @param varname The ID variable to display. 
+#'
+#' @return  The text to print.
+#' 
 #' @export
 #'
 
