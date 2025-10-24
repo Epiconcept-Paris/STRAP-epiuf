@@ -35,13 +35,18 @@
 #' 
 #' collapseVarAll
 #'
-#' Applies a dictionary action to a data set.
-#'
+#' This function applies a dictionary action to a data set.
+#' 
+#' It aims to take check box variables that are not expanded, and retain only
+#' one input / patient based off hierarchy of input. Hierarchy could be derived from dico codes
+#' set in specific order. 
+#' 
+#' Idea is that all check boxes can be given action group tags depending on if they are to be expanded or collapse.
 #'
 #' @param data Data set to be processed (data.frame).
 #' @param action A Dictionary action (list structure). 
 #'
-#' @return The dataset with collapsed variable.
+#' @return The data set with collapsed variable.
 #' @export
 #'
 

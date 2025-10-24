@@ -12,8 +12,15 @@ collapseVarAll(data, action = NULL)
 \item{action}{A Dictionary action (list structure).}
 }
 \value{
-The dataset with collapsed variable.
+The data set with collapsed variable.
 }
 \description{
-Applies a dictionary action to a data set.
+This function applies a dictionary action to a data set.
+}
+\details{
+It aims to take check box variables that are not expanded, and retain only
+one input / patient based off hierarchy of input. Hierarchy could be derived from dico codes
+set in specific order.
+
+Idea is that all check boxes can be given action group tags depending on if they are to be expanded or collapse.
 }
