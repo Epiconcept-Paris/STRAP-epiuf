@@ -32,9 +32,25 @@ epidictionaryfiles_env$actions <- NULL
 # this function would be rarely used except for tests
 #' setDictionary
 #'
-#' @param dictionary A dictionary epiuf structure 
+#' Set a dictionary using a data.frame. 
+#'
+#'
+#' @param dictionary A dictionary epiuf structure (data.frame)
 #'
 #' @return Nothing
+#'
+#' @examples
+#' 
+#' # Create an example data frame to set as a dictionary 
+#' dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA,NA),
+#'   source_name=c("source1","source2","source3","",NA,"source6",NA),
+#'   type=c("numeric","numeric","numeric","character"," ","character",NA),
+#'   unknowns=c("","8","UNK","","","",""))
+#' 
+#' # Set the dictionary 
+#' dictionary <- setDictionary(dictionary = dic)
+#' 
+#' 
 #' @export
 #'
 
