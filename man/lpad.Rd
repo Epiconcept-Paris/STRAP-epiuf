@@ -2,30 +2,30 @@
 % Please edit documentation in R/utils.R
 \name{lpad}
 \alias{lpad}
-\title{lpad
-Used to display value with a fixed width format
-format value according to width and digit is value is a number}
+\title{lpad}
 \usage{
 lpad(value, width = 11, digit = 0, char = " ")
 }
 \arguments{
-\item{value}{A value to format}
+\item{value}{A number value or "text" to be formatted. Number or character string.}
 
-\item{width}{The expected width}
+\item{width}{The expected width - number.}
 
-\item{digit}{The number of digit}
+\item{digit}{The number of digits - number.}
 
-\item{char}{Char used to pad left}
+\item{char}{Char used to pad left.}
 }
 \value{
-The formated value
+The formatted value.
 }
 \description{
-lpad
-Used to display value with a fixed width format
-format value according to width and digit is value is a number
+Used to display a value or text with a fixed width format.
+Number of digits (e.g decimal places) can be added to a value.
 }
 \examples{
+# Format a character string "test" with width 10 and 0 digits
 lpad("test",10,0)
+
+# Format a value "2" with width 6 and digits 2
 lpad(2,6,2)
 }

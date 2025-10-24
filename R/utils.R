@@ -350,21 +350,30 @@ replichar <- function(char, ntime) {
 }
 
 
-#' lpad
-#'      Used to display value with a fixed width format
-#'      format value according to width and digit is value is a number
+#' @title lpad
+#'  
+#' @description
+#'     
+#' Used to display a value or text with a fixed width format. 
+#' Number of digits (e.g decimal places) can be added to a value.
+#' 
 #'
-#' @param value A value to format
-#' @param width The expected width
-#' @param digit The number of digit
-#' @param char Char used to pad left
+#' @param value A number value or "text" to be formatted. Number or character string. 
+#' @param width The expected width - number. 
+#' @param digit The number of digits - number.
+#' @param char Char used to pad left.
 #'
-#' @return The formated value
+#' @return The formatted value.
 #' @export
 #'
 #' @examples
+#' # Format a character string "test" with width 10 and 0 digits
 #' lpad("test",10,0)
+#' 
+#' # Format a value "2" with width 6 and digits 2
 #' lpad(2,6,2)
+
+
 lpad <- function(value,
                  width = 11,
                  digit = 0,
