@@ -2,29 +2,30 @@
 % Please edit documentation in R/verifyspelling.R
 \name{verifySpelling}
 \alias{verifySpelling}
-\title{Title}
+\title{verifySpelling}
 \usage{
 verifySpelling(varname, CorrectList, ErrPerc = 0.25, verbose = TRUE)
 }
 \arguments{
-\item{varname}{a string or a string vector which will be compared to another string
-or a list of strings in order to find similarity or sound like
-The objective is to automaticaly correct small mistake in wording}
+\item{varname}{A string or a string vector which will be compared to another string
+or a list of strings in order to find similarity or sound like.
+The objective is to automatically correct small mistake in wording.}
 
-\item{CorrectList}{a string or a list of string from which \code{varname} will be searched}
+\item{CorrectList}{A string or a list of string from which \code{varname} will be searched.}
 
-\item{ErrPerc}{An acceptable errPerc when comparing string , default to 0.10\%}
+\item{ErrPerc}{An acceptable errPerc when comparing string , default to 0.10\%.}
 
-\item{verbose}{If true a message is issued}
+\item{verbose}{If TRUE, a message is issued.}
 }
 \value{
-The string guessed from varname using CorrectList
+The string guessed from varname using CorrectList.
 }
 \description{
-Title
+This function is used for testing a word against a list. It then returns the most similar or NULL if there is nothing.
 }
 \examples{
 
+# Verify the spelling of January
 verifySpelling("Janury",c("January", "Janvier" ))
 
 }

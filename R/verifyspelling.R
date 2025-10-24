@@ -73,21 +73,26 @@
 
 
 # test a word against a list and return the most similar or NULL if not
-#' Title
+#' 
+#' verifySpelling
+#' 
+#' This function is used for testing a word against a list. It then returns the most similar or NULL if there is nothing. 
 #'
-#' @param varname a string or a string vector which will be compared to another string 
-#'          or a list of strings in order to find similarity or sound like 
-#'          The objective is to automaticaly correct small mistake in wording 
-#' @param CorrectList a string or a list of string from which \code{varname} will be searched
-#' @param ErrPerc An acceptable errPerc when comparing string , default to 0.10% 
-#' @param verbose If true a message is issued 
+#' @param varname A string or a string vector which will be compared to another string 
+#'  or a list of strings in order to find similarity or sound like.
+#'  The objective is to automatically correct small mistake in wording. 
+#' 
+#' @param CorrectList A string or a list of string from which \code{varname} will be searched.
+#' @param ErrPerc An acceptable errPerc when comparing string , default to 0.10%. 
+#' @param verbose If TRUE, a message is issued.
 #'
-#' @return The string guessed from varname using CorrectList
+#' @return The string guessed from varname using CorrectList.
 #' @importFrom utils adist install.packages
 #' @export
 #'
 #' @examples
 #' 
+#' # Verify the spelling of January
 #' verifySpelling("Janury",c("January", "Janvier" ))
 #' 
 
