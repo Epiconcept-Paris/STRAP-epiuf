@@ -7,13 +7,13 @@
 getVarAction(variablename, actiontag)
 }
 \arguments{
-\item{variablename}{The variable for which we want to retrieve the the associated action}
+\item{variablename}{The variable for which we want to retrieve the the associated action.}
 
-\item{actiontag}{The name of the action group to retrieve}
+\item{actiontag}{The name of the action group to retrieve.}
 }
 \value{
-A dataset of var actions records for the variable
+A dataset of var actions records for the variable.
 }
 \description{
-getVarAction
+Retrieve a certain action from a variable.
 }

@@ -440,10 +440,13 @@ getDico <- function(diconame) {
 
 #' getVarAction
 #'
-#' @param variablename The variable for which we want to retrieve the the associated action
-#' @param actiontag The name of the action group to retrieve
+#' Retrieve a certain action from a variable.
 #'
-#' @return A dataset of var actions records for the variable 
+#'
+#' @param variablename The variable for which we want to retrieve the the associated action.
+#' @param actiontag The name of the action group to retrieve.
+#'
+#' @return A dataset of var actions records for the variable. 
 #' @export
 #'
 #'  
