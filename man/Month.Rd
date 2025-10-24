@@ -7,16 +7,21 @@
 Month(date)
 }
 \arguments{
-\item{date}{A date Value}
+\item{date}{A date value either Sys.Date or as.Date.}
 }
 \value{
-The month of the date in numeric
+The month of the date in numeric.
 }
 \description{
-Returns the month in numeric format of a date object
+Returns the month of a date object in numeric format.
 }
 \examples{
+
+# Get the month of today's date 
 Month(Sys.Date())
+
+# Get the month of the specified date 
+Month(as.Date("2024/05/23"))
 
 }
 \seealso{

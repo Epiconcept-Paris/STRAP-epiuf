@@ -131,18 +131,23 @@ abrvMonth <- function(date){
 
 #' Month 
 #'
-#' Returns the month in numeric format of a date object
+#' Returns the month of a date object in numeric format.
 #' 
-#' @param date  A date Value
+#' @param date  A date value either Sys.Date or as.Date. 
 #'
-#' @returns The month of the date in numeric
+#' @returns The month of the date in numeric.
 #' 
 #' @export
 #' 
 #' @seealso [epiuf::abrvMonth()] and [base::format()]
 #'
 #' @examples
+#' 
+#' # Get the month of today's date 
 #' Month(Sys.Date())
+#' 
+#' # Get the month of the specified date 
+#' Month(as.Date("2024/05/23"))
 #' 
 Month <- function(date){
   
