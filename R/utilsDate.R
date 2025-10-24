@@ -290,23 +290,27 @@ countIsoWeeks <- function (date, origin = "2020-10-05"){
 
 #' lastDateMonth
 #' 
-#' Takes monthly dates in character string such as "dec2022" and returns the date of 
-#' the last day of the month in date format 
+#' Takes monthly dates in a character string such as "dec2022" and returns the date of 
+#' the last day of the month in date format. 
 #'
-#' @param month character string, abbreviated month+year (eg. dec2022)
-#' @param lc_time character string, input of the `Sys.setlocale("LC_TIME", lc_time)`,
+#' @param month Character string, abbreviated month+year (eg. dec2022).
+#' @param lc_time Character string, input of the `Sys.setlocale("LC_TIME", lc_time)`,
 #' required if the system local language for the time is not the same as the `month` argument
 #' (e.g., if Sys.getlocale("LC_TIME") is "French_France.utf8", but month = "dec2022").
 #' Default value being "C" for English format.
 #' 
-#' @return The last date in that month in date format
+#' @return The last date in that month in date format.
 #' 
 #' @export
 #' 
 #' @author Jenny Howard \email{j.howard@epiconcept.fr}
 #'
 #' @examples
+#' 
+#' # Last day of the month for a specified date
 #' lastDateMonth("dec2022")
+#' 
+#' 
 #' 
 lastDateMonth <- function(month, lc_time = "C"){
   
