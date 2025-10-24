@@ -7,15 +7,15 @@
 factorUsingDico(data, dictionary = NULL, dicos = NULL)
 }
 \arguments{
-\item{data}{The dataset to process}
+\item{data}{The dataset to process (data.frame).}
 
-\item{dictionary}{The dictionary (epiuf structure)}
+\item{dictionary}{The dictionary (epiuf structure).}
 
-\item{dicos}{The dicos (epiuf structure)}
+\item{dicos}{The dicos (epiuf structure).}
 }
 \value{
-data set
+Data.frame
 }
 \description{
-factorUsingDico
+This function aims to factorise and label coded variables based off the data dictionary.
 }
