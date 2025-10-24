@@ -22,11 +22,17 @@
 # START of SCRIPT  --------------------------------------------------------
 
 
-#' Enhanced File Listing with Support for Wildcard Patterns
+#' @title listFiles
+#' 
+#' @description
+#' 
+#' Enhanced file listing with support for wildcard patterns.
 #'
 #' This function is a wrapper around \code{list.files} from base R, providing additional options
-#' such as automatic conversion from glob to regex patterns, this function supports direct use of standard 
-#' directory patterns like "*" and "?" for matching files. Full names is enabled automatically when recursive search is activated.
+#' such as automatic conversion from glob to regex patterns.
+#' 
+#' This function supports direct use of standard directory patterns like "*" and "?" for matching files. 
+#' Full names is enabled automatically when recursive search is activated.
 #'
 #' @param path Character. The path where to look for the files. Defaults to the current directory.
 #' @param pattern Character. The pattern to match the files against. Supports both glob and regex patterns. Defaults to "*".
@@ -37,6 +43,8 @@
 #' @return Character vector. A vector of file names that match the criteria.
 #' @export
 #' @examples
+#' 
+#' # Examples of different directory patterns 
 #' \dontrun{
 #' listFiles(path = "path/to/directory", pattern = "*.txt")
 #' listFiles(path = "path/to/directory", pattern = "file[0-9]\\.txt", regex = TRUE)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/utilsFiles.R
 \name{listFiles}
 \alias{listFiles}
-\title{Enhanced File Listing with Support for Wildcard Patterns}
+\title{listFiles}
 \usage{
 listFiles(
   path = ".",
@@ -27,11 +27,17 @@ listFiles(
 Character vector. A vector of file names that match the criteria.
 }
 \description{
+Enhanced file listing with support for wildcard patterns.
+
 This function is a wrapper around \code{list.files} from base R, providing additional options
-such as automatic conversion from glob to regex patterns, this function supports direct use of standard
-directory patterns like "*" and "?" for matching files. Full names is enabled automatically when recursive search is activated.
+such as automatic conversion from glob to regex patterns.
+
+This function supports direct use of standard directory patterns like "*" and "?" for matching files.
+Full names is enabled automatically when recursive search is activated.
 }
 \examples{
+
+# Examples of different directory patterns 
 \dontrun{
 listFiles(path = "path/to/directory", pattern = "*.txt")
 listFiles(path = "path/to/directory", pattern = "file[0-9]\\\\.txt", regex = TRUE)
