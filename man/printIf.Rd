@@ -26,6 +26,12 @@ Message to print as list
 Prints specified text when a certain condition is met.
 }
 \examples{
-df <- data.frame(ID = 1:4, Vaccs = c("pfizer"," ", "pfizer", "moderna"))
-printIf(data = df, cond = Vaccs == "pfizer", threshold = 30, text = "Pfizer vaccine", varname = "ID")
+df <- data.frame(ID = 1:4, 
+                 Vaccs = c("pfizer"," ", "pfizer", "moderna"))
+printIf(data = df, 
+        cond = Vaccs == "pfizer", 
+        threshold = 30, 
+        text = "Pfizer vaccine", 
+        varname = "ID")
+        
 }

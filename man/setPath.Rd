@@ -23,6 +23,7 @@ Set a named path to avoid absolute path in R scripts. Creates a short cut to fol
 }
 \examples{
 
+\dontrun{
 # Set a path named 'sources' 
 setPath(pathname = "SOURCES", 
     path = "c:/dev/Resources", 
@@ -36,7 +37,7 @@ setPath(pathname = "DATA",
         makedir = "Never")
 # Checking the path is properly set
 getPath("DATA")
-
+}
 
 
 }

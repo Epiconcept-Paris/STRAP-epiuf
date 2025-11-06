@@ -17,14 +17,15 @@ This function retrieves a named Path previously defined in 'setPath()'.
 }
 \examples{
 
+\dontrun{
 # First set the path directory and give it a label 
 setPath(pathname = "SOURCES", 
     path = "c:/dev/Resources", 
-    makedir = "Never"))
+    makedir = "Never")
 
 # Get the file path using the function 
 getPath("SOURCES")
-
+}
 
 }
 \seealso{

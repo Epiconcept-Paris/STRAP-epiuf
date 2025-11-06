@@ -2,7 +2,7 @@
 % Please edit documentation in R/applydictionary.R
 \name{getAnyDictionaryValue}
 \alias{getAnyDictionaryValue}
-\title{Retrieve values from a dictionary based on variable name and specified columns}
+\title{getAnyDictionaryValue}
 \usage{
 getAnyDictionaryValue(
   varname,
@@ -25,6 +25,7 @@ Returns the subset of the dictionary that matches the search criteria or \code{N
 matches are found or if the search/value columns are not in the dictionary.
 }
 \description{
+Retrieve values from a dictionary based on variable name and specified columns.
 This function searches a dictionary for a given variable name and returns the corresponding
 values from specified dictionary columns. It issues a warning if the search column or the
 value column is not present in the dictionary.
@@ -35,5 +36,6 @@ This function is advanced and you should usually use getDicoOfVar or getVarActio
 \examples{
 # Assuming 'getDictionary' is a function that returns a data frame and 'varname' is a known variable
 getAnyDictionaryValue(varname = "exampleVar")
+
 \dontrun{getAnyDictionaryValue("varname",searchcolumn="source_name",value="dico")}
 }

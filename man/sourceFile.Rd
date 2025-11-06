@@ -22,6 +22,7 @@ This function is a wrapper for 'source()'.
 \examples{
 
 ## Not to run - example only 
+\dontrun{
 # Set an example path named 'sources' 
 setPath(pathname = "SOURCES", 
        path = "c:/dev/Resources", 
@@ -32,7 +33,7 @@ file <- tempfile(fileext = ".R")
 
 # Source example file from the specified path 
 sourceFile("SOURCES",file)
-
+}
 }
 \seealso{
 \code{\link[=setPath]{setPath()}}

@@ -164,10 +164,21 @@ listIf <- function(data, varname=NULL, cond=NULL, collapse=FALSE,na.rm = FALSE){
 #' @export 
 #'
 #' @examples
-#' df <- data.frame(ID = 1:4, Vaccs = c("pfizer"," ", "pfizer", "moderna"))
-#' printIf(data = df, cond = Vaccs == "pfizer", threshold = 30, text = "Pfizer vaccine", varname = "ID")
+#' df <- data.frame(ID = 1:4, 
+#'                  Vaccs = c("pfizer"," ", "pfizer", "moderna"))
+#' printIf(data = df, 
+#'         cond = Vaccs == "pfizer", 
+#'         threshold = 30, 
+#'         text = "Pfizer vaccine", 
+#'         varname = "ID")
+#'         
 
-printIf<- function(data,  cond, text = "", threshold = NULL , varname = "id", na.rm = FALSE){
+printIf<- function(data,  
+                   cond, 
+                   text = "", 
+                   threshold = NULL , 
+                   varname = "id", 
+                   na.rm = FALSE){
   
   cond <- substitute(cond)
   if (!typeof(cond)=="language") {cond <- parse(text=cond)}
@@ -285,69 +296,92 @@ printIf2<- function(data,  cond, text = "", threshold = NULL , varname = "id", n
 
 #' dataCheck
 #'
-#'Check a data frame for a set of conditions and how many observations satisfy that particular condition. 
+#' Check a data frame (\code{data}) for a set of conditions (\code{cond}). 
+#' The function will count how many observations satisfy that particular condition, 
+#' and list the corresponding unique identifiers (from \code{varname}). 
+#' 
+#' 
 #'
 #'
-#' @param data The dataset (data.frame). 
-#' @param data_old A previously checked dataset (data.frame). 
-#' @param cond The logical condition to test specified in "". 
-#' @param text The message to prefix the list in case of error specified in "". 
-#' @param threshold The max number of IDs to display.
-#' @param varname The ID varname
+#' @param data (data.frame) The dataset to check. 
+#' @param data_old (data.frame) A previously checked dataset. This dataset is optional 
+#' and can include the new dataset to be checked \code{'data'}. This option is useful 
+#' when we aim to check a dataset that has been appended with new data.
+#' This will allow to identify in the new dataset, which observations have already 
+#' been identified and checked.
+#' @param cond (character) The logical condition(s) to test, 
+#' specified as character string (e.g., \code{"Age > 120"}). 
+#' @param text (character) The message specified to prefix the returned unique 
+#' identifiers meeting the given condition (e.g., \code{"Nb and list of IDs with invalid Age value"}). 
+#' @param varname (character) The name of the variable in dataset \code{'data'} 
+#' including unique identifiers. It will be used to identify and return the list of observations meeting 
+#' the given condition \code{'cond'} (e.g., \code{"patientID"}).  
+#' @param threshold (numeric) The maximum number of unique identifiers to display in the output (default: 50).
 #'
-#' @return a vector
+#' @return dataCheck returns a vector of 3 character string elements: 
+#' * The message (\code{text}) associated with the tested condition (e.g., \code{"Nb and list of IDs with invalid Age value"})
+#' * The number of rows meeting the condition (e.g., \code{"3"}), and 
+#' * The list of unique identifiers from \code{varname} of the rows
+#' meeting the given condition (e.g., \code{"12, 134, 147"}). 
+#' 
+#' If \code{data_old} is provided, then the output will include:
+#' * The message (\code{text}) associated with the tested condition (e.g., \code{"Nb and list of IDs with invalid Age value"})
+#' * The number of rows meeting the condition in the dataset \code{data} (e.g., \code{"3"}), and 
+#' * The list of unique identifiers meeting the given condition in the dataset \code{data}, and following the syntax: <br>  
+#' \code{"[IDs present in both 'data_old' and 'data'] IDs present in 'data' only"}
 #' 
 #' @examples
 #' 
-#' # Create example data sets 
-#' df1 <- data.frame(Id = c(1,2,3,4,5,6,7,8,9,10, NA_real_),
-#' A = c("a", "b", "b", "d", "b","a", "b", "b", "d", "e", "b"),
-#' B = c("", "dog", "cat", "rabbit", "mole", "dog", "horse", "cat", "", NA_character_, "mouse")
-#' )
+#' # Example based on epiuf::DummyData (100 obs.)
 #' 
-#' df2 <- data.frame(Id = c(6,7,8,9,10, 11,12,13,14,15, NA_real_),
-#'  A = c("a", "b", "b", "d", "b","f", "b", "b", "d", "e", "b"), 
-#'  B = c("dog", "horse", "cat", "", "mouse","mole", "antelope", "antelope", "hamster", "", "mouse")
-#'  )
+#' # Check in the first 50 obs. of epiuf::DummyData the number and list of the IDs  
+#' # of cases vaccinated with the brand Pfizer 
+#' # - Output should be 4 patients 
+#' dataCheck(data = epiuf::DummyData[1:50,], 
+#'           cond = "CovVaccBr == 'Pfizer' & Case == 1", 
+#'           text = "Cases vaccinated with Pfizer", 
+#'           varname = "ID")
 #' 
-#' # Use the functions 
-#' 
-#' # Check df1 only - output should be null (NA)
-#' dataCheck(data=df1, cond = A=="b"&B=="mouse", text = "B's and mice in df1 only", varname="Id")
-#' 
-#' # Check both df1 and df2 - output should be null (NA)
-#' dataCheck(data=df1, data_old=df2, cond = A=="b"&B=="mouse", text = "B's and mice in df1 and df2", varname = "Id")
-#' 
-#' # Check both df1 and df2 - output should be 7 from both 
-#' dataCheck(data=df1, data_old=df2, cond = A=="b"&B=="horse", text = "B's and horses in df1 and df2", varname = "Id")
-#' 
+#' # Check same condition on the whole 100 obs. of epiuf::DummyData, but considering 
+#' # that the first 50 obs. have already checked in a previous data checking session 
+#' # - Output should be 8 patients, including 4 that have already been checked  
+#' dataCheck(data = epiuf::DummyData[], 
+#'           data_old = epiuf::DummyData[1:50,],
+#'           cond = "CovVaccBr == 'Pfizer' & Case == 1", 
+#'           text = "Cases vaccinated with Pfizer", 
+#'           varname = "ID")
 #' 
 #' @export
 #'
 
-dataCheck<- function(data, data_old=NULL, cond, text="", varname=NULL, threshold=NULL){ 
+dataCheck<- function(data, 
+                     data_old = NULL, 
+                     cond = "", 
+                     text = "", 
+                     varname = NULL, 
+                     threshold = NULL){ 
   # Set up the parameters: 
   
-  # if condition input not as string, convert to string
+  # If condition input not as string, convert to string
   cond <- substitute(cond)
-  if (!typeof(cond)=="language") {cond <- parse(text=cond)}
+  if (!typeof(cond) == "language") {cond <- parse(text = cond)}
   
-  # if no varname provided, default to first line and output warning.
+  # If no varname provided, default to first line and output warning.
   if  (is.null(varname)){ 
     warning("Warning: no Id provided, first column used")
     varname <- names(data)[1]
   }
   
-  # if varname is not in dataset, default to first line and output warning.
+  # If varname is not in dataset, default to first line and output warning.
   if  (!is.null(varname) & !varname %in% names(data) ){ 
     warning(paste0("Warning: ", varname, " is not in dataset, first column used"))
     varname <- names(data)[1]
   }
   
-  #If not threshold is provided, default threshold is 50
+  # If not threshold is provided, default threshold is 50
   if (is.null(threshold)) {threshold <- 50 } 
   
-  # if not text is provided, use condition.
+  # If not text is provided, use condition.
   if (text == "") {
     text <- as.character(cond)
   }
@@ -355,17 +389,17 @@ dataCheck<- function(data, data_old=NULL, cond, text="", varname=NULL, threshold
   
   # Extract the records  
   # isolate records matching cond in the first dataset
-  Records <- subset(data,eval(cond),varname)
+  Records <- subset(data, eval(cond), varname)
   NbCond <- nrow(Records) # get count
   
   if (NbCond != 0){ # if have any records meeting cond...
     
-    if (NbCond > 0 & NbCond < threshold){ # if number is less than treshold,
+    if (NbCond > 0 & NbCond < threshold){ # if number is less than threshold,
       if(!is.null(data_old)){# and a second dataset is provided
         
-        Records_old <- subset(data_old,eval(cond),varname) # get records list from old set
+        Records_old <- subset(data_old, eval(cond), varname) # get records list from old set
         
-        inOld <- intersect(Records[, varname],Records_old[,varname]) # list those in new that are also in old (ie are repeats)
+        inOld <- intersect(Records[, varname],Records_old[,varname]) # list those in new that are also in old (i.e. are repeats)
         inNew <- setdiff(Records[, varname], inOld) # list those only in the new
         
         listIDold <-  unlist(inOld)
@@ -385,7 +419,7 @@ dataCheck<- function(data, data_old=NULL, cond, text="", varname=NULL, threshold
       listID <- paste0(threshold, " or more")
     }
     return(c(text, NbCond,listID))
-  }else{return(NULL)}
+  }else{ return(NULL) }
 }
 
 # END of SCRIPT  --------------------------------------------------------

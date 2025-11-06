@@ -7,54 +7,74 @@
 dataCheck(
   data,
   data_old = NULL,
-  cond,
+  cond = "",
   text = "",
   varname = NULL,
   threshold = NULL
 )
 }
 \arguments{
-\item{data}{The dataset (data.frame).}
+\item{data}{(data.frame) The dataset to check.}
 
-\item{data_old}{A previously checked dataset (data.frame).}
+\item{data_old}{(data.frame) A previously checked dataset. This dataset is optional
+and can include the new dataset to be checked \code{'data'}. This option is useful
+when we aim to check a dataset that has been appended with new data.
+This will allow to identify in the new dataset, which observations have already
+been identified and checked.}
 
-\item{cond}{The logical condition to test specified in "".}
+\item{cond}{(character) The logical condition(s) to test,
+specified as character string (e.g., \code{"Age > 120"}).}
 
-\item{text}{The message to prefix the list in case of error specified in "".}
+\item{text}{(character) The message specified to prefix the returned unique
+identifiers meeting the given condition (e.g., \code{"Nb and list of IDs with invalid Age value"}).}
 
-\item{varname}{The ID varname}
+\item{varname}{(character) The name of the variable in dataset \code{'data'}
+including unique identifiers. It will be used to identify and return the list of observations meeting
+the given condition \code{'cond'} (e.g., \code{"patientID"}).}
 
-\item{threshold}{The max number of IDs to display.}
+\item{threshold}{(numeric) The maximum number of unique identifiers to display in the output (default: 50).}
 }
 \value{
-a vector
+dataCheck returns a vector of 3 character string elements:
+\itemize{
+\item The message (\code{text}) associated with the tested condition (e.g., \code{"Nb and list of IDs with invalid Age value"})
+\item The number of rows meeting the condition (e.g., \code{"3"}), and
+\item The list of unique identifiers from \code{varname} of the rows
+meeting the given condition (e.g., \code{"12, 134, 147"}).
+}
+
+If \code{data_old} is provided, then the output will include:
+\itemize{
+\item The message (\code{text}) associated with the tested condition (e.g., \code{"Nb and list of IDs with invalid Age value"})
+\item The number of rows meeting the condition in the dataset \code{data} (e.g., \code{"3"}), and
+\item The list of unique identifiers meeting the given condition in the dataset \code{data}, and following the syntax: \if{html}{\out{<br>}}
+\code{"[IDs present in both 'data_old' and 'data'] IDs present in 'data' only"}
+}
 }
 \description{
-Check a data frame for a set of conditions and how many observations satisfy that particular condition.
+Check a data frame (\code{data}) for a set of conditions (\code{cond}).
+The function will count how many observations satisfy that particular condition,
+and list the corresponding unique identifiers (from \code{varname}).
 }
 \examples{
 
-# Create example data sets 
-df1 <- data.frame(Id = c(1,2,3,4,5,6,7,8,9,10, NA_real_),
-A = c("a", "b", "b", "d", "b","a", "b", "b", "d", "e", "b"),
-B = c("", "dog", "cat", "rabbit", "mole", "dog", "horse", "cat", "", NA_character_, "mouse")
-)
+# Example based on epiuf::DummyData (100 obs.)
 
-df2 <- data.frame(Id = c(6,7,8,9,10, 11,12,13,14,15, NA_real_),
- A = c("a", "b", "b", "d", "b","f", "b", "b", "d", "e", "b"), 
- B = c("dog", "horse", "cat", "", "mouse","mole", "antelope", "antelope", "hamster", "", "mouse")
- )
+# Check in the first 50 obs. of epiuf::DummyData the number and list of the IDs  
+# of cases vaccinated with the brand Pfizer 
+# - Output should be 4 patients 
+dataCheck(data = epiuf::DummyData[1:50,], 
+          cond = "CovVaccBr == 'Pfizer' & Case == 1", 
+          text = "Cases vaccinated with Pfizer", 
+          varname = "ID")
 
-# Use the functions 
-
-# Check df1 only - output should be null (NA)
-dataCheck(data=df1, cond = A=="b"&B=="mouse", text = "B's and mice in df1 only", varname="Id")
-
-# Check both df1 and df2 - output should be null (NA)
-dataCheck(data=df1, data_old=df2, cond = A=="b"&B=="mouse", text = "B's and mice in df1 and df2", varname = "Id")
-
-# Check both df1 and df2 - output should be 7 from both 
-dataCheck(data=df1, data_old=df2, cond = A=="b"&B=="horse", text = "B's and horses in df1 and df2", varname = "Id")
-
+# Check same condition on the whole 100 obs. of epiuf::DummyData, but considering 
+# that the first 50 obs. have already checked in a previous data checking session 
+# - Output should be 8 patients, including 4 that have already been checked  
+dataCheck(data = epiuf::DummyData[], 
+          data_old = epiuf::DummyData[1:50,],
+          cond = "CovVaccBr == 'Pfizer' & Case == 1", 
+          text = "Cases vaccinated with Pfizer", 
+          varname = "ID")
 
 }

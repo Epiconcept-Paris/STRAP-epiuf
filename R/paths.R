@@ -39,6 +39,7 @@
 #'
 #' @examples
 #' 
+#' \dontrun{
 #' # Set a path named 'sources' 
 #' setPath(pathname = "SOURCES", 
 #'     path = "c:/dev/Resources", 
@@ -52,7 +53,7 @@
 #'         makedir = "Never")
 #' # Checking the path is properly set
 #' getPath("DATA")
-#' 
+#' }
 #' 
 #' 
 setPath <-  function(pathname, path, makedir = c("Ask","Force","Never")) {
@@ -108,14 +109,15 @@ setPath <-  function(pathname, path, makedir = c("Ask","Force","Never")) {
 #'
 #' @examples
 #' 
+#' \dontrun{
 #' # First set the path directory and give it a label 
 #' setPath(pathname = "SOURCES", 
 #'     path = "c:/dev/Resources", 
-#'     makedir = "Never"))
+#'     makedir = "Never")
 #' 
 #' # Get the file path using the function 
 #' getPath("SOURCES")
-#' 
+#' }
 #' 
 getPath <-  function(pathname) {
   pathname <- paste0("PATH_",pathname)
@@ -145,6 +147,7 @@ getPath <-  function(pathname) {
 #' @examples
 #' 
 #' ## Not to run - example only 
+#' \dontrun{
 #' # Set an example path named 'sources' 
 #' setPath(pathname = "SOURCES", 
 #'        path = "c:/dev/Resources", 
@@ -155,7 +158,7 @@ getPath <-  function(pathname) {
 #' 
 #' # Source example file from the specified path 
 #' sourceFile("SOURCES",file)
-#' 
+#' }
 sourceFile <- function(pathname, filename )  {
   s_op <- deparse(substitute(pathname))
   # if op is a variable wich contain char, we use content of op
