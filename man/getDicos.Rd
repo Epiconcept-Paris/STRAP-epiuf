@@ -7,8 +7,17 @@
 getDicos()
 }
 \value{
-The dataset containing all the dicos
+The dataset containing all the dicos in 3 columns: dico_name, label, code.
 }
 \description{
-getDicos
+This function returns a dataset containing all stored dicos, including
+the list of codes and labels, as returned by \code{getNewDictionaryLine("dicos")}.
+}
+\examples{
+getDicos() 
+
+
+}
+\seealso{
+\code{\link[=setDicos]{setDicos()}}
 }

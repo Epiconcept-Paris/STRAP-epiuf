@@ -13,18 +13,17 @@ The current dictionary
 This function loads the most recent dictionary set into the environment.
 }
 \examples{
-# Create an example dataset 
-dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA,NA),
- source_name=c("source1","source2","source3","",NA,"source6",NA),
-  type=c("numeric","numeric","numeric","character"," ","character",NA)
-  )
+# Create an example data frame to set as a dictionary 
+dic <- data.frame(generic_name = c("id", "idcountry", "age", "agegroup3", "agroup10"),
+                  source_name = c("id", "idcountry", "age", "agegroup3", "agroup10"),
+                  type = c("character", "character", "numeric", "factor", "factor"),
+                  dico = c("","","","agegp3","agegp10"))
 
 # Set the current dictionary 
  setDictionary(dictionary = dic)
-  
+   
 # Load dictionary into the environment 
 retrieved <- getDictionary()
-
 
 }
 \seealso{

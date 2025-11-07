@@ -7,11 +7,25 @@
 setDicos(dic)
 }
 \arguments{
-\item{dic}{A dataset of dicos (with epiuf structure as returned by getNewDictionaryLine)}
+\item{dic}{A dataset of dicos (with epiuf structure as returned by \code{getNewDictionaryLine("dicos")})}
 }
 \value{
-nothing
+No return value
 }
 \description{
-setDicos
+Set the dataset \code{dic} in the format of epiuf structure "dicos"
+as returned by \code{getNewDictionaryLine("dicos")}
+(i.e., columns: 'dico_name', 'label', 'code')
+and store it in environment.
+}
+\examples{
+di <- data.frame(dico_name = rep("yesno", 2),
+                 label = c("yes", "no"),
+                 code = c("1", "0"))
+setDicos(di)  
+getDicos()
+ 
+}
+\seealso{
+\code{\link[=getDicos]{getDicos()}}, \code{\link[=getNewDictionaryLine]{getNewDictionaryLine()}}
 }

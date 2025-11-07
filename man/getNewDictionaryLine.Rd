@@ -7,11 +7,22 @@
 getNewDictionaryLine(mode = "dictionary")
 }
 \arguments{
-\item{mode}{Type of line to return. Could be dictionary, dicos, or actions}
+\item{mode}{Type of line to return (character). Could be dictionary, dicos, or actions
+(one of the three tabs of the Excel dictionary file, see \code{openDictionary()})}
 }
 \value{
-An empty record of type \code{mode}
+An empty record in a data frame of type \code{mode}
 }
 \description{
 getNewDictionaryLine
+}
+\examples{
+getNewDictionaryLine(mode = "dictionary")
+getNewDictionaryLine(mode = "dicos")
+getNewDictionaryLine(mode = "actions")
+
+
+}
+\seealso{
+\code{\link[=openDictionary]{openDictionary()}}
 }

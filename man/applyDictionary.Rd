@@ -7,31 +7,60 @@
 applyDictionary(dictionary = NULL, data, verbose = TRUE, keepextra = FALSE)
 }
 \arguments{
-\item{dictionary}{A dictionary (passed as data.frame)}
+\item{dictionary}{A dictionary (data.frame)}
 
 \item{data}{A dataset to transform to generic structure of the dictionary (data.frame)}
 
 \item{verbose}{Feedback regarding matching of the two}
 
-\item{keepextra}{if TRUE, extra variables existing in data but not in generic dictionary are kept
-in the returned dataset. Then this generic dataset is no longer generic because it may contain
+\item{keepextra}{Logical. If TRUE, extra variables existing in data
+but not in generic dictionary are kept in the returned dataset.
+Then this generic dataset is no longer generic because it may contain
 non generic variables.}
 }
 \value{
 A data set
 }
 \description{
-Updates dataset to the dictionary generic structure.
+Updates dataset \code{data} and transform it according to the dictionary generic structure.
 }
 \examples{
-# The output will be a dataset with columns renamed to match that of the dictionary. 
+ 
+# Create dummy dictionary
+dic <- data.frame(generic_name = c("id", "idcountry", "age", "agegroup3", "agroup10"),
+                  source_name = c("ID", "CountryID", "Age", "Agegp3", "Agep10"),
+                  type = c("character", "character", "numeric", "factor", "factor"),
+                  dico = c("","","","agegp3","agegp10"),
+                  unknowns = NA,
+                  description = NA,
+                  comments = NA)
 
-source <- data.frame(source1=c(1,2,3),source2=c(2,3,4),source3=c(4,5,6),source6=c(6,7,8))
+# Set the current dictionary 
+setDictionary(dictionary = dic)
 
-dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA),
- source_name=c("source1","source2","source3",NA,NA,"source6"),
- type=c("numeric","numeric","character","numeric","character",NA))
+# Create corresponding dummy dicos  
+dicos <- data.frame(dico_name = c("yesno", "yesno", "agegp3", "agegp3", "agegp3"),
+                    label = c("no", "yes", "0-14 years", "15-64 years", "65+ years" ),
+                    code = c("0", "1", "0", "1", "2"))
 
-new <- applyDictionary(dictionary=dic,data=source)
+# Set the corresponding dicos
+setDicos(dicos)
+
+# Dummy source data
+source <- data.frame(ID = c(1,2,3),
+                     CountryID = c(2,3,4),
+                     Age = c(4,5,6))
+
+# Transforming the source data into generic
+new <- applyDictionary(dictionary = dic,
+                       data = source)
+                       
+# Example base on epiuf::DummyData          
+new <- applyDictionary(dictionary = dic, 
+                       data = epiuf::DummyData)
+new <- applyDictionary(dictionary = dic, 
+                       data = epiuf::DummyData,
+                       keepextra = TRUE)
+               
 
 }

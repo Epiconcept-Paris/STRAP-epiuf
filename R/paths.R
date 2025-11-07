@@ -26,37 +26,44 @@
 #' 
 #' Set a named path to avoid absolute path in R scripts. Creates a short cut to folders and files. 
 #'
-#' @param pathname Pathname label specified in "". 
-#' @param path Path to the desired folder or file that you want linked with the pathname. See function 'pathToFile()'.
-#' @param makedir If "Force" path will be created if it doesn't exist, if "Never" path will not be created and 
-#'                a warning will pop if path is missing. If set to "Ask" a prompt will ask for confirmation before 
-#'                creating the missing directory. 
+#' @param pathname Label attributed to the path, specified in character string (e.g., \code{"DATA"}). 
+#' @param path Absolute (or relative) path to the desired folder or file that you want linked with the \code{pathname}
+#' (e.g., \code{"C:/R/Project/data"}). See function \code{'pathToFile()'}.
+#' @param makedir If \code{"Force"} path will be created if it doesn't exist. <br>
+#' If \code{"Never"}, path will not be created and a warning will pop if path is missing. <br>
+#' If set to \code{"Ask"}, a prompt will ask for confirmation before creating the missing directory. 
 #'
-#' @return Previous defined path 
+#' @return Defined path 
 #' @export
-#'
 #' @seealso [pathToFile()] and [getPath()]
 #'
 #' @examples
-#' 
 #' \dontrun{
-#' # Set a path named 'sources' 
+#' # Set a name/keyword associated to a specific absolute path
 #' setPath(pathname = "SOURCES", 
-#'     path = "c:/dev/Resources", 
-#'     makedir = "Never")
+#'         path = "C:/dev/Resources", 
+#'         makedir = "Never")
 #' # Check path is properly set 
 #' getPath("SOURCES")
 #' 
-#' # Setting a name/keyword associated to a specific path
+#' # Set a name/keyword associated to a specific relative path
 #' setPath(pathname = "DATA", 
 #'         path = "./data", # Note './' for relative paths
 #'         makedir = "Never")
 #' # Checking the path is properly set
 #' getPath("DATA")
+#' 
+#' # Importing file (with base R functions)
+#' df <- readRDS(file.path(getPath("DATA"), "df.rds")) 
+#' ## or with epiuf functions
+#' df <- readData(pathToFile("DATA", "df.rds"))
 #' }
 #' 
 #' 
-setPath <-  function(pathname, path, makedir = c("Ask","Force","Never")) {
+setPath <-  function(pathname, 
+                     path, 
+                     makedir = c("Ask", "Force", "Never")) {
+  
   s_op <- deparse(substitute(pathname))
   # if pathname is a variable which contain char, we use content of pathname
   ok <- FALSE
@@ -97,33 +104,33 @@ setPath <-  function(pathname, path, makedir = c("Ask","Force","Never")) {
 
 #' getPath
 #' 
-#' This function retrieves a named Path previously defined in 'setPath()'. 
+#' This function retrieves a named Path previously defined in \code{setPath()}. 
 #'
-#' @param pathname Path label specified in "". 
+#' @param pathname Label attributed to the path, specified in character string (e.g., \code{"DATA"}). 
 #'
 #' @return The path saved under pathname label.
 #' @export
-#'
-#' @seealso [setPath()]
+#' @seealso [setPath()] and [pathToFile()]
 #' 
-#'
 #' @examples
-#' 
 #' \dontrun{
 #' # First set the path directory and give it a label 
-#' setPath(pathname = "SOURCES", 
-#'     path = "c:/dev/Resources", 
-#'     makedir = "Never")
+#' setPath(pathname = "DATA", 
+#'         path = "./data", 
+#'         makedir = "Never")
 #' 
 #' # Get the file path using the function 
-#' getPath("SOURCES")
+#' getPath("DATA")
+#' 
+#' # Importing file using getPath
+#' df <- readData(pathToFile("DATA", "df.rds"))
 #' }
 #' 
 getPath <-  function(pathname) {
-  pathname <- paste0("PATH_",pathname)
+  pathname <- paste0("PATH_", pathname)
   r <- getEpiOption(pathname)
   if(is.null(r)){ 
-     cat("Path not defined with setPath : ",pathname,"\n")
+     cat("Path not defined with setPath : ", pathname, "\n")
   }
   return(r)
 }
@@ -132,33 +139,31 @@ getPath <-  function(pathname) {
 #' sourceFile
 #'
 #' 
-#' 'sourceFile()' sources a file from a previously set path and runs it in your script. 
-#' It uses the label of the path (pathname) and the name of the file (filename) of which you want to run. 
-#' This function is a wrapper for 'source()'.
+#' Source a file from a previously set path and run it. 
+#' It uses the label of the path (\code{pathname}) and the name of the file 
+#' (\code{filename}) of which you want to run. 
+#' This function is a wrapper for 'source()' base R function.
 #' 
 #' 
-#' @param pathname  The label given to a previously specified path. Needs to be written in "".  
-#' @param filename  The name of the file to source (if it contains a path, it will be added to the specified path (pathname).
+#' @param pathname  Label attributed to the path where to find the file to source, 
+#' specified in character string (e.g., \code{"SCRIPTS"}).  
+#' @param filename  The name of the file to source in character string
+#' (if it contains a path, it will be added to the specified path (\code{pathname}).
 #'
-#' @return nothing
+#' @return No return value
 #' @export
-#'
 #' @seealso [setPath()]
 #' @examples
-#' 
-#' ## Not to run - example only 
 #' \dontrun{
-#' # Set an example path named 'sources' 
-#' setPath(pathname = "SOURCES", 
-#'        path = "c:/dev/Resources", 
+#' # Set an example path named 'SCRIPTS' 
+#' setPath(pathname = "SCRIPTS", 
+#'        path = "./scripts", 
 #'        makedir = "Never")
 #' 
-#' # Create an example file 
-#' file <- tempfile(fileext = ".R")
-#' 
-#' # Source example file from the specified path 
-#' sourceFile("SOURCES",file)
+#' # Source an R script from the specified path 
+#' sourceFile("SCRIPTS", "import_data.R")
 #' }
+#' 
 sourceFile <- function(pathname, filename )  {
   s_op <- deparse(substitute(pathname))
   # if op is a variable wich contain char, we use content of op
@@ -187,17 +192,35 @@ sourceFile <- function(pathname, filename )  {
 
 #' pathToFile
 #' 
-#' Constructs an absolute path to a file (e.g a folder) using a previously set saved path name (see setPath) and the file name.
+#' Constructs an absolute path to a file using a previously set saved path name 
+#' (see \code{setPath()}) and the file name.
 #' 
 #'
-#' @param pathname Label for saved path
-#' @param filename Name of the file to retrieve, may contain subdir 
+#' @param pathname Label attributed to the path, specified in character string (e.g., \code{"DATA"}).
+#' @param filename Name of the file to retrieve, may contain sub directory 
 #'
-#' @return the full name of the file 
+#' @return The full path to the file 
+#' @seealso [setPath()]
 #' @export
-#'
 #' @examples
-#' pathToFile("data","cleanedrecords.csv")
+#' \dontrun{
+#' # Set the path directory and give it a label 
+#' setPath(pathname = "DATA", 
+#'         path = "./data")
+#' 
+#' # Construct the full file path
+#' pathToFile("DATA", "df.rds")
+#' 
+#' # Importing file using getPath
+#' df <- readData(pathToFile("DATA", "df.rds"))
+#' 
+#' # Set another example path 
+#' setPath(pathname = "SCRIPTS", 
+#'         path = "./scripts")
+#' 
+#' # Construct the full path to a given file 
+#' pathToFile("SCRIPTS", "import_data.R")
+#' }
 #' 
 #' 
 pathToFile <- function(pathname, filename) {
@@ -210,6 +233,6 @@ pathToFile <- function(pathname, filename) {
   return(r)
 }
 
-#'@seealso setPath()
+
 
 # END of SCRIPT  --------------------------------------------------------

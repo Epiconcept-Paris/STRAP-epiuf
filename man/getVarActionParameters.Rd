@@ -7,13 +7,20 @@
 getVarActionParameters(variablename, actiontag)
 }
 \arguments{
-\item{variablename}{The variable for which we want to retrieve the the associated action parameters.}
+\item{variablename}{The variable (character) for which we want to retrieve
+the associated action parameters (see columns \code{variable} in \code{getDictionaryActions()}).}
 
-\item{actiontag}{Name of the action group specified in "".}
+\item{actiontag}{The name of the action group (character)
+(see column \code{action_group} in \code{getDictionaryActions()}).}
 }
 \value{
-The parameters associated to the variable action
+The parameters associated to the variable/action (see column \code{parameters} in \code{getDictionaryActions()})
 }
 \description{
-This function retrieves the associated action parameter from a variable.
+Retrieve the associated action parameter (i.e., value in \code{parameters} column)
+from a given variable (i.e., defined in the column \code{variable} in \code{getDictionaryActions()})
+and given action (i.e., value in \code{action_group} column).
+}
+\seealso{
+\code{\link[=getDictionaryActions]{getDictionaryActions()}}, \code{\link[=getNewDictionaryLine]{getNewDictionaryLine()}}, \code{\link[=getVarAction]{getVarAction()}}
 }

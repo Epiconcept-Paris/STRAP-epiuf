@@ -29,26 +29,25 @@ epidictionaryfiles_env$dicos <- NULL
 epidictionaryfiles_env$actions <- NULL
 
 
-# this function would be rarely used except for tests
 #' setDictionary
 #'
-#' Set a dictionary using a data.frame. 
+#' Set a dictionary using a data.frame (this function would be rarely used except for tests).
 #'
 #'
 #' @param dictionary A dictionary epiuf structure (data.frame)
 #'
-#' @return Nothing
-#'
+#' @return No return value
+#' @seealso [getDictionary()], [openDictionary()], [applyDictionary()]
 #' @examples
 #' 
 #' # Create an example data frame to set as a dictionary 
-#' dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA,NA),
-#'   source_name=c("source1","source2","source3","",NA,"source6",NA),
-#'   type=c("numeric","numeric","numeric","character"," ","character",NA),
-#'   unknowns=c("","8","UNK","","","",""))
+#' dic <- data.frame(generic_name = c("id", "idcountry", "age", "agegroup3", "agroup10"),
+#'                   source_name = c("id", "idcountry", "age", "agegroup3", "agroup10"),
+#'                   type = c("character", "character", "numeric", "factor", "factor"),
+#'                   dico = c("","","","agegp3","agegp10"))
 #' 
 #' # Set the dictionary 
-#' dictionary <- setDictionary(dictionary = dic)
+#' setDictionary(dictionary = dic)
 #' 
 #' 
 #' @export
@@ -56,51 +55,70 @@ epidictionaryfiles_env$actions <- NULL
 
 setDictionary  <- function(dictionary) {
   # the dictionary dataset is assigned to the internal data after being updated  
-  epidictionaryfiles_env$data <- updateDataset(dictionary,getNewDictionaryLine("dictionary"))
+  epidictionaryfiles_env$data <- updateDataset(dictionary, getNewDictionaryLine("dictionary"))
 }
+
 
 #' getDictionary
 #'
 #' This function loads the most recent dictionary set into the environment. 
 #'
 #' @return The current dictionary
-#' 
+#' @seealso [setDictionary()]
+#' @export
 #' @examples
-#' # Create an example dataset 
-#' dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA,NA),
-#'  source_name=c("source1","source2","source3","",NA,"source6",NA),
-#'   type=c("numeric","numeric","numeric","character"," ","character",NA)
-#'   )
-#'
+#' # Create an example data frame to set as a dictionary 
+#' dic <- data.frame(generic_name = c("id", "idcountry", "age", "agegroup3", "agroup10"),
+#'                   source_name = c("id", "idcountry", "age", "agegroup3", "agroup10"),
+#'                   type = c("character", "character", "numeric", "factor", "factor"),
+#'                   dico = c("","","","agegp3","agegp10"))
+#' 
 #' # Set the current dictionary 
 #'  setDictionary(dictionary = dic)
-#'   
+#'    
 #' # Load dictionary into the environment 
 #' retrieved <- getDictionary()
-#' 
-#' 
-#' @seealso [setDictionary()]
-#' 
-#' @export
 #'
 getDictionary <- function() {
   if (is.null(epidictionaryfiles_env$data)) createDictionary()
   return(epidictionaryfiles_env$data)
 }
 
+
 #' openDictionary
 #'
-#'Imports a dictionary into the environment.  
+#' Imports a dictionary into the environment. <br>
+#' 
+#' Warning: The dictionary needs to be in 'epiuf' structure 
+#' (see example \code{externalFile("genericdictionary.xlsx")}) with three sheets:
+#' * \code{'dictionary'} including a table with the following columns:
+#'    * \code{'source_name'}, name of the variable in the source file
+#'    * \code{'generic_name'}, generic name replacement of the variable
+#'    * \code{'type'}, variable type
+#'    * \code{'unknowns'}, values to be considered as unknowns (e.,g., UNK, 9, 999)
+#'    * \code{'dico'}, name of the corresponding dictionary
+#' * \code{'dicos'} including a table with the following columns:
+#'    * \code{'dico_name'}, name of the ref dico (e.g., YESNO)
+#'    * \code{'label'}, label of each dico value (e.g., Yes)
+#'    * \code{'code'}, code of each dico value (e.g., 1)
+#' * \code{'actions'} including a table with the following columns:
+#'    * \code{'variable'}
+#'    * \code{'action_group'}, action to run on the above-mentioned variable
+#'    * \code{'parameters'}, parameters to use in above-mentioned action/function
+#'    
+#' @param filename Character string, path and file name to the file (xls) 
+#' containing the dictionary to open. The dictionary will be loaded.
 #'
-#' @param filename Character string, path to the file (xls) containing a dictionary. The dictionary will be loaded.
-#'
-#' @return Nothing
+#' @return No return value
+#' @seealso [setDictionary()], [getDictionary()], [applyDictionary()]
 #' 
 #' @examples
-#' # example code
-#'  
-#'  file1 <- externalFile("genericdictionary.xlsx")
-#'  dictionary <- openDictionary(file1)
+#' file1 <- externalFile("genericdictionary.xlsx")
+#' openDictionary(file1)
+#' 
+#' \dontrun{
+#' openDictionary(pathToFile("REFERENCE", "RefDictionnary.xlsx")))
+#' }
 #' 
 #' @export
 #' 
@@ -114,7 +132,7 @@ openDictionary <-  function(filename) {
     
     # Check if the modele sheets are found in the excel
     if ("dictionary" %in% sheet_names) {
-      sheet1 <- readData(filename, sheet = "dictionary", verbose = F) # sheet dictionary
+      sheet1 <- readData(filename, sheet = "dictionary", verbose = FALSE) # sheet dictionary
       if(all(is.na(sheet1))) warning("dictionary sheet is blank")
       if (!all(c("source_name", "generic_name", "type", "dico", "unknowns") %in%
                names(sheet1))) {
@@ -180,16 +198,26 @@ openDictionary <-  function(filename) {
 
 # may be only useful to create an empty dictionary, not urgent 
 #' saveDictionary
+#' 
+#' Function to save the current dictionary \code{'dictionary'} as an Excel 
+#' spreadsheet in a given folder \code{'filename'}.
 #'
-#' @param filename The filename where to save the dictionary. 
-#' This file will be erased and replaced by a new  one containing the \code{dictionary} 
-#' @param dictionary Optionaly a dictionary. By default the current dictionary will be saved
+#' @param filename The file name and path where to save the dictionary (character). 
+#' Any existing file will be overwritten. 
+#' @param dictionary (Optional) Dictionary. By default the current dictionary will be saved.
 #'
-#' @return Nothing
+#' @return No return value
+#' @seealso [getDictionary()]
 #' @export
+#' 
+#' @examples 
+#' \dontrun{
+#' saveDictionary(filename = paste0(getwd(), "/test.xlsx"))
+#' }
 #'
 
-saveDictionary <- function(filename=NULL,dictionary=NULL) {
+saveDictionary <- function(filename = NULL,
+                           dictionary = NULL) {
 
   if (is.null(filename)) {
     filename <- epidictionaryfiles_env$datafilename
@@ -201,118 +229,172 @@ saveDictionary <- function(filename=NULL,dictionary=NULL) {
     ds <- getDictionary()
   } else ds <- dictionary
   
-  if (nrow(ds)==0) {
+  if (nrow(ds) == 0) {
     # replace by empty record ? 
     ds[1,] <- " "
   }
   #xlsx::write.xlsx(ds,file=filename,sheetName = "dictionary",row.names=FALSE)
   wb <- openxlsx::createWorkbook()
-  openxlsx::addWorksheet(wb,"dictionary")
-  openxlsx::writeData(wb,"dictionary",ds)
+  openxlsx::addWorksheet(wb, "dictionary")
+  openxlsx::writeData(wb, "dictionary", ds)
   
   ds <- getDicos()
-  openxlsx::addWorksheet(wb,"dicos")
-  openxlsx::writeData(wb,"dicos",ds)
+  openxlsx::addWorksheet(wb, "dicos")
+  openxlsx::writeData(wb, "dicos", ds)
   
   ds <- getDictionaryActions()
-  openxlsx::addWorksheet(wb,"actions")
-  openxlsx::writeData(wb,"actions",ds)
+  openxlsx::addWorksheet(wb, "actions")
+  openxlsx::writeData(wb, "actions", ds)
   
-  openxlsx::saveWorkbook(wb,file=filename,overwrite=TRUE)
+  openxlsx::saveWorkbook(wb, file = filename, overwrite = TRUE)
 }
 
 # we need to add the current status ! 
 #' getNewDictionaryLine
 #'
-#' @param mode Type of line to return. Could be dictionary, dicos, or actions
+#' @param mode Type of line to return (character). Could be dictionary, dicos, or actions 
+#' (one of the three tabs of the Excel dictionary file, see \code{openDictionary()})
 #'
-#' @return An empty record of type \code{mode}
+#' @return An empty record in a data frame of type \code{mode}
 #' @export
+#' @seealso [openDictionary()]
+#' 
+#' @examples
+#' getNewDictionaryLine(mode = "dictionary")
+#' getNewDictionaryLine(mode = "dicos")
+#' getNewDictionaryLine(mode = "actions")
+#' 
 #'
 
-getNewDictionaryLine  <- function(mode="dictionary") {
+getNewDictionaryLine  <- function(mode = "dictionary") {
 
-  if (mode=="dictionary") {  
-  OneDataLine <- data.frame(source_name=as.character(),               # name in the source
-                            generic_name=as.character(),              # generic name replacement 
-                            type=as.character(),                      # type of the variable
-                            dico=as.character(),
-                            unknowns=as.character(),
-                            description=as.character(),
-                            comments=as.character(),
-                            stringsAsFactors=FALSE
+  # LMC 2025-11-06: I believe we should initiate the result value with
+  # OneDataLine <- NA
+  
+  if (mode == "dictionary") {  
+  OneDataLine <- data.frame(source_name = as.character(),               # name in the source
+                            generic_name = as.character(),              # generic name replacement 
+                            type = as.character(),                      # type of the variable
+                            dico = as.character(),
+                            unknowns = as.character(),
+                            description = as.character(),
+                            comments = as.character(),
+                            stringsAsFactors = FALSE
                             )
-  } else if (mode=="dicos") {
-    OneDataLine <- data.frame(dico_name=as.character(),               # name in the source
-                              label=as.character(),              # generic name replacement 
-                              code=as.character(),
-                              stringsAsFactors=FALSE
+  } else if (mode == "dicos") {
+    OneDataLine <- data.frame(dico_name = as.character(),               
+                              label = as.character(),               
+                              code = as.character(),
+                              stringsAsFactors = FALSE
                               )
                               
-  } else if (mode=="actions") {
-    OneDataLine <- data.frame(variable=as.character(),               # name in the source
-                              action_group=as.character(),              # generic name replacement 
-                              parameters=as.character(),
-                              stringsAsFactors=FALSE
+  } else if (mode == "actions") {
+    OneDataLine <- data.frame(variable = as.character(),               
+                              action_group = as.character(),               
+                              parameters = as.character(),
+                              stringsAsFactors = FALSE
                               )
                               
-  } else warning(mode," is not a dictionary sheet")
+  } else warning(mode, " is not a dictionary sheet")
   return(OneDataLine)
 }
 
 
 #' getDicos
 #'
-#' @return The dataset containing all the dicos 
+#' This function returns a dataset containing all stored dicos, including 
+#' the list of codes and labels, as returned by \code{getNewDictionaryLine("dicos")}.
+#' 
+#' @return The dataset containing all the dicos in 3 columns: dico_name, label, code.
 #' @export
+#' @seealso [setDicos()]
+#' 
+#' @examples
+#' getDicos() 
+#' 
 #'
 
 getDicos <- function() {
   ds <- epidictionaryfiles_env$dicos
   if (is.null(ds) ) {
     # replace by empty record ? 
-    ds <- getNewDictionaryLine(mode="dicos")
+    ds <- getNewDictionaryLine(mode = "dicos")
   }
   if (nrow(ds)==0) ds[1,] <- NA
   epidictionaryfiles_env$dicos <-  ds
   return(ds)
 }
 
+
 #' setDicos
+#' 
+#' Set the dataset \code{dic} in the format of epiuf structure "dicos" 
+#' as returned by \code{getNewDictionaryLine("dicos")} 
+#' (i.e., columns: 'dico_name', 'label', 'code')
+#' and store it in environment.
+#' 
+#' @param dic A dataset of dicos (with epiuf structure as returned by \code{getNewDictionaryLine("dicos")})
 #'
-#' @param dic A dataset of dicos (with epiuf structure as returned by getNewDictionaryLine)
-#'
-#' @return nothing
+#' @return No return value
 #' @export
-#'
+#' @seealso [getDicos()], [getNewDictionaryLine()]
+#' 
+#' @examples
+#' di <- data.frame(dico_name = rep("yesno", 2),
+#'                  label = c("yes", "no"),
+#'                  code = c("1", "0"))
+#' setDicos(di)  
+#' getDicos()
 #'  
 setDicos <- function(dic) {
-  epidictionaryfiles_env$dicos <- updateDataset(dic,getNewDictionaryLine("dicos"))
+  epidictionaryfiles_env$dicos <- updateDataset(dic, getNewDictionaryLine("dicos"))
 }
 
+
 #' getDictionaryActions
+#' 
+#' Return the dictionary actions dataset stored in the environment 
+#' as returned by \code{getNewDictionaryLine("actions")}..
 #'
 #' @return A dataset of actions 
 #' @export
+#' @seealso [setDictionaryActions()], [getNewDictionaryLine()]
+#' 
+#' @examples
+#' getDictionaryActions()
 #'
 #'  
 getDictionaryActions <- function() {
   ds <- epidictionaryfiles_env$actions
   if (is.null(ds) ) {
     # replace by empty record ? 
-    ds <- getNewDictionaryLine(mode="actions")
+    ds <- getNewDictionaryLine(mode = "actions")
   }
-  if (nrow(ds)==0){ ds[1,] <- NA}
+  if (nrow(ds) == 0){ ds[1,] <- NA}
   epidictionaryfiles_env$actions <-  ds
   return(ds)
 }
 
+
 #' setDictionaryActions
+#' 
+#' Set the data frame \code{actions} as a dictionary action in the environment
+#' as returned by \code{getNewDictionaryLine("actions")} 
+#' (i.e., columns: 'variable', 'action_group', 'parameters').
 #'
-#' @param actions A dataset of actions 
+#' @param actions A dataset (data frame) of actions 
 #'
-#' @return Nothing
+#' @return No return value
 #' @export
+#' @seealso [getDictionaryActions()], [getNewDictionaryLine()]
+#' 
+#' @examples
+#' # Example of empty dictionary action
+#' getNewDictionaryLine(mode = "actions")
+#' 
+#' # Set it as dictionary action in environment
+#' setDictionaryActions(getNewDictionaryLine(mode = "actions"))
+#' 
 #'
 #'  
 setDictionaryActions <- function(actions) {
@@ -322,46 +404,48 @@ setDictionaryActions <- function(actions) {
 
 #' getDictionaryValue
 #' 
-#' Retrieve the value of one parameter's (column) in the dictionary, searching for the generic_name.
+#' Retrieve the value of one parameter's (column) in the dictionary, searching for the 'generic_name'.
 #' Usual column values to retrieve are: type, dico and unknowns.
 #' An error will occur if the column name is incorrect.
 #' Return NA if searched varname is not found. 
 #'
-#' @param varname The varname for which we will retrieve content of one column from the dictionary.
-#' @param valuename Name of the column to retrieve from dictionary.
+#' @param varname The varname for which we will retrieve content of one column from the dictionary (character).
+#' @param valuename Name of the column to retrieve from dictionary (character).
 #'
 #' @return A single value
+#' @seealso [getNewDictionaryLine()]
 #' 
 #' @examples
 #' 
 #' # Create example dataset 
-#' dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA,NA),
-#' source_name=c("source1","source2","source3","",NA,"source6",NA),
-#' type=c("numeric","numeric","numeric","character"," ","character",NA),
-#' unknowns=c("","8","UNK","","","","")
-#' )
+#' dic <- data.frame(generic_name = c("id", "idcountry", "age", "agegroup3", "agroup10"),
+#'                   source_name = c("id", "idcountry", "age", "agegroup3", "agroup10"),
+#'                   type = c("character", "character", "numeric", "factor", "factor"),
+#'                   dico = c("","","","agegp3","agegp10"))
 #' 
 #' # Set the dictionary 
 #' setDictionary(dictionary = dic)
 #' 
 #' # Use the function
-#' getDictionaryValue("gen3","unknowns")
+#' getDictionaryValue("agegroup3","dico")
 #' 
 #' @export
 #'
 #'  
-getDictionaryValue <- function(varname, valuename=c("type","dico","unknowns")) {
+getDictionaryValue <- function(varname, 
+                               valuename = c("type", "dico", "unknowns")) {
   ds <- getDictionary()
   value <-  NA
   if (nrow(ds)>0) {
-     paramok <- (valuename%in%names(ds))
+     paramok <- (valuename %in% names(ds))
      if (paramok) {
-       value <- subset(ds,ds$generic_name == varname)[,valuename]
-       if (length(value)==0) value <- NA
-     } else warning(valuename," is not allowed as a dico column")    
+       value <- subset(ds, ds$generic_name == varname)[,valuename]
+       if (length(value) == 0) value <- NA
+     } else warning(valuename, " is not allowed as a dico column")    
   }  
   return(value)
 }
+
 
 #' getAnyDictionaryValue 
 #' 
@@ -370,83 +454,151 @@ getDictionaryValue <- function(varname, valuename=c("type","dico","unknowns")) {
 #' values from specified dictionary columns. It issues a warning if the search column or the
 #' value column is not present in the dictionary.
 #'
-#' This function is advanced and you should usually use getDicoOfVar or getVarAction 
+#' This function is advanced and you should usually use \code{getDicoOfVar} or \code{getVarAction} 
 #'
-#' @param varname The variable name to search for in the dictionary.
+#' @param varname The variable name to search for in the dictionary (character).
 #' @param searchcolumn A character vector specifying which column(s) to search in the dictionary.
-#'   Defaults to c("source_name", "generic_name").
+#'   Defaults to \code{c("source_name", "generic_name")}.
 #' @param value A character vector specifying which column(s) to return values from.
-#'   Defaults to c("source_name", "generic_name", "dico", "type", "unknowns").
+#'   Defaults to \code{c("source_name", "generic_name", "dico", "type", "unknowns")}.
 #'
 #' @return Returns the subset of the dictionary that matches the search criteria or `NA` if no
 #'   matches are found or if the search/value columns are not in the dictionary.
 #' @export
+#' @seealso [getDicoOfVar()], [getVarAction()]
 #' 
 #' @examples
 #' # Assuming 'getDictionary' is a function that returns a data frame and 'varname' is a known variable
 #' getAnyDictionaryValue(varname = "exampleVar")
 #' 
-#' \dontrun{getAnyDictionaryValue("varname",searchcolumn="source_name",value="dico")}
-
+#' \dontrun{
+#' getAnyDictionaryValue("varname",
+#'                       searchcolumn = "source_name",
+#'                       value = "dico")
+#' }
+#' 
+#' # Set an example dictionary
+#' dic <- data.frame(generic_name = c("id", "idcountry", "age", "agegroup3", "agroup10"),
+#'                   source_name = c("id", "idcountry", "age", "agegroup3", "agroup10"),
+#'                   type = c("character", "character", "numeric", "factor", "factor"),
+#'                   dico = c("","","","agegp3","agegp10"))
+#' 
+#' # Set the current dictionary 
+#'  setDictionary(dictionary = dic)
+#'  
+#' # Search for the value 'agegp3' in the column 'dico' and returning 
+#' # the corresponding value in column 'generic_name'
+#' getAnyDictionaryValue(varname = "agegp3",
+#'                       searchcolumn = "dico",
+#'                       value = "generic_name")
+#'            
+#' 
 
 getAnyDictionaryValue <- function(varname,
-                                  searchcolumn = c("source_name","generic_name"), 
-                                  value=c("source_name","generic_name","dico","type","unknowns","description","comments")) {
+                                  searchcolumn = c("source_name", "generic_name"), 
+                                  value = c("source_name", "generic_name", 
+                                            "dico", "type", "unknowns",
+                                            "description", "comments")) {
   ds <- getDictionary()
   result <-  NA
   # if dictionary is not empty
   if (nrow(ds)>0) {
     
-    if( ! searchcolumn%in%names(ds)){
+    if( ! searchcolumn %in% names(ds)){ #LMC 2025-11-07: I think it should be: if(sum(searchcolumn %in% names(ds)) == 0)
       warning(searchcolumn," is not allowed as a dico column")   
       return(result) 
     }
     
-    if(! value%in%names(ds)) {
+    if(! value %in% names(ds)) { #LMC 2025-11-07: I think it should be: if(sum(value %in% names(ds)) == 0)
       warning(value," is not allowed as a dico column")   
     return(result) 
     } 
     # looks for varname in searchcolumn and return content of value
-    result <- subset(ds,ds[,searchcolumn] == varname)[,value]
+    result <- subset(ds, ds[, searchcolumn] == varname)[, value]
     if (length(result)==0) result <- NA
   }  
   return(result)
 }
 
+
 #' getDicoOfVar
+#' 
+#' Return the dico associated with the variable `varname` (as defined in `generic_name`) 
+#' in the format as returned by \code{getNewDictionaryLine("dicos")}
 #'
-#' @param varname The variable for which we want to retrieve the name of the associated dico
+#' @param varname The variable for which we want to retrieve the name of the associated dico (character)
 #'
 #' @return The name of the dico associated with the variable
 #' @export
+#' @seealso [getNewDictionaryLine()], [getAnyDictionaryValue()]
 #'
+#' @examples
+#' # Create dummy dictionary
+#' dic <- data.frame(generic_name = c("id", "idcountry", "age", "agegroup3", "agroup10"),
+#'                   source_name = c("id", "idcountry", "age", "agegroup3", "agroup10"),
+#'                   type = c("character", "character", "numeric", "factor", "factor"),
+#'                   dico = c("","","","agegp3","agegp10"),
+#'                   unknowns = NA,
+#'                   description = NA,
+#'                   comments = NA)
+#' 
+#' # Set the current dictionary 
+#' setDictionary(dictionary = dic)
+#' 
+#' # Create corresponding dummy dicos  
+#' dicos <- data.frame(dico_name = c("yesno", "yesno", "agegp3", "agegp3", "agegp3"),
+#'                     label = c("no", "yes", "0-14 years", "15-64 years", "65+ years" ),
+#'                     code = c("0", "1", "0", "1", "2"))
+#' # Set the corresponding dicos
+#' setDicos(dicos)
+#' 
+#' # Retrieve the corresponding dictionary of variable "agegroup3" (see 'generic_name')
+#' getDicoOfVar("agegroup3")
+#' 
 #'  
 getDicoOfVar <- function(varname) {
-   diconame <- getDictionaryValue(varname,"dico")
+   diconame <- getDictionaryValue(varname, "dico")
    if (!is.na(diconame)){
      dic <- getDico(diconame)
    } else cat("No dico associated with",varname)
    return(dic)
 }
 
+
 #' getDico
 #'
-#' This function returns a data set containing one dico (list of code/labels).
+#' This function returns a data set containing one dico in the format 
+#' as returned by \code{getNewDictionaryLine("dicos")} (i.e., `dico_name`, `label`, `code`).
 #'
-#' @param diconame The name of one dico from the dicos structure
+#' @param diconame The name of one dico from the dicos structure (character)
 #'
 #' @return A data set containing one dico (list of code/labels)
 #' @export
-#'
+#' @seealso [getDicos()], [getNewDictionaryLine()]
+#' 
+#' @examples
+#' # Create corresponding dummy dicos  
+#' dicos <- data.frame(dico_name = c("yesno", "yesno", "agegp3", "agegp3", "agegp3"),
+#'                     label = c("no", "yes", "0-14 years", "15-64 years", "65+ years" ),
+#'                     code = c("0", "1", "0", "1", "2"))
+#' # Set the corresponding dicos
+#' setDicos(dicos)
+#' 
+#' # Retrieving all dicos
+#' getDicos()
+#' 
+#' # REtriving the dico of interest
+#' getDico("yesno")
+#' 
 #'  
 getDico <- function(diconame) {
   ds <- getDicos()
-  ds <-  subset(ds,ds$dico == diconame)
-  if (length(ds)==0) {
+  ds <- subset(ds, ds$dico == diconame)
+  if (length(ds) == 0) { #LMC 2025-11-07: I think that length(ds) should be replaced by nrow(ds)
     ds <- NA
     ## PR_CLZ : add line before and after
     catret("")
-    red("Dico",diconame,"not found")
+    red("Dico",diconame,"not found") #LMC 2025-11-07: To replace with an error and avoid returning NA
     catret("\n")
     ## END_PR_CLZ 
   }  
@@ -456,21 +608,25 @@ getDico <- function(diconame) {
 
 #' getVarAction
 #'
-#' Retrieve a certain action from a variable.
+#' Retrieve a certain action from the dictionary action tab (see structure of 
+#' \code{getNewDictionaryLine("actions")}) for a given variable (see column `variable`).
 #'
 #'
-#' @param variablename The variable for which we want to retrieve the the associated action.
-#' @param actiontag The name of the action group to retrieve.
+#' @param variablename The variable (character) for which we want to retrieve 
+#' the associated action (see column `variable` in `getDictionaryActions()`).
+#' @param actiontag The name of the action group to retrieve (character)
+#' (see column `action_group` in `getDictionaryActions()`).
 #'
 #' @return A dataset of var actions records for the variable. 
 #' @export
+#' @seealso [getDictionaryActions()], [getNewDictionaryLine()]
 #'
 #'  
-getVarAction <- function(variablename,actiontag) {
+getVarAction <- function(variablename, actiontag) {
   ds <- getDictionaryActions()
-# GDE check to be added for wrong action name
-    ds <-  subset(ds,ds$variable == variablename & ds$action_group == actiontag )
-    if (length(ds)==0) {
+#GDE check to be added for wrong action name
+    ds <-  subset(ds, ds$variable == variablename & ds$action_group == actiontag )
+    if (length(ds)==0) { #LMC 2025-11-07: need to replace length() with nrow()
       ds <- NA
       if (is.na(getActionGroup(actiontag))){
         red(actiontag,"is not found as a valid actiontag ")
@@ -479,74 +635,112 @@ getVarAction <- function(variablename,actiontag) {
     return(ds)
 }
 
+
 #' getVarActionParameters
 #'
-#' This function retrieves the associated action parameter from a variable. 
+#' Retrieve the associated action parameter (i.e., value in `parameters` column) 
+#' from a given variable (i.e., defined in the column `variable` in `getDictionaryActions()`)
+#' and given action (i.e., value in `action_group` column). 
 #'
-#' @param variablename The variable for which we want to retrieve the the associated action parameters.
-#' @param actiontag Name of the action group specified in "". 
+#' @param variablename The variable (character) for which we want to retrieve 
+#' the associated action parameters (see columns `variable` in `getDictionaryActions()`).
+#' @param actiontag The name of the action group (character)
+#' (see column `action_group` in `getDictionaryActions()`). 
 #'
-#' @return The parameters associated to the variable action
+#' @return The parameters associated to the variable/action (see column `parameters` in `getDictionaryActions()`)
 #' @export
+#' @seealso [getDictionaryActions()], [getNewDictionaryLine()], [getVarAction()]
 #'
 #'  
-getVarActionParameters <- function(variablename,actiontag) {
-  ds <- getVarAction(variablename,actiontag)
+getVarActionParameters <- function(variablename, actiontag) {
+  ds <- getVarAction(variablename, actiontag)
   # ds <- ifelse(nrow(ds)>0, ds$parameters, NA)
   ds <- ds$parameters
   return(ds)
 }  
 
+
 #' getActionGroup
 #'
+#' Return the dictionary action (see \code{getDictionaryActions()}) filtered 
+#' for a given `action_group`.
 #'
+#' @param actiontag Name of the action group to retrieve (character)
 #'
-#' @param actiontag Name of the action group to retrieve
-#'
-#' @return dataset containing all the variables with actions of type actionname
+#' @return Dataset of dictionary actions containing all the variables with actions of type action group
 #' @export
-#'
+#' @seealso [getDictionaryActions()], [getVarAction()]
 #'  
 getActionGroup <- function(actiontag) {
   ds <- getDictionaryActions()
   ds <-  subset(ds, ds$action_group == actiontag )
-  ds <- if(nrow(ds)>0){
-    return(ds)}else{
-      return(NA) 
-    }
+  ds <- if(nrow(ds) > 0){ #LMC 2025-11-07: ds to be removed
+    return(ds)
+  }else{ #LMC 2025-11-07: We should have the same behaviour as in getVarAction()
+    return(NA) 
+  }
 }
 
 
 
 #' applyDictionary
 #' 
-#' Updates dataset to the dictionary generic structure.  
+#' Updates dataset `data` and transform it according to the dictionary generic structure.  
 #'
-#' @param dictionary A dictionary (passed as data.frame)
+#' @param dictionary A dictionary (data.frame)
 #' @param data  A dataset to transform to generic structure of the dictionary (data.frame)
 #' @param verbose Feedback regarding matching of the two
-#' @param keepextra if TRUE, extra variables existing in data but not in generic dictionary are kept
-#'  in the returned dataset. Then this generic dataset is no longer generic because it may contain 
-#'  non generic variables.      
+#' @param keepextra Logical. If TRUE, extra variables existing in data 
+#' but not in generic dictionary are kept in the returned dataset. 
+#' Then this generic dataset is no longer generic because it may contain 
+#' non generic variables.      
 #'
 #' @return A data set 
-#' 
-#' @examples 
-#' # The output will be a dataset with columns renamed to match that of the dictionary. 
-#'
-#'source <- data.frame(source1=c(1,2,3),source2=c(2,3,4),source3=c(4,5,6),source6=c(6,7,8))
-#'
-#'dic <- data.frame(generic_name=c("gen1","gen2","gen3","gen4","gen5",NA),
-#'  source_name=c("source1","source2","source3",NA,NA,"source6"),
-#'  type=c("numeric","numeric","character","numeric","character",NA))
-#'
-#'new <- applyDictionary(dictionary=dic,data=source)
-
-#' 
 #' @export
+#' @examples 
+#'  
+#' # Create dummy dictionary
+#' dic <- data.frame(generic_name = c("id", "idcountry", "age", "agegroup3", "agroup10"),
+#'                   source_name = c("ID", "CountryID", "Age", "Agegp3", "Agep10"),
+#'                   type = c("character", "character", "numeric", "factor", "factor"),
+#'                   dico = c("","","","agegp3","agegp10"),
+#'                   unknowns = NA,
+#'                   description = NA,
+#'                   comments = NA)
+#' 
+#' # Set the current dictionary 
+#' setDictionary(dictionary = dic)
+#' 
+#' # Create corresponding dummy dicos  
+#' dicos <- data.frame(dico_name = c("yesno", "yesno", "agegp3", "agegp3", "agegp3"),
+#'                     label = c("no", "yes", "0-14 years", "15-64 years", "65+ years" ),
+#'                     code = c("0", "1", "0", "1", "2"))
+#' 
+#' # Set the corresponding dicos
+#' setDicos(dicos)
+#' 
+#' # Dummy source data
+#' source <- data.frame(ID = c(1,2,3),
+#'                      CountryID = c(2,3,4),
+#'                      Age = c(4,5,6))
+#' 
+#' # Transforming the source data into generic
+#' new <- applyDictionary(dictionary = dic,
+#'                        data = source)
+#'                        
+#' # Example base on epiuf::DummyData          
+#' new <- applyDictionary(dictionary = dic, 
+#'                        data = epiuf::DummyData)
+#' new <- applyDictionary(dictionary = dic, 
+#'                        data = epiuf::DummyData,
+#'                        keepextra = TRUE)
+#'                
 #'
 
-applyDictionary <- function( dictionary=NULL, data, verbose=TRUE, keepextra = FALSE) {
+applyDictionary <- function( dictionary = NULL, 
+                             data, 
+                             verbose = TRUE, 
+                             keepextra = FALSE) {
   
   if (is.null(dictionary)) {
      dictionary <-  getDictionary()
@@ -676,7 +870,7 @@ applyDictionary <- function( dictionary=NULL, data, verbose=TRUE, keepextra = FA
 
 #' Create a new dictionary environment with default entries
 #'
-#' This function initializes a new dictionary environment for epidemiological data management.
+#' This function initialises a new dictionary environment for epidemiological data management.
 #' It sets up the environment with default dictionary entries. The environment contains separate
 #' entries for the dictionary data, dicos, and actions, each initialized with a line from a
 #' corresponding 'getNewDictionaryLine' function.
@@ -685,13 +879,14 @@ applyDictionary <- function( dictionary=NULL, data, verbose=TRUE, keepextra = FA
 #'   the dictionary. Defaults to an empty string.
 #'
 #' @return Does not return a value; called for side effects of setting up the dictionary environment.
+#'@seealso [getNewDictionaryLine()], [openDictionary()]
 #'
 #' @examples
 #' # Create a new dictionary with default settings
 #' createDictionary()
 #' 
 #' @export
-createDictionary <- function(filename="") {
+createDictionary <- function(filename = "") {
   # base 
   epidictionaryfiles_env$datafilename <- filename
   epidictionaryfiles_env$data <- getNewDictionaryLine("dictionary")

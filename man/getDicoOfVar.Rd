@@ -7,11 +7,40 @@
 getDicoOfVar(varname)
 }
 \arguments{
-\item{varname}{The variable for which we want to retrieve the name of the associated dico}
+\item{varname}{The variable for which we want to retrieve the name of the associated dico (character)}
 }
 \value{
 The name of the dico associated with the variable
 }
 \description{
-getDicoOfVar
+Return the dico associated with the variable \code{varname} (as defined in \code{generic_name})
+in the format as returned by \code{getNewDictionaryLine("dicos")}
+}
+\examples{
+# Create dummy dictionary
+dic <- data.frame(generic_name = c("id", "idcountry", "age", "agegroup3", "agroup10"),
+                  source_name = c("id", "idcountry", "age", "agegroup3", "agroup10"),
+                  type = c("character", "character", "numeric", "factor", "factor"),
+                  dico = c("","","","agegp3","agegp10"),
+                  unknowns = NA,
+                  description = NA,
+                  comments = NA)
+
+# Set the current dictionary 
+setDictionary(dictionary = dic)
+
+# Create corresponding dummy dicos  
+dicos <- data.frame(dico_name = c("yesno", "yesno", "agegp3", "agegp3", "agegp3"),
+                    label = c("no", "yes", "0-14 years", "15-64 years", "65+ years" ),
+                    code = c("0", "1", "0", "1", "2"))
+# Set the corresponding dicos
+setDicos(dicos)
+
+# Retrieve the corresponding dictionary of variable "agegroup3" (see 'generic_name')
+getDicoOfVar("agegroup3")
+
+ 
+}
+\seealso{
+\code{\link[=getNewDictionaryLine]{getNewDictionaryLine()}}, \code{\link[=getAnyDictionaryValue]{getAnyDictionaryValue()}}
 }

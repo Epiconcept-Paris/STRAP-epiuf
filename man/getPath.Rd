@@ -7,27 +7,29 @@
 getPath(pathname)
 }
 \arguments{
-\item{pathname}{Path label specified in "".}
+\item{pathname}{Label attributed to the path, specified in character string (e.g., \code{"DATA"}).}
 }
 \value{
 The path saved under pathname label.
 }
 \description{
-This function retrieves a named Path previously defined in 'setPath()'.
+This function retrieves a named Path previously defined in \code{setPath()}.
 }
 \examples{
-
 \dontrun{
 # First set the path directory and give it a label 
-setPath(pathname = "SOURCES", 
-    path = "c:/dev/Resources", 
-    makedir = "Never")
+setPath(pathname = "DATA", 
+        path = "./data", 
+        makedir = "Never")
 
 # Get the file path using the function 
-getPath("SOURCES")
+getPath("DATA")
+
+# Importing file using getPath
+df <- readData(pathToFile("DATA", "df.rds"))
 }
 
 }
 \seealso{
-\code{\link[=setPath]{setPath()}}
+\code{\link[=setPath]{setPath()}} and \code{\link[=pathToFile]{pathToFile()}}
 }

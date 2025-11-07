@@ -7,13 +7,19 @@
 getVarAction(variablename, actiontag)
 }
 \arguments{
-\item{variablename}{The variable for which we want to retrieve the the associated action.}
+\item{variablename}{The variable (character) for which we want to retrieve
+the associated action (see column \code{variable} in \code{getDictionaryActions()}).}
 
-\item{actiontag}{The name of the action group to retrieve.}
+\item{actiontag}{The name of the action group to retrieve (character)
+(see column \code{action_group} in \code{getDictionaryActions()}).}
 }
 \value{
 A dataset of var actions records for the variable.
 }
 \description{
-Retrieve a certain action from a variable.
+Retrieve a certain action from the dictionary action tab (see structure of
+\code{getNewDictionaryLine("actions")}) for a given variable (see column \code{variable}).
+}
+\seealso{
+\code{\link[=getDictionaryActions]{getDictionaryActions()}}, \code{\link[=getNewDictionaryLine]{getNewDictionaryLine()}}
 }

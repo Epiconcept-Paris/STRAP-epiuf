@@ -7,11 +7,31 @@
 getDico(diconame)
 }
 \arguments{
-\item{diconame}{The name of one dico from the dicos structure}
+\item{diconame}{The name of one dico from the dicos structure (character)}
 }
 \value{
 A data set containing one dico (list of code/labels)
 }
 \description{
-This function returns a data set containing one dico (list of code/labels).
+This function returns a data set containing one dico in the format
+as returned by \code{getNewDictionaryLine("dicos")} (i.e., \code{dico_name}, \code{label}, \code{code}).
+}
+\examples{
+# Create corresponding dummy dicos  
+dicos <- data.frame(dico_name = c("yesno", "yesno", "agegp3", "agegp3", "agegp3"),
+                    label = c("no", "yes", "0-14 years", "15-64 years", "65+ years" ),
+                    code = c("0", "1", "0", "1", "2"))
+# Set the corresponding dicos
+setDicos(dicos)
+
+# Retrieving all dicos
+getDicos()
+
+# REtriving the dico of interest
+getDico("yesno")
+
+ 
+}
+\seealso{
+\code{\link[=getDicos]{getDicos()}}, \code{\link[=getNewDictionaryLine]{getNewDictionaryLine()}}
 }

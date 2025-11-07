@@ -7,33 +7,32 @@
 sourceFile(pathname, filename)
 }
 \arguments{
-\item{pathname}{The label given to a previously specified path. Needs to be written in "".}
+\item{pathname}{Label attributed to the path where to find the file to source,
+specified in character string (e.g., \code{"SCRIPTS"}).}
 
-\item{filename}{The name of the file to source (if it contains a path, it will be added to the specified path (pathname).}
+\item{filename}{The name of the file to source in character string
+(if it contains a path, it will be added to the specified path (\code{pathname}).}
 }
 \value{
-nothing
+No return value
 }
 \description{
-'sourceFile()' sources a file from a previously set path and runs it in your script.
-It uses the label of the path (pathname) and the name of the file (filename) of which you want to run.
-This function is a wrapper for 'source()'.
+Source a file from a previously set path and run it.
+It uses the label of the path (\code{pathname}) and the name of the file
+(\code{filename}) of which you want to run.
+This function is a wrapper for 'source()' base R function.
 }
 \examples{
-
-## Not to run - example only 
 \dontrun{
-# Set an example path named 'sources' 
-setPath(pathname = "SOURCES", 
-       path = "c:/dev/Resources", 
+# Set an example path named 'SCRIPTS' 
+setPath(pathname = "SCRIPTS", 
+       path = "./scripts", 
        makedir = "Never")
 
-# Create an example file 
-file <- tempfile(fileext = ".R")
-
-# Source example file from the specified path 
-sourceFile("SOURCES",file)
+# Source an R script from the specified path 
+sourceFile("SCRIPTS", "import_data.R")
 }
+
 }
 \seealso{
 \code{\link[=setPath]{setPath()}}

@@ -67,6 +67,7 @@ compareDataSet <-  function(modeldata, data) {
 
 
 #' UpdateDataset
+#' 
 #' Transform a dataset by  adding/removing column according to a model dataset 
 #' 
 #' @param data A dataset to update 

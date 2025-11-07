@@ -14,7 +14,7 @@ the dictionary. Defaults to an empty string.}
 Does not return a value; called for side effects of setting up the dictionary environment.
 }
 \description{
-This function initializes a new dictionary environment for epidemiological data management.
+This function initialises a new dictionary environment for epidemiological data management.
 It sets up the environment with default dictionary entries. The environment contains separate
 entries for the dictionary data, dicos, and actions, each initialized with a line from a
 corresponding 'getNewDictionaryLine' function.
@@ -23,4 +23,7 @@ corresponding 'getNewDictionaryLine' function.
 # Create a new dictionary with default settings
 createDictionary()
 
+}
+\seealso{
+\code{\link[=getNewDictionaryLine]{getNewDictionaryLine()}}, \code{\link[=openDictionary]{openDictionary()}}
 }

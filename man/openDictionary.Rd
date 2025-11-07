@@ -7,18 +7,50 @@
 openDictionary(filename)
 }
 \arguments{
-\item{filename}{Character string, path to the file (xls) containing a dictionary. The dictionary will be loaded.}
+\item{filename}{Character string, path and file name to the file (xls)
+containing the dictionary to open. The dictionary will be loaded.}
 }
 \value{
-Nothing
+No return value
 }
 \description{
-Imports a dictionary into the environment.
+Imports a dictionary into the environment. \if{html}{\out{<br>}}
+}
+\details{
+Warning: The dictionary needs to be in 'epiuf' structure
+(see example \code{externalFile("genericdictionary.xlsx")}) with three sheets:
+\itemize{
+\item \code{'dictionary'} including a table with the following columns:
+\itemize{
+\item \code{'source_name'}, name of the variable in the source file
+\item \code{'generic_name'}, generic name replacement of the variable
+\item \code{'type'}, variable type
+\item \code{'unknowns'}, values to be considered as unknowns (e.,g., UNK, 9, 999)
+\item \code{'dico'}, name of the corresponding dictionary
+}
+\item \code{'dicos'} including a table with the following columns:
+\itemize{
+\item \code{'dico_name'}, name of the ref dico (e.g., YESNO)
+\item \code{'label'}, label of each dico value (e.g., Yes)
+\item \code{'code'}, code of each dico value (e.g., 1)
+}
+\item \code{'actions'} including a table with the following columns:
+\itemize{
+\item \code{'variable'}
+\item \code{'action_group'}, action to run on the above-mentioned variable
+\item \code{'parameters'}, parameters to use in above-mentioned action/function
+}
+}
 }
 \examples{
-# example code
- 
- file1 <- externalFile("genericdictionary.xlsx")
- dictionary <- openDictionary(file1)
+file1 <- externalFile("genericdictionary.xlsx")
+openDictionary(file1)
 
+\dontrun{
+openDictionary(pathToFile("REFERENCE", "RefDictionnary.xlsx")))
+}
+
+}
+\seealso{
+\code{\link[=setDictionary]{setDictionary()}}, \code{\link[=getDictionary]{getDictionary()}}, \code{\link[=applyDictionary]{applyDictionary()}}
 }

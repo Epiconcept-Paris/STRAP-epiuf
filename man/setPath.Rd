@@ -7,36 +7,41 @@
 setPath(pathname, path, makedir = c("Ask", "Force", "Never"))
 }
 \arguments{
-\item{pathname}{Pathname label specified in "".}
+\item{pathname}{Label attributed to the path, specified in character string (e.g., \code{"DATA"}).}
 
-\item{path}{Path to the desired folder or file that you want linked with the pathname. See function 'pathToFile()'.}
+\item{path}{Absolute (or relative) path to the desired folder or file that you want linked with the \code{pathname}
+(e.g., \code{"C:/R/Project/data"}). See function \code{'pathToFile()'}.}
 
-\item{makedir}{If "Force" path will be created if it doesn't exist, if "Never" path will not be created and
-a warning will pop if path is missing. If set to "Ask" a prompt will ask for confirmation before
-creating the missing directory.}
+\item{makedir}{If \code{"Force"} path will be created if it doesn't exist. \if{html}{\out{<br>}}
+If \code{"Never"}, path will not be created and a warning will pop if path is missing. \if{html}{\out{<br>}}
+If set to \code{"Ask"}, a prompt will ask for confirmation before creating the missing directory.}
 }
 \value{
-Previous defined path
+Defined path
 }
 \description{
 Set a named path to avoid absolute path in R scripts. Creates a short cut to folders and files.
 }
 \examples{
-
 \dontrun{
-# Set a path named 'sources' 
+# Set a name/keyword associated to a specific absolute path
 setPath(pathname = "SOURCES", 
-    path = "c:/dev/Resources", 
-    makedir = "Never")
+        path = "C:/dev/Resources", 
+        makedir = "Never")
 # Check path is properly set 
 getPath("SOURCES")
 
-# Setting a name/keyword associated to a specific path
+# Set a name/keyword associated to a specific relative path
 setPath(pathname = "DATA", 
         path = "./data", # Note './' for relative paths
         makedir = "Never")
 # Checking the path is properly set
 getPath("DATA")
+
+# Importing file (with base R functions)
+df <- readRDS(file.path(getPath("DATA"), "df.rds")) 
+## or with epiuf functions
+df <- readData(pathToFile("DATA", "df.rds"))
 }
 
 

@@ -12,13 +12,13 @@ getAnyDictionaryValue(
 )
 }
 \arguments{
-\item{varname}{The variable name to search for in the dictionary.}
+\item{varname}{The variable name to search for in the dictionary (character).}
 
 \item{searchcolumn}{A character vector specifying which column(s) to search in the dictionary.
-Defaults to c("source_name", "generic_name").}
+Defaults to \code{c("source_name", "generic_name")}.}
 
 \item{value}{A character vector specifying which column(s) to return values from.
-Defaults to c("source_name", "generic_name", "dico", "type", "unknowns").}
+Defaults to \code{c("source_name", "generic_name", "dico", "type", "unknowns")}.}
 }
 \value{
 Returns the subset of the dictionary that matches the search criteria or \code{NA} if no
@@ -31,11 +31,35 @@ values from specified dictionary columns. It issues a warning if the search colu
 value column is not present in the dictionary.
 }
 \details{
-This function is advanced and you should usually use getDicoOfVar or getVarAction
+This function is advanced and you should usually use \code{getDicoOfVar} or \code{getVarAction}
 }
 \examples{
 # Assuming 'getDictionary' is a function that returns a data frame and 'varname' is a known variable
 getAnyDictionaryValue(varname = "exampleVar")
 
-\dontrun{getAnyDictionaryValue("varname",searchcolumn="source_name",value="dico")}
+\dontrun{
+getAnyDictionaryValue("varname",
+                      searchcolumn = "source_name",
+                      value = "dico")
+}
+
+# Set an example dictionary
+dic <- data.frame(generic_name = c("id", "idcountry", "age", "agegroup3", "agroup10"),
+                  source_name = c("id", "idcountry", "age", "agegroup3", "agroup10"),
+                  type = c("character", "character", "numeric", "factor", "factor"),
+                  dico = c("","","","agegp3","agegp10"))
+
+# Set the current dictionary 
+ setDictionary(dictionary = dic)
+ 
+# Search for the value 'agegp3' in the column 'dico' and returning 
+# the corresponding value in column 'generic_name'
+getAnyDictionaryValue(varname = "agegp3",
+                      searchcolumn = "dico",
+                      value = "generic_name")
+           
+
+}
+\seealso{
+\code{\link[=getDicoOfVar]{getDicoOfVar()}}, \code{\link[=getVarAction]{getVarAction()}}
 }

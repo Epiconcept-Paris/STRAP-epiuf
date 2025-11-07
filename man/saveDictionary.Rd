@@ -7,14 +7,24 @@
 saveDictionary(filename = NULL, dictionary = NULL)
 }
 \arguments{
-\item{filename}{The filename where to save the dictionary.
-This file will be erased and replaced by a new  one containing the \code{dictionary}}
+\item{filename}{The file name and path where to save the dictionary (character).
+Any existing file will be overwritten.}
 
-\item{dictionary}{Optionaly a dictionary. By default the current dictionary will be saved}
+\item{dictionary}{(Optional) Dictionary. By default the current dictionary will be saved.}
 }
 \value{
-Nothing
+No return value
 }
 \description{
-saveDictionary
+Function to save the current dictionary \code{'dictionary'} as an Excel
+spreadsheet in a given folder \code{'filename'}.
+}
+\examples{
+\dontrun{
+saveDictionary(filename = paste0(getwd(), "/test.xlsx"))
+}
+
+}
+\seealso{
+\code{\link[=getDictionary]{getDictionary()}}
 }

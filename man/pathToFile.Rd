@@ -7,18 +7,39 @@
 pathToFile(pathname, filename)
 }
 \arguments{
-\item{pathname}{Label for saved path}
+\item{pathname}{Label attributed to the path, specified in character string (e.g., \code{"DATA"}).}
 
-\item{filename}{Name of the file to retrieve, may contain subdir}
+\item{filename}{Name of the file to retrieve, may contain sub directory}
 }
 \value{
-the full name of the file
+The full path to the file
 }
 \description{
-Constructs an absolute path to a file (e.g a folder) using a previously set saved path name (see setPath) and the file name.
+Constructs an absolute path to a file using a previously set saved path name
+(see \code{setPath()}) and the file name.
 }
 \examples{
-pathToFile("data","cleanedrecords.csv")
+\dontrun{
+# Set the path directory and give it a label 
+setPath(pathname = "DATA", 
+        path = "./data")
+
+# Construct the full file path
+pathToFile("DATA", "df.rds")
+
+# Importing file using getPath
+df <- readData(pathToFile("DATA", "df.rds"))
+
+# Set another example path 
+setPath(pathname = "SCRIPTS", 
+        path = "./scripts")
+
+# Construct the full path to a given file 
+pathToFile("SCRIPTS", "import_data.R")
+}
 
 
+}
+\seealso{
+\code{\link[=setPath]{setPath()}}
 }

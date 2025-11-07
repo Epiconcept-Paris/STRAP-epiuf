@@ -7,11 +7,15 @@
 getActionGroup(actiontag)
 }
 \arguments{
-\item{actiontag}{Name of the action group to retrieve}
+\item{actiontag}{Name of the action group to retrieve (character)}
 }
 \value{
-dataset containing all the variables with actions of type actionname
+Dataset of dictionary actions containing all the variables with actions of type action group
 }
 \description{
-getActionGroup
+Return the dictionary action (see \code{getDictionaryActions()}) filtered
+for a given \code{action_group}.
+}
+\seealso{
+\code{\link[=getDictionaryActions]{getDictionaryActions()}}, \code{\link[=getVarAction]{getVarAction()}}
 }

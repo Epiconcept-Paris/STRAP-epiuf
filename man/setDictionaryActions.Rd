@@ -7,11 +7,26 @@
 setDictionaryActions(actions)
 }
 \arguments{
-\item{actions}{A dataset of actions}
+\item{actions}{A dataset (data frame) of actions}
 }
 \value{
-Nothing
+No return value
 }
 \description{
-setDictionaryActions
+Set the data frame \code{actions} as a dictionary action in the environment
+as returned by \code{getNewDictionaryLine("actions")}
+(i.e., columns: 'variable', 'action_group', 'parameters').
+}
+\examples{
+# Example of empty dictionary action
+getNewDictionaryLine(mode = "actions")
+
+# Set it as dictionary action in environment
+setDictionaryActions(getNewDictionaryLine(mode = "actions"))
+
+
+ 
+}
+\seealso{
+\code{\link[=getDictionaryActions]{getDictionaryActions()}}, \code{\link[=getNewDictionaryLine]{getNewDictionaryLine()}}
 }

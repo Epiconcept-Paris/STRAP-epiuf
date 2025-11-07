@@ -2,8 +2,7 @@
 % Please edit documentation in R/compareDataSet.R
 \name{updateDataset}
 \alias{updateDataset}
-\title{UpdateDataset
-Transform a dataset by  adding/removing column according to a model dataset}
+\title{UpdateDataset}
 \usage{
 updateDataset(data, modele)
 }
@@ -16,6 +15,5 @@ updateDataset(data, modele)
 the updated dataset with modele structure
 }
 \description{
-UpdateDataset
 Transform a dataset by  adding/removing column according to a model dataset
 }

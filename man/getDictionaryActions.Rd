@@ -10,5 +10,14 @@ getDictionaryActions()
 A dataset of actions
 }
 \description{
-getDictionaryActions
+Return the dictionary actions dataset stored in the environment
+as returned by \code{getNewDictionaryLine("actions")}..
+}
+\examples{
+getDictionaryActions()
+
+ 
+}
+\seealso{
+\code{\link[=setDictionaryActions]{setDictionaryActions()}}, \code{\link[=getNewDictionaryLine]{getNewDictionaryLine()}}
 }
