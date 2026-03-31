@@ -2,7 +2,7 @@
 % Please edit documentation in R/xlsxTools.R
 \name{getWorkbook}
 \alias{getWorkbook}
-\title{Title}
+\title{getWorkbook}
 \usage{
 getWorkbook()
 }
@@ -10,7 +10,7 @@ getWorkbook()
 The current workbook in memory
 }
 \description{
-Title
+Retrieve the current workbook saved in the environment.
 }
 \examples{
 getWorkbook()

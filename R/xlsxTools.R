@@ -22,7 +22,9 @@ epixlsx_env$report <- NULL
 epixlsx_env$reportFilename <- NULL
 
 
-#' Title
+#' getWorkbook
+#' 
+#' Retrieve the current workbook saved in the environment.
 #'
 #' @return The current workbook in memory
 #' @export
@@ -33,6 +35,7 @@ epixlsx_env$reportFilename <- NULL
 getWorkbook <- function() {
   return(epixlsx_env$report)
 }
+
 
 #' fillCells
 #'
