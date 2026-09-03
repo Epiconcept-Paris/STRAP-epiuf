@@ -1,3 +1,9 @@
+# epiuf 0.5.1.2 (2026-09-03)
+
+## New features
+
+-   Added the 'digits' argument to descBy() function.
+
 # epiuf 0.5.1.1 (2024-02-26)
 
 ## New features
