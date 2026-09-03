@@ -19,19 +19,24 @@
 
 # START of SCRIPT  --------------------------------------------------------
 
-describe <- function(data.desc){
+describe <- function(data.desc, digits){
+  
+  # Digits for rounding
+  if (!is.numeric(digits) || length(digits) != 1 || digits < 0 || digits > 3 || digits %% 1 != 0) {
+    stop("'digits' must be an integer between 0 and 3.")
+  }
   
   # Numeric variable
   if (is.numeric(data.desc)){
     
     n <- sum(!is.na(data.desc))
     na <- sum(is.na(data.desc))
-    na.pct <- round(na/length(data.desc)*100,1)
-    moy <- round(mean(data.desc,na.rm=TRUE),1)
-    sd <- round(sd(data.desc,na.rm=TRUE),1)
-    med <- round(median(data.desc,na.rm=TRUE),1)
-    p25 <- round(quantile(data.desc,c(0.25),na.rm=TRUE),1)
-    p75 <- round(quantile(data.desc,c(0.75),na.rm=TRUE),1)
+    na.pct <- round(na/length(data.desc)*100, digits)
+    moy <- round(mean(data.desc,na.rm=TRUE), digits)
+    sd <- round(sd(data.desc,na.rm=TRUE), digits)
+    med <- round(median(data.desc,na.rm=TRUE), digits)
+    p25 <- round(quantile(data.desc,c(0.25),na.rm=TRUE), digits)
+    p75 <- round(quantile(data.desc,c(0.75),na.rm=TRUE), digits)
     
     # Variable label
     l1 <- NA
@@ -58,9 +63,9 @@ describe <- function(data.desc){
     
     n <- sum(!is.na(data.desc))
     na <- sum(is.na(data.desc))
-    na.pct <- round(na/length(data.desc)*100,1)
+    na.pct <- round(na/length(data.desc)*100, digits)
     n.tab <- as.vector(table(data.desc))
-    n.pct <- round((n.tab/n)*100,1)
+    n.pct <- round((n.tab/n)*100, digits)
     
     # Variable label
     l1 <- NA
@@ -95,15 +100,16 @@ describe <- function(data.desc){
 #' @param vars the variables list to describe (numeric or factor)
 #' @param labels labels for the variables list
 #' @param by variable to compare (must be a factor and have at least two categories)
+#' @param digits number of digits to display (rounding)
 #' 
 #' @return a descriptive table 
 #' @export
 #'
 #' @examples
-#'  descBy(iris, "Sepal.Length", by = "Species") 
+#'  descBy(iris, "Sepal.Length", by = "Species", digits = 1) 
 #'
 #' 
-descBy <- function(data, vars, labels=NULL, by = NULL){
+descBy <- function(data, vars, labels=NULL, by = NULL, digits = 1){
   # Build the simple descriptive table
   data <- as.data.frame(data)
   if (is.null(labels)) labels <-  vars
@@ -149,7 +155,7 @@ descBy <- function(data, vars, labels=NULL, by = NULL){
         
       }
       # Merge labels and values
-      res <- rbind(table, cbind(l1234, describe(var)))
+      res <- rbind(table, cbind(l1234, describe(var, digits)))
       table <- res
     }
     
@@ -202,7 +208,7 @@ descBy <- function(data, vars, labels=NULL, by = NULL){
         all.res <- NULL
         for(k in 1:length(mod.by)){
           data.k <- data.subset[data.subset[[by]] == mod.by[k],]
-          res <- describe(data.k[,vars[i]])
+          res <- describe(data.k[,vars[i]], digits)
           all.res <- cbind(all.res, res)
         }
       }
@@ -226,7 +232,7 @@ descBy <- function(data, vars, labels=NULL, by = NULL){
         all.res <- NULL
         for(k in 1:length(mod.by)){
           data.k <- data.subset[data.subset[[by]] == mod.by[k],]
-          res <- describe(data.k[,vars[i]])
+          res <- describe(data.k[,vars[i]], digits)
           all.res <- cbind(all.res, res)
         }
       }
